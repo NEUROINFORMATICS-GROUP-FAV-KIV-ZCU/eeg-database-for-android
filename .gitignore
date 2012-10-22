@@ -164,3 +164,7 @@ pip-log.txt
 	
 # Maven
 target/
+/target
+
+# Android
+gen
