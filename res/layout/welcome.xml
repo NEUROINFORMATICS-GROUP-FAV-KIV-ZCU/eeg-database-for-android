@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:stretchColumns="1" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TableRow android:gravity="center">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/ic_launcher" />
+
+    </TableRow>
+    
+    <TableRow>
+
+        <TextView
+            android:id="@+id/app_name_label"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </TableRow>
+    
+    <TableRow>
+
+        <TextView
+            android:id="@+id/settings_username_label"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/settings_username" />
+        <requestFocus />
+
+        <EditText
+            android:id="@+id/settings_username_field"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:text="@string/login_mail_suffix" >
+
+            <requestFocus />
+        </EditText>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/settings_password_label"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/settings_password" />
+
+        <EditText
+            android:id="@+id/settings_password_field"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPassword" />
+    </TableRow>
+    
+    <TableRow>
+
+        <TextView
+            android:id="@+id/settings_url_label"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/settings_url" />
+
+        <EditText
+            android:id="@+id/settings_url_field"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textUri"
+            android:text="@string/login_protocol" />
+
+    </TableRow>
+
+</TableLayout>

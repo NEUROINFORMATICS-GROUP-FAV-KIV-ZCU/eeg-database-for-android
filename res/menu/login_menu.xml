@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+     <item
+        android:id="@+id/menuLogin"
+        android:icon="@drawable/ic_action_login"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/menu_login">
+    </item>
+
+</menu>
