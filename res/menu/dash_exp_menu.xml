@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+     <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/app_refresh">
+    </item>
+    
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_action_settings"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/app_settings">
+    </item>
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_action_info"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/app_about">
+    </item>
+
+</menu>
