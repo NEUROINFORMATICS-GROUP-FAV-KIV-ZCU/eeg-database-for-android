@@ -72,12 +72,10 @@ public class WelcomeActivity extends CommonActivity {
 
 		if (error.toString().isEmpty()) {
 
-			if (url != null && !url.endsWith("/"))
-				url += "/";
-
 			editor.putString("tmp_username", username.toString());
 			editor.putString("tmp_password", password.toString());
-			editor.putString("tmp_url", url);
+			editor.putString("tmp_url", url + Constants.ENDPOINT);
+			
 			editor.commit();
 
 			new TestCredentials(this, true).execute();

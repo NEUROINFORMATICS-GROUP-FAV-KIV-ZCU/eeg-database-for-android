@@ -13,12 +13,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
+import cz.zcu.kiv.eeg.mobile.base.data.Constants;
 import cz.zcu.kiv.eeg.mobile.base.ui.dash.DashBoardActivity;
+import cz.zcu.kiv.eeg.mobile.base.ws.data.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 
 import android.content.Intent;
@@ -42,7 +45,7 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
 		SharedPreferences credentials = getCredentials();
 		String username = credentials.getString("tmp_username", null);
 		String password = credentials.getString("tmp_password", null);
-		String url = credentials.getString("tmp_url", null) + "groups";
+		String url = credentials.getString("tmp_url", null) + Constants.SERVICE_USER + "login";
 
 		setState(RUNNING, R.string.working_ws_credentials);
 		HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
@@ -52,13 +55,13 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
 		HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 		
 		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
-		restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+		restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
 		try {
 			// Make the network request
 			Log.d(TAG, url);
-			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-			response.getBody();
+			ResponseEntity<UserInfo> userInfo = restTemplate.exchange(url, HttpMethod.GET, entity, UserInfo.class);
+			Constants.user = userInfo.getBody();
 			return true;
 		} catch (Exception e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);
