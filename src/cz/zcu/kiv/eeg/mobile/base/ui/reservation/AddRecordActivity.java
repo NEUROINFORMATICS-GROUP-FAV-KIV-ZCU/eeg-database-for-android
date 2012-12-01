@@ -34,6 +34,8 @@ public class AddRecordActivity extends SaveDiscardActivity{
 		Log.d(TAG, "Add new record activity loaded");
 		super.onCreate(savedInstanceState);
 		
+		setContentView(R.layout.reser_add);
+		
 		Bundle b = getIntent().getExtras();
 		year = b.getInt("year");
 		month = b.getInt("month") + 1;

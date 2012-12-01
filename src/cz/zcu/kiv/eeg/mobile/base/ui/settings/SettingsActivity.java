@@ -3,14 +3,17 @@ package cz.zcu.kiv.eeg.mobile.base.ui.settings;
 import android.content.SharedPreferences;
 import android.os.*;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.TestCredentials;
 
-public class SettingsActivity extends SaveDiscardActivity {
+public class SettingsActivity extends NavigationActivity {
 
 	private static final String TAG = SettingsActivity.class.getSimpleName();
 
@@ -19,7 +22,7 @@ public class SettingsActivity extends SaveDiscardActivity {
 		Log.d(TAG, "Settings screen");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings);
-
+		
 		SharedPreferences credentials = getCredentials();
 		CharSequence username = credentials.getString("username", null);
 		CharSequence password = credentials.getString("password", null);
@@ -30,6 +33,27 @@ public class SettingsActivity extends SaveDiscardActivity {
 		usernameField.setText(username);
 		passwordField.setText(password);
 		urlField.setText(url);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {  
+	   MenuInflater inflater = getMenuInflater();
+	   inflater.inflate(R.menu.save_cancel_menu, menu);
+	   return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {  
+	   switch (item.getItemId()) {
+	   case R.id.settings_save:
+	      save();
+	      return true;
+	   case R.id.settings_discard:
+	      discard();
+	      return true;
+	   }
+	     
+	   return true;
 	}
 
 	public void save() {
@@ -42,9 +66,17 @@ public class SettingsActivity extends SaveDiscardActivity {
 	}
 	
 
-	@Override
 	protected void discard() {
-		finish();
+		SharedPreferences credentials = getCredentials();
+		CharSequence username = credentials.getString("username", null);
+		CharSequence password = credentials.getString("password", null);
+		CharSequence url = credentials.getString("url", "https://");
+		TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
+		TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
+		TextView urlField = (TextView) findViewById(R.id.settings_url_field);
+		usernameField.setText(username);
+		passwordField.setText(password);
+		urlField.setText(url);
 	}
 
 	private void testCredentials(String username, String password, String url) {

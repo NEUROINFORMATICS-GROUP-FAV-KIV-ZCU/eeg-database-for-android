@@ -33,6 +33,11 @@
 			<artifactId>spring-android-rest-template</artifactId>
 			<version>${spring-android-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>annotations</artifactId>
+			<version>4.1.1.4</version>
+		</dependency>
 
 
 		<dependency>

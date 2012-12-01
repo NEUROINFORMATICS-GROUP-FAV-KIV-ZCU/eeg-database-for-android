@@ -2,10 +2,7 @@
 <resources>
 
     <string name="app_name">EEG Databáze</string>
-    <string name="app_details">Podrobnosti</string>
     <string name="app_refresh">Obnovit</string>
-    <string name="app_settings">Nastavení</string>
-    <string name="app_about">O aplikaci</string>
     <string name="app_dashboard">Přehled</string>
     <string name="login_mail_suffix">\ @students.zcu.cz</string>
     <string name="login_protocol">https://</string>
@@ -13,10 +10,7 @@
     <string name="menu_discard">Zrušit</string>
     <string name="menu_login">Přihlásit se</string>
     <string name="logo">Logo</string>
-    <string name="settings_url">URL služby</string>
-    <string name="settings_username">Uživatelské jméno</string>
-    <string name="settings_password">Heslo</string>
-    <string name="settings_saved">Nastavení uloženo</string>
+   
     <string name="error_offline">Připojení není dostupné. Požadavek nemohl být vykonán.</string>
     <string name="error_connection">Vyskytly se potíže s připojením k serveru. Zkuste později.</string>
     <string name="error_date_comparison">Rezervace nemůže skončit, než vůbec začala!</string>
@@ -58,6 +52,7 @@
     <string name="reser_add_to_label">Do času</string>
     <string name="reser_add_change">Změnit čas</string>
         
+    <string name="reser_detail">Podrobnosti</string>
     <string name="reser_detail_group">Výzkumná skupina</string>
 	<string name="reser_detail_from">Od</string>
 	<string name="reser_detail_to">Do</string>
@@ -68,4 +63,11 @@
 	
 	<string name="reser_dialog_remove_header">Smazání rezervace</string>
 	<string name="reser_dialog_remove_body">Skutečně chcete rezervaci smazat?</string>
+	
+	<!-- Settings -->
+	<string name="app_settings">Nastavení</string>
+	 <string name="settings_url">URL služby</string>
+    <string name="settings_username">Uživatelské jméno</string>
+    <string name="settings_password">Heslo</string>
+    <string name="settings_saved">Nastavení uloženo</string>
 </resources>

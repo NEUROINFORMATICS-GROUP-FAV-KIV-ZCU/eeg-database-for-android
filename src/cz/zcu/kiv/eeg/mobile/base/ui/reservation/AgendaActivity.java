@@ -18,7 +18,6 @@ public class AgendaActivity extends NavigationActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "App started");
-		setTitle(R.string.reser);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reser_agenda);
 	}

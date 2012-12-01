@@ -50,7 +50,7 @@ public class RemoveReservation extends CommonService<ReservationData, Void, Bool
 			SharedPreferences credentials = getCredentials();
 			String username = credentials.getString("username", null);
 			String password = credentials.getString("password", null);
-			String url = credentials.getString("url", null) + "reservation/" + data.getReservationId();
+			String url = credentials.getString("url", null) + "/reservation/" + data.getReservationId();
 
 			HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
 			HttpHeaders requestHeaders = new HttpHeaders();

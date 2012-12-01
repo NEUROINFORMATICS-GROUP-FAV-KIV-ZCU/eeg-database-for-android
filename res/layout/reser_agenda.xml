@@ -9,7 +9,7 @@
         android:id="@+id/fragment_agenda"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="cz.zcu.kiv.eeg.lab.reservation.ui.AgendaFragment"
-        tools:layout="@layout/reservation_list" />
+        class="cz.zcu.kiv.eeg.mobile.base.ui.reservation.AgendaFragment"
+        tools:layout="@layout/reser_agenda_list" />
 
 </LinearLayout>
