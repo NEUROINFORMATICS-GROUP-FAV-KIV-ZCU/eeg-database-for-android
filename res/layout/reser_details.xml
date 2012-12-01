@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/GridLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="4" >
+
+    <ImageView
+        android:id="@+id/groupIcon"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:layout_row="0"
+        android:contentDescription="@string/reser_detail_group"
+        android:src="@drawable/ic_action_group" />
+
+    <TextView
+        android:id="@+id/groupLabel"
+        android:layout_column="1"
+        android:layout_gravity="center_vertical"
+        android:layout_row="0"
+        android:text="@string/reser_detail_group" />
+
+
+    <TextView
+        android:id="@+id/groupValue"
+        android:layout_column="3"
+        android:layout_gravity="center_vertical"
+        android:layout_row="0"
+        android:padding="@dimen/reser_detail_padding"
+        android:text="@string/reser_detail_group" />
+
+    <ImageView
+        android:id="@+id/timeIcon"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:layout_row="1"
+        android:contentDescription="@string/reser_detail_time"
+        android:src="@drawable/ic_action_time" />
+
+    <TextView
+        android:id="@+id/timeLabel"
+        android:layout_column="1"
+        android:layout_gravity="center_vertical"
+        android:layout_row="1"
+        android:text="@string/reser_detail_time" />
+
+    <include
+        android:id="@+id/TimeValues_ref"
+        android:layout_column="3"
+        android:layout_gravity="center_vertical"
+        android:layout_row="1"
+        layout="@layout/reser_details_times" />
+
+    <ImageView
+        android:id="@+id/creatorIcon"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:layout_row="2"
+        android:contentDescription="@string/reser_detail_creator"
+        android:src="@drawable/ic_action_save" />
+
+    <TextView
+        android:id="@+id/creatorLabel"
+        android:layout_column="1"
+        android:layout_gravity="center_vertical"
+        android:layout_row="2"
+        android:text="@string/reser_detail_creator" />
+
+    <TextView
+        android:id="@+id/creatorName"
+        android:layout_column="3"
+        android:layout_gravity="center_vertical"
+        android:layout_row="2"
+        android:padding="@dimen/reser_detail_padding"
+        android:text="@string/reser_detail_creator" />
+
+    <ImageView
+        android:id="@+id/mailIcon"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:layout_row="3"
+        android:contentDescription="@string/reser_detail_contact"
+        android:src="@drawable/ic_action_mail" />
+
+    <TextView
+        android:id="@+id/creatorMailLabel"
+        android:layout_column="1"
+        android:layout_gravity="center_vertical"
+        android:layout_row="3"
+        android:text="@string/reser_detail_contact" />
+
+    <TextView
+        android:id="@+id/creatorMail"
+        android:layout_column="3"
+        android:layout_gravity="center_vertical"
+        android:layout_row="3"
+        android:autoLink="email"
+        android:padding="@dimen/reser_detail_padding"
+        android:text="@string/reser_detail_contact" />
+
+</GridLayout>

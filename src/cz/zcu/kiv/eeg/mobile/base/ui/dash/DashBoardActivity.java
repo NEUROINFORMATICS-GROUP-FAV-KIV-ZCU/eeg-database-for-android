@@ -1,11 +1,11 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.dash;
 
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.NavigationActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-public class DashBoardActivity extends CommonActivity {
+public class DashBoardActivity extends NavigationActivity {
 	
 	private static final String TAG = DashBoardActivity.class.getSimpleName();
 

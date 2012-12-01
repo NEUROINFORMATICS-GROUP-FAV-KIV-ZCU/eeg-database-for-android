@@ -1,15 +1,18 @@
 package cz.zcu.kiv.eeg.mobile.base.archetypes;
 
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.data.Constants;
 import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.FragmentActivity;
 
-public class CommonActivity extends FragmentActivity {
+public class CommonActivity extends Activity {
 
 	protected volatile ProgressDialog progressDialog;
 
@@ -24,7 +27,7 @@ public class CommonActivity extends FragmentActivity {
 				switch (state) {
 				case RUNNING:
 					progressDialog = ProgressDialog.show(CommonActivity.this,
-							getString(R.string.working), message, true, true);
+							getString(R.string.working), message, true, false);
 					break;
 				case INACTIVE:
 				case DONE:
@@ -60,4 +63,7 @@ public class CommonActivity extends FragmentActivity {
 		super.onPause();
 	}
 
+	protected SharedPreferences getCredentials() {
+		return getSharedPreferences(Constants.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+	}
 }

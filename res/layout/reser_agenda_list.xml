@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_agenda"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="3"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/chooseDateButton"
+        android:padding="15sp"
+        android:text="@string/dummy_date"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/chooseDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:drawableLeft="@drawable/ic_action_date"
+        android:text="@string/reser_agenda_choose_date" />
+
+     <fragment
+         android:id="@+id/reservation_list"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_below="@id/dateLabel"
+         class="cz.zcu.kiv.eeg.lab.reservation.ui.ReservationListFragment" />
+
+</RelativeLayout>

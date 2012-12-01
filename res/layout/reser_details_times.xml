@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TimeValues"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="3" >
+
+    <TextView
+        android:id="@+id/fromValue"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="12"
+        android:padding="@dimen/reser_detail_padding"
+        android:text="@string/reser_detail_from" />
+
+    <TextView
+        android:id="@+id/timeSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/reser_detail_separator" />
+
+    <TextView
+        android:id="@+id/toValue"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="@dimen/reser_detail_padding"
+        android:text="@string/reser_detail_to" />
+
+</LinearLayout>

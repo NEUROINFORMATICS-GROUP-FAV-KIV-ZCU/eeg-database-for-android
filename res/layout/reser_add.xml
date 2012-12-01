@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <GridLayout
+        android:id="@+id/GridLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4" >
+
+        <Button
+            android:id="@+id/fromTimeButton"
+            android:layout_column="3"
+            android:layout_gravity="center_vertical|right"
+            android:layout_row="0"
+            android:drawableLeft="@drawable/ic_action_time"
+            android:onClick="fromTimeClick"
+            android:text="@string/reser_add_change" />
+
+        <TextView
+            android:id="@+id/fromLabel"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_vertical"
+            android:layout_row="0"
+            android:text="@string/reser_add_from_label" />
+
+        <TextView
+            android:id="@+id/fromField"
+            android:layout_column="2"
+            android:layout_gravity="center_vertical"
+            android:layout_row="0"
+            android:paddingLeft="15sp"
+            android:text="@string/dummy_from" />
+
+        <TextView
+            android:id="@+id/toLabel"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_vertical"
+            android:layout_row="1"
+            android:text="@string/reser_add_to_label" />
+
+
+        <Button
+            android:id="@+id/toTimeButton"
+            android:layout_column="3"
+            android:layout_gravity="center_vertical|right"
+            android:layout_row="1"
+            android:drawableLeft="@drawable/ic_action_time"
+            android:onClick="toTimeClick"
+            android:text="@string/reser_add_change" />
+
+        <TextView
+            android:id="@+id/toField"
+            android:layout_column="2"
+            android:layout_gravity="center_vertical"
+            android:layout_row="1"
+            android:paddingLeft="15sp"
+            android:text="@string/dummy_to" />
+        
+         <TextView
+            android:id="@+id/groupLabel"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_vertical"
+            android:maxEms="5"
+            android:layout_row="2"
+            android:text="@string/reser_add_group_label" />
+
+
+        <Spinner
+            android:id="@+id/groupList"
+            android:layout_column="2"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_vertical|fill_horizontal"
+            android:layout_row="2" >
+
+        </Spinner>
+    </GridLayout>
+</ScrollView>
