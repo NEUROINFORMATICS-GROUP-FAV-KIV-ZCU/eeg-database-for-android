@@ -19,7 +19,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Constants;
-import cz.zcu.kiv.eeg.mobile.base.ui.dash.DashBoardActivity;
+import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.ws.data.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 
@@ -88,7 +88,7 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
 			Toast.makeText(activity, R.string.settings_saved, Toast.LENGTH_SHORT).show();
 
 			if (startupTest)
-				activity.startActivity(new Intent(activity, DashBoardActivity.class));
+				activity.startActivity(new Intent(activity, NavigationActivity.class));
 			else
 				activity.finish();
 		}

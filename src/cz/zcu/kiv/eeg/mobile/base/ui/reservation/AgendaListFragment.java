@@ -9,6 +9,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.FragmentTransaction;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Fragment;
 import android.content.Intent;
@@ -18,9 +19,9 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 
-public class AgendaFragment extends Fragment implements OnClickListener {
+public class AgendaListFragment extends Fragment implements OnClickListener {
 
-	private final static String TAG = AgendaFragment.class.getSimpleName();
+	public final static String TAG = AgendaListFragment.class.getSimpleName();
 
 	private static int year, month, day;
 	private TextView dateLabel;
@@ -29,7 +30,7 @@ public class AgendaFragment extends Fragment implements OnClickListener {
 
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			AgendaFragment.year = year;
+			AgendaListFragment.year = year;
 			month = monthOfYear;
 			day = dayOfMonth;
 			updateDate();
@@ -37,6 +38,7 @@ public class AgendaFragment extends Fragment implements OnClickListener {
 		}
 	};
 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +53,13 @@ public class AgendaFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.reser_agenda_list, container, false);
+		View view = inflater.inflate(R.layout.reser_agenda, container, false);
+		
+		ReservationListFragment list = new ReservationListFragment();
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.replace(R.id.reservation_list, list);
+		ft.commit();
+		
 		return view;
 	}
 

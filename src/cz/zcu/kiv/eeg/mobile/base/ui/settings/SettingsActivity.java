@@ -8,12 +8,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.NavigationActivity;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.TestCredentials;
 
-public class SettingsActivity extends NavigationActivity {
+public class SettingsActivity extends SaveDiscardActivity {
 
 	private static final String TAG = SettingsActivity.class.getSimpleName();
 
@@ -35,27 +36,6 @@ public class SettingsActivity extends NavigationActivity {
 		urlField.setText(url);
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {  
-	   MenuInflater inflater = getMenuInflater();
-	   inflater.inflate(R.menu.save_cancel_menu, menu);
-	   return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {  
-	   switch (item.getItemId()) {
-	   case R.id.settings_save:
-	      save();
-	      return true;
-	   case R.id.settings_discard:
-	      discard();
-	      return true;
-	   }
-	     
-	   return true;
-	}
-
 	public void save() {
 
 		TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
@@ -67,16 +47,7 @@ public class SettingsActivity extends NavigationActivity {
 	
 
 	protected void discard() {
-		SharedPreferences credentials = getCredentials();
-		CharSequence username = credentials.getString("username", null);
-		CharSequence password = credentials.getString("password", null);
-		CharSequence url = credentials.getString("url", "https://");
-		TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
-		TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
-		TextView urlField = (TextView) findViewById(R.id.settings_url_field);
-		usernameField.setText(username);
-		passwordField.setText(password);
-		urlField.setText(url);
+		finish();
 	}
 
 	private void testCredentials(String username, String password, String url) {
@@ -100,15 +71,12 @@ public class SettingsActivity extends NavigationActivity {
 
 		if (error.toString().isEmpty()) {
 
-			if (url != null && !url.endsWith("/"))
-				url += "/";
-
 			editor.putString("tmp_username", username.toString());
 			editor.putString("tmp_password", password.toString());
 			editor.putString("tmp_url", url);
 			editor.commit();
 
-			new TestCredentials(this, true).execute();
+			new TestCredentials(this, false).execute();
 		} else {
 			showAlert(error.toString());
 		}

@@ -33,16 +33,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.dash.DashBoardActivity"
-            android:label="@string/app_dashboard" >
+            android:name=".ui.NavigationActivity"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/app_settings" >
-        </activity>
-        <activity
-            android:name=".ui.reservation.AgendaActivity"
-            android:label="@string/app_reser" >
         </activity>
         <activity
             android:name=".ui.reservation.DetailsActivity"

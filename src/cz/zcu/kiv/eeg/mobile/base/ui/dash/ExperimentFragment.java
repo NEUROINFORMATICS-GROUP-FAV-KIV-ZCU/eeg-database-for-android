@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 public class ExperimentFragment extends Fragment {
 	
+	public final static String TAG = ExperimentFragment.class.getSimpleName();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
