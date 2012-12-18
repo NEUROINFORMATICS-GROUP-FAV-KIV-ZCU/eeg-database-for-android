@@ -86,9 +86,9 @@ public class CreateReservation extends CommonService<ReservationData, Void, Bool
 						data.getToTime(), data.getCreatorName(), data.getCreatorMailUsername() + "@"
 								+ data.getCreatorMailDomain(),data.getCanRemove());
 				resultIntent.putExtra(Constants.ADD_RECORD_KEY, record);
-				Toast.makeText(activity, activity.getString(R.string.reser_created), Toast.LENGTH_SHORT).show();
-				activity.setResult(Activity.RESULT_OK, resultIntent);
-				activity.finish();
+				Toast.makeText(activity.get(), activity.get().getString(R.string.reser_created), Toast.LENGTH_SHORT).show();
+				activity.get().setResult(Activity.RESULT_OK, resultIntent);
+				activity.get().finish();
 			} catch (ParseException e) {
 				Log.e(TAG, e.getLocalizedMessage());
 				setState(ERROR, e);

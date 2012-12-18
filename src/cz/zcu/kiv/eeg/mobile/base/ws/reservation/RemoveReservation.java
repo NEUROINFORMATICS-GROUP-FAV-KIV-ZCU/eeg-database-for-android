@@ -25,8 +25,6 @@ import android.widget.Toast;
 public class RemoveReservation extends CommonService<ReservationData, Void, Boolean> {
 
 	private static final String TAG = RemoveReservation.class.getSimpleName();
-	@SuppressLint("SimpleDateFormat")
-	private static SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
 	private ReservationData data;
 
@@ -76,14 +74,14 @@ public class RemoveReservation extends CommonService<ReservationData, Void, Bool
 	@Override
 	protected void onPostExecute(Boolean success) {
 		if (success) {
-			if (activity instanceof NavigationActivity) {
-				AgendaListFragment fragment = (AgendaListFragment) activity.getFragmentManager().findFragmentById(R.id.details);
+			if (activity.get() instanceof NavigationActivity) {
+				AgendaListFragment fragment = (AgendaListFragment) activity.get().getFragmentManager().findFragmentByTag(AgendaListFragment.TAG);
 				if(fragment != null){
 					fragment.updateData();
-				Toast.makeText(activity, activity.getString(R.string.reser_removed), Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity.get(), activity.get().getString(R.string.reser_removed), Toast.LENGTH_SHORT).show();
 				}else{
 					Log.e(TAG, "Agenda fragment not found!");
-					Toast.makeText(activity, activity.getString(R.string.reser_removed_update), Toast.LENGTH_LONG).show();
+					Toast.makeText(activity.get(), activity.get().getString(R.string.reser_removed_update), Toast.LENGTH_LONG).show();
 				}
 			}
 		}

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ResearchGroupAdapter;
@@ -66,7 +67,7 @@ public class AddRecordActivity extends SaveDiscardActivity{
 
 	private void updateData() {
 		if (ConnectionUtils.isOnline(this)) {
-			new FetchResearchGroups(this, researchGroupAdapter).execute();
+            (AddRecordActivity.service) = (CommonService) new FetchResearchGroups(this, researchGroupAdapter).execute();
 		} else
 			showAlert(getString(R.string.error_offline));
 	}

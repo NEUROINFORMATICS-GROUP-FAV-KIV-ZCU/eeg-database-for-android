@@ -16,66 +16,75 @@ import android.widget.SpinnerAdapter;
 
 public class NavigationActivity extends CommonActivity implements ActionBar.OnNavigationListener {
 
-	
-	private int previousFragment = 0;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private final static String TAG = NavigationActivity.class.getSimpleName();
 
-		setContentView(R.layout.main);
-		final ActionBar actionBar = getActionBar();
-		actionBar.setTitle("");
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		
-		SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sections_list, android.R.layout.simple_spinner_dropdown_item);
-		actionBar.setListNavigationCallbacks(spinnerAdapter, this);
-		
-		if (savedInstanceState != null) {
-			previousFragment = savedInstanceState.getInt("previousFragment", 0);
-			getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
-		}
-	}
-	
-	
+    private int previousFragment = 0;
 
-	@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		Fragment previousFragment = getFragmentManager().findFragmentById(R.id.details);
-		fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		switch (itemPosition) {
-		case 0:
-			ExperimentFragment expFrag = (previousFragment != null && previousFragment instanceof ExperimentFragment) ? (ExperimentFragment) previousFragment : new ExperimentFragment();
-			fragmentTransaction.replace(R.id.content, expFrag);
-			fragmentTransaction.commit();
-			NavigationActivity.this.previousFragment = 0;
-			break;
-		case 1:
-			AgendaListFragment agendaFrag = (previousFragment != null && previousFragment instanceof AgendaListFragment) ? (AgendaListFragment) previousFragment : new AgendaListFragment();
-			fragmentTransaction.replace(R.id.content, agendaFrag);
-			fragmentTransaction.commit();
-			NavigationActivity.this.previousFragment = 1;
-			break;
-		case 2:
-			Intent intent = new Intent();
-			intent.setClass(this, SettingsActivity.class);
-			startActivity(intent);
-			getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
-			return true;
-		default:
-			return false;
-		}
+        setContentView(R.layout.main);
+        final ActionBar actionBar = getActionBar();
+        actionBar.setTitle("");
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		return true;
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putInt("previousFragment", previousFragment);
-	}
+        SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sections_list, android.R.layout.simple_spinner_dropdown_item);
+        actionBar.setListNavigationCallbacks(spinnerAdapter, this);
+
+        if (savedInstanceState != null) {
+            previousFragment = savedInstanceState.getInt("previousFragment", 0);
+            getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
+        }
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment previousFragment = getFragmentManager().findFragmentById(R.id.content);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        switch (itemPosition) {
+            case 0:
+                ExperimentFragment expFrag;
+                if (previousFragment == null || !(previousFragment instanceof ExperimentFragment)) {
+                    expFrag = new ExperimentFragment();
+
+                    fragmentTransaction.replace(R.id.content, expFrag, TAG);
+                    fragmentTransaction.commit();
+                }
+                NavigationActivity.this.previousFragment = itemPosition;
+                break;
+            case 1:
+                AgendaListFragment agendaFrag;
+                if (previousFragment == null || !(previousFragment instanceof AgendaListFragment)) {
+                    agendaFrag = new AgendaListFragment();
+
+                    fragmentTransaction.replace(R.id.content, agendaFrag, TAG);
+                    fragmentTransaction.commit();
+                }
+
+                NavigationActivity.this.previousFragment = itemPosition;
+                break;
+            case 2:
+                Intent intent = new Intent();
+                intent.setClass(this, SettingsActivity.class);
+                startActivity(intent);
+                getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
+                return true;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("previousFragment", previousFragment);
+    }
 
 }

@@ -1,5 +1,6 @@
 package cz.zcu.kiv.eeg.mobile.base.archetypes;
 
+import android.os.Bundle;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.Constants;
 import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
@@ -15,8 +16,17 @@ import android.os.Looper;
 public class CommonActivity extends Activity {
 
 	protected volatile ProgressDialog progressDialog;
+    public static CommonService service;
 
-	public void changeProgress(ServiceState state) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(service != null)
+            service.setActivity(this);
+    }
+
+    public void changeProgress(ServiceState state) {
 		changeProgress(state, null);
 	}
 
@@ -31,8 +41,10 @@ public class CommonActivity extends Activity {
 					break;
 				case INACTIVE:
 				case DONE:
-					if (progressDialog != null && progressDialog.isShowing())
+                    service = null;
+					if (progressDialog != null && progressDialog.isShowing()){
 						progressDialog.dismiss();
+                    }
 					break;
 				case ERROR:
 					showAlert(message);

@@ -85,12 +85,12 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
 			editor.putString("url", url);
 			editor.commit();
 
-			Toast.makeText(activity, R.string.settings_saved, Toast.LENGTH_SHORT).show();
+			Toast.makeText(activity.get(), R.string.settings_saved, Toast.LENGTH_SHORT).show();
 
 			if (startupTest)
-				activity.startActivity(new Intent(activity, NavigationActivity.class));
+				activity.get().startActivity(new Intent(activity.get(), NavigationActivity.class));
 			else
-				activity.finish();
+				activity.get().finish();
 		}
 	}
 

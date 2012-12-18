@@ -23,7 +23,7 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
 
 	public final static String TAG = AgendaListFragment.class.getSimpleName();
 
-	private static int year, month, day;
+	private static int year = -1, month = -1, day = -1;
 	private TextView dateLabel;
 
 	private final OnDateSetListener dateSetListener = new OnDateSetListener() {
@@ -42,6 +42,13 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        if(savedInstanceState == null){
+            ReservationListFragment list = new ReservationListFragment();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.reservation_list, list, ReservationListFragment.TAG);
+            ft.commit();
+        }
 		setHasOptionsMenu(true);
 	}
 
@@ -52,22 +59,14 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-		View view = inflater.inflate(R.layout.reser_agenda, container, false);
-		
-		ReservationListFragment list = new ReservationListFragment();
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.replace(R.id.reservation_list, list);
-		ft.commit();
-		
-		return view;
+        return inflater.inflate(R.layout.reser_agenda, container, false);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedState) {
 		super.onActivityCreated(savedState);
 
-		initButtons();
+        initButtons();
 		initData(savedState);
 		updateDate();
 //		if(!((CommonActivity) getActivity()).progressOn)
@@ -76,6 +75,7 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "Saving date...");
 		super.onSaveInstanceState(outState);
 		outState.putInt("year", year);
 		outState.putInt("month", month);
@@ -84,12 +84,13 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
 
 	private void initData(Bundle savedState) {
 
+        Calendar c = Calendar.getInstance();
+
 		if (savedState != null) {
-			year = (Integer) savedState.get("year");
-			month = (Integer) savedState.get("month");
-			day = (Integer) savedState.get("day");
-		} else {
-			Calendar c = Calendar.getInstance();
+			year = savedState.getInt("year", c.get(Calendar.YEAR));
+			month = savedState.getInt("month", c.get(Calendar.MONTH));
+			day = savedState.getInt("day", Calendar.DAY_OF_MONTH);
+		} else if(year == -1 && month == -1 && day == -1) {
 			year = c.get(Calendar.YEAR);
 			month = c.get(Calendar.MONTH);
 			day = c.get(Calendar.DAY_OF_MONTH);
@@ -103,8 +104,7 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
 	}
 
 	public void updateData() {
-		ReservationListFragment listFragment = (ReservationListFragment) getFragmentManager().findFragmentById(
-				R.id.reservation_list);
+		ReservationListFragment listFragment = (ReservationListFragment) getFragmentManager().findFragmentByTag(ReservationListFragment.TAG);
 		listFragment.update(day, month + 1, year);
 	}
 
@@ -144,15 +144,14 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
-		case (Constants.ADD_RECORD_FLAG): {
-			if (resultCode == Activity.RESULT_OK) {
-				ReservationListFragment listFragment = (ReservationListFragment) getFragmentManager().findFragmentById(
-						R.id.reservation_list);
-				Reservation record = (Reservation) data.getExtras().get(Constants.ADD_RECORD_KEY);
-				((ReservationAdapter) listFragment.getListAdapter()).add(record);
-			}
-			break;
-		}
+            case (Constants.ADD_RECORD_FLAG): {
+                if (resultCode == Activity.RESULT_OK) {
+                    ReservationListFragment listFragment = (ReservationListFragment) getFragmentManager().findFragmentByTag(ReservationListFragment.TAG);
+                    Reservation record = (Reservation) data.getExtras().get(Constants.ADD_RECORD_KEY);
+                    ((ReservationAdapter) listFragment.getListAdapter()).add(record);
+                }
+                break;
+            }
 		}
 	}
 

@@ -1,11 +1,13 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 
 import android.app.ActionBar;
-import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 
-public class DetailsActivity extends Activity {
+public class DetailsActivity extends CommonActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -14,11 +16,17 @@ public class DetailsActivity extends Activity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction;
+        DetailsFragment details;
+
 		if (savedInstanceState == null) {
-			// During initial setup, plug in the details fragment.
-			DetailsFragment details = new DetailsFragment();
-			details.setArguments(getIntent().getExtras());
-			getFragmentManager().beginTransaction().add(android.R.id.content, details).commit();
+			details = new DetailsFragment();
+            details.setArguments(getIntent().getExtras());
+            fragmentManager.beginTransaction();
+            transaction = fragmentManager.beginTransaction();
+            transaction.replace(android.R.id.content, details, ReservationListFragment.TAG);
+            transaction.commit();
 		}
 	}
 
