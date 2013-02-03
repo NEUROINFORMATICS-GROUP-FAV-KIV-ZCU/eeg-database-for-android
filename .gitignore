@@ -168,3 +168,9 @@ target/
 
 # Android
 gen
+
+# IntelliJ Idea
+.git
+.idea
+*.project
+*.iml
