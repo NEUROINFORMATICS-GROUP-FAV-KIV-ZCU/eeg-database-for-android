@@ -70,4 +70,7 @@
     <string name="settings_username">Uživatelské jméno</string>
     <string name="settings_password">Heslo</string>
     <string name="settings_saved">Nastavení uloženo</string>
+
+    <!--File chooser-->
+    <string name="fchooser">Vyberte soubor</string>
 </resources>

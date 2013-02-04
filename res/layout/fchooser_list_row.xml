@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="?android:attr/activatedBackgroundIndicator"
+              android:padding="6dip"
+              android:weightSum="7">
+
+    <TextView
+            android:id="@+id/fileName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_weight="4"
+            android:textColor="#FFFFFF"/>
+
+    <TextView
+            android:id="@+id/fileSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="#FFFFFF"
+            android:drawableRight="@drawable/ic_file"
+            android:gravity="right"/>
+
+</LinearLayout>

@@ -5,10 +5,17 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/fchooserPathView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings_saved"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test file browsing"
+            android:id="@+id/fchooserButton"
+            android:layout_gravity="left|center_vertical"/>
 
 </LinearLayout>

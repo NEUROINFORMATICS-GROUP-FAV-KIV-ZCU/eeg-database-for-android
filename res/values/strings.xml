@@ -71,4 +71,7 @@
     <string name="settings_username">Username</string>
     <string name="settings_password">Password</string>
     <string name="settings_saved">Settings saved.</string>
+
+    <!--File chooser-->
+    <string name="fchooser">Select file</string>
 </resources>

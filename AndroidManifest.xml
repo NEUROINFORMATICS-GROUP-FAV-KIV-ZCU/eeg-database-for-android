@@ -48,6 +48,9 @@
             android:name=".ui.reservation.AddRecordActivity"
             android:label="@string/reser_create" >
         </activity>
+        <activity
+                android:name=".ui.filechooser.FileChooserActivity"
+                android:label="@string/fchooser"/>
     </application>
 
 </manifest>
