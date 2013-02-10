@@ -8,7 +8,7 @@ public class Constants {
 	public final static String ADD_RECORD_KEY = "addRecord";
     public static final String FILE_PATH = "filePath";
 	public final static String PREFS_CREDENTIALS = "AccountCredentials";
-	public final static String ENDPOINT = "/webservice/rest";
+	public final static String ENDPOINT = "/rest";
 	public final static String SERVICE_USER = "/user/";
 	public final static String SERVICE_RESERVATION = "/reservation/";
 	public static UserInfo user;
