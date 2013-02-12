@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.Constants;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
 
 public class CommonActivity extends Activity {
@@ -99,6 +99,10 @@ public class CommonActivity extends Activity {
     }
 
     protected SharedPreferences getCredentials() {
-        return getSharedPreferences(Constants.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+        return getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+    }
+
+    protected SharedPreferences getVarious() {
+        return getSharedPreferences(Values.PREFS_VARIOUS, Context.MODE_PRIVATE);
     }
 }

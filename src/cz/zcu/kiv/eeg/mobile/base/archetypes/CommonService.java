@@ -1,6 +1,6 @@
 package cz.zcu.kiv.eeg.mobile.base.archetypes;
 
-import cz.zcu.kiv.eeg.mobile.base.data.Constants;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
 
 import android.content.Context;
@@ -39,6 +39,6 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
     }
 
 	protected SharedPreferences getCredentials() {
-		return activity.get().getSharedPreferences(Constants.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+		return activity.get().getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
 	}
 }

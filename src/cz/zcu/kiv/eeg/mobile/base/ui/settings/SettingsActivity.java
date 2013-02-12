@@ -6,13 +6,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.TestCredentials;
+
+import java.util.Calendar;
 
 public class SettingsActivity extends SaveDiscardActivity {
 
@@ -34,6 +39,9 @@ public class SettingsActivity extends SaveDiscardActivity {
 		usernameField.setText(username);
 		passwordField.setText(password);
 		urlField.setText(url);
+
+        CompoundButton checkBox = (CompoundButton) findViewById(R.id.settings_monday_first_day);
+        checkBox.setChecked(getVarious().getBoolean("monday", false));
 	}
 	
 	public void save() {
@@ -43,6 +51,13 @@ public class SettingsActivity extends SaveDiscardActivity {
 		TextView urlField = (TextView) findViewById(R.id.settings_url_field);
 
 		testCredentials(usernameField.getText().toString(), passwordField.getText().toString(), urlField.getText().toString());
+
+        CompoundButton checkBox = (CompoundButton) findViewById(R.id.settings_monday_first_day);
+
+        SharedPreferences.Editor editor = getVarious().edit();
+        editor.putBoolean("monday", checkBox.isChecked());
+        Values.firstDayOfWeek = checkBox.isChecked() ? Calendar.MONDAY : Calendar.SUNDAY;
+        editor.commit();
 	}
 	
 

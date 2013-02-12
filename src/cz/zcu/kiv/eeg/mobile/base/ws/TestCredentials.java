@@ -4,6 +4,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 import java.util.Collections;
 
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpBasicAuthentication;
 import org.springframework.http.HttpEntity;
@@ -18,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
-import cz.zcu.kiv.eeg.mobile.base.data.Constants;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.ws.data.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
@@ -44,7 +44,7 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
 		SharedPreferences credentials = getCredentials();
 		String username = credentials.getString("tmp_username", null);
 		String password = credentials.getString("tmp_password", null);
-		String url = credentials.getString("tmp_url", null) + Constants.SERVICE_USER + "login";
+		String url = credentials.getString("tmp_url", null) + Values.SERVICE_USER + "login";
 
 		setState(RUNNING, R.string.working_ws_credentials);
 		HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
@@ -60,7 +60,7 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
 			// Make the network request
 			Log.d(TAG, url);
 			ResponseEntity<UserInfo> userInfo = restTemplate.exchange(url, HttpMethod.GET, entity, UserInfo.class);
-			Constants.user = userInfo.getBody();
+			Values.user = userInfo.getBody();
 			return true;
 		} catch (Exception e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);

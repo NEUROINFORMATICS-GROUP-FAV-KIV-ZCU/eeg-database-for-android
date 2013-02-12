@@ -4,6 +4,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 import java.text.SimpleDateFormat;
 
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -48,7 +49,7 @@ public class RemoveReservation extends CommonService<ReservationData, Void, Bool
 			SharedPreferences credentials = getCredentials();
 			String username = credentials.getString("username", null);
 			String password = credentials.getString("password", null);
-			String url = credentials.getString("url", null) + "/reservation/" + data.getReservationId();
+			String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION + data.getReservationId();
 
 			HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
 			HttpHeaders requestHeaders = new HttpHeaders();

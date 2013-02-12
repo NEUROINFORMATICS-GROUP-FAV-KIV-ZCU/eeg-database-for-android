@@ -15,7 +15,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.data.Constants;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
 
@@ -131,7 +131,7 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
                 b.putInt("month", month);
                 b.putInt("day", day);
                 intent.putExtras(b);
-                startActivityForResult(intent, Constants.ADD_RECORD_FLAG);
+                startActivityForResult(intent, Values.ADD_RECORD_FLAG);
                 break;
             case R.id.refresh:
                 updateData();
@@ -143,6 +143,7 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
     public void chooseDateClick(View v) {
         Log.d(TAG, "Add new booking time chosen");
         DatePickerDialog datePicker = new DatePickerDialog(getActivity(), dateSetListener, year, month, day);
+        datePicker.getDatePicker().getCalendarView().setFirstDayOfWeek(Values.firstDayOfWeek);
         datePicker.show();
     }
 
@@ -150,10 +151,10 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case (Constants.ADD_RECORD_FLAG): {
+            case (Values.ADD_RECORD_FLAG): {
                 if (resultCode == Activity.RESULT_OK) {
                     ReservationListFragment listFragment = (ReservationListFragment) getFragmentManager().findFragmentByTag(ReservationListFragment.TAG);
-                    Reservation record = (Reservation) data.getExtras().get(Constants.ADD_RECORD_KEY);
+                    Reservation record = (Reservation) data.getExtras().get(Values.ADD_RECORD_KEY);
                     ((ReservationAdapter) listFragment.getListAdapter()).add(record);
                 }
                 break;

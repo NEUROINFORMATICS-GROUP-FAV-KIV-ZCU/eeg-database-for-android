@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.Constants;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.ui.filechooser.FileChooserActivity;
 
 public class ExperimentFragment extends Fragment implements View.OnClickListener {
@@ -42,7 +42,7 @@ public class ExperimentFragment extends Fragment implements View.OnClickListener
             case R.id.fchooserButton:
                 Log.d(TAG, "Choosing file");
                 Intent intent = new Intent(getActivity(), FileChooserActivity.class);
-                startActivityForResult(intent, Constants.SELECT_FILE_FLAG);
+                startActivityForResult(intent, Values.SELECT_FILE_FLAG);
                 break;
         }
     }
@@ -51,10 +51,10 @@ public class ExperimentFragment extends Fragment implements View.OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case (Constants.SELECT_FILE_FLAG): {
+            case (Values.SELECT_FILE_FLAG): {
                 if (resultCode == Activity.RESULT_OK) {
                     TextView fChooserPathView = (TextView) getActivity().findViewById(R.id.fchooserPathView);
-                    String path = data.getExtras().getString(Constants.FILE_PATH);
+                    String path = data.getExtras().getString(Values.FILE_PATH);
                     fChooserPathView.setText(path);
                 }
                 break;

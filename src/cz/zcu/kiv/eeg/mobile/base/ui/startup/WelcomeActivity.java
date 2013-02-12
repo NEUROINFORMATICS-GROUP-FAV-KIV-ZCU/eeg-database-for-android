@@ -8,7 +8,7 @@ import android.view.*;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.data.Constants;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.TestCredentials;
@@ -58,7 +58,7 @@ public class WelcomeActivity extends CommonActivity {
 			return;
 		}
 
-		SharedPreferences credentials = getSharedPreferences(Constants.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+		SharedPreferences credentials = getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = credentials.edit();
 
 		StringBuilder error = new StringBuilder();
@@ -72,9 +72,9 @@ public class WelcomeActivity extends CommonActivity {
 
 		if (error.toString().isEmpty()) {
 
-			editor.putString("tmp_username", username.toString());
-			editor.putString("tmp_password", password.toString());
-			editor.putString("tmp_url", url + Constants.ENDPOINT);
+			editor.putString("tmp_username", username);
+			editor.putString("tmp_password", password);
+			editor.putString("tmp_url", url + Values.ENDPOINT);
 			
 			editor.commit();
 

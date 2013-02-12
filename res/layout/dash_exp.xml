@@ -1,21 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:shrinkColumns="0">
 
-    <TextView
-        android:id="@+id/fchooserPathView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_saved"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
+        <TextView
+            android:id="@+id/fchooserPathView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test file browsing"
-            android:id="@+id/fchooserButton"
-            android:layout_gravity="left|center_vertical"/>
+            android:text="@string/settings_saved"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-</LinearLayout>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test file browsing"
+                android:id="@+id/fchooserButton"
+                android:layout_gravity="left|center_vertical"/>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+        <TextView
+                android:id="@+id/chooseExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose experiment" />
+
+        <Spinner
+                android:id="@+id/experimentList"
+
+                android:layout_gravity="center_vertical|fill_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+    </TableRow>
+
+</TableLayout>

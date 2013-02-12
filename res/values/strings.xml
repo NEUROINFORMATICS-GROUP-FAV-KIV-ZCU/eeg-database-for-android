@@ -74,4 +74,5 @@
 
     <!--File chooser-->
     <string name="fchooser">Select file</string>
+    <string name="settings_first_day">Monday as first day in week</string>
 </resources>

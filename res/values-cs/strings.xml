@@ -73,4 +73,5 @@
 
     <!--File chooser-->
     <string name="fchooser">Vyberte soubor</string>
+    <string name="settings_first_day">Pondělí první den v týdnu</string>
 </resources>

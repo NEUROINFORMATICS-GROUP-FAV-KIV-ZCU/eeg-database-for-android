@@ -5,6 +5,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 import java.text.ParseException;
 import java.util.Collections;
 
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
@@ -13,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
-import cz.zcu.kiv.eeg.mobile.base.data.Constants;
 import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.ws.data.ReservationData;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
@@ -50,7 +50,7 @@ public class CreateReservation extends CommonService<ReservationData, Void, Bool
 			SharedPreferences credentials = getCredentials();
 			String username = credentials.getString("username", null);
 			String password = credentials.getString("password", null);
-			String url = credentials.getString("url", null) + "/reservation/";
+			String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION;
 
 			HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
 			HttpHeaders requestHeaders = new HttpHeaders();
@@ -85,7 +85,7 @@ public class CreateReservation extends CommonService<ReservationData, Void, Bool
 				Reservation record = new Reservation(data.getReservationId(), data.getResearchGroup(), data.getResearchGroupId(), data.getFromTime(),
 						data.getToTime(), data.getCreatorName(), data.getCreatorMailUsername() + "@"
 								+ data.getCreatorMailDomain(),data.getCanRemove());
-				resultIntent.putExtra(Constants.ADD_RECORD_KEY, record);
+				resultIntent.putExtra(Values.ADD_RECORD_KEY, record);
 				Toast.makeText(activity.get(), activity.get().getString(R.string.reser_created), Toast.LENGTH_SHORT).show();
 				activity.get().setResult(Activity.RESULT_OK, resultIntent);
 				activity.get().finish();

@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.Constants;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.FileAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.FileInfo;
 
@@ -89,7 +89,7 @@ public class FileChooserActivity extends ListActivity {
             loadDir(file.getAbsolutePath());
         else {
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(Constants.FILE_PATH, file.getAbsolutePath());
+            resultIntent.putExtra(Values.FILE_PATH, file.getAbsolutePath());
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }
