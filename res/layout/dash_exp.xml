@@ -1,44 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:shrinkColumns="0">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:shrinkColumns="1"
+            android:stretchColumns="1">
 
     <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/fchooserPathView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_saved"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <Button
+                android:id="@+id/fchooserPathView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test file browsing"
+                android:text="@string/data_file"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/data_file_select"
                 android:id="@+id/fchooserButton"
-                android:layout_gravity="left|center_vertical"/>
+                android:gravity="center|fill_horizontal"/>
     </TableRow>
 
     <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:gravity="center">
 
         <TextView
-                android:id="@+id/chooseExp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose experiment" />
+                android:text="@string/data_file_experiment"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
 
         <Spinner
                 android:id="@+id/experimentList"
-
-                android:layout_gravity="center_vertical|fill_horizontal"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+                android:layout_width="match_parent"
+                android:gravity="fill_horizontal"/>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/data_file_description"/>
+
+            <TextView
+                    android:id="@+id/datafile_description_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <EditText
+                android:id="@+id/datafile_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/limit_datafile_description_chars"
+                android:inputType="textMultiLine"
+                android:gravity="center|fill_horizontal"/>
+
     </TableRow>
 
 </TableLayout>

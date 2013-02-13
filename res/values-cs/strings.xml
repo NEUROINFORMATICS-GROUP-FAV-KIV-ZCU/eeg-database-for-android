@@ -74,4 +74,9 @@
     <!--File chooser-->
     <string name="fchooser">Vyberte soubor</string>
     <string name="settings_first_day">Pondělí první den v týdnu</string>
+    <string name="data_file_left">Dostupných znaků: </string>
+    <string name="data_file_select">Vybrat soubor</string>
+    <string name="data_file">Soubor k nahrání</string>
+    <string name="data_file_experiment">Experiment</string>
+    <string name="data_file_description">Popis</string>
 </resources>

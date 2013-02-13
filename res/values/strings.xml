@@ -75,4 +75,9 @@
     <!--File chooser-->
     <string name="fchooser">Select file</string>
     <string name="settings_first_day">Monday as first day in week</string>
+    <string name="data_file_left">Characters left: </string>
+    <string name="data_file_select">Select file</string>
+    <string name="data_file">Upload file</string>
+    <string name="data_file_experiment">Experiment</string>
+    <string name="data_file_description">Description</string>
 </resources>
