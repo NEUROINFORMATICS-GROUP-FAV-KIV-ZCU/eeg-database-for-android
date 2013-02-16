@@ -4,6 +4,11 @@
     <string name="app_name">EEG Database</string>
     <string name="app_refresh">Refresh</string>
     <string name="app_dashboard">Dashboard</string>
+    <string name="app_welcome">Welcome to EEG Base!</string>
+    <string name="app_underDevelopment">This application is curently under development, so its features
+        are limited and maybe bugged sometimes. Thank you for your patience and bug reporting on GitHub project site!
+    </string>
+
     <string name="login_mail_suffix">\ @students.zcu.cz</string>
     <string name="login_protocol">https://</string>
     <string name="menu_save">Save</string>
@@ -80,7 +85,7 @@
     <string name="data_file_select">Select file</string>
     <string name="data_file">Upload file</string>
     <string name="data_file_experiment">Experiment</string>
-    <string name="data_file_description">Description</string>
+    <string name="data_file_description">File description</string>
     <string name="data_file_upload">Upload file</string>
     <string name="working_ws_experiments">Loading available experiments</string>
 </resources>

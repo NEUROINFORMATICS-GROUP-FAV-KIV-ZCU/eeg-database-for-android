@@ -21,7 +21,7 @@ public class WelcomeActivity extends CommonActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "Welcome activity displayed");
-		setContentView(R.layout.welcome);
+		setContentView(R.layout.base_welcome);
 	}
 
 	@Override

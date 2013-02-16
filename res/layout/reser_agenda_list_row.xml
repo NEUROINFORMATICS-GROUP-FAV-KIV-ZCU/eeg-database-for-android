@@ -17,16 +17,14 @@
             android:id="@+id/toptext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="#FFFFFF" />
+            android:gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/bottomtext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:singleLine="true"
-            android:textColor="#FFFFFF" />
+            android:singleLine="true"/>
     </LinearLayout>
 
     <ImageView

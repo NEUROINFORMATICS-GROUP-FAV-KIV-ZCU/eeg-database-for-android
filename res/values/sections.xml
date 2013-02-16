@@ -3,6 +3,7 @@
    
     <string-array name="sections_list">
         <item>DashBoard</item>
+        <item>Upload file</item>
         <item>Reservation</item>
         <item>Settings</item>
     </string-array>

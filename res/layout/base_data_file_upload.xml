@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="wrap_content"
              android:shrinkColumns="1"
-             android:stretchColumns="1">
+             android:stretchColumns="1"
+             android:padding="5dp">
 
     <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
 
     <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         <LinearLayout android:orientation="vertical">
 
@@ -34,7 +34,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/data_file_description"/>
+                    android:text="@string/data_file_description"
+                    />
 
             <TextView
                     android:id="@+id/datafile_description_count"
@@ -55,7 +56,7 @@
 
     <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         <TextView
                 android:id="@+id/fchooserPathView"
@@ -65,15 +66,15 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <Button
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/data_file_select"
                 android:id="@+id/data_file_choose_button"/>
     </TableRow>
 
     <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <Button
                 android:layout_width="wrap_content"

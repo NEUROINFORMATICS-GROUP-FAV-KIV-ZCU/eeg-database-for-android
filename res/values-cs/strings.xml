@@ -4,6 +4,10 @@
     <string name="app_name">EEG Databáze</string>
     <string name="app_refresh">Obnovit</string>
     <string name="app_dashboard">Přehled</string>
+    <string name="app_welcome">Vítejte v EEG Databázi!</string>
+    <string name="app_underDevelopment">Tato aplikace je aktuálně ve vývoji, tudíž jsou její možnosti omezené a občas se setkáte s chybami.
+        Děkuji za trpělivost a hlášení chyb na GitHub stránkách projektu!
+    </string>
     <string name="login_mail_suffix">\ @students.zcu.cz</string>
     <string name="login_protocol">https://</string>
     <string name="menu_save">Uložit</string>
@@ -80,7 +84,7 @@
     <string name="data_file_select">Vybrat soubor</string>
     <string name="data_file">Soubor k nahrání</string>
     <string name="data_file_experiment">Experiment</string>
-    <string name="data_file_description">Popis</string>
+    <string name="data_file_description">Popis souboru</string>
     <string name="data_file_upload">Nahrát soubor</string>
 
 </resources>

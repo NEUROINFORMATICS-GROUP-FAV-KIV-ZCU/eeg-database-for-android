@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.dash;
+package cz.zcu.kiv.eeg.mobile.base.ui.base;
 
 
 import android.app.Activity;
@@ -25,9 +25,9 @@ import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.UploadDataFile;
 
 import java.util.ArrayList;
 
-public class ExperimentFragment extends Fragment implements View.OnClickListener {
+public class DataFileUploadFragment extends Fragment implements View.OnClickListener {
 
-    public final static String TAG = ExperimentFragment.class.getSimpleName();
+    public final static String TAG = DataFileUploadFragment.class.getSimpleName();
     private String selectedFile = null;
 
     private ExperimentAdapter experimentAdapter;
@@ -39,7 +39,7 @@ public class ExperimentFragment extends Fragment implements View.OnClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dash_exp, container, false);
+        return inflater.inflate(R.layout.base_data_file_upload, container, false);
     }
 
     @Override
@@ -48,12 +48,18 @@ public class ExperimentFragment extends Fragment implements View.OnClickListener
         CommonActivity parentActivity = (CommonActivity) getActivity();
 
         super.onActivityCreated(savedInstanceState);
+        initView();
+        initData(parentActivity);
+
+    }
+
+    private void initView() {
         Button fChooserButton = (Button) getActivity().findViewById(R.id.data_file_choose_button);
         Button fUploadButton = (Button) getActivity().findViewById(R.id.data_file_upload_button);
         fChooserButton.setOnClickListener(this);
         fUploadButton.setOnClickListener(this);
 
-        experimentAdapter = new ExperimentAdapter(getActivity(), R.layout.experiment_row, new ArrayList<Experiment>());
+        experimentAdapter = new ExperimentAdapter(getActivity(), R.layout.base_experiment_row, new ArrayList<Experiment>());
         Spinner experimentList = (Spinner) getActivity().findViewById(R.id.experimentList);
         experimentList.setAdapter(experimentAdapter);
 
@@ -78,12 +84,13 @@ public class ExperimentFragment extends Fragment implements View.OnClickListener
         };
         EditText descriptionText = (EditText) getActivity().findViewById(R.id.datafile_description);
         descriptionText.addTextChangedListener(datafileDescriptionWatcher);
+    }
 
+    private void initData(CommonActivity parentActivity) {
         if (ConnectionUtils.isOnline(getActivity())) {
             (CommonActivity.service) = (CommonService) new FetchExperiments(parentActivity, experimentAdapter).execute();
         } else
             parentActivity.showAlert(getString(R.string.error_offline));
-
     }
 
     @Override

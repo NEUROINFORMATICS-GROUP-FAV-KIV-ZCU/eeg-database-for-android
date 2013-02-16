@@ -2,7 +2,8 @@ package cz.zcu.kiv.eeg.mobile.base.ui;
 
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.dash.ExperimentFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.base.DashboardFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.base.DataFileUploadFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.AgendaListFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
 import android.app.ActionBar;
@@ -24,12 +25,12 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.main);
+        setContentView(R.layout.base);
         final ActionBar actionBar = getActionBar();
         actionBar.setTitle("");
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-        SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sections_list, android.R.layout.simple_spinner_dropdown_item);
+        SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(actionBar.getThemedContext(), R.array.sections_list, R.layout.base_row_simple);
         actionBar.setListNavigationCallbacks(spinnerAdapter, this);
 
         if (savedInstanceState != null) {
@@ -48,16 +49,26 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         switch (itemPosition) {
             case 0:
-                ExperimentFragment expFrag;
-                if (previousFragment == null || !(previousFragment instanceof ExperimentFragment)) {
-                    expFrag = new ExperimentFragment();
+                DashboardFragment dashboardFrag;
+                if (previousFragment == null || !(previousFragment instanceof DashboardFragment)) {
+                    dashboardFrag = new DashboardFragment();
 
-                    fragmentTransaction.replace(R.id.content, expFrag, TAG);
+                    fragmentTransaction.replace(R.id.content, dashboardFrag, TAG);
                     fragmentTransaction.commit();
                 }
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
             case 1:
+                DataFileUploadFragment dataFileFrag;
+                if (previousFragment == null || !(previousFragment instanceof DataFileUploadFragment)) {
+                    dataFileFrag = new DataFileUploadFragment();
+
+                    fragmentTransaction.replace(R.id.content, dataFileFrag, TAG);
+                    fragmentTransaction.commit();
+                }
+                NavigationActivity.this.previousFragment = itemPosition;
+                break;
+            case 2:
                 AgendaListFragment agendaFrag;
                 if (previousFragment == null || !(previousFragment instanceof AgendaListFragment)) {
                     agendaFrag = new AgendaListFragment();
@@ -68,7 +79,7 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
 
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
-            case 2:
+            case 3:
                 Intent intent = new Intent();
                 intent.setClass(this, SettingsActivity.class);
                 startActivity(intent);

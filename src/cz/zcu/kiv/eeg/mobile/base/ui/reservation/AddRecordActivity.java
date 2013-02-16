@@ -60,7 +60,7 @@ public class AddRecordActivity extends SaveDiscardActivity{
 		fromField.setText(sf.format(c.getTime()));
 		toField.setText(sf.format(c.getTime()));
 
-		researchGroupAdapter = new ResearchGroupAdapter(this, R.layout.reser_add_group_row, new ArrayList<ResearchGroup>());
+		researchGroupAdapter = new ResearchGroupAdapter(this, R.layout.base_row_simple, new ArrayList<ResearchGroup>());
 		Spinner groupList = (Spinner) findViewById(R.id.groupList);
 		groupList.setAdapter(researchGroupAdapter);
 	}
