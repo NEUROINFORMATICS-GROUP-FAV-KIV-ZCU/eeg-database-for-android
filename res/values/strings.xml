@@ -9,24 +9,24 @@
     <string name="menu_save">Save</string>
     <string name="menu_discard">Discard</string>
     <string name="menu_login">Log In</string>
-	<string name="logo">Logo</string>
-	
+    <string name="logo">Logo</string>
+
     <string name="error_offline">Connection is unavailable. Request could not be completed.</string>
     <string name="error_connection">Connection to server issues occurred. Try again later.</string>
-	<string name="error_date_comparison">Reservation action cannot end before it even started!</string>
-	<string name="error_unknown_host">Invalid host name/address!</string>
-	<string name="error_invalid_password">Password must be entered!</string>
-	<string name="error_invalid_url">Entered value is not invalid URL!</string>
-	<string name="error_invalid_username">Username must be an email!</string>
-	
-	<!-- Buttons -->
-	<string name="button_remove">Remove</string>
-	
-	<!-- Fillings -->
-	<string name="dummy_date">DATE</string>
+    <string name="error_date_comparison">Reservation action cannot end before it even started!</string>
+    <string name="error_unknown_host">Invalid host name/address!</string>
+    <string name="error_invalid_password">Password must be entered!</string>
+    <string name="error_invalid_url">Entered value is not invalid URL!</string>
+    <string name="error_invalid_username">Username must be an email!</string>
+
+    <!-- Buttons -->
+    <string name="button_remove">Remove</string>
+
+    <!-- Fillings -->
+    <string name="dummy_date">DATE</string>
     <string name="dummy_from">FROM</string>
     <string name="dummy_to">TO</string>
-    
+
     <!-- Working -->
     <string name="working">Working</string>
     <string name="working_ws_msg">Ongoing communication with web service…</string>
@@ -35,7 +35,8 @@
     <string name="working_ws_create">Creating new record…</string>
     <string name="working_ws_edit">Editing record…</string>
     <string name="working_ws_remove">Removing record…</string>
-    
+    <string name="working_ws_upload_data_file">Uploading data file…</string>
+
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
     <string name="reser_create">Create reservation</string>
@@ -43,31 +44,31 @@
     <string name="reser_edited">Reservation edited.</string>
     <string name="reser_removed">Reservation removed.</string>
     <string name="reser_removed_update">Reservation removed, please update view.</string>
-    
+
     <string name="reser_agenda_list_header">Reservations</string>
     <string name="reser_agenda_choose_date">Choose date</string>
-    
+
     <string name="reser_add_group_label">Research group</string>
     <string name="reser_add_from_label">From time</string>
     <string name="reser_add_to_label">To time</string>
     <string name="reser_add_change">Change time</string>
-    
+
     <string name="reser_detail">Details</string>
     <string name="reser_detail_group">Research group</string>
     <string name="reser_detail_from">From time</string>
-	<string name="reser_detail_to">To time</string>
-	<string name="reser_detail_separator"> - </string>
-	<string name="reser_detail_creator">Creator</string>
-	<string name="reser_detail_empty">No reservation selected</string>
-	<string name="reser_detail_time">Time span</string>
-	<string name="reser_detail_contact">Contact</string>
-	
-	<string name="reser_dialog_remove_header">Removing reservation</string>
-	<string name="reser_dialog_remove_body">Are you sure you want to remove this reservation?</string>
-	
-	<!-- Settings -->
-	<string name="app_settings">Settings</string>
-	<string name="settings_url">Service URL</string>
+    <string name="reser_detail_to">To time</string>
+    <string name="reser_detail_separator">-</string>
+    <string name="reser_detail_creator">Creator</string>
+    <string name="reser_detail_empty">No reservation selected</string>
+    <string name="reser_detail_time">Time span</string>
+    <string name="reser_detail_contact">Contact</string>
+
+    <string name="reser_dialog_remove_header">Removing reservation</string>
+    <string name="reser_dialog_remove_body">Are you sure you want to remove this reservation?</string>
+
+    <!-- Settings -->
+    <string name="app_settings">Settings</string>
+    <string name="settings_url">Service URL</string>
     <string name="settings_username">Username</string>
     <string name="settings_password">Password</string>
     <string name="settings_saved">Settings saved.</string>
@@ -75,9 +76,11 @@
     <!--File chooser-->
     <string name="fchooser">Select file</string>
     <string name="settings_first_day">Monday as first day in week</string>
-    <string name="data_file_left">Characters left: </string>
+    <string name="data_file_left">Characters left:</string>
     <string name="data_file_select">Select file</string>
     <string name="data_file">Upload file</string>
     <string name="data_file_experiment">Experiment</string>
     <string name="data_file_description">Description</string>
+    <string name="data_file_upload">Upload file</string>
+    <string name="working_ws_experiments">Loading available experiments</string>
 </resources>

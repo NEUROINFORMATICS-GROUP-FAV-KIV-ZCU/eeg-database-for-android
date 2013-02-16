@@ -10,32 +10,34 @@
     <string name="menu_discard">Zrušit</string>
     <string name="menu_login">Přihlásit se</string>
     <string name="logo">Logo</string>
-   
+
     <string name="error_offline">Připojení není dostupné. Požadavek nemohl být vykonán.</string>
     <string name="error_connection">Vyskytly se potíže s připojením k serveru. Zkuste později.</string>
     <string name="error_date_comparison">Rezervace nemůže skončit, než vůbec začala!</string>
     <string name="error_unknown_host">Neplatná adresa!</string>
-	<string name="error_invalid_password">Heslo nemůže být prázdné!</string>
-	<string name="error_invalid_url">Zadaná hodnota není platnou URL!</string>
-	<string name="error_invalid_username">Uživatelské jméno musí mít podobu mailové adresy!</string>
+    <string name="error_invalid_password">Heslo nemůže být prázdné!</string>
+    <string name="error_invalid_url">Zadaná hodnota není platnou URL!</string>
+    <string name="error_invalid_username">Uživatelské jméno musí mít podobu mailové adresy!</string>
 
-	<!-- Tlacitka -->
-	<string name="button_remove">Odstranit</string>
-	
-	<!-- Pracuji... -->
-	<string name="working">Pracuji</string>
+    <!-- Tlacitka -->
+    <string name="button_remove">Odstranit</string>
+
+    <!-- Pracuji... -->
+    <string name="working">Pracuji</string>
     <string name="working_ws_credentials">Ověřuji přihlašovací informace…</string>
     <string name="working_ws_msg">Probíhá komunikace s webovou službou…</string>
     <string name="working_ws_groups">Stahují se dostupné výzkumné skupiny…</string>
     <string name="working_ws_create">Vytváření nového záznamu…</string>
     <string name="working_ws_edit">Upravuji záznam…</string>
     <string name="working_ws_remove">Odstraňuji záznam…</string>
-	
-	<!-- Vyplne -->
-	<string name="dummy_date">DATUM</string>
+    <string name="working_ws_upload_data_file">Soubor se nahrává na server…</string>
+    <string name="working_ws_experiments">Stahují se dostupné experimenty</string>
+
+    <!-- Vyplne -->
+    <string name="dummy_date">DATUM</string>
     <string name="dummy_from">OD</string>
     <string name="dummy_to">DO</string>
-    
+
     <!-- Rezervace -->
     <string name="reser">Rezervace</string>
     <string name="reser_create">Vytvořit rezervaci</string>
@@ -43,30 +45,30 @@
     <string name="reser_edited">Rezervace upravena</string>
     <string name="reser_removed">Rezervace smazána</string>
     <string name="reser_removed_update">Rezervace smazána, prosím aktualizujte agendu.</string>
-    
+
     <string name="reser_agenda_list_header">Rezervace</string>
     <string name="reser_agenda_choose_date">Vyberte datum</string>
-    
+
     <string name="reser_add_group_label">Výzkumná skupina</string>
     <string name="reser_add_from_label">Od času</string>
     <string name="reser_add_to_label">Do času</string>
     <string name="reser_add_change">Změnit čas</string>
-        
+
     <string name="reser_detail">Podrobnosti</string>
     <string name="reser_detail_group">Výzkumná skupina</string>
-	<string name="reser_detail_from">Od</string>
-	<string name="reser_detail_to">Do</string>
-	<string name="reser_detail_separator"> - </string>
-	<string name="reser_detail_creator">Vytvořil</string>
-	<string name="reser_detail_empty">Nevybrána žádná rezervace</string>
-	<string name="reser_detail_time">Časy</string>
-	
-	<string name="reser_dialog_remove_header">Smazání rezervace</string>
-	<string name="reser_dialog_remove_body">Skutečně chcete rezervaci smazat?</string>
-	
-	<!-- Settings -->
-	<string name="app_settings">Nastavení</string>
-	 <string name="settings_url">URL služby</string>
+    <string name="reser_detail_from">Od</string>
+    <string name="reser_detail_to">Do</string>
+    <string name="reser_detail_separator">-</string>
+    <string name="reser_detail_creator">Vytvořil</string>
+    <string name="reser_detail_empty">Nevybrána žádná rezervace</string>
+    <string name="reser_detail_time">Časy</string>
+
+    <string name="reser_dialog_remove_header">Smazání rezervace</string>
+    <string name="reser_dialog_remove_body">Skutečně chcete rezervaci smazat?</string>
+
+    <!-- Settings -->
+    <string name="app_settings">Nastavení</string>
+    <string name="settings_url">URL služby</string>
     <string name="settings_username">Uživatelské jméno</string>
     <string name="settings_password">Heslo</string>
     <string name="settings_saved">Nastavení uloženo</string>
@@ -74,9 +76,11 @@
     <!--File chooser-->
     <string name="fchooser">Vyberte soubor</string>
     <string name="settings_first_day">Pondělí první den v týdnu</string>
-    <string name="data_file_left">Dostupných znaků: </string>
+    <string name="data_file_left">Dostupných znaků:</string>
     <string name="data_file_select">Vybrat soubor</string>
     <string name="data_file">Soubor k nahrání</string>
     <string name="data_file_experiment">Experiment</string>
     <string name="data_file_description">Popis</string>
+    <string name="data_file_upload">Nahrát soubor</string>
+
 </resources>

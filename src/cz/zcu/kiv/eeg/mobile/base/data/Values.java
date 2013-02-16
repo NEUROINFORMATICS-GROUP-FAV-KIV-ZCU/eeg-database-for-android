@@ -12,9 +12,11 @@ public class Values {
 	public final static String PREFS_CREDENTIALS = "AccountCredentials";
     public final static String PREFS_VARIOUS = "VariousValues";
 	public final static String ENDPOINT = "/rest";
+    public static final String SERVICE_BASE = "/base/";
 	public final static String SERVICE_USER = "/user/";
 	public final static String SERVICE_RESERVATION = "/reservation/";
 	public static UserInfo user;
 
     public static int firstDayOfWeek = Calendar.SUNDAY;
+
 }
