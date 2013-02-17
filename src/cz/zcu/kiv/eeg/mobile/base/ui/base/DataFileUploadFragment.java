@@ -23,6 +23,7 @@ import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchExperiments;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.UploadDataFile;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class DataFileUploadFragment extends Fragment implements View.OnClickListener {
@@ -130,6 +131,8 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
             case (Values.SELECT_FILE_FLAG): {
                 if (resultCode == Activity.RESULT_OK) {
                     selectedFile = data.getExtras().getString(Values.FILE_PATH);
+                    TextView selectedFileView = (TextView) getActivity().findViewById(R.id.fchooserSelectedFile);
+                    selectedFileView.setText((new File(selectedFile)).getName());
                     Toast.makeText(this.getActivity(), selectedFile, Toast.LENGTH_SHORT).show();
                 }
                 break;

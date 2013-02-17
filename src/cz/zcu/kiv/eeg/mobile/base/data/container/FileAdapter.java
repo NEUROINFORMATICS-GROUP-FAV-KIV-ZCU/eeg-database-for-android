@@ -46,10 +46,10 @@ public class FileAdapter extends ArrayAdapter<FileInfo> {
             if (additionalText != null) {
                 if (record.isDirectory()) {
                     additionalText.setText("");
-                    additionalText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dir, 0);
+                    topText.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_dir,0, 0, 0);
                 } else {
                     additionalText.setText(record.getFileSize());
-                    additionalText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_file, 0);
+                    topText.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_file,0, 0, 0);
                 }
             }
         }
