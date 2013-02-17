@@ -1,78 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:stretchColumns="1" >
-
-    <TableRow>
+    android:padding="5dp" >
 
         <TextView
             android:id="@+id/settings_username_label"
-            android:layout_width="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/settings_username" />
 
         <EditText
             android:id="@+id/settings_username_field"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:ems="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="textEmailAddress" >
             <requestFocus />
         </EditText>
-    </TableRow>
-
-    <TableRow>
 
         <TextView
             android:id="@+id/settings_password_label"
-            android:layout_width="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/settings_password" />
 
         <EditText
             android:id="@+id/settings_password_field"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:ems="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="textPassword" />
-    </TableRow>
-    
-    <TableRow>
 
         <TextView
             android:id="@+id/settings_url_label"
-            android:layout_width="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/settings_url" />
 
         <EditText
             android:id="@+id/settings_url_field"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:ems="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="textUri" />
-    </TableRow>
 
-    <TableRow>
-
-        <CheckBox
-                android:layout_width="0dp"
+        <Switch
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_first_day"
                 android:id="@+id/settings_monday_first_day"
-                android:layout_column="1"
-                android:layout_weight="1"
-                />
+                 />
 
 
-    </TableRow>
-
-</TableLayout>
+</LinearLayout>
