@@ -23,6 +23,11 @@
     <string name="error_invalid_password">Password must be entered!</string>
     <string name="error_invalid_url">Entered value is not invalid URL!</string>
     <string name="error_invalid_username">Username must be an email!</string>
+    <string name="error_host_unreach">Host unavailable (no route exist). Is hostname/IP correct?</string>
+    <string name="error_host_timeout">Connection timeout. Try again.</string>
+    <string name="error_host_con_refused">Connection refused. Are your credentials correct?</string>
+    <string name="error_http_404">Location not found. This is probably a server issue, but check your server URL just to be sure.</string>
+    <string name="error_http_503">Service unavailable. Try again later.</string>
 
     <!-- Buttons -->
     <string name="button_remove">Remove</string>

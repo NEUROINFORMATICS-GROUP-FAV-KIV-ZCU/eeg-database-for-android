@@ -22,6 +22,11 @@
     <string name="error_invalid_password">Heslo nemůže být prázdné!</string>
     <string name="error_invalid_url">Zadaná hodnota není platnou URL!</string>
     <string name="error_invalid_username">Uživatelské jméno musí mít podobu mailové adresy!</string>
+    <string name="error_host_unreach">Server nedostupný (neexistuje trasa). Je správně hostname/IP?</string>
+    <string name="error_host_timeout">Spojení vypršelo. Zkuste znovu.</string>
+    <string name="error_host_con_refused">Spojení zamítnuto. Zadali jste správně přihlašovací údaje?</string>
+    <string name="error_http_404">Umístění nenalezeno. Pravděpodobně chyba serveru, pro jistotu ale zkontrolujte URL serveru.</string>
+    <string name="error_http_503">Služba nedostupná. Zkuste později.</string>
 
     <!-- Tlacitka -->
     <string name="button_remove">Odstranit</string>
