@@ -2,6 +2,7 @@ package cz.zcu.kiv.eeg.mobile.base.data.container;
 
 import android.annotation.SuppressLint;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Date;
  *
  * @author Petr Miko
  */
-public class Experiment {
+public class Experiment implements Serializable {
 
     @SuppressLint("SimpleDateFormat")
     private static SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy HH:mm");

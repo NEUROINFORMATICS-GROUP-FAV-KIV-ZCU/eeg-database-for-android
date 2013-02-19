@@ -40,7 +40,8 @@
 		</dependency>
 
 
-		<dependency>
+
+        <dependency>
 			<groupId>org.simpleframework</groupId>
 			<artifactId>simple-xml</artifactId>
 			<version>${simple-version}</version>

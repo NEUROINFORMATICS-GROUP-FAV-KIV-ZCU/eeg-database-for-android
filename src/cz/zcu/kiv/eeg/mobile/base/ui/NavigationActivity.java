@@ -13,7 +13,7 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.base.DashboardFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.base.DataFileUploadFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.base.experiment.ExperimentActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.reservation.AgendaListFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
 
 public class NavigationActivity extends CommonActivity implements ActionBar.OnNavigationListener {
@@ -53,7 +53,7 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 if (previousFragment == null || !(previousFragment instanceof DashboardFragment)) {
                     dashboardFrag = new DashboardFragment();
 
-                    fragmentTransaction.replace(R.id.content, dashboardFrag, TAG);
+                    fragmentTransaction.replace(R.id.content, dashboardFrag, DashboardFragment.TAG);
                     fragmentTransaction.commit();
                 }
                 NavigationActivity.this.previousFragment = itemPosition;
@@ -69,17 +69,17 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 if (previousFragment == null || !(previousFragment instanceof DataFileUploadFragment)) {
                     dataFileFrag = new DataFileUploadFragment();
 
-                    fragmentTransaction.replace(R.id.content, dataFileFrag, TAG);
+                    fragmentTransaction.replace(R.id.content, dataFileFrag, DataFileUploadFragment.TAG);
                     fragmentTransaction.commit();
                 }
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
             case 3:
-                AgendaListFragment agendaFrag;
-                if (previousFragment == null || !(previousFragment instanceof AgendaListFragment)) {
-                    agendaFrag = new AgendaListFragment();
+                ReservationFragment agendaFrag;
+                if (previousFragment == null || !(previousFragment instanceof ReservationFragment)) {
+                    agendaFrag = new ReservationFragment();
 
-                    fragmentTransaction.replace(R.id.content, agendaFrag, TAG);
+                    fragmentTransaction.replace(R.id.content, agendaFrag, ReservationFragment.TAG);
                     fragmentTransaction.commit();
                 }
 

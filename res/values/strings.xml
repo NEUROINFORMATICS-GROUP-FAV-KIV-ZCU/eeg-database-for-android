@@ -45,6 +45,7 @@
     <string name="dummy_date">DATE</string>
     <string name="dummy_from">FROM</string>
     <string name="dummy_to">TO</string>
+    <string name="dummy_no_record">No record selected</string>
 
     <!-- Working -->
     <string name="working">Working</string>
@@ -55,6 +56,7 @@
     <string name="working_ws_edit">Editing record…</string>
     <string name="working_ws_remove">Removing record…</string>
     <string name="working_ws_upload_data_file">Uploading data file…</string>
+    <string name="working_ws_experiments">Loading available experiments</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
@@ -72,13 +74,12 @@
     <string name="reser_add_to_label">To time</string>
     <string name="reser_add_change">Change time</string>
 
-    <string name="reser_detail">Details</string>
+    <string name="detail">Details</string>
     <string name="reser_detail_group">Research group</string>
     <string name="reser_detail_from">From time</string>
     <string name="reser_detail_to">To time</string>
     <string name="reser_detail_separator">-</string>
     <string name="reser_detail_creator">Creator</string>
-    <string name="reser_detail_empty">No reservation selected</string>
     <string name="reser_detail_time">Time span</string>
     <string name="reser_detail_contact">Contact</string>
 
@@ -93,17 +94,19 @@
     <string name="settings_saved">Settings saved.</string>
 
     <!--File chooser-->
+    <string name="app_data_file">Upload file</string>
     <string name="fchooser">Select file</string>
     <string name="settings_first_day">Monday as first day in week</string>
     <string name="data_file_left">Characters left:</string>
     <string name="data_file_select">Select file</string>
-    <string name="data_file">Upload file</string>
     <string name="data_file_experiment">Experiment</string>
     <string name="data_file_description">File description</string>
     <string name="data_file_upload">Upload file</string>
-    <string name="working_ws_experiments">Loading available experiments</string>
-    <string name="experiment_add">Add experiment</string>
-    <string name="experiment_list">List experiments</string>
+
     <string name="app_experiments">Experiments</string>
-    <string name="experiment_list_mine">List mine experiments</string>
+    <string name="experiment_add">Add experiment</string>
+    <string name="experiment_list_all">All experiments</string>
+    <string name="experiment_list_mine">My experiments</string>
+    <string name="experiment_id">Experiment ID</string>
+    <string name="scenario_name">Scenario name</string>
 </resources>

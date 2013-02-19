@@ -53,9 +53,10 @@
     <string name="dummy_date">DATUM</string>
     <string name="dummy_from">OD</string>
     <string name="dummy_to">DO</string>
+    <string name="dummy_no_record">Nevybrán žádný záznam</string>
 
     <!-- Rezervace -->
-    <string name="reser">Rezervace</string>
+    <string name="app_reser">Rezervace</string>
     <string name="reser_create">Vytvořit rezervaci</string>
     <string name="reser_created">Rezervace vytvořena</string>
     <string name="reser_edited">Rezervace upravena</string>
@@ -70,13 +71,12 @@
     <string name="reser_add_to_label">Do času</string>
     <string name="reser_add_change">Změnit čas</string>
 
-    <string name="reser_detail">Podrobnosti</string>
+    <string name="detail">Podrobnosti</string>
     <string name="reser_detail_group">Výzkumná skupina</string>
     <string name="reser_detail_from">Od</string>
     <string name="reser_detail_to">Do</string>
     <string name="reser_detail_separator">-</string>
     <string name="reser_detail_creator">Vytvořil</string>
-    <string name="reser_detail_empty">Nevybrána žádná rezervace</string>
     <string name="reser_detail_time">Časy</string>
 
     <string name="reser_dialog_remove_header">Smazání rezervace</string>
@@ -90,17 +90,22 @@
     <string name="settings_saved">Nastavení uloženo</string>
 
     <!--File chooser-->
+    <string name="app_data_file">Soubor k nahrání</string>
     <string name="fchooser">Vyberte soubor</string>
     <string name="settings_first_day">Pondělí první den v týdnu</string>
     <string name="data_file_left">Dostupných znaků:</string>
     <string name="data_file_select">Vybrat soubor</string>
-    <string name="data_file">Soubor k nahrání</string>
     <string name="data_file_experiment">Experiment</string>
     <string name="data_file_description">Popis souboru</string>
     <string name="data_file_upload">Nahrát soubor</string>
-    <string name="experiment_add">Přidat experiment</string>
-    <string name="experiment_list">Zobrazit experimenty</string>
+
     <string name="app_experiments">Experimenty</string>
-    <string name="experiment_list_mine">Zobrazit mé experimenty</string>
+    <string name="experiment_add">Přidat experiment</string>
+    <string name="experiment_list_all">Všechny experimenty</string>
+    <string name="experiment_list_mine">Mé experimenty</string>
+    <string name="experiment_id">Experiment ID</string>
+
+
+    <string name="scenario_name">Jméno scénáře</string>
 
 </resources>

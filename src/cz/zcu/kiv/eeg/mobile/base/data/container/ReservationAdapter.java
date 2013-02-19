@@ -1,5 +1,6 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -33,13 +34,14 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
 
 	private final static String TAG = ReservationAdapter.class.getSimpleName();
 
-	private final Context context;
-	private final int resourceId;
+	private Context context;
+	private final int resourceId, fragmentId;
 
-	public ReservationAdapter(Context context, int resourceId, List<Reservation> items) {
+    public ReservationAdapter(Context context, int fragmentId, int resourceId, List<Reservation> items, int id) {
 		super(context, resourceId, items);
 		this.context = context;
 		this.resourceId = resourceId;
+        this.fragmentId = fragmentId;
 	}
 
 	@Override
@@ -90,11 +92,15 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
 						public void onClick(DialogInterface dialog, int which) {
 							ReservationData data = new ReservationData(reservation.getReservationId(), reservation.getResearchGroupId(), reservation.getResearchGroup().toString(),
 									reservation.getStringFromTime(), reservation.getStringToTime(), reservation.getCanRemove());
-							new RemoveReservation((CommonActivity) context).execute(data);
+							new RemoveReservation((CommonActivity) context,fragmentId).execute(data);
 						}
 
 					}).setNegativeButton(context.getString(android.R.string.cancel), null).show();
 		}
 
 	}
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 }

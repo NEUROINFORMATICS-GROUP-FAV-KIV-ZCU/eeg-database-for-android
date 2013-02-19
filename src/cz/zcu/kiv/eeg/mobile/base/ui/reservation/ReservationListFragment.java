@@ -32,7 +32,6 @@ public class ReservationListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setListAdapter(null);
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         if (header != null)
             getListView().addHeaderView(header);
@@ -54,6 +53,7 @@ public class ReservationListFragment extends ListFragment {
         }
 
         setListAdapter(getAdapter());
+        dataAdapter.setContext(getActivity());
     }
 
     @Override
@@ -64,12 +64,17 @@ public class ReservationListFragment extends ListFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int pos, long id) {
         if (pos >= HEADER_ROW && pos <= dataAdapter.getCount()) {
             showDetails(pos);
             this.setSelection(pos);
         } else {
-            DetailsFragment details = (DetailsFragment) getFragmentManager().findFragmentById(R.id.details);
+            ReservationDetailsFragment details = (ReservationDetailsFragment) getFragmentManager().findFragmentById(R.id.details);
             if (details != null && details.isVisible()) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
@@ -97,8 +102,8 @@ public class ReservationListFragment extends ListFragment {
             if (isDualView) {
                 getListView().setItemChecked(index, true);
 
-                DetailsFragment oldDetails = (DetailsFragment) getFragmentManager().findFragmentByTag(DetailsFragment.TAG);
-                DetailsFragment details = new DetailsFragment();
+                ReservationDetailsFragment oldDetails = (ReservationDetailsFragment) getFragmentManager().findFragmentByTag(ReservationDetailsFragment.TAG);
+                ReservationDetailsFragment details = new ReservationDetailsFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
 
                 if (oldDetails == null) {
@@ -113,12 +118,12 @@ public class ReservationListFragment extends ListFragment {
                 args.putSerializable("data", dataAdapter.getItem(index - HEADER_ROW));
                 details.setArguments(args);
 
-                ft.replace(R.id.details, details, DetailsFragment.TAG);
+                ft.replace(R.id.details, details, ReservationDetailsFragment.TAG);
                 ft.commit();
 
             } else {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), DetailsActivity.class);
+                intent.setClass(getActivity(), ReservationDetailsActivity.class);
                 intent.putExtra("index", index);
                 intent.putExtra("data", dataAdapter.getItem(index - HEADER_ROW));
                 startActivity(intent);
@@ -130,14 +135,14 @@ public class ReservationListFragment extends ListFragment {
         CommonActivity activity = (CommonActivity) getActivity();
 
         if (ConnectionUtils.isOnline(activity)) {
-            (DetailsActivity.service) = (CommonService) new FetchReservationsToDate(activity, getAdapter()).execute(day, month, year);
+            (ReservationDetailsActivity.service) = (CommonService) new FetchReservationsToDate(activity, getAdapter()).execute(day, month, year);
         } else
             activity.showAlert(activity.getString(R.string.error_offline));
     }
 
     private ReservationAdapter getAdapter() {
         if (dataAdapter == null)
-            dataAdapter = new ReservationAdapter(getActivity(), R.layout.reser_agenda_list_row, new ArrayList<Reservation>());
+            dataAdapter = new ReservationAdapter(getActivity(), getId(), R.layout.reser_agenda_list_row, new ArrayList<Reservation>(),getId());
 
         return dataAdapter;
     }

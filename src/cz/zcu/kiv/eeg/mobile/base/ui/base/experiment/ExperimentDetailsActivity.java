@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
+package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
 
 import android.app.ActionBar;
 import android.app.FragmentManager;
@@ -7,9 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 
-public class DetailsActivity extends CommonActivity {
+public class ExperimentDetailsActivity extends CommonActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,14 +19,14 @@ public class DetailsActivity extends CommonActivity {
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction;
-        DetailsFragment details;
+        ExperimentDetailsFragment details;
 
         if (savedInstanceState == null) {
-            details = new DetailsFragment();
+            details = new ExperimentDetailsFragment();
             details.setArguments(getIntent().getExtras());
             fragmentManager.beginTransaction();
             transaction = fragmentManager.beginTransaction();
-            transaction.replace(android.R.id.content, details, ReservationListFragment.TAG);
+            transaction.replace(android.R.id.content, details);
             transaction.commit();
         }
     }
@@ -36,7 +35,7 @@ public class DetailsActivity extends CommonActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent parentActivityIntent = new Intent(this, NavigationActivity.class);
+                Intent parentActivityIntent = new Intent(this, ExperimentActivity.class);
                 parentActivityIntent.addFlags(
                         Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                 Intent.FLAG_ACTIVITY_NEW_TASK);

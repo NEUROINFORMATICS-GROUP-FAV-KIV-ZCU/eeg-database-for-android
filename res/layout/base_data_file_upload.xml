@@ -68,7 +68,7 @@
                 android:id="@+id/fchooserPathView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/data_file"
+                android:text="@string/app_data_file"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_weight="2"/>
 

@@ -14,16 +14,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
 
 import java.util.Calendar;
 
-public class AgendaListFragment extends Fragment implements OnClickListener {
+public class ReservationFragment extends Fragment implements OnClickListener {
 
-    public final static String TAG = AgendaListFragment.class.getSimpleName();
+    public final static String TAG = ReservationFragment.class.getSimpleName();
 
     private static int year = -1, month = -1, day = -1;
     private TextView dateLabel;
@@ -32,7 +31,7 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            AgendaListFragment.year = year;
+            ReservationFragment.year = year;
             month = monthOfYear;
             day = dayOfMonth;
             updateDate();
@@ -44,7 +43,6 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (savedInstanceState == null) {
             ReservationListFragment list = new ReservationListFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -94,9 +92,6 @@ public class AgendaListFragment extends Fragment implements OnClickListener {
             year = c.get(Calendar.YEAR);
             month = c.get(Calendar.MONTH);
             day = c.get(Calendar.DAY_OF_MONTH);
-        } else {
-            if (CommonActivity.service == null)
-                updateData();
         }
         dateLabel = (TextView) getActivity().findViewById(R.id.dateLabel);
     }

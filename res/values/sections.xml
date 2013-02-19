@@ -2,11 +2,11 @@
 <resources>
    
     <string-array name="sections_list">
-        <item>DashBoard</item>
-        <item>Experiments</item>
-        <item>Upload file</item>
-        <item>Reservation</item>
-        <item>Settings</item>
+        <item>@string/app_dashboard</item>
+        <item>@string/app_experiments</item>
+        <item>@string/app_data_file</item>
+        <item>@string/app_reser</item>
+        <item>@string/app_settings</item>
     </string-array>
     
 </resources>

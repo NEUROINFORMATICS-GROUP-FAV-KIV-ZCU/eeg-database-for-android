@@ -10,13 +10,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 
 public class CommonActivity extends Activity {
 
-    protected volatile ProgressDialog progressDialog;
     public static CommonService service;
+    protected volatile ProgressDialog progressDialog;
     private String progressMessage;
 
     @Override

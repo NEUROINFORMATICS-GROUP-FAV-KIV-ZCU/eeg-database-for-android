@@ -25,14 +25,20 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
     /* The following are each of the ActionBar.TabListener callbacks */
 
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        // Check if the fragment is already initialized
-        if (fragment == null) {
+
+        if(fragment != null){
+            ft.attach(fragment);
+        }
+
+        fragment = activity.getFragmentManager().findFragmentByTag(tag);
+        if(fragment != null){
+            ft.attach(fragment);
+        }else{
+
+
             // If not, instantiate and add it to the activity
             fragment = Fragment.instantiate(activity, classType.getName());
             ft.add(android.R.id.content, fragment, tag);
-        } else {
-            // If it exists, simply attach it in order to show it
-            ft.attach(fragment);
         }
     }
 

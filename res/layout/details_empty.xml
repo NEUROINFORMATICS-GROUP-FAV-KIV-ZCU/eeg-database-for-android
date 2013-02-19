@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/reser_detail_empty"
+        android:text="@string/dummy_no_record"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>

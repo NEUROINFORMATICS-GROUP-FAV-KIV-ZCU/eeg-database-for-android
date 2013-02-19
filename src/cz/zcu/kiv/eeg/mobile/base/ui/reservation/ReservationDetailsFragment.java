@@ -11,9 +11,9 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
 import java.text.SimpleDateFormat;
 
 @SuppressLint("SimpleDateFormat")
-public class DetailsFragment extends Fragment {
+public class ReservationDetailsFragment extends Fragment {
 
-    public final static String TAG = DetailsFragment.class.getSimpleName();
+    public final static String TAG = ReservationDetailsFragment.class.getSimpleName();
 
     private boolean empty = true;
 
@@ -24,7 +24,7 @@ public class DetailsFragment extends Fragment {
             return inflater.inflate(R.layout.reser_details, container, false);
         } else {
             empty = true;
-            return inflater.inflate(R.layout.reser_details_empty, container, false);
+            return inflater.inflate(R.layout.details_empty, container, false);
         }
     }
 
