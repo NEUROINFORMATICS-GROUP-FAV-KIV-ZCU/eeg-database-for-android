@@ -26,8 +26,17 @@
     <string name="error_host_unreach">Host unavailable (no route exist). Is hostname/IP correct?</string>
     <string name="error_host_timeout">Connection timeout. Try again.</string>
     <string name="error_host_con_refused">Connection refused. Are your credentials correct?</string>
-    <string name="error_http_404">Location not found. This is probably a server issue, but check your server URL just to be sure.</string>
-    <string name="error_http_503">Service unavailable. Try again later.</string>
+    <string name="error_http_400">Application made invalid request towards server.</string>
+    <string name="error_http_401">Invalid login information.</string>
+    <string name="error_http_403">You do not have permissions for such request.</string>
+    <string name="error_http_404">Location not found. This is probably a server issue, but check your server URL just to
+        be sure.
+    </string>
+    <string name="error_http_405">Request method not allowed.</string>
+    <string name="error_http_408">Request timed out.</string>
+    <string name="error_http_500">Internal server error. Try again later.</string>
+    <string name="error_http_503">Service is currently unavailable. Try again later.</string>
+
 
     <!-- Buttons -->
     <string name="button_remove">Remove</string>

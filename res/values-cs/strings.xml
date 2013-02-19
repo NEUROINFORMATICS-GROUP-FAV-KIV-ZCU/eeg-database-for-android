@@ -25,8 +25,15 @@
     <string name="error_host_unreach">Server nedostupný (neexistuje trasa). Je správně hostname/IP?</string>
     <string name="error_host_timeout">Spojení vypršelo. Zkuste znovu.</string>
     <string name="error_host_con_refused">Spojení zamítnuto. Zadali jste správně přihlašovací údaje?</string>
+    <string name="error_http_400">Aplikace vykonala neplatný požadavek na server.</string>
+    <string name="error_http_401">Neplatné přihlašovací údaje.</string>
+    <string name="error_http_403">Nemáte práva potřebná k požadovanému úkonu.</string>
     <string name="error_http_404">Umístění nenalezeno. Pravděpodobně chyba serveru, pro jistotu ale zkontrolujte URL serveru.</string>
-    <string name="error_http_503">Služba nedostupná. Zkuste později.</string>
+    <string name="error_http_405">Požadavek není povolen.</string>
+    <string name="error_http_408">Vypršela doba požadavku.</string>
+    <string name="error_http_500">Nastala chyba serveru. Zkuste znovu později.</string>
+    <string name="error_http_503">Služba je dočasně nedostupná. Zkuste znovu později.</string>
+
 
     <!-- Tlacitka -->
     <string name="button_remove">Odstranit</string>

@@ -42,15 +42,32 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
                 HttpStatus status = ((HttpClientErrorException) error).getStatusCode();
 
                 switch (status) {
-                    case SERVICE_UNAVAILABLE:
-                        message = activity.get().getString(R.string.error_http_503);
+                    case BAD_REQUEST:
+                        message = activity.get().getString(R.string.error_http_400);
+                        break;
+                    case UNAUTHORIZED:
+                        message = activity.get().getString(R.string.error_http_401);
+                        break;
+                    case FORBIDDEN:
+                        message = activity.get().getString(R.string.error_http_403);
                         break;
                     case NOT_FOUND:
                         message = activity.get().getString(R.string.error_http_404);
                         break;
+                    case METHOD_NOT_ALLOWED:
+                        message = activity.get().getString(R.string.error_http_405);
+                        break;
+                    case REQUEST_TIMEOUT:
+                        message = activity.get().getString(R.string.error_http_408);
+                        break;
+                    case INTERNAL_SERVER_ERROR:
+                        message = activity.get().getString(R.string.error_http_500);
+                        break;
+                    case SERVICE_UNAVAILABLE:
+                        message = activity.get().getString(R.string.error_http_503);
+                        break;
                 }
             } else {
-
                 error = ((RestClientException) error).getRootCause();
                 message = error.getMessage() == null ? activity.get().getString(R.string.error_connection) : error.getMessage();
                 if (message.contains("EHOSTUNREACH"))
@@ -60,9 +77,7 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
                 else if (message.contains("ETIMEDOUT"))
                     message = activity.get().getString(R.string.error_host_timeout);
             }
-
         }
-
         activity.get().changeProgress(state, message);
     }
 
