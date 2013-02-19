@@ -102,4 +102,8 @@
     <string name="data_file_description">File description</string>
     <string name="data_file_upload">Upload file</string>
     <string name="working_ws_experiments">Loading available experiments</string>
+    <string name="experiment_add">Add experiment</string>
+    <string name="experiment_list">List experiments</string>
+    <string name="app_experiments">Experiments</string>
+    <string name="experiment_list_mine">List mine experiments</string>
 </resources>

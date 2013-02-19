@@ -56,6 +56,10 @@
                 android:name=".ui.filechooser.FileChooserActivity"
                 android:label="@string/fchooser"
                 android:theme="@android:style/Theme.Holo.NoActionBar"/>
+        <activity
+                android:name=".ui.base.experiment.ExperimentActivity"
+                android:label="@string/app_experiments">
+        </activity>
     </application>
 
 </manifest>

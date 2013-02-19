@@ -98,5 +98,9 @@
     <string name="data_file_experiment">Experiment</string>
     <string name="data_file_description">Popis souboru</string>
     <string name="data_file_upload">Nahrát soubor</string>
+    <string name="experiment_add">Přidat experiment</string>
+    <string name="experiment_list">Zobrazit experimenty</string>
+    <string name="app_experiments">Experimenty</string>
+    <string name="experiment_list_mine">Zobrazit mé experimenty</string>
 
 </resources>

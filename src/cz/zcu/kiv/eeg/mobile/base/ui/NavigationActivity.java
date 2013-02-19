@@ -1,11 +1,5 @@
 package cz.zcu.kiv.eeg.mobile.base.ui;
 
-import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.DashboardFragment;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.DataFileUploadFragment;
-import cz.zcu.kiv.eeg.mobile.base.ui.reservation.AgendaListFragment;
-import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -14,11 +8,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
+import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
+import cz.zcu.kiv.eeg.mobile.base.ui.base.DashboardFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.base.DataFileUploadFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.base.experiment.ExperimentActivity;
+import cz.zcu.kiv.eeg.mobile.base.ui.reservation.AgendaListFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
 
 public class NavigationActivity extends CommonActivity implements ActionBar.OnNavigationListener {
 
     private final static String TAG = NavigationActivity.class.getSimpleName();
-
     private int previousFragment = 0;
 
     @Override
@@ -39,10 +39,10 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
         }
     }
 
-
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 
+        Intent intent;
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment previousFragment = getFragmentManager().findFragmentById(R.id.content);
@@ -59,6 +59,12 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
             case 1:
+                intent = new Intent();
+                intent.setClass(this, ExperimentActivity.class);
+                startActivity(intent);
+                getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
+                return true;
+            case 2:
                 DataFileUploadFragment dataFileFrag;
                 if (previousFragment == null || !(previousFragment instanceof DataFileUploadFragment)) {
                     dataFileFrag = new DataFileUploadFragment();
@@ -68,7 +74,7 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 }
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
-            case 2:
+            case 3:
                 AgendaListFragment agendaFrag;
                 if (previousFragment == null || !(previousFragment instanceof AgendaListFragment)) {
                     agendaFrag = new AgendaListFragment();
@@ -79,8 +85,8 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
 
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
-            case 3:
-                Intent intent = new Intent();
+            case 4:
+                intent = new Intent();
                 intent.setClass(this, SettingsActivity.class);
                 startActivity(intent);
                 getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);

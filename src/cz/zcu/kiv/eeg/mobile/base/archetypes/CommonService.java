@@ -35,7 +35,6 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
     protected void setState(ServiceState state, Throwable error) {
 
         String message = error.getMessage() == null ? activity.get().getString(R.string.error_connection) : error.getMessage();
-        //TODO more detailed error handling
         if (error instanceof RestClientException) {
 
             if (error instanceof HttpClientErrorException) {
