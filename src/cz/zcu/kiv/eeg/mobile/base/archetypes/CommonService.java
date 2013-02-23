@@ -8,9 +8,8 @@ import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
-
-import java.lang.ref.SoftReference;
 
 public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
 
@@ -59,8 +58,13 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
                     case REQUEST_TIMEOUT:
                         message = activity.getString(R.string.error_http_408);
                         break;
+                }
+            } else if (error instanceof HttpServerErrorException) {
+                HttpStatus status = ((HttpServerErrorException) error).getStatusCode();
+
+                switch (status) {
                     case INTERNAL_SERVER_ERROR:
-                        message = activity.getString(R.string.error_http_500);
+                        message = activity.getString(R.string.error_http_500) + "\n " + error.getMessage();
                         break;
                     case SERVICE_UNAVAILABLE:
                         message = activity.getString(R.string.error_http_503);
@@ -68,7 +72,7 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
                 }
             } else {
                 error = ((RestClientException) error).getRootCause();
-                message = error.getMessage() == null ? activity.getString(R.string.error_connection) : error.getMessage();
+                message = error == null ? activity.getString(R.string.error_connection) : error.getMessage();
                 if (message.contains("EHOSTUNREACH"))
                     message = activity.getString(R.string.error_host_unreach);
                 else if (message.contains("ECONNREFUSED"))

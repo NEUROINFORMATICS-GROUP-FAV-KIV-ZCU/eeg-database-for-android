@@ -4,10 +4,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.ws.data.PersonData;
+import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.CreatePerson;
 
 /**
  * @author Petr Miko
@@ -50,7 +55,27 @@ public class PersonAddActivity extends SaveDiscardActivity {
 
     @Override
     protected void save() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        EditText name = (EditText) findViewById(R.id.person_name_value);
+        EditText surname = (EditText) findViewById(R.id.person_surname_value);
+        EditText mail = (EditText) findViewById(R.id.person_mail_value);
+        Spinner gender = (Spinner) findViewById(R.id.person_gender_value);
+        EditText birthday = (EditText) findViewById(R.id.person_birthday_value);
+        CompoundButton leftHanded = (CompoundButton) findViewById(R.id.person_lefthand_value);
+        EditText notes = (EditText) findViewById(R.id.person_notes_value);
+        EditText phone = (EditText) findViewById(R.id.person_phone_value);
+
+        PersonData person = new PersonData();
+
+        person.setName(name.getText().toString());
+        person.setSurname(surname.getText().toString());
+        person.setEmail(mail.getText().toString());
+        person.setGender(gender.getSelectedItemPosition() == 0 ? "M" : "Y");
+        person.setBirthday(birthday.getText().toString());
+        person.setNotes(notes.getText().toString());
+        person.setLeftHanded(leftHanded.isChecked() ? "L" : "R");
+        person.setPhone(phone.getText().toString());
+
+        service = (CommonService) new CreatePerson(this).execute(person);
     }
 
     @Override

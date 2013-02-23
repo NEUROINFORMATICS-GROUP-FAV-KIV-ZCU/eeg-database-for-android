@@ -51,6 +51,7 @@
     <string name="working_ws_remove">Odstraňuji záznam…</string>
     <string name="working_ws_upload_data_file">Soubor se nahrává na server…</string>
     <string name="working_ws_experiments">Stahují se dostupné experimenty</string>
+    <string name="working_ws_create_user">Vytváření nové osoby…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>
@@ -121,5 +122,6 @@
     <string name="person_mail">Email</string>
     <string name="person_notes">Poznámky</string>
     <string name="person_lefthand">Levorukost</string>
+    <string name="person_phone">Telefonní číslo</string>
 
 </resources>

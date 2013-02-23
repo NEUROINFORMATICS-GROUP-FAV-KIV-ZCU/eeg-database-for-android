@@ -60,6 +60,7 @@
     <string name="working_ws_remove">Removing record…</string>
     <string name="working_ws_upload_data_file">Uploading data file…</string>
     <string name="working_ws_experiments">Loading available experiments</string>
+    <string name="working_ws_create_user">Creating new user…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
@@ -125,5 +126,6 @@
     <string name="person_mail">Email</string>
     <string name="person_notes">Notes</string>
     <string name="person_lefthand">Left-handedness</string>
+    <string name="person_phone">Phone number</string>
 
 </resources>
