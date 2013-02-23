@@ -34,8 +34,13 @@
     <string name="error_http_404">Umístění nenalezeno. Pravděpodobně chyba serveru, pro jistotu ale zkontrolujte URL serveru.</string>
     <string name="error_http_405">Požadavek není povolen.</string>
     <string name="error_http_408">Vypršela doba požadavku.</string>
-    <string name="error_http_500">Nastala chyba serveru. Zkuste znovu později.</string>
+    <string name="error_http_500">Nastala chyba serveru.</string>
     <string name="error_http_503">Služba je dočasně nedostupná. Zkuste znovu později.</string>
+    <string name="error_no_file_selected">Nevybrán žádný soubor!</string>
+    <string name="error_no_experiment_selected">Nevybrán žádný experiment!</string>
+    <string name="error_invalid_mail_format">Neplatný formát mailové adresy!</string>
+    <string name="error_invalid_date_format">Neplatný formát data!</string>
+    <string name="error_empty_field">Pole musí být zadané!</string>
 
 
     <!-- Tlacitka -->

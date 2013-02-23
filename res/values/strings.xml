@@ -37,8 +37,13 @@
     </string>
     <string name="error_http_405">Request method not allowed.</string>
     <string name="error_http_408">Request timed out.</string>
-    <string name="error_http_500">Internal server error. Try again later.</string>
+    <string name="error_http_500">Internal server error.</string>
     <string name="error_http_503">Service is currently unavailable. Try again later.</string>
+    <string name="error_no_file_selected">No file selected!</string>
+    <string name="error_no_experiment_selected">No experiment selected!</string>
+    <string name="error_invalid_mail_format">Invalid mail format!</string>
+    <string name="error_invalid_date_format">Invalid date format!</string>
+    <string name="error_empty_field">Field must be filled</string>
 
 
     <!-- Buttons -->

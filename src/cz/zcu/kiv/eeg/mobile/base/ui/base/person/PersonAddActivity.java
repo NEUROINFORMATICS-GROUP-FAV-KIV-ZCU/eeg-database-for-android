@@ -11,6 +11,8 @@ import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.data.PersonData;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.CreatePerson;
 
@@ -20,6 +22,7 @@ import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.CreatePerson;
  */
 public class PersonAddActivity extends SaveDiscardActivity {
 
+    private final static String DATE_PATTERN = "dd/MM/yyyy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,9 @@ public class PersonAddActivity extends SaveDiscardActivity {
         };
         EditText descriptionText = (EditText) findViewById(R.id.person_notes_value);
         descriptionText.addTextChangedListener(datafileDescriptionWatcher);
+
+        TextView birthday = (TextView) findViewById(R.id.person_birthday_label);
+        birthday.setText(birthday.getText().toString() + " (" + DATE_PATTERN + ")");
     }
 
     @Override
@@ -75,7 +81,32 @@ public class PersonAddActivity extends SaveDiscardActivity {
         person.setLeftHanded(leftHanded.isChecked() ? "L" : "R");
         person.setPhone(phone.getText().toString());
 
-        service = (CommonService) new CreatePerson(this).execute(person);
+        validateAndRun(person);
+    }
+
+    private void validateAndRun(PersonData person) {
+
+        if (!ConnectionUtils.isOnline(this)) {
+            showAlert(getString(R.string.error_offline));
+            return;
+        }
+
+        StringBuilder error = new StringBuilder();
+
+        if (ValidationUtils.isEmpty(person.getName()))
+            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.person_name)).append(")").append('\n');
+        if (ValidationUtils.isEmpty(person.getSurname()))
+            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.person_surname)).append(")").append('\n');
+        if (!ValidationUtils.isEmailValid(person.getEmail()))
+            error.append(getString(R.string.error_invalid_mail_format)).append('\n');
+        if (!ValidationUtils.isDateValid(person.getBirthday(), DATE_PATTERN))
+            error.append(getString(R.string.error_invalid_date_format)).append(" (").append(DATE_PATTERN).append(")").append('\n');
+
+        if (error.toString().isEmpty()) {
+            service = (CommonService) new CreatePerson(this).execute(person);
+        } else {
+            showAlert(error.toString());
+        }
     }
 
     @Override

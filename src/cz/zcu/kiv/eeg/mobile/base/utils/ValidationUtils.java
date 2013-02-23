@@ -1,5 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,16 +23,30 @@ public class ValidationUtils {
 		return isValid;
 	}
 
+    public static boolean isEmpty(String s){
+        return s == null || s.isEmpty();
+    }
+
 	public static boolean isUsernameFormatInvalid(String username) {
-		return username == null || username.isEmpty() || !isEmailValid(username);
+		return  isEmpty(username) || !isEmailValid(username);
 	}
 
 	public static boolean isPasswordFormatInvalid(String password) {
-		return password == null || password.isEmpty();
+		return isEmpty(password);
 	}
 
 	public static boolean isUrlFormatInvalid(String url) {
-		return url == null || url.isEmpty() || !URLUtil.isValidUrl(url) || "http://".equals(url)
-				|| "https://".equals(url);
+		return isEmpty(url) || !URLUtil.isValidUrl(url) || "http://".equals(url) || "https://".equals(url);
 	}
+
+    public static boolean isDateValid(String date, String datePattern) {
+        SimpleDateFormat sf = new SimpleDateFormat(datePattern);
+        sf.setLenient(false);
+        try {
+            sf.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 }

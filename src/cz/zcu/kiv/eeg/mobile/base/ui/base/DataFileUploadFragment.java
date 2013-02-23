@@ -109,14 +109,22 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
     }
 
     private void uploadDataFile() {
+
+        CommonActivity activity = (CommonActivity) getActivity();
+
+        if (!ConnectionUtils.isOnline(activity)) {
+            activity.showAlert(getString(R.string.error_offline));
+            return;
+        }
+
         EditText fileDescription = (EditText) getActivity().findViewById(R.id.datafile_description);
         Spinner experiments = (Spinner) getActivity().findViewById(R.id.experimentList);
         Experiment exp = (Experiment) experiments.getSelectedItem();
 
         if (selectedFile == null) {
-            Toast.makeText(this.getActivity(), "No file for upload selected!", Toast.LENGTH_SHORT).show();
+            activity.showAlert(getString(R.string.error_no_file_selected));
         } else if (exp == null) {
-            Toast.makeText(this.getActivity(), "No experiment selected!", Toast.LENGTH_SHORT).show();
+            activity.showAlert(getString(R.string.error_no_experiment_selected));
         } else {
             new UploadDataFile((CommonActivity) getActivity()).execute(""+exp.getExperimentId(), fileDescription.getEditableText().toString(), selectedFile);
         }
