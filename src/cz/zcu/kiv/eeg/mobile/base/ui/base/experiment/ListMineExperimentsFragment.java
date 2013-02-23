@@ -13,6 +13,7 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.container.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ExperimentAdapter;
+import cz.zcu.kiv.eeg.mobile.base.ui.base.person.PersonAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchExperiments;
 
@@ -67,6 +68,11 @@ public class ListMineExperimentsFragment extends ListFragment {
             case R.id.exp_refresh:
                 update();
                 Log.d(TAG, "Refresh data button pressed");
+                return true;
+            case R.id.person_add:
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), PersonAddActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

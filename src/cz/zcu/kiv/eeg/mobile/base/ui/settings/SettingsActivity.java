@@ -86,8 +86,8 @@ public class SettingsActivity extends SaveDiscardActivity {
 
 		if (error.toString().isEmpty()) {
 
-			editor.putString("tmp_username", username.toString());
-			editor.putString("tmp_password", password.toString());
+			editor.putString("tmp_username", username);
+			editor.putString("tmp_password", password);
 			editor.putString("tmp_url", url);
 			editor.commit();
 

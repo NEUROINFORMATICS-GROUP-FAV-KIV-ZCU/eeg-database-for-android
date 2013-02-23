@@ -15,6 +15,9 @@
     <string name="menu_login">Přihlásit se</string>
     <string name="logo">Logo</string>
 
+    <string name="mandatory">Povinné</string>
+    <string name="optional">Volitelné</string>
+
     <string name="error_offline">Připojení není dostupné. Požadavek nemohl být vykonán.</string>
     <string name="error_connection">Vyskytly se potíže s připojením k serveru. Zkuste později.</string>
     <string name="error_date_comparison">Rezervace nemůže skončit, než vůbec začala!</string>
@@ -99,13 +102,24 @@
     <string name="data_file_description">Popis souboru</string>
     <string name="data_file_upload">Nahrát soubor</string>
 
+    <!-- experiments -->
     <string name="app_experiments">Experimenty</string>
     <string name="experiment_add">Přidat experiment</string>
     <string name="experiment_list_all">Všechny experimenty</string>
     <string name="experiment_list_mine">Mé experimenty</string>
     <string name="experiment_id">Experiment ID</string>
 
-
+    <!-- scenarios -->
     <string name="scenario_name">Jméno scénáře</string>
+
+    <!-- person management -->
+    <string name="person_add">Přidat osobu</string>
+    <string name="person_name">Jméno</string>
+    <string name="person_surname">Příjmení</string>
+    <string name="person_birthday">Datum narození</string>
+    <string name="person_gender">Pohlaví</string>
+    <string name="person_mail">Email</string>
+    <string name="person_notes">Poznámky</string>
+    <string name="person_lefthand">Levorukost</string>
 
 </resources>

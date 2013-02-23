@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_gravity="center"
+        android:padding="5dp">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mandatory"
+                android:background="@android:color/holo_blue_dark"
+                android:textColor="@android:color/primary_text_dark"
+                android:textStyle="italic"
+                android:gravity="center_horizontal"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_name"
+                android:id="@+id/person_name_label"
+                android:layout_gravity="left|center_vertical"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/person_name_value"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_surname"
+                android:id="@+id/person_surname_label"
+                android:layout_gravity="left|center_vertical"/>
+
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/person_surname_value"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_mail"
+                android:id="@+id/person_mail_label"
+                android:layout_gravity="left|center_vertical"/>
+
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:id="@+id/person_mail_value"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_birthday"
+                android:id="@+id/person_birthday_label"
+                android:layout_gravity="left|center_vertical"/>
+
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:id="@+id/person_birthday_value"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_gender"
+                android:id="@+id/person_gender_label"
+                android:layout_gravity="left|center_vertical"/>
+
+        <Spinner android:id="@+id/person_gender_value"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:entries="@array/genders"/>
+
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/optional"
+                android:background="@android:color/holo_blue_dark"
+                android:textColor="@android:color/primary_text_dark"
+                android:textStyle="italic"
+                android:gravity="center_horizontal"
+                />
+
+        <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person_lefthand"
+                android:id="@+id/person_lefthand_value"
+                android:layout_gravity="left|center_vertical"/>
+
+
+
+        <LinearLayout android:orientation="vertical" android:layout_height="wrap_content" android:layout_width="wrap_content">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_notes"
+                    android:id="@+id/person_notes_label"
+                    android:layout_gravity="left|center_vertical"/>
+
+            <TextView
+                    android:id="@+id/person_notes_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:id="@+id/person_notes_value"/>
+
+
+    </LinearLayout>
+</ScrollView>

@@ -50,8 +50,10 @@
         <activity
                 android:name=".ui.reservation.AddRecordActivity"
                 android:label="@string/reser_create"
-                android:uiOptions="splitActionBarWhenNarrow">
-        </activity>
+                android:uiOptions="splitActionBarWhenNarrow"/>
+        <activity
+                android:name=".ui.base.person.PersonAddActivity"
+                android:label="@string/person_add"/>
         <activity
                 android:name=".ui.filechooser.FileChooserActivity"
                 android:label="@string/fchooser"

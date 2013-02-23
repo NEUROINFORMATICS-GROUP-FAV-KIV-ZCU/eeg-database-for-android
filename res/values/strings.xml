@@ -16,6 +16,9 @@
     <string name="menu_login">Log In</string>
     <string name="logo">Logo</string>
 
+    <string name="mandatory">Mandatory</string>
+    <string name="optional">Optionable</string>
+
     <string name="error_offline">Connection is unavailable. Request could not be completed.</string>
     <string name="error_connection">Connection to server issues occurred. Try again later.</string>
     <string name="error_date_comparison">Reservation action cannot end before it even started!</string>
@@ -103,10 +106,24 @@
     <string name="data_file_description">File description</string>
     <string name="data_file_upload">Upload file</string>
 
+    <!-- experiments -->
     <string name="app_experiments">Experiments</string>
     <string name="experiment_add">Add experiment</string>
     <string name="experiment_list_all">All experiments</string>
     <string name="experiment_list_mine">My experiments</string>
     <string name="experiment_id">Experiment ID</string>
+
+    <!-- scenarios -->
     <string name="scenario_name">Scenario name</string>
+
+    <!-- person management -->
+    <string name="person_add">Add person</string>
+    <string name="person_name">Name</string>
+    <string name="person_surname">Surname</string>
+    <string name="person_birthday">Birthday</string>
+    <string name="person_gender">Gender</string>
+    <string name="person_mail">Email</string>
+    <string name="person_notes">Notes</string>
+    <string name="person_lefthand">Left-handedness</string>
+
 </resources>
