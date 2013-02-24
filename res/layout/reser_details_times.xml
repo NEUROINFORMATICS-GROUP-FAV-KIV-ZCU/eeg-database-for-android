@@ -9,7 +9,7 @@
         android:id="@+id/fromValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/reser_detail_padding"
+        android:padding="@dimen/detail_padding"
         android:text="@string/reser_detail_from" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:id="@+id/toValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/reser_detail_padding"
+        android:padding="@dimen/detail_padding"
         android:text="@string/reser_detail_to" />
 
 </LinearLayout>

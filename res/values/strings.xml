@@ -120,7 +120,16 @@
     <string name="experiment_id">Experiment ID</string>
 
     <!-- scenarios -->
+    <string name="app_scenarios">Scenarios</string>
+    <string name="scenario_add">Add scenario</string>
     <string name="scenario_name">Scenario name</string>
+    <string name="scenario_list_mine">My scenarios</string>
+    <string name="scenario_list_all">All scenarios</string>
+    <string name="scenario_id">Scenario Id</string>
+    <string name="scenario_description">Description</string>
+    <string name="scenario_mime">File type</string>
+    <string name="scenario_file_name">File name</string>
+    <string name="scenario_file_length">File size</string>
 
     <!-- person management -->
     <string name="person_add">Add person</string>

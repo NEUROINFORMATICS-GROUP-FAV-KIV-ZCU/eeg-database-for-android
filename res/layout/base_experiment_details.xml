@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:layout_gravity="center_vertical"
-                android:padding="@dimen/reser_detail_padding"
+                android:padding="@dimen/detail_padding"
                 android:text="@string/experiment_id"/>
 
     </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:layout_gravity="center_vertical"
-                android:padding="@dimen/reser_detail_padding"
+                android:padding="@dimen/detail_padding"
                 android:text="@string/scenario_name"/>
 
     </LinearLayout>

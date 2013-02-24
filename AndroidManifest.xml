@@ -67,6 +67,15 @@
                 android:name=".ui.base.experiment.ExperimentDetailsActivity"
                 android:label="@string/detail">
         </activity>
+        <activity
+                android:name=".ui.base.scenario.ScenarioActivity"
+                android:label="@string/app_scenarios"
+                android:uiOptions="splitActionBarWhenNarrow">
+        </activity>
+        <activity
+                android:name=".ui.base.scenario.ScenarioDetailsActivity"
+                android:label="@string/detail">
+        </activity>
     </application>
 
 </manifest>

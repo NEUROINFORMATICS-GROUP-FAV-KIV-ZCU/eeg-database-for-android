@@ -3,10 +3,10 @@
    
     <string-array name="sections_list">
         <item>@string/app_dashboard</item>
+        <item>@string/app_scenarios</item>
         <item>@string/app_experiments</item>
         <item>@string/app_data_file</item>
         <item>@string/app_reser</item>
         <item>@string/app_settings</item>
     </string-array>
-    
 </resources>

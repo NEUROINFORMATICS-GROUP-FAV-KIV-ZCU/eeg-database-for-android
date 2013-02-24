@@ -10,99 +10,29 @@
             android:layout_weight="5">
 
         <ImageView
-                android:id="@+id/groupIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="@string/reser_detail_group"
-                android:src="@drawable/ic_action_group"/>
+                android:contentDescription="@string/scenario_id"
+                android:src="@drawable/ic_action_id"/>
 
         <TextView
-                android:id="@+id/groupLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:layout_gravity="center_vertical"
-                android:text="@string/reser_detail_group"/>
+                android:text="@string/scenario_id"/>
 
 
         <TextView
-                android:id="@+id/groupValue"
+                android:id="@+id/scenarioId"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/detail_padding"
-                android:text="@string/reser_detail_group"/>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
-
-
-        <ImageView
-                android:id="@+id/timeIcon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/reser_detail_time"
-                android:src="@drawable/ic_action_time"/>
-
-        <TextView
-                android:id="@+id/timeLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:text="@string/reser_detail_time"/>
-
-        <include
-                android:id="@+id/TimeValues_ref"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                layout="@layout/reser_details_times"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
-
-        <ImageView
-                android:id="@+id/creatorIcon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/reser_detail_creator"
-                android:src="@drawable/ic_action_save"/>
-
-        <TextView
-                android:id="@+id/creatorLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:text="@string/reser_detail_creator"/>
-
-        <TextView
-                android:id="@+id/creatorName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
-                android:text="@string/reser_detail_creator"/>
+                android:text="@string/scenario_id"/>
 
     </LinearLayout>
 
@@ -112,31 +42,162 @@
             android:layout_weight="5">
 
         <ImageView
-                android:id="@+id/mailIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="@string/reser_detail_contact"
-                android:src="@drawable/ic_action_mail"/>
+                android:contentDescription="@string/scenario_name"
+                android:src="@drawable/ic_action_scenario"/>
 
         <TextView
-                android:id="@+id/creatorMailLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:layout_gravity="center_vertical"
-                android:text="@string/reser_detail_contact"/>
+                android:text="@string/scenario_name"/>
+
 
         <TextView
-                android:id="@+id/creatorMail"
+                android:id="@+id/scenarioName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:layout_gravity="center_vertical"
-                android:autoLink="email"
                 android:padding="@dimen/detail_padding"
-                android:text="@string/reser_detail_contact"/>
+                android:text="@string/scenario_name"/>
 
     </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/scenario_mime"
+                android:src="@drawable/ic_action_mime"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:text="@string/scenario_mime"/>
+
+
+        <TextView
+                android:id="@+id/scenarioMime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/detail_padding"
+                android:text="@string/scenario_mime"
+                />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/scenario_file_name"
+                android:src="@drawable/ic_action_file"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:text="@string/scenario_file_name"/>
+
+
+        <TextView
+                android:id="@+id/scenarioFileName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/detail_padding"
+                android:text="@string/scenario_file_name"
+                />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/scenario_file_length"
+                android:src="@drawable/ic_action_info"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:text="@string/scenario_file_length"/>
+
+
+        <TextView
+                android:id="@+id/scenarioFileLength"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/detail_padding"
+                android:text="@string/scenario_file_length"
+                />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/scenario_description"
+                android:src="@drawable/ic_action_description"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:text="@string/scenario_description"/>
+
+
+        <TextView
+                android:id="@+id/scenarioDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/detail_padding"
+                android:text="@string/scenario_description"
+                />
+
+    </LinearLayout>
+
 </LinearLayout>

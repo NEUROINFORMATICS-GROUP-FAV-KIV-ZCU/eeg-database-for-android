@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base;
+package cz.zcu.kiv.eeg.mobile.base.ui.base.datafile;
 
 
 import android.app.Activity;

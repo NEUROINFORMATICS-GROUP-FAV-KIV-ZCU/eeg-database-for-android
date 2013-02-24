@@ -113,10 +113,19 @@
     <string name="experiment_add">Přidat experiment</string>
     <string name="experiment_list_all">Všechny experimenty</string>
     <string name="experiment_list_mine">Mé experimenty</string>
-    <string name="experiment_id">Experiment ID</string>
+    <string name="experiment_id">ID experimentu</string>
 
     <!-- scenarios -->
+    <string name="app_scenarios">Scénáře</string>
+    <string name="scenario_add">Přidat scénář</string>
     <string name="scenario_name">Jméno scénáře</string>
+    <string name="scenario_list_mine">Mé scénáře</string>
+    <string name="scenario_list_all">Všechny scénáře</string>
+    <string name="scenario_id">ID scénáře</string>
+    <string name="scenario_description">Popis</string>
+    <string name="scenario_mime">Typ souboru</string>
+    <string name="scenario_file_name">Jméno souboru</string>
+    <string name="scenario_file_length">Velikost souboru</string>
 
     <!-- person management -->
     <string name="person_add">Přidat osobu</string>
