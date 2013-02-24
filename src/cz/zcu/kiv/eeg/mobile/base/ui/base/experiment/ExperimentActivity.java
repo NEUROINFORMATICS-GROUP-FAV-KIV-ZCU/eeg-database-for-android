@@ -37,6 +37,10 @@ public class ExperimentActivity extends CommonActivity {
         actionBar.addTab(tab);
 
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        if(savedInstanceState!=null){
+            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tabIndex", 1));
+        }
     }
 
     @Override
@@ -65,4 +69,10 @@ public class ExperimentActivity extends CommonActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("tabIndex", getActionBar().getSelectedNavigationIndex());
+    }
 }

@@ -1,203 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/scenario_id"
-                android:src="@drawable/ic_action_id"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5">
 
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:text="@string/scenario_id"/>
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/scenario_id"
+                    android:src="@drawable/ic_action_id"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/scenario_id"/>
 
 
-        <TextView
-                android:id="@+id/scenarioId"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
-                android:text="@string/scenario_id"/>
+            <TextView
+                    android:id="@+id/scenarioId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/scenario_id"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5">
+
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/scenario_name"
+                    android:src="@drawable/ic_action_scenario"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/scenario_name"/>
+
+
+            <TextView
+                    android:id="@+id/scenarioName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/scenario_name"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5">
+
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/scenario_mime"
+                    android:src="@drawable/ic_action_mime"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/scenario_mime"/>
+
+
+            <TextView
+                    android:id="@+id/scenarioMime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/scenario_mime"
+                    />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5">
+
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/scenario_file_name"
+                    android:src="@drawable/ic_action_file"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/scenario_file_name"/>
+
+
+            <TextView
+                    android:id="@+id/scenarioFileName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/scenario_file_name"
+                    />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5">
+
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/scenario_file_length"
+                    android:src="@drawable/ic_action_info"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/scenario_file_length"/>
+
+
+            <TextView
+                    android:id="@+id/scenarioFileLength"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/scenario_file_length"
+                    />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5">
+
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/scenario_description"
+                    android:src="@drawable/ic_action_description"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/scenario_description"/>
+
+
+            <TextView
+                    android:id="@+id/scenarioDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/scenario_description"
+                    />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
-
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/scenario_name"
-                android:src="@drawable/ic_action_scenario"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:text="@string/scenario_name"/>
-
-
-        <TextView
-                android:id="@+id/scenarioName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
-                android:text="@string/scenario_name"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
-
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/scenario_mime"
-                android:src="@drawable/ic_action_mime"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:text="@string/scenario_mime"/>
-
-
-        <TextView
-                android:id="@+id/scenarioMime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
-                android:text="@string/scenario_mime"
-                />
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
-
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/scenario_file_name"
-                android:src="@drawable/ic_action_file"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:text="@string/scenario_file_name"/>
-
-
-        <TextView
-                android:id="@+id/scenarioFileName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
-                android:text="@string/scenario_file_name"
-                />
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
-
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/scenario_file_length"
-                android:src="@drawable/ic_action_info"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:text="@string/scenario_file_length"/>
-
-
-        <TextView
-                android:id="@+id/scenarioFileLength"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
-                android:text="@string/scenario_file_length"
-                />
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
-
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/scenario_description"
-                android:src="@drawable/ic_action_description"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:text="@string/scenario_description"/>
-
-
-        <TextView
-                android:id="@+id/scenarioDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
-                android:text="@string/scenario_description"
-                />
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
