@@ -1,7 +1,6 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,8 +32,8 @@ public class ExperimentActivity extends CommonActivity {
 
         tab = actionBar.newTab()
                 .setText(R.string.experiment_list_all)
-                .setTabListener(new TabListener<ListExperimentsFragment>(
-                        this, ListExperimentsFragment.class.getSimpleName(), ListExperimentsFragment.class));
+                .setTabListener(new TabListener<ListAllExperimentsFragment>(
+                        this, ListAllExperimentsFragment.class.getSimpleName(), ListAllExperimentsFragment.class));
         actionBar.addTab(tab);
 
         actionBar.setDisplayHomeAsUpEnabled(true);

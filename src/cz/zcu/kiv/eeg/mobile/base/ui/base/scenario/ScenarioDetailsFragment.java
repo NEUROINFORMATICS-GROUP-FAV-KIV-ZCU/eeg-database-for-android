@@ -46,7 +46,7 @@ public class ScenarioDetailsFragment extends Fragment {
 
         Scenario scenario = (Scenario) getArguments().getSerializable("data");
         if (scenario != null) {
-            scenarioId.setText(scenario.getScenarioId());
+            scenarioId.setText("" + scenario.getScenarioId());
             scenarioName.setText(scenario.getScenarioName());
             scenarioType.setText(scenario.getMimeType());
             fileName.setText(scenario.getFileName());

@@ -13,6 +13,8 @@ public class ExperimentData {
 
     @Element
     private int experimentId;
+    @Element(required = false)
+    private int artifactId;
     @Element
     private String startTime, endTime;
     @Element(required = false)

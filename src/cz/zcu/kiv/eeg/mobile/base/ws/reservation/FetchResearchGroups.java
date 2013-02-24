@@ -27,11 +27,13 @@ public class FetchResearchGroups extends CommonService<Void, Void, List<Research
 
 	private static final String TAG = FetchResearchGroups.class.getSimpleName();
 
-	private ResearchGroupAdapter groupAdapter;
+	private final ResearchGroupAdapter groupAdapter;
+    private final String qualifier;
 
-	public FetchResearchGroups(CommonActivity activity, ResearchGroupAdapter groupAdapter) {
+	public FetchResearchGroups(CommonActivity activity, ResearchGroupAdapter groupAdapter, String qualifier) {
 		super(activity);
 		this.groupAdapter = groupAdapter;
+        this.qualifier = qualifier;
 	}
 
 	@Override
@@ -39,7 +41,7 @@ public class FetchResearchGroups extends CommonService<Void, Void, List<Research
 		SharedPreferences credentials = getCredentials();
 		String username = credentials.getString("username", null);
 		String password = credentials.getString("password", null);
-		String url = credentials.getString("url", null) + Values.SERVICE_USER +"groups";
+		String url = credentials.getString("url", null) + Values.SERVICE_RESEARCH_GROUPS + qualifier;
 
 		setState(RUNNING, R.string.working_ws_groups);
 		HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);

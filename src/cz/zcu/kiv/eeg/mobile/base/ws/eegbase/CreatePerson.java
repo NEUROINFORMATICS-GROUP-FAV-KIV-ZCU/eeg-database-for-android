@@ -10,7 +10,6 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.ws.data.PersonData;
 import cz.zcu.kiv.eeg.mobile.base.ws.data.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -20,7 +19,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.util.Collections;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
@@ -35,7 +33,6 @@ public class CreatePerson extends CommonService<PersonData, Void, UserInfo> {
     public CreatePerson(CommonActivity context) {
         super(context);
     }
-
 
     @Override
     protected UserInfo doInBackground(PersonData... personDatas) {
@@ -59,7 +56,7 @@ public class CreatePerson extends CommonService<PersonData, Void, UserInfo> {
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
 
-        PersonData person =  personDatas[0];
+        PersonData person = personDatas[0];
 
         try {
             Log.d(TAG, url);

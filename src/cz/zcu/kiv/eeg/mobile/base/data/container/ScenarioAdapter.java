@@ -45,13 +45,13 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> {
         }
         Scenario record = getItem(position);
         if (record != null) {
-            TextView scenarioId = (TextView) row.findViewById(R.id.scenarioId);
-            TextView scenarioName = (TextView) row.findViewById(R.id.scenarioName);
-            TextView scenarioFileName = (TextView) row.findViewById(R.id.scenarioFile);
-            TextView scenarioMime = (TextView) row.findViewById(R.id.scenarioMime);
+            TextView scenarioId = (TextView) row.findViewById(R.id.rowScenarioId);
+            TextView scenarioName = (TextView) row.findViewById(R.id.rowScenarioName);
+            TextView scenarioFileName = (TextView) row.findViewById(R.id.rowScenarioFile);
+            TextView scenarioMime = (TextView) row.findViewById(R.id.rowScenarioMime);
 
             if (scenarioId != null) {
-                scenarioId.setText(record.getScenarioId());
+                scenarioId.setText(""+record.getScenarioId());
             }
             if (scenarioName != null) {
                 scenarioName.setText(record.getScenarioName());

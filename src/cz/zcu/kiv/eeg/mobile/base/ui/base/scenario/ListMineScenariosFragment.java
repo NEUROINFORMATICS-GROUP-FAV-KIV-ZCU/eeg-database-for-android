@@ -9,9 +9,12 @@ import android.view.*;
 import android.widget.ListView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ScenarioAdapter;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchScenarios;
 
 import java.util.ArrayList;
 
@@ -74,7 +77,7 @@ public class ListMineScenariosFragment extends ListFragment {
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
             getAdapter().clear();
-//            (ScenarioActivity.service) = (CommonService) new FetchScenarios(activity, getAdapter()).execute();
+            (ScenarioActivity.service) = (CommonService) new FetchScenarios(activity, getAdapter(), Values.SERVICE_QUALIFIER_MINE).execute();
         } else
             activity.showAlert(activity.getString(R.string.error_offline));
     }
@@ -143,5 +146,4 @@ public class ListMineScenariosFragment extends ListFragment {
         inflater.inflate(R.menu.scenario_mine_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 }

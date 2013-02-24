@@ -13,7 +13,6 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ExperimentAdapter;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.person.PersonAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchExperiments;
 
@@ -23,12 +22,12 @@ import java.util.ArrayList;
  * @author Petr Miko
  *         Date: 19.2.13
  */
-public class ListMineExperimentsFragment extends ListFragment {
+public class ListAllExperimentsFragment extends ListFragment {
 
-    private final static String TAG = ListMineExperimentsFragment.class.getSimpleName();
+    private final static String TAG = ListAllExperimentsFragment.class.getSimpleName();
+    private static ExperimentAdapter adapter;
     private boolean isDualView;
     private int cursorPosition;
-    private static ExperimentAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,11 +68,6 @@ public class ListMineExperimentsFragment extends ListFragment {
                 update();
                 Log.d(TAG, "Refresh data button pressed");
                 return true;
-            case R.id.person_add:
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PersonAddActivity.class);
-                startActivity(intent);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -83,7 +77,7 @@ public class ListMineExperimentsFragment extends ListFragment {
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
             getAdapter().clear();
-            (ExperimentActivity.service) = (CommonService) new FetchExperiments(activity, getAdapter(), Values.SERVICE_QUALIFIER_MINE).execute();
+            (ExperimentActivity.service) = (CommonService) new FetchExperiments(activity, getAdapter(), Values.SERVICE_QUALIFIER_ALL).execute();
         } else
             activity.showAlert(activity.getString(R.string.error_offline));
     }
@@ -149,8 +143,7 @@ public class ListMineExperimentsFragment extends ListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.exp_mine_menu, menu);
+        inflater.inflate(R.menu.exp_all_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 }

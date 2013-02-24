@@ -53,7 +53,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
             TextView additionalText = (TextView) row.findViewById(R.id.bottomtext);
 
             if (topText != null) {
-                topText.setText(record.getScenarioName() + " [" + record.getExperimentId() + "]");
+                topText.setText(record.getExperimentId() + " | " + record.getScenarioName());
             }
             if (additionalText != null) {
                 additionalText.setText(sf.format(record.getStartTime()) + " – " + sf.format(record.getEndTime()));

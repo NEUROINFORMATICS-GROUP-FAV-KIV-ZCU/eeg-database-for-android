@@ -41,7 +41,7 @@ public class UploadDataFile extends CommonService<String, Void, URI> {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_BASE + "datafile";
+        String url = credentials.getString("url", null) + Values.SERVICE_DATAFILE;
 
         setState(RUNNING, R.string.working_ws_upload_data_file);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);

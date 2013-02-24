@@ -30,7 +30,6 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
 
     public final static String TAG = DataFileUploadFragment.class.getSimpleName();
     private String selectedFile = null;
-
     private ExperimentAdapter experimentAdapter;
 
     @Override
@@ -89,7 +88,7 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
 
     private void initData(CommonActivity parentActivity) {
         if (ConnectionUtils.isOnline(getActivity())) {
-            (CommonActivity.service) = (CommonService) new FetchExperiments(parentActivity, experimentAdapter).execute();
+            (CommonActivity.service) = (CommonService) new FetchExperiments(parentActivity, experimentAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
         } else
             parentActivity.showAlert(getString(R.string.error_offline));
     }
@@ -126,7 +125,7 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
         } else if (exp == null) {
             activity.showAlert(getString(R.string.error_no_experiment_selected));
         } else {
-            new UploadDataFile((CommonActivity) getActivity()).execute(""+exp.getExperimentId(), fileDescription.getEditableText().toString(), selectedFile);
+            new UploadDataFile((CommonActivity) getActivity()).execute("" + exp.getExperimentId(), fileDescription.getEditableText().toString(), selectedFile);
         }
 
 
