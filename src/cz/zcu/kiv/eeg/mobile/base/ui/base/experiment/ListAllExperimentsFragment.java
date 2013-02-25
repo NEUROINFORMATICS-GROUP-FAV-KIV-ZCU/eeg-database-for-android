@@ -2,11 +2,14 @@ package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
+import android.widget.SearchView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
@@ -22,7 +25,7 @@ import java.util.ArrayList;
  * @author Petr Miko
  *         Date: 19.2.13
  */
-public class ListAllExperimentsFragment extends ListFragment {
+public class ListAllExperimentsFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
     private final static String TAG = ListAllExperimentsFragment.class.getSimpleName();
     private static ExperimentAdapter adapter;
@@ -145,5 +148,23 @@ public class ListAllExperimentsFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.exp_all_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        MenuItem search = menu.findItem(R.id.exp_search);
+        SearchView searchView = new SearchView(getActivity());
+        searchView.setOnQueryTextListener(this);
+        getListView().setTextFilterEnabled(true);
+        search.setActionView(searchView);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return true;
     }
 }

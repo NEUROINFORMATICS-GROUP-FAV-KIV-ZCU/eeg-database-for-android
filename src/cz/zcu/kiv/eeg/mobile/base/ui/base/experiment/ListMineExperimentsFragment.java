@@ -2,18 +2,20 @@ package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
+import android.widget.SearchView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ExperimentAdapter;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.person.PersonAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchExperiments;
 
@@ -23,12 +25,12 @@ import java.util.ArrayList;
  * @author Petr Miko
  *         Date: 19.2.13
  */
-public class ListMineExperimentsFragment extends ListFragment {
+public class ListMineExperimentsFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
     private final static String TAG = ListMineExperimentsFragment.class.getSimpleName();
+    private static ExperimentAdapter adapter;
     private boolean isDualView;
     private int cursorPosition;
-    private static ExperimentAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class ListMineExperimentsFragment extends ListFragment {
                 update();
                 Log.d(TAG, "Refresh data button pressed");
                 return true;
-            }
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -146,6 +148,24 @@ public class ListMineExperimentsFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.exp_mine_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        MenuItem search = menu.findItem(R.id.exp_search);
+        SearchView searchView = new SearchView(getActivity());
+        searchView.setOnQueryTextListener(this);
+        getListView().setTextFilterEnabled(true);
+        search.setActionView(searchView);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return true;
     }
 
 }

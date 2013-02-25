@@ -2,10 +2,12 @@ package cz.zcu.kiv.eeg.mobile.base.ui.base.scenario;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 import cz.zcu.kiv.eeg.mobile.base.R;
@@ -158,6 +160,8 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
         return true;
     }
 

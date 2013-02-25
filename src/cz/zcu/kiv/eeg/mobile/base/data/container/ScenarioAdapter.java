@@ -2,7 +2,6 @@ package cz.zcu.kiv.eeg.mobile.base.data.container;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,20 +21,19 @@ import java.util.List;
  */
 public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterable {
 
-    private final static String TAG = ScenarioAdapter.class.getSimpleName();
-
     private final Context context;
     private final int resourceId;
     private List<Scenario> original;
-    private List<Scenario> workCopy;
+    private List<Scenario> filtered;
+    private ScenarioListFilter scenarioListFilter = new ScenarioListFilter();
 
     public ScenarioAdapter(Context context, int resourceId, List<Scenario> items) {
         super(context, resourceId);
         this.context = context;
         original = new ArrayList<Scenario>(items.size());
-        workCopy = new ArrayList<Scenario>(items.size());
-        for(Scenario s : items){
-            workCopy.add(s);
+        filtered = new ArrayList<Scenario>(items.size());
+        for (Scenario s : items) {
+            filtered.add(s);
             original.add(s);
         }
         this.resourceId = resourceId;
@@ -49,12 +46,12 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
 
     @Override
     public Scenario getItem(int position) {
-        return workCopy.get(position);
+        return filtered.get(position);
     }
 
     @Override
     public int getCount() {
-        return workCopy.size();
+        return filtered.size();
     }
 
     @Override
@@ -106,7 +103,7 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
         return scenarioListFilter;
     }
 
-    private Filter scenarioListFilter = new Filter() {
+    private class ScenarioListFilter extends Filter {
         @Override
         protected Filter.FilterResults performFiltering(CharSequence constraint) {
             final Filter.FilterResults oReturn = new Filter.FilterResults();
@@ -133,8 +130,8 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
         @Override
         protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
             clear();
-            workCopy = (List<Scenario>) results.values;
+            filtered = (List<Scenario>) results.values;
             notifyDataSetChanged();
         }
-    };
+    }
 }
