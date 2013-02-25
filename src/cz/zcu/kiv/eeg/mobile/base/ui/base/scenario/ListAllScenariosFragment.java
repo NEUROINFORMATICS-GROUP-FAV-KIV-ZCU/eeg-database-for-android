@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
 import android.widget.ListView;
+import android.widget.SearchView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  * @author Petr Miko
  *         Date: 19.2.13
  */
-public class ListAllScenariosFragment extends ListFragment {
+public class ListAllScenariosFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
     private final static String TAG = ListAllScenariosFragment.class.getSimpleName();
     private static ScenarioAdapter adapter;
@@ -83,9 +84,9 @@ public class ListAllScenariosFragment extends ListFragment {
     }
 
     public ScenarioAdapter getAdapter() {
-        if (adapter == null)
+        if (adapter == null) {
             adapter = new ScenarioAdapter(getActivity(), R.layout.base_scenario_row, new ArrayList<Scenario>());
-
+        }
         return adapter;
     }
 
@@ -145,5 +146,21 @@ public class ListAllScenariosFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.scenario_all_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        MenuItem search = menu.findItem(R.id.scenario_search);
+        SearchView searchView = new SearchView(getActivity());
+        searchView.setOnQueryTextListener(this);
+        getListView().setTextFilterEnabled(true);
+        search.setActionView(searchView);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return true;
     }
 }

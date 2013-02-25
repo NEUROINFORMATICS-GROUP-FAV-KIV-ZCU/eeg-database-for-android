@@ -137,5 +137,6 @@
     <string name="person_notes">Poznámky</string>
     <string name="person_lefthand">Levorukost</string>
     <string name="person_phone">Telefonní číslo</string>
+    <string name="app_search">Search</string>
 
 </resources>

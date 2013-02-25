@@ -8,4 +8,11 @@
             android:title="@string/app_refresh">
     </item>
 
+    <item
+            android:id="@+id/scenario_search"
+            android:icon="@android:drawable/ic_menu_search"
+            android:showAsAction="ifRoom"
+            android:title="@string/app_search">
+    </item>
+
 </menu>

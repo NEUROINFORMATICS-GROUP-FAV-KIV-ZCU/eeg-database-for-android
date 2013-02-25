@@ -141,5 +141,6 @@
     <string name="person_notes">Notes</string>
     <string name="person_lefthand">Left-handedness</string>
     <string name="person_phone">Phone number</string>
+    <string name="app_search">Search</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
 import android.widget.ListView;
+import android.widget.SearchView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
@@ -22,12 +23,13 @@ import java.util.ArrayList;
  * @author Petr Miko
  *         Date: 19.2.13
  */
-public class ListMineScenariosFragment extends ListFragment {
+public class ListMineScenariosFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
     private final static String TAG = ListMineScenariosFragment.class.getSimpleName();
-    private static ScenarioAdapter adapter;
+    private static ScenarioAdapter adapter, searchAdapter;
     private boolean isDualView;
     private int cursorPosition;
+    private String currentFilter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,10 +85,12 @@ public class ListMineScenariosFragment extends ListFragment {
     }
 
     public ScenarioAdapter getAdapter() {
-        if (adapter == null)
+        if (adapter == null) {
             adapter = new ScenarioAdapter(getActivity(), R.layout.base_scenario_row, new ArrayList<Scenario>());
+            searchAdapter = new ScenarioAdapter(getActivity(), R.layout.base_scenario_row, new ArrayList<Scenario>());
+        }
 
-        return adapter;
+        return searchAdapter;
     }
 
     /**
@@ -145,5 +149,21 @@ public class ListMineScenariosFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.scenario_mine_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        MenuItem search = menu.findItem(R.id.scenario_search);
+        SearchView searchView = new SearchView(getActivity());
+        searchView.setOnQueryTextListener(this);
+        getListView().setTextFilterEnabled(true);
+        search.setActionView(searchView);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return true;
     }
 }

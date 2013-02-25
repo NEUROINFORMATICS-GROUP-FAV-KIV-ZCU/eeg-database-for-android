@@ -2,13 +2,18 @@ package cz.zcu.kiv.eeg.mobile.base.data.container;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,15 +21,40 @@ import java.util.List;
  *
  * @author Petr Miko - miko.petr (at) gmail.com
  */
-public class ScenarioAdapter extends ArrayAdapter<Scenario> {
+public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterable {
+
+    private final static String TAG = ScenarioAdapter.class.getSimpleName();
 
     private final Context context;
     private final int resourceId;
+    private List<Scenario> original;
+    private List<Scenario> workCopy;
 
     public ScenarioAdapter(Context context, int resourceId, List<Scenario> items) {
-        super(context, resourceId, items);
+        super(context, resourceId);
         this.context = context;
+        original = new ArrayList<Scenario>(items.size());
+        workCopy = new ArrayList<Scenario>(items.size());
+        for(Scenario s : items){
+            workCopy.add(s);
+            original.add(s);
+        }
         this.resourceId = resourceId;
+    }
+
+    public void add(Scenario object) {
+        original.add(object);
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public Scenario getItem(int position) {
+        return workCopy.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return workCopy.size();
     }
 
     @Override
@@ -51,7 +81,7 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> {
             TextView scenarioMime = (TextView) row.findViewById(R.id.rowScenarioMime);
 
             if (scenarioId != null) {
-                scenarioId.setText(""+record.getScenarioId());
+                scenarioId.setText("" + record.getScenarioId());
             }
             if (scenarioName != null) {
                 scenarioName.setText(record.getScenarioName());
@@ -66,5 +96,45 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> {
         return row;
     }
 
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
 
+    @Override
+    public Filter getFilter() {
+        return scenarioListFilter;
+    }
+
+    private Filter scenarioListFilter = new Filter() {
+        @Override
+        protected Filter.FilterResults performFiltering(CharSequence constraint) {
+            final Filter.FilterResults oReturn = new Filter.FilterResults();
+            final List<Scenario> results = new ArrayList<Scenario>();
+
+            if (constraint == null || constraint.toString().isEmpty()) {
+                oReturn.values = original;
+                oReturn.count = original.size();
+            } else {
+                if (original != null) {
+                    for (Scenario s : original) {
+                        if (Integer.toString(s.getScenarioId()).contains(constraint) || s.getScenarioName().toLowerCase().contains(constraint)) {
+                            results.add(s);
+                        }
+                    }
+                }
+                oReturn.values = results;
+                oReturn.count = results.size();
+            }
+            return oReturn;
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
+            clear();
+            workCopy = (List<Scenario>) results.values;
+            notifyDataSetChanged();
+        }
+    };
 }
