@@ -42,7 +42,7 @@ public class PersonAddActivity extends SaveDiscardActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
                     notesCountText.setVisibility(View.VISIBLE);
-                    notesCountText.setText(getString(R.string.data_file_left) + (getResources().getInteger(R.integer.limit_datafile_description_chars) - s.length()));
+                    notesCountText.setText(getString(R.string.app_characters_left) + (getResources().getInteger(R.integer.limit_description_chars) - s.length()));
                 } else {
                     notesCountText.setVisibility(View.INVISIBLE);
                 }

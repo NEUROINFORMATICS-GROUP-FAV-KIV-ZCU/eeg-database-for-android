@@ -3,6 +3,7 @@
 
     <string name="app_name">EEG Databáze</string>
     <string name="app_refresh">Obnovit</string>
+    <string name="app_search">Search</string>
     <string name="app_dashboard">Přehled</string>
     <string name="app_welcome">Vítejte v EEG Databázi!</string>
     <string name="app_underDevelopment">Tato aplikace je aktuálně ve vývoji, tudíž jsou její možnosti omezené a občas se setkáte s chybami.
@@ -37,6 +38,7 @@
     <string name="error_http_500">Nastala chyba serveru.</string>
     <string name="error_http_503">Služba je dočasně nedostupná. Zkuste znovu později.</string>
     <string name="error_no_file_selected">Nevybrán žádný soubor!</string>
+    <string name="error_no_group_selected">Nevybrána žádná výzkumná skupina!</string>
     <string name="error_no_experiment_selected">Nevybrán žádný experiment!</string>
     <string name="error_invalid_mail_format">Neplatný formát mailové adresy!</string>
     <string name="error_invalid_date_format">Neplatný formát data!</string>
@@ -102,7 +104,7 @@
     <string name="app_data_file">Soubor k nahrání</string>
     <string name="fchooser">Vyberte soubor</string>
     <string name="settings_first_day">Pondělí první den v týdnu</string>
-    <string name="data_file_left">Dostupných znaků:</string>
+    <string name="app_characters_left">Dostupných znaků:</string>
     <string name="data_file_select">Vybrat soubor</string>
     <string name="data_file_experiment">Experiment</string>
     <string name="data_file_description">Popis souboru</string>
@@ -126,6 +128,7 @@
     <string name="scenario_mime">Typ souboru</string>
     <string name="scenario_file_name">Jméno souboru</string>
     <string name="scenario_file_length">Velikost souboru</string>
+    <string name="scenario_add_group_label">Výzkumná skupina</string>
 
     <!-- person management -->
     <string name="person_add">Přidat osobu</string>
@@ -137,6 +140,5 @@
     <string name="person_notes">Poznámky</string>
     <string name="person_lefthand">Levorukost</string>
     <string name="person_phone">Telefonní číslo</string>
-    <string name="app_search">Search</string>
 
 </resources>

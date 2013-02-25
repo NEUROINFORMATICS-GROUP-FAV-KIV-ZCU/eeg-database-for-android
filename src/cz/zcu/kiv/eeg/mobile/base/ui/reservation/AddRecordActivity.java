@@ -69,8 +69,9 @@ public class AddRecordActivity extends SaveDiscardActivity{
 	private void updateData() {
 		if (ConnectionUtils.isOnline(this)) {
             (AddRecordActivity.service) = (CommonService) new FetchResearchGroups(this, researchGroupAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
-		} else
-			showAlert(getString(R.string.error_offline));
+		} else {
+			showAlert(getString(R.string.error_offline), true);
+        }
 	}
 
 	private final OnTimeSetListener fromListener = new OnTimeSetListener() {

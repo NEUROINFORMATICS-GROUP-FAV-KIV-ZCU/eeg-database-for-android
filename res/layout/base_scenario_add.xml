@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/scenario_add_group_label"
+                />
+
+
+        <Spinner
+                android:id="@+id/groupList"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/scenario_name"
+                />
+
+        <EditText
+                android:id="@+id/scenario_name_value"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="text"
+                />
+
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/scenario_file_name"
+                />
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:weightSum="5"
+                >
+
+            <TextView
+                    android:id="@+id/fchooserSelectedFile"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    />
+
+            <ImageButton
+                    android:id="@+id/scenario_file_button"
+                    android:src="@drawable/ic_action_dir"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/fchooser"/>
+
+        </LinearLayout>
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/scenario_mime"
+                />
+
+        <EditText
+                android:id="@+id/scenario_mime_value"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="text"
+                />
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/scenario_file_length"
+                />
+
+        <TextView
+                android:id="@+id/scenario_file_size_value"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                />
+
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:weightSum="2"
+                >
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scenario_description"
+                    android:layout_weight="1"/>
+
+            <TextView
+                    android:id="@+id/scenario_description_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+        <EditText
+                android:id="@+id/scenario_description_value"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="textMultiLine"
+                android:maxLength="@integer/limit_description_chars"/>
+
+
+    </LinearLayout>
+</ScrollView>

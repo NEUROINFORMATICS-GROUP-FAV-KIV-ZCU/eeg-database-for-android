@@ -72,7 +72,7 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
                     descriptionTextCount.setVisibility(View.VISIBLE);
-                    descriptionTextCount.setText(getString(R.string.data_file_left) + (getResources().getInteger(R.integer.limit_datafile_description_chars) - s.length()));
+                    descriptionTextCount.setText(getString(R.string.app_characters_left) + (getResources().getInteger(R.integer.limit_description_chars) - s.length()));
                 } else {
                     descriptionTextCount.setVisibility(View.INVISIBLE);
                 }

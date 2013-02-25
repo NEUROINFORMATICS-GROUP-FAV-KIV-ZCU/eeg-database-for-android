@@ -63,7 +63,9 @@ public class ScenarioActivity extends CommonActivity {
                 finish();
                 break;
             case R.id.scenario_add:
-                Toast.makeText(this, "Create scenario clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(this, ScenarioAddActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

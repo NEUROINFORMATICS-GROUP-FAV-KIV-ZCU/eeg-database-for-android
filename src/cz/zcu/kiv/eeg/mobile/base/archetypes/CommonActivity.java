@@ -70,13 +70,20 @@ public class CommonActivity extends Activity {
         });
     }
 
-    public void showAlert(String alert) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    public void showAlert(final String alert){
+        showAlert(alert, false);
+    }
+
+    public void showAlert(final String alert, final boolean closeActivity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(alert).setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        if(closeActivity){
+                            finish();
+                        }
                     }
                 });
         builder.create().show();

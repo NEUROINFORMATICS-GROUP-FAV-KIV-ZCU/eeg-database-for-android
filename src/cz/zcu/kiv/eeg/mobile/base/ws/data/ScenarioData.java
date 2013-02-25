@@ -28,6 +28,8 @@ public class ScenarioData {
     private String fileName;
     @Element(required = false)
     private String fileLength;
+    private Integer researchGroupId;
+    private String filePath;
 
     public int getScenarioId() {
         return scenarioId;
@@ -101,4 +103,19 @@ public class ScenarioData {
         this.fileLength = fileLength;
     }
 
+    public void setResearchGroupId(Integer researchGroupId) {
+        this.researchGroupId = researchGroupId;
+    }
+
+    public Integer getResearchGroupId() {
+        return researchGroupId;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
 }

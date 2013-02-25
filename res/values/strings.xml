@@ -3,6 +3,7 @@
 
     <string name="app_name">EEG Database</string>
     <string name="app_refresh">Refresh</string>
+    <string name="app_search">Search</string>
     <string name="app_dashboard">Dashboard</string>
     <string name="app_welcome">Welcome to EEG Base!</string>
     <string name="app_underDevelopment">This application is curently under development, so its features
@@ -41,6 +42,7 @@
     <string name="error_http_503">Service is currently unavailable. Try again later.</string>
     <string name="error_no_file_selected">No file selected!</string>
     <string name="error_no_experiment_selected">No experiment selected!</string>
+    <string name="error_no_group_selected">No research group selected!</string>
     <string name="error_invalid_mail_format">Invalid mail format!</string>
     <string name="error_invalid_date_format">Invalid date format!</string>
     <string name="error_empty_field">Field must be filled</string>
@@ -106,7 +108,7 @@
     <string name="app_data_file">Upload file</string>
     <string name="fchooser">Select file</string>
     <string name="settings_first_day">Monday as first day in week</string>
-    <string name="data_file_left">Characters left:</string>
+    <string name="app_characters_left">Characters left:</string>
     <string name="data_file_select">Select file</string>
     <string name="data_file_experiment">Experiment</string>
     <string name="data_file_description">File description</string>
@@ -130,6 +132,7 @@
     <string name="scenario_mime">File type</string>
     <string name="scenario_file_name">File name</string>
     <string name="scenario_file_length">File size</string>
+    <string name="scenario_add_group_label">Research group</string>
 
     <!-- person management -->
     <string name="person_add">Add person</string>
@@ -141,6 +144,5 @@
     <string name="person_notes">Notes</string>
     <string name="person_lefthand">Left-handedness</string>
     <string name="person_phone">Phone number</string>
-    <string name="app_search">Search</string>
 
 </resources>

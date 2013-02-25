@@ -58,21 +58,20 @@
         <activity
                 android:name=".ui.base.experiment.ExperimentActivity"
                 android:label="@string/app_experiments"
-                android:uiOptions="splitActionBarWhenNarrow">
-        </activity>
+                android:uiOptions="splitActionBarWhenNarrow"/>
         <activity
                 android:name=".ui.base.experiment.ExperimentDetailsActivity"
-                android:label="@string/detail">
-        </activity>
+                android:label="@string/detail"/>
         <activity
                 android:name=".ui.base.scenario.ScenarioActivity"
                 android:label="@string/app_scenarios"
-                android:uiOptions="splitActionBarWhenNarrow">
-        </activity>
+                android:uiOptions="splitActionBarWhenNarrow"/>
         <activity
                 android:name=".ui.base.scenario.ScenarioDetailsActivity"
-                android:label="@string/detail">
-        </activity>
+                android:label="@string/detail"/>
+        <activity
+                android:name=".ui.base.scenario.ScenarioAddActivity"
+                android:label="@string/scenario_add"/>
     </application>
 
 </manifest>

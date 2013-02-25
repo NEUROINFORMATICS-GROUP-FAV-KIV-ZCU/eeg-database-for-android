@@ -1,5 +1,8 @@
 package cz.zcu.kiv.eeg.mobile.base.utils;
 
+import android.util.Log;
+import android.webkit.MimeTypeMap;
+
 /**
  * @author Petr Miko
  *         Date: 24.2.13
@@ -28,5 +31,11 @@ public class FileUtils {
             default:
                 return ">1 TB";
         }
+    }
+
+    public static String getMimeType(String url) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(
+                url.substring(url.lastIndexOf(".")));
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
     }
 }

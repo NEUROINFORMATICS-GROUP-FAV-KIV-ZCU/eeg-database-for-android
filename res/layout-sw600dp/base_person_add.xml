@@ -163,7 +163,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:maxLength="@integer/limit_datafile_description_chars"
+                    android:maxLength="@integer/limit_description_chars"
                     android:id="@+id/person_notes_value"/>
 
         </LinearLayout>
