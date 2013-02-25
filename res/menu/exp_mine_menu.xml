@@ -8,11 +8,4 @@
             android:title="@string/app_refresh">
     </item>
 
-    <item
-            android:id="@+id/person_add"
-            android:icon="@drawable/ic_action_upload"
-            android:showAsAction="ifRoom|withText"
-            android:title="@string/person_add">
-    </item>
-
 </menu>

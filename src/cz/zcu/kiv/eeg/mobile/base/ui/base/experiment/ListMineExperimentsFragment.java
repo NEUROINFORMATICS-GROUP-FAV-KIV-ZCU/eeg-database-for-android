@@ -69,12 +69,7 @@ public class ListMineExperimentsFragment extends ListFragment {
                 update();
                 Log.d(TAG, "Refresh data button pressed");
                 return true;
-            case R.id.person_add:
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PersonAddActivity.class);
-                startActivity(intent);
-                return true;
-        }
+            }
         return super.onOptionsItemSelected(item);
     }
 
