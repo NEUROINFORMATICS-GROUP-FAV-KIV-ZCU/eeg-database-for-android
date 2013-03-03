@@ -42,7 +42,15 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
 
     public void add(Experiment object) {
         original.add(object);
+        filtered.add(object);
         this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void clear() {
+        original.clear();
+        filtered.clear();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -53,6 +61,11 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
     @Override
     public int getCount() {
         return filtered.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return filtered.isEmpty();
     }
 
     @Override
@@ -103,27 +116,22 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
             final Filter.FilterResults oReturn = new Filter.FilterResults();
             final List<Experiment> results = new ArrayList<Experiment>();
 
-            if (constraint == null || constraint.toString().isEmpty()) {
-                oReturn.values = original;
-                oReturn.count = original.size();
-            } else {
-                if (original != null) {
-                    for (Experiment exp : original) {
-                        if (Integer.toString(exp.getExperimentId()).contains(constraint) || exp.getScenarioName().toLowerCase().contains(constraint)) {
-                            results.add(exp);
-                        }
+            if (original != null) {
+                boolean noConstraint = constraint == null || constraint.toString().isEmpty();
+                for (Experiment exp : original) {
+                    if (noConstraint || Integer.toString(exp.getExperimentId()).contains(constraint) || exp.getScenarioName().toLowerCase().contains(constraint)) {
+                        results.add(exp);
                     }
                 }
-                oReturn.values = results;
-                oReturn.count = results.size();
             }
+            oReturn.values = results;
+            oReturn.count = results.size();
             return oReturn;
 
         }
 
         @Override
         protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
-            clear();
             filtered = (List<Experiment>) results.values;
             notifyDataSetChanged();
         }

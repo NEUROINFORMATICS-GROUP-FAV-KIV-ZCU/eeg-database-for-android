@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.container.MenuAdapter;
 import cz.zcu.kiv.eeg.mobile.base.ui.base.dashboard.DashboardFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.base.datafile.DataFileUploadFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.base.experiment.ExperimentActivity;
@@ -31,7 +32,8 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
         actionBar.setTitle("");
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-        SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(actionBar.getThemedContext(), R.array.sections_list, R.layout.base_row_simple);
+        SpinnerAdapter spinnerAdapter = new MenuAdapter(actionBar.getThemedContext(), R.layout.base_menu_row,
+                getResources().getStringArray(R.array.sections_list_icons), getResources().getStringArray(R.array.sections_list));
         actionBar.setListNavigationCallbacks(spinnerAdapter, this);
 
         if (savedInstanceState != null) {

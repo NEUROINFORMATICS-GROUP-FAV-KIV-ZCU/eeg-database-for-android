@@ -11,7 +11,7 @@
     <item
             android:id="@+id/scenario_search"
             android:icon="@android:drawable/ic_menu_search"
-            android:showAsAction="always"
+            android:showAsAction="collapseActionView|ifRoom|withText"
             android:title="@string/app_search">
     </item>
 

@@ -79,7 +79,6 @@ public class ListMineExperimentsFragment extends ListFragment implements SearchV
 
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
-            getAdapter().clear();
             (ExperimentActivity.service) = (CommonService) new FetchExperiments(activity, getAdapter(), Values.SERVICE_QUALIFIER_MINE).execute();
         } else
             activity.showAlert(activity.getString(R.string.error_offline));

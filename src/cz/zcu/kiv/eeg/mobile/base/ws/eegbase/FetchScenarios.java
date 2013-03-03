@@ -35,12 +35,6 @@ public class FetchScenarios extends CommonService<Void, Void, List<ScenarioData>
     }
 
     @Override
-    protected void onPreExecute() {
-        scenarioAdapter.clear();
-        scenarioAdapter.notifyDataSetChanged();
-    }
-
-    @Override
     protected List<ScenarioData> doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
@@ -81,7 +75,7 @@ public class FetchScenarios extends CommonService<Void, Void, List<ScenarioData>
 
     @Override
     protected void onPostExecute(List<ScenarioData> resultList) {
-
+        scenarioAdapter.clear();
         if (resultList != null && !resultList.isEmpty()) {
             Collections.sort(resultList, new Comparator<ScenarioData>() {
                 @Override

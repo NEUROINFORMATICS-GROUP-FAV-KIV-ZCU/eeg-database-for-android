@@ -41,6 +41,7 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
 
     public void add(Scenario object) {
         original.add(object);
+        filtered.add(object);
         notifyDataSetChanged();
     }
 
@@ -59,6 +60,11 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
     @Override
     public int getCount() {
         return filtered.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return filtered.isEmpty();
     }
 
     @Override
@@ -113,24 +119,20 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
     private class ScenarioListFilter extends Filter {
         @Override
         protected Filter.FilterResults performFiltering(CharSequence constraint) {
-            final Filter.FilterResults oReturn = new Filter.FilterResults();
+            final Filter.FilterResults filterResults = new Filter.FilterResults();
             final List<Scenario> results = new ArrayList<Scenario>();
 
-            if (constraint == null || constraint.toString().isEmpty()) {
-                oReturn.values = original;
-                oReturn.count = original.size();
-            } else {
-                if (original != null) {
-                    for (Scenario s : original) {
-                        if (Integer.toString(s.getScenarioId()).contains(constraint) || s.getScenarioName().toLowerCase().contains(constraint)) {
-                            results.add(s);
-                        }
+            if (original != null) {
+                boolean noConstraint = constraint == null || constraint.toString().trim().isEmpty();
+                for (Scenario s : original) {
+                    if (noConstraint || Integer.toString(s.getScenarioId()).contains(constraint) || s.getScenarioName().toLowerCase().contains(constraint)) {
+                        results.add(s);
                     }
                 }
-                oReturn.values = results;
-                oReturn.count = results.size();
             }
-            return oReturn;
+            filterResults.values = results;
+            filterResults.count = results.size();
+            return filterResults;
 
         }
 

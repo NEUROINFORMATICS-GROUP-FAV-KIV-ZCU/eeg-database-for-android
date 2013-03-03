@@ -3,7 +3,7 @@
 
     <string name="app_name">EEG Databáze</string>
     <string name="app_refresh">Obnovit</string>
-    <string name="app_search">Search</string>
+    <string name="app_search">Hledat</string>
     <string name="app_dashboard">Přehled</string>
     <string name="app_welcome">Vítejte v EEG Databázi!</string>
     <string name="app_underDevelopment">Tato aplikace je aktuálně ve vývoji, tudíž jsou její možnosti omezené a občas se setkáte s chybami.

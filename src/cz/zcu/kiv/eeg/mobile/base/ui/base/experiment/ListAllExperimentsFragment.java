@@ -79,7 +79,6 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
 
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
-            getAdapter().clear();
             (ExperimentActivity.service) = (CommonService) new FetchExperiments(activity, getAdapter(), Values.SERVICE_QUALIFIER_ALL).execute();
         } else
             activity.showAlert(activity.getString(R.string.error_offline));
