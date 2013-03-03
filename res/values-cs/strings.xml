@@ -57,8 +57,10 @@
     <string name="working_ws_edit">Upravuji záznam…</string>
     <string name="working_ws_remove">Odstraňuji záznam…</string>
     <string name="working_ws_upload_data_file">Soubor se nahrává na server…</string>
-    <string name="working_ws_experiments">Stahují se dostupné experimenty</string>
+    <string name="working_ws_experiments">Stahují se dostupné experimenty…</string>
     <string name="working_ws_create_user">Vytváření nové osoby…</string>
+    <string name="working_ws_scenarios">Stahují se dostupné scénáře…</string>
+    <string name="working_ws_create_scenario">Vytváření nového scénáře…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>
@@ -129,6 +131,7 @@
     <string name="scenario_file_name">Jméno souboru</string>
     <string name="scenario_file_length">Velikost souboru</string>
     <string name="scenario_add_group_label">Výzkumná skupina</string>
+    <string name="scenario_private">Soukromý scénář</string>
 
     <!-- person management -->
     <string name="person_add">Přidat osobu</string>

@@ -28,10 +28,9 @@ import java.util.ArrayList;
 public class ListMineScenariosFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
     private final static String TAG = ListMineScenariosFragment.class.getSimpleName();
-    private static ScenarioAdapter adapter, searchAdapter;
+    private static ScenarioAdapter adapter;
     private boolean isDualView;
     private int cursorPosition;
-    private String currentFilter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,6 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
 
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
-            getAdapter().clear();
             (ScenarioActivity.service) = (CommonService) new FetchScenarios(activity, getAdapter(), Values.SERVICE_QUALIFIER_MINE).execute();
         } else
             activity.showAlert(activity.getString(R.string.error_offline));
@@ -89,10 +87,8 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
     public ScenarioAdapter getAdapter() {
         if (adapter == null) {
             adapter = new ScenarioAdapter(getActivity(), R.layout.base_scenario_row, new ArrayList<Scenario>());
-            searchAdapter = new ScenarioAdapter(getActivity(), R.layout.base_scenario_row, new ArrayList<Scenario>());
         }
-
-        return searchAdapter;
+        return adapter;
     }
 
     /**

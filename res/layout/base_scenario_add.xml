@@ -123,6 +123,13 @@
                 android:inputType="textMultiLine"
                 android:maxLength="@integer/limit_description_chars"/>
 
+        <Switch
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scenario_private"
+                android:id="@+id/scenario_private"
+                android:layout_gravity="left|center_vertical"/>
+
 
     </LinearLayout>
 </ScrollView>

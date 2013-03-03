@@ -60,14 +60,16 @@
     <!-- Working -->
     <string name="working">Working</string>
     <string name="working_ws_msg">Ongoing communication with web service…</string>
-    <string name="working_ws_credentials">Veryfing login information…</string>
-    <string name="working_ws_groups">Downloading available research groups…</string>
+    <string name="working_ws_credentials">Verifying login information…</string>
+    <string name="working_ws_groups">Fetching available research groups…</string>
     <string name="working_ws_create">Creating new record…</string>
     <string name="working_ws_edit">Editing record…</string>
     <string name="working_ws_remove">Removing record…</string>
     <string name="working_ws_upload_data_file">Uploading data file…</string>
-    <string name="working_ws_experiments">Loading available experiments</string>
+    <string name="working_ws_experiments">Fetching available experiments…</string>
     <string name="working_ws_create_user">Creating new user…</string>
+    <string name="working_ws_scenarios">Fetching available scenarios…</string>
+    <string name="working_ws_create_scenario">Creating new scenario…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
@@ -133,6 +135,7 @@
     <string name="scenario_file_name">File name</string>
     <string name="scenario_file_length">File size</string>
     <string name="scenario_add_group_label">Research group</string>
+    <string name="scenario_private">Private scenario</string>
 
     <!-- person management -->
     <string name="person_add">Add person</string>

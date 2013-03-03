@@ -18,6 +18,7 @@ import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.FileUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.data.ScenarioData;
+import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.CreateScenario;
 import cz.zcu.kiv.eeg.mobile.base.ws.reservation.FetchResearchGroups;
 import org.springframework.core.io.FileSystemResource;
 
@@ -100,6 +101,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
         EditText description = (EditText) findViewById(R.id.scenario_description_value);
         EditText mime = (EditText) findViewById(R.id.scenario_mime_value);
         TextView fileName = (TextView) findViewById(R.id.fchooserSelectedFile);
+        CompoundButton isPrivate = (CompoundButton) findViewById(R.id.scenario_private);
 
         ScenarioData scenario = new ScenarioData();
         scenario.setScenarioName(scenarioName.getText().toString());
@@ -107,6 +109,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
         scenario.setDescription(description.getText().toString());
         scenario.setMimeType(mime.getText().toString());
         scenario.setFileName(fileName.getText().toString());
+        scenario.setPrivate(isPrivate.isChecked());
         scenario.setFilePath(selectedFile);
 
         validateAndRun(scenario);
@@ -131,8 +134,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
             error.append(getString(R.string.error_no_file_selected)).append('\n');
         }
         if (error.toString().isEmpty()) {
-            Toast.makeText(this, "All set, but service to create scenario is not programmed yet. Try after next update!", Toast.LENGTH_SHORT).show();
-//            service = (CommonService) new CreatePerson(this).execute(person);
+            service = (CommonService) new CreateScenario(this).execute(scenario);
         } else {
             showAlert(error.toString());
         }

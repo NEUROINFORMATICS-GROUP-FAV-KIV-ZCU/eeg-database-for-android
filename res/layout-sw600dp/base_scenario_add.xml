@@ -173,6 +173,14 @@
 
         </LinearLayout>
 
+        <Switch
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scenario_private"
+                android:id="@+id/scenario_private"
+                android:layout_gravity="left|center_vertical"
+                android:padding="5dp"/>
+
 
     </LinearLayout>
 </ScrollView>

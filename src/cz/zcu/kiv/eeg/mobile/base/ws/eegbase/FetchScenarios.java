@@ -35,13 +35,19 @@ public class FetchScenarios extends CommonService<Void, Void, List<ScenarioData>
     }
 
     @Override
+    protected void onPreExecute() {
+        scenarioAdapter.clear();
+        scenarioAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected List<ScenarioData> doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_SCENARIOS + qualifier;
 
-        setState(RUNNING, R.string.working_ws_experiments);
+        setState(RUNNING, R.string.working_ws_scenarios);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -75,7 +81,7 @@ public class FetchScenarios extends CommonService<Void, Void, List<ScenarioData>
 
     @Override
     protected void onPostExecute(List<ScenarioData> resultList) {
-        scenarioAdapter.clear();
+
         if (resultList != null && !resultList.isEmpty()) {
             Collections.sort(resultList, new Comparator<ScenarioData>() {
                 @Override

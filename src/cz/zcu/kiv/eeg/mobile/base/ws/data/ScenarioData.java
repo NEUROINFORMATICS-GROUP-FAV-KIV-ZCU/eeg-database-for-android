@@ -28,6 +28,7 @@ public class ScenarioData {
     private String fileName;
     @Element(required = false)
     private String fileLength;
+    @Element
     private Integer researchGroupId;
     private String filePath;
 

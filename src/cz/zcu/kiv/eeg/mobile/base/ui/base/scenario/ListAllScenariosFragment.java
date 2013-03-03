@@ -79,7 +79,6 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
 
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
-            getAdapter().clear();
             (ScenarioActivity.service) = (CommonService) new FetchScenarios(activity, getAdapter(), Values.SERVICE_QUALIFIER_ALL).execute();
         } else
             activity.showAlert(activity.getString(R.string.error_offline));

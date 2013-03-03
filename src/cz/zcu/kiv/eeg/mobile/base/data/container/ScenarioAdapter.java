@@ -41,7 +41,14 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
 
     public void add(Scenario object) {
         original.add(object);
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void clear() {
+        original.clear();
+        filtered.clear();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -78,7 +85,7 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
             TextView scenarioMime = (TextView) row.findViewById(R.id.rowScenarioMime);
 
             if (scenarioId != null) {
-                scenarioId.setText("" + record.getScenarioId());
+                scenarioId.setText(Integer.toString(record.getScenarioId()));
             }
             if (scenarioName != null) {
                 scenarioName.setText(record.getScenarioName());
@@ -129,7 +136,6 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
 
         @Override
         protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
-            clear();
             filtered = (List<Scenario>) results.values;
             notifyDataSetChanged();
         }
