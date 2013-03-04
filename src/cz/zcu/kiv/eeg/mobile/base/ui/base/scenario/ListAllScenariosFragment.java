@@ -62,6 +62,7 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
             this.setSelection(cursorPosition);
         }
         setListAdapter(getAdapter());
+        getListView().setTextFilterEnabled(true);
     }
 
     @Override
@@ -150,7 +151,6 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
         MenuItem search = menu.findItem(R.id.scenario_search);
         SearchView searchView = new SearchView(getActivity());
         searchView.setOnQueryTextListener(this);
-        getListView().setTextFilterEnabled(true);
         search.setActionView(searchView);
     }
 
@@ -163,7 +163,7 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        adapter.getFilter().filter(newText);
+        getAdapter().getFilter().filter(newText);
         return true;
     }
 }
