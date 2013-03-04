@@ -42,7 +42,7 @@ public class CreateScenario extends CommonService<ScenarioData, Void, URI> {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_SCENARIOS + "create";
+        String url = credentials.getString("url", null) + Values.SERVICE_SCENARIOS;
 
         setState(RUNNING, R.string.working_ws_create_scenario);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
