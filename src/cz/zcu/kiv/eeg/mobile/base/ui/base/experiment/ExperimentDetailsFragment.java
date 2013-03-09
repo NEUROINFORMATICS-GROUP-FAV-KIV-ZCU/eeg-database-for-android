@@ -18,7 +18,7 @@ public class ExperimentDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getArguments() != null) {
+        if (getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) > 0) {
             empty = false;
             return inflater.inflate(R.layout.base_experiment_details, container, false);
         } else {
@@ -41,6 +41,7 @@ public class ExperimentDetailsFragment extends Fragment {
         TextView scenarioNameView = (TextView) getActivity().findViewById(R.id.scenarioNameValue);
         TextView fromTime = (TextView) getActivity().findViewById(R.id.fromValue);
         TextView toTime = (TextView) getActivity().findViewById(R.id.toValue);
+        TextView envNote = (TextView) getActivity().findViewById(R.id.experiment_env_note);
 
         SimpleDateFormat sf = new SimpleDateFormat("HH:mm dd.MM.yy");
         Experiment experiment = (Experiment) getArguments().getSerializable("data");
@@ -49,6 +50,7 @@ public class ExperimentDetailsFragment extends Fragment {
             fromTime.setText(sf.format(experiment.getStartTime()));
             toTime.setText(sf.format(experiment.getEndTime()));
             scenarioNameView.setText(experiment.getScenarioName());
+            envNote.setText(experiment.getEnvironmentNote());
 
         }
     }

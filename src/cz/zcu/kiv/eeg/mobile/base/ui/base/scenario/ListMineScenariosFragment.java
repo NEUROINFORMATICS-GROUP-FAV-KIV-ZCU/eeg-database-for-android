@@ -52,7 +52,7 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
         isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
         if (savedInstanceState != null) {
-            cursorPosition = savedInstanceState.getInt("cursorPos", 0);
+            cursorPosition = savedInstanceState.getInt("cursorPos", -1);
         }
 
         if (isDualView) {
@@ -100,36 +100,37 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
         cursorPosition = index;
 
         ScenarioAdapter dataAdapter = getAdapter();
-        if (dataAdapter != null && !dataAdapter.isEmpty())
-            if (isDualView) {
-                getListView().setItemChecked(index, true);
+        boolean empty = dataAdapter == null || dataAdapter.isEmpty();
 
-                ScenarioDetailsFragment oldDetails = (ScenarioDetailsFragment) getFragmentManager().findFragmentByTag(ScenarioDetailsFragment.TAG);
-                ScenarioDetailsFragment details = new ScenarioDetailsFragment();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
+        if (isDualView) {
+            getListView().setItemChecked(index, true);
 
-                if (oldDetails == null) {
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                } else {
-                    ft.detach(oldDetails);
-                    ft.remove(oldDetails);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                }
-                Bundle args = new Bundle();
-                args.putInt("index", index);
-                args.putSerializable("data", dataAdapter.getItem(index));
-                details.setArguments(args);
+            ScenarioDetailsFragment oldDetails = (ScenarioDetailsFragment) getFragmentManager().findFragmentByTag(ScenarioDetailsFragment.TAG);
+            ScenarioDetailsFragment details = new ScenarioDetailsFragment();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-                ft.replace(R.id.details, details, ScenarioDetailsFragment.TAG);
-                ft.commit();
-
+            if (oldDetails == null) {
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             } else {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), ScenarioDetailsActivity.class);
-                intent.putExtra("index", index);
-                intent.putExtra("data", dataAdapter.getItem(index));
-                startActivity(intent);
+                ft.detach(oldDetails);
+                ft.remove(oldDetails);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             }
+            Bundle args = new Bundle();
+            args.putInt("index", index);
+            args.putSerializable("data", empty ? null : dataAdapter.getItem(index));
+            details.setArguments(args);
+
+            ft.replace(R.id.details, details, ScenarioDetailsFragment.TAG);
+            ft.commit();
+
+        } else if (!empty) {
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), ScenarioDetailsActivity.class);
+            intent.putExtra("index", index);
+            intent.putExtra("data", dataAdapter.getItem(index));
+            startActivity(intent);
+        }
     }
 
     @Override

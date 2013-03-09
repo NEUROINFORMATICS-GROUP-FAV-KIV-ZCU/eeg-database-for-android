@@ -52,14 +52,14 @@ public class ListMineExperimentsFragment extends ListFragment implements SearchV
         isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
         if (savedInstanceState != null) {
-            cursorPosition = savedInstanceState.getInt("cursorPos", 0);
+            cursorPosition = savedInstanceState.getInt("cursorPos", -1);
         }
 
         if (isDualView) {
             getListView().setSelector(R.drawable.list_selector);
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             showDetails(cursorPosition);
-            this.setSelection(cursorPosition);
+            setSelection(cursorPosition);
         }
         setListAdapter(getAdapter());
         getListView().setTextFilterEnabled(true);
@@ -98,38 +98,37 @@ public class ListMineExperimentsFragment extends ListFragment implements SearchV
      */
     void showDetails(int index) {
         cursorPosition = index;
-
         ExperimentAdapter dataAdapter = getAdapter();
-        if (dataAdapter != null && !dataAdapter.isEmpty())
-            if (isDualView) {
-                getListView().setItemChecked(index, true);
+        boolean empty = dataAdapter == null || dataAdapter.isEmpty();
 
-                ExperimentDetailsFragment oldDetails = (ExperimentDetailsFragment) getFragmentManager().findFragmentByTag(ExperimentDetailsFragment.TAG);
-                ExperimentDetailsFragment details = new ExperimentDetailsFragment();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
+        if (isDualView) {
+            getListView().setItemChecked(index, true);
 
-                if (oldDetails == null) {
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                } else {
-                    ft.detach(oldDetails);
-                    ft.remove(oldDetails);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                }
-                Bundle args = new Bundle();
-                args.putInt("index", index);
-                args.putSerializable("data", dataAdapter.getItem(index));
-                details.setArguments(args);
+            ExperimentDetailsFragment oldDetails = (ExperimentDetailsFragment) getFragmentManager().findFragmentByTag(ExperimentDetailsFragment.TAG);
+            ExperimentDetailsFragment details = new ExperimentDetailsFragment();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-                ft.replace(R.id.details, details, ExperimentDetailsFragment.TAG);
-                ft.commit();
-
+            if (oldDetails == null) {
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             } else {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), ExperimentDetailsActivity.class);
-                intent.putExtra("index", index);
-                intent.putExtra("data", dataAdapter.getItem(index));
-                startActivity(intent);
+                ft.detach(oldDetails);
+                ft.remove(oldDetails);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             }
+            Bundle args = new Bundle();
+            args.putInt("index", index);
+            args.putSerializable("data", empty ? null : dataAdapter.getItem(index));
+            details.setArguments(args);
+
+            ft.replace(R.id.details, details, ExperimentDetailsFragment.TAG);
+            ft.commit();
+        } else if (!empty) {
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), ExperimentDetailsActivity.class);
+            intent.putExtra("index", index);
+            intent.putExtra("data", dataAdapter.getItem(index));
+            startActivity(intent);
+        }
     }
 
     @Override

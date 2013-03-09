@@ -30,7 +30,7 @@
     <string name="error_host_timeout">Spojení vypršelo. Zkuste znovu.</string>
     <string name="error_host_con_refused">Spojení zamítnuto. Zadali jste správně přihlašovací údaje?</string>
     <string name="error_http_400">Aplikace vykonala neplatný požadavek na server.</string>
-    <string name="error_http_401">Neplatné přihlašovací údaje.</string>
+    <string name="error_http_401">Nezdařilo se ověřit uživatele. Zkontrolujte přihlašovací údaje.</string>
     <string name="error_http_403">Nemáte práva potřebná k požadovanému úkonu.</string>
     <string name="error_http_404">Umístění nenalezeno. Pravděpodobně chyba serveru, pro jistotu ale zkontrolujte URL serveru.</string>
     <string name="error_http_405">Požadavek není povolen.</string>
@@ -118,6 +118,7 @@
     <string name="experiment_list_all">Všechny experimenty</string>
     <string name="experiment_list_mine">Mé experimenty</string>
     <string name="experiment_id">ID experimentu</string>
+    <string name="experiment_env_note">Poznámka k prostředí</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>

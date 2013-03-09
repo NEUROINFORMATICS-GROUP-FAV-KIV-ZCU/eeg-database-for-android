@@ -17,7 +17,7 @@ public class ScenarioDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getArguments() != null) {
+        if (getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) > 0) {
             empty = false;
             return inflater.inflate(R.layout.base_scenario_details, container, false);
         } else {

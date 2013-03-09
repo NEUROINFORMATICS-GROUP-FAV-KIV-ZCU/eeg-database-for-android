@@ -31,7 +31,7 @@
     <string name="error_host_timeout">Connection timeout. Try again.</string>
     <string name="error_host_con_refused">Connection refused. Are your credentials correct?</string>
     <string name="error_http_400">Application made invalid request towards server.</string>
-    <string name="error_http_401">Invalid login information.</string>
+    <string name="error_http_401">User authorization check failed. Check your login information.</string>
     <string name="error_http_403">You do not have permissions for such request.</string>
     <string name="error_http_404">Location not found. This is probably a server issue, but check your server URL just to
         be sure.
@@ -122,6 +122,7 @@
     <string name="experiment_list_all">All experiments</string>
     <string name="experiment_list_mine">My experiments</string>
     <string name="experiment_id">Experiment ID</string>
+    <string name="experiment_env_note">Environment note</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>
