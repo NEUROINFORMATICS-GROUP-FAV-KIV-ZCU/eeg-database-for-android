@@ -22,7 +22,9 @@ public class ExperimentActivity extends CommonActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
+        actionBar.setIcon(R.drawable.ic_action_description);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         ActionBar.Tab tab = actionBar.newTab()
                 .setText(R.string.experiment_list_mine)
@@ -35,8 +37,6 @@ public class ExperimentActivity extends CommonActivity {
                 .setTabListener(new TabListener<ListAllExperimentsFragment>(
                         this, ListAllExperimentsFragment.class.getSimpleName(), ListAllExperimentsFragment.class));
         actionBar.addTab(tab);
-
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         if(savedInstanceState!=null){
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tabIndex", 1));
@@ -55,11 +55,6 @@ public class ExperimentActivity extends CommonActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent parentActivityIntent = new Intent(this, NavigationActivity.class);
-                parentActivityIntent.addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(parentActivityIntent);
                 finish();
                 break;
             case R.id.exp_add:

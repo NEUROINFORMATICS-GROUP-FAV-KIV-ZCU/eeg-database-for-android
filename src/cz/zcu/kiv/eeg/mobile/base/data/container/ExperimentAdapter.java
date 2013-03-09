@@ -87,15 +87,16 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
         Experiment record = getItem(position);
         if (record != null) {
             SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
-            TextView topText = (TextView) row.findViewById(R.id.toptext);
-            TextView additionalText = (TextView) row.findViewById(R.id.bottomtext);
+            TextView experimentId = (TextView) row.findViewById(R.id.row_experiment_id);
+            TextView experimentName = (TextView) row.findViewById(R.id.row_experiment_name);
+            TextView experimentTime = (TextView) row.findViewById(R.id.row_experiment_time);
 
-            if (topText != null) {
-                topText.setText(record.getExperimentId() + " | " + record.getScenarioName());
-            }
-            if (additionalText != null) {
-                additionalText.setText(sf.format(record.getStartTime()) + " – " + sf.format(record.getEndTime()));
-            }
+            if(experimentId != null)
+                experimentId.setText(Integer.toString(record.getExperimentId()));
+            if(experimentName != null)
+                experimentName.setText(record.getScenarioName());
+            if(experimentTime != null)
+                experimentTime.setText(sf.format(record.getStartTime()) + " – " + sf.format(record.getEndTime()));
         }
         return row;
     }

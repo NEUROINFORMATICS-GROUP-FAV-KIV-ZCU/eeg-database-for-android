@@ -119,6 +119,7 @@
     <string name="experiment_list_mine">Mé experimenty</string>
     <string name="experiment_id">ID experimentu</string>
     <string name="experiment_env_note">Poznámka k prostředí</string>
+    <string name="experiment_weather">Počasí</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>
@@ -144,5 +145,7 @@
     <string name="person_notes">Poznámky</string>
     <string name="person_lefthand">Levorukost</string>
     <string name="person_phone">Telefonní číslo</string>
+    <string name="person_owner">Vlastník</string>
+    <string name="person_subject">Subjekt</string>
 
 </resources>

@@ -36,33 +36,39 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if (savedInstanceState != null) {
+            cursorPosition = savedInstanceState.getInt("cursorAllPosition", -1);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.base_scenario_list, container, false);
+        View view = inflater.inflate(R.layout.base_scenario_list, container, false);
+        View detailsFrame = view.findViewById(R.id.details);
+        isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
-        super.onViewCreated(view, savedInstanceState);
         setListAdapter(null);
-        View detailsFrame = getActivity().findViewById(R.id.details);
-        isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
-
-        if (savedInstanceState != null) {
-            cursorPosition = savedInstanceState.getInt("cursorPos", -1);
-        }
-
-        if (isDualView) {
-            getListView().setSelector(R.drawable.list_selector);
-            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            showDetails(cursorPosition);
-            this.setSelection(cursorPosition);
-        }
         setListAdapter(getAdapter());
-        getListView().setTextFilterEnabled(true);
+
+        ListView listView = (ListView) view.findViewById(android.R.id.list);
+        if (isDualView) {
+            listView.setSelector(R.drawable.list_selector);
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        }
+        listView.setTextFilterEnabled(true);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (isDualView) {
+            showDetails(cursorPosition);
+            setSelection(cursorPosition);
+        }
     }
 
     @Override
@@ -105,17 +111,13 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
         if (isDualView) {
             getListView().setItemChecked(index, true);
 
-            ScenarioDetailsFragment oldDetails = (ScenarioDetailsFragment) getFragmentManager().findFragmentByTag(ScenarioDetailsFragment.TAG);
             ScenarioDetailsFragment details = new ScenarioDetailsFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-            if (oldDetails == null) {
+            if (getFragmentManager().findFragmentByTag(ScenarioDetailsFragment.TAG) == null) {
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            } else {
-                ft.detach(oldDetails);
-                ft.remove(oldDetails);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             }
+
             Bundle args = new Bundle();
             args.putInt("index", index);
             args.putSerializable("data", empty ? null : dataAdapter.getItem(index));
@@ -123,7 +125,6 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
 
             ft.replace(R.id.details, details, ScenarioDetailsFragment.TAG);
             ft.commit();
-
         } else if (!empty) {
             Intent intent = new Intent();
             intent.setClass(getActivity(), ScenarioDetailsActivity.class);
@@ -136,7 +137,7 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("cursorPos", cursorPosition);
+        outState.putInt("cursorAllPosition", cursorPosition);
     }
 
     @Override

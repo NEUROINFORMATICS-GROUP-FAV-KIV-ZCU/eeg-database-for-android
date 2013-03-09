@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 
 public class ScenarioDetailsActivity extends CommonActivity {
@@ -16,6 +17,7 @@ public class ScenarioDetailsActivity extends CommonActivity {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setIcon(R.drawable.ic_action_info);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction;

@@ -22,23 +22,26 @@ public class ScenarioActivity extends CommonActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        boolean recreated = savedInstanceState != null;
 
-        ActionBar.Tab tab = actionBar.newTab()
+
+        actionBar.setIcon(R.drawable.ic_action_scenario);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        ActionBar.Tab mine = actionBar.newTab()
                 .setText(R.string.scenario_list_mine)
                 .setTabListener(new TabListener<ListMineScenariosFragment>(
                         this, ListMineScenariosFragment.class.getSimpleName(), ListMineScenariosFragment.class));
-        actionBar.addTab(tab);
-
-        tab = actionBar.newTab()
+        ActionBar.Tab all = actionBar.newTab()
                 .setText(R.string.scenario_list_all)
                 .setTabListener(new TabListener<ListAllScenariosFragment>(
                         this, ListAllScenariosFragment.class.getSimpleName(), ListAllScenariosFragment.class));
-        actionBar.addTab(tab);
 
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.addTab(mine);
+        actionBar.addTab(all);
 
-        if(savedInstanceState!=null){
+        if(recreated){
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tabIndex", 1));
         }
     }
@@ -46,8 +49,7 @@ public class ScenarioActivity extends CommonActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.scenario_menu, menu);
+        getMenuInflater().inflate(R.menu.scenario_menu, menu);
         return true;
     }
 
@@ -55,11 +57,6 @@ public class ScenarioActivity extends CommonActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent parentActivityIntent = new Intent(this, NavigationActivity.class);
-                parentActivityIntent.addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(parentActivityIntent);
                 finish();
                 break;
             case R.id.scenario_add:

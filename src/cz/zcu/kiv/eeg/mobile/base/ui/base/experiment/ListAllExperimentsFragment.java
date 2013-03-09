@@ -36,33 +36,33 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if (savedInstanceState != null) {
+            cursorPosition = savedInstanceState.getInt("cursorPos", -1);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.base_experiment_list, container, false);
+        View view = inflater.inflate(R.layout.base_experiment_list, container, false);
+        View detailsFrame = view.findViewById(R.id.details);
+        isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
-        super.onViewCreated(view, savedInstanceState);
         setListAdapter(null);
-        View detailsFrame = getActivity().findViewById(R.id.details);
-        isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+        setListAdapter(getAdapter());
 
-        if (savedInstanceState != null) {
-            cursorPosition = savedInstanceState.getInt("cursorPos", -1);
-        }
-
+        ListView listView = (ListView) view.findViewById(android.R.id.list);
         if (isDualView) {
-            getListView().setSelector(R.drawable.list_selector);
-            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            listView.setSelector(R.drawable.list_selector);
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             showDetails(cursorPosition);
             setSelection(cursorPosition);
         }
-        setListAdapter(getAdapter());
-        getListView().setTextFilterEnabled(true);
+
+        listView.setTextFilterEnabled(true);
     }
 
     @Override
@@ -104,17 +104,13 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         if (isDualView) {
             getListView().setItemChecked(index, true);
 
-            ExperimentDetailsFragment oldDetails = (ExperimentDetailsFragment) getFragmentManager().findFragmentByTag(ExperimentDetailsFragment.TAG);
             ExperimentDetailsFragment details = new ExperimentDetailsFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-            if (oldDetails == null) {
+            if (getFragmentManager().findFragmentByTag(ExperimentDetailsFragment.TAG) == null) {
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            } else {
-                ft.detach(oldDetails);
-                ft.remove(oldDetails);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             }
+
             Bundle args = new Bundle();
             args.putInt("index", index);
             args.putSerializable("data", empty ? null : dataAdapter.getItem(index));

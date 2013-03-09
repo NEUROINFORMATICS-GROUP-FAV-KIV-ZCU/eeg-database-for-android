@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 
 public class ExperimentDetailsActivity extends CommonActivity {
@@ -16,6 +17,7 @@ public class ExperimentDetailsActivity extends CommonActivity {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setIcon(R.drawable.ic_action_info);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction;
@@ -35,11 +37,6 @@ public class ExperimentDetailsActivity extends CommonActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent parentActivityIntent = new Intent(this, ExperimentActivity.class);
-                parentActivityIntent.addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(parentActivityIntent);
                 finish();
                 break;
         }

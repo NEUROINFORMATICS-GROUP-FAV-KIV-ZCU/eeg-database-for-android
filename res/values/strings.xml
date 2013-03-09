@@ -123,6 +123,7 @@
     <string name="experiment_list_mine">My experiments</string>
     <string name="experiment_id">Experiment ID</string>
     <string name="experiment_env_note">Environment note</string>
+    <string name="experiment_weather">Weather</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>
@@ -148,5 +149,7 @@
     <string name="person_notes">Notes</string>
     <string name="person_lefthand">Left-handedness</string>
     <string name="person_phone">Phone number</string>
+    <string name="person_owner">Owner</string>
+    <string name="person_subject">Subject</string>
 
 </resources>

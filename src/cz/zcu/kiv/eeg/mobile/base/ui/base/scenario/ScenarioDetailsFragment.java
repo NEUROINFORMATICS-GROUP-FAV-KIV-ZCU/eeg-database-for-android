@@ -13,40 +13,32 @@ import cz.zcu.kiv.eeg.mobile.base.utils.FileUtils;
 public class ScenarioDetailsFragment extends Fragment {
 
     public final static String TAG = ScenarioDetailsFragment.class.getSimpleName();
-    private boolean empty = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) > 0) {
-            empty = false;
-            return inflater.inflate(R.layout.base_scenario_details, container, false);
+        boolean hasData = getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) >= 0;
+
+        if (hasData) {
+            View view = inflater.inflate(R.layout.base_scenario_details, container, false);
+            initData(view);
+            return view;
         } else {
-            empty = true;
             return inflater.inflate(R.layout.details_empty, container, false);
         }
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedState) {
-        super.onActivityCreated(savedState);
+    private void initData(View view) {
 
-        if (!empty) {
-            initData();
-        }
-    }
-
-    private void initData() {
-
-        TextView scenarioId = (TextView) getActivity().findViewById(R.id.scenarioId);
-        TextView scenarioName = (TextView) getActivity().findViewById(R.id.scenarioName);
-        TextView scenarioType = (TextView) getActivity().findViewById(R.id.scenarioMime);
-        TextView fileName = (TextView) getActivity().findViewById(R.id.scenarioFileName);
-        TextView fileSize = (TextView) getActivity().findViewById(R.id.scenarioFileLength);
-        TextView description = (TextView) getActivity().findViewById(R.id.scenarioDescription);
+        TextView scenarioId = (TextView) view.findViewById(R.id.scenarioId);
+        TextView scenarioName = (TextView) view.findViewById(R.id.scenarioName);
+        TextView scenarioType = (TextView) view.findViewById(R.id.scenarioMime);
+        TextView fileName = (TextView) view.findViewById(R.id.scenarioFileName);
+        TextView fileSize = (TextView) view.findViewById(R.id.scenarioFileLength);
+        TextView description = (TextView) view.findViewById(R.id.scenarioDescription);
 
         Scenario scenario = (Scenario) getArguments().getSerializable("data");
         if (scenario != null) {
-            scenarioId.setText("" + scenario.getScenarioId());
+            scenarioId.setText(Integer.toString(scenario.getScenarioId()));
             scenarioName.setText(scenario.getScenarioName());
             scenarioType.setText(scenario.getMimeType());
             fileName.setText(scenario.getFileName());

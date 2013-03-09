@@ -7,17 +7,33 @@
               android:background="?android:attr/activatedBackgroundIndicator"
               android:padding="6dip">
 
-    <TextView
-            android:id="@+id/toptext"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textAppearance="@android:style/TextAppearance.Medium"/>
+            android:orientation="horizontal"
+            android:weightSum="6"
+            android:padding="6dip">
+
+        <TextView
+                android:id="@+id/row_experiment_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+
+        <TextView
+                android:id="@+id/row_experiment_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+    </LinearLayout>
+
 
     <TextView
-            android:id="@+id/bottomtext"
+            android:id="@+id/row_experiment_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:singleLine="true"/>
+            android:padding="6dip"
+            />
 </LinearLayout>

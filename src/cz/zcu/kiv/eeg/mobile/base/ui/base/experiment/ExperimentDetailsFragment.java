@@ -14,15 +14,16 @@ import java.text.SimpleDateFormat;
 public class ExperimentDetailsFragment extends Fragment {
 
     public final static String TAG = ExperimentDetailsFragment.class.getSimpleName();
-    private boolean empty = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) > 0) {
-            empty = false;
-            return inflater.inflate(R.layout.base_experiment_details, container, false);
+        boolean hasData = getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) >= 0;
+
+        if (hasData) {
+            View view = inflater.inflate(R.layout.base_experiment_details, container, false);
+            initData(view);
+            return view;
         } else {
-            empty = true;
             return inflater.inflate(R.layout.details_empty, container, false);
         }
     }
@@ -30,28 +31,23 @@ public class ExperimentDetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedState) {
         super.onActivityCreated(savedState);
-
-        if (!empty) {
-            initData();
-        }
     }
 
-    private void initData() {
-        TextView experimentIdView = (TextView) getActivity().findViewById(R.id.experimentIdValue);
-        TextView scenarioNameView = (TextView) getActivity().findViewById(R.id.scenarioNameValue);
-        TextView fromTime = (TextView) getActivity().findViewById(R.id.fromValue);
-        TextView toTime = (TextView) getActivity().findViewById(R.id.toValue);
-        TextView envNote = (TextView) getActivity().findViewById(R.id.experiment_env_note);
+    private void initData(View view) {
+        TextView experimentIdView = (TextView) view.findViewById(R.id.experimentIdValue);
+        TextView scenarioNameView = (TextView) view.findViewById(R.id.scenarioNameValue);
+        TextView fromTime = (TextView) view.findViewById(R.id.fromValue);
+        TextView toTime = (TextView) view.findViewById(R.id.toValue);
+        TextView envNote = (TextView) view.findViewById(R.id.experiment_env_note);
 
         SimpleDateFormat sf = new SimpleDateFormat("HH:mm dd.MM.yy");
         Experiment experiment = (Experiment) getArguments().getSerializable("data");
         if (experiment != null) {
-            experimentIdView.setText(""+experiment.getExperimentId());
+            experimentIdView.setText(Integer.toString(experiment.getExperimentId()));
             fromTime.setText(sf.format(experiment.getStartTime()));
             toTime.setText(sf.format(experiment.getEndTime()));
             scenarioNameView.setText(experiment.getScenarioName());
             envNote.setText(experiment.getEnvironmentNote());
-
         }
     }
 
