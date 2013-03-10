@@ -9,7 +9,10 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
+
+import javax.net.ssl.SSLException;
 
 public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
 
@@ -59,6 +62,7 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
                         message = activity.getString(R.string.error_http_408);
                         break;
                 }
+
             } else if (error instanceof HttpServerErrorException) {
                 HttpStatus status = ((HttpServerErrorException) error).getStatusCode();
 
@@ -70,7 +74,10 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
                         message = activity.getString(R.string.error_http_503);
                         break;
                 }
-            } else {
+            } else if(error instanceof ResourceAccessException){
+                message = activity.getString(R.string.error_ssl);
+            }
+            else {
                 error = ((RestClientException) error).getRootCause();
                 message = error == null ? activity.getString(R.string.error_connection) : error.getMessage();
                 if (message.contains("EHOSTUNREACH"))
@@ -80,7 +87,9 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
                 else if (message.contains("ETIMEDOUT"))
                     message = activity.getString(R.string.error_host_timeout);
             }
+
         }
+
         activity.changeProgress(state, message);
     }
 

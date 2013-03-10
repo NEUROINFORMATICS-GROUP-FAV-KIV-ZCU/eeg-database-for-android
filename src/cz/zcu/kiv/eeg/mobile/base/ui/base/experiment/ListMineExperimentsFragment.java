@@ -63,6 +63,7 @@ public class ListMineExperimentsFragment extends ListFragment implements SearchV
         }
 
         listView.setTextFilterEnabled(true);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

@@ -63,6 +63,7 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         }
 
         listView.setTextFilterEnabled(true);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

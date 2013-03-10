@@ -60,6 +60,7 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
             listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         }
         listView.setTextFilterEnabled(true);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

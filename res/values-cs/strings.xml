@@ -46,6 +46,7 @@
     <string name="error_invalid_mail_format">Neplatný formát mailové adresy!</string>
     <string name="error_invalid_date_format">Neplatný formát data!</string>
     <string name="error_empty_field">Pole musí být zadané!</string>
+    <string name="error_ssl">Rozpadlo se SSL spojení. Zkuste znovu.</string>
 
 
     <!-- Tlacitka -->
