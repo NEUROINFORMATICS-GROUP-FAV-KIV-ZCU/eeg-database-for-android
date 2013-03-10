@@ -59,6 +59,7 @@
     <string name="dummy_from">FROM</string>
     <string name="dummy_to">TO</string>
     <string name="dummy_no_record">No record selected</string>
+    <string name="dummy_none">No record</string>
 
     <!-- Working -->
     <string name="working">Working</string>
@@ -135,6 +136,10 @@
     <string name="experiment_digitization_filter">Filter</string>
     <string name="experiment_digitization_gain">Gain</string>
     <string name="experiment_digitization_sampling_rate">Sampling rate</string>
+    <string name="experiment_diseases">Diseases</string>
+    <string name="experiment_temperature">Temperature</string>
+    <string name="experiment_hardware">Hardware</string>
+
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>
@@ -163,5 +168,4 @@
     <string name="person_owner">Owner</string>
     <string name="person_subject">Subject</string>
     <string name="person_age">Age</string>
-
 </resources>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.container.*;
@@ -47,9 +48,12 @@ public class ExperimentDetailsFragment extends Fragment {
         TextView weatherDescription = (TextView) view.findViewById(R.id.experiment_weather_description);
         TextView artifactCompensation = (TextView) view.findViewById(R.id.experiment_artifact_compensation);
         TextView artifactRejectCond = (TextView) view.findViewById(R.id.experiment_artifact_reject);
-        TextView digitizationFilter =  (TextView) view.findViewById(R.id.experiment_digitization_filter);
-        TextView digitizationGain =  (TextView) view.findViewById(R.id.experiment_digitization_gain);
-        TextView digitizationRate =  (TextView) view.findViewById(R.id.experiment_digitization_sampling_rate);
+        TextView digitizationFilter = (TextView) view.findViewById(R.id.experiment_digitization_filter);
+        TextView digitizationGain = (TextView) view.findViewById(R.id.experiment_digitization_gain);
+        TextView digitizationRate = (TextView) view.findViewById(R.id.experiment_digitization_sampling_rate);
+        TextView temperature = (TextView) view.findViewById(R.id.experiment_temperature);
+        LinearLayout diseasesList = (LinearLayout) view.findViewById(R.id.experiment_diseases);
+        LinearLayout hardwareList = (LinearLayout) view.findViewById(R.id.experiment_hardware_list);
 
         SimpleDateFormat sf = new SimpleDateFormat("HH:mm dd.MM.yy");
         Experiment experiment = (Experiment) getArguments().getSerializable("data");
@@ -78,7 +82,75 @@ public class ExperimentDetailsFragment extends Fragment {
             digitizationFilter.setText(digitization.getFilter());
             digitizationGain.setText(Float.toString(digitization.getGain()));
             digitizationRate.setText(Float.toString(digitization.getSamplingRate()));
+
+            if (experiment.getTemperature() != null) {
+                temperature.setText(experiment.getTemperature().toString());
+            }
+
+            fillDiseases(diseasesList, experiment);
+            fillHardwareList(hardwareList, experiment);
         }
+    }
+
+    private void fillHardwareList(LinearLayout hardwareList, Experiment experiment) {
+        if (experiment.getHardwares() != null) {
+
+            for (Hardware record : experiment.getHardwares()) {
+
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View row = inflater.inflate(R.layout.base_hardware_row, hardwareList, false);
+
+                TextView hwId = (TextView) row.findViewById(R.id.row_hardware_id);
+                TextView hwTitle = (TextView) row.findViewById(R.id.row_hardware_title);
+                TextView hwType = (TextView) row.findViewById(R.id.row_hardware_type);
+                TextView hwDescription = (TextView) row.findViewById(R.id.row_hardware_description);
+
+                if (hwId != null) {
+                    hwId.setText(Integer.toString(record.getId()));
+                }
+                if (hwTitle != null) {
+                    hwTitle.setText(record.getTitle());
+                }
+                if (hwType != null) {
+                    hwType.setText(record.getType());
+                }
+                if (hwDescription != null) {
+                    hwDescription.setText(record.getDescription());
+                }
+                hardwareList.addView(row);
+            }
+        } else{
+            TextView row = new TextView(getActivity());
+            row.setText(R.string.dummy_none);
+            hardwareList.addView(row);
+        }
+    }
+
+    private void fillDiseases(LinearLayout diseasesList, Experiment experiment) {
+        if (experiment.getDiseases() != null) {
+
+            for (Disease record : experiment.getDiseases()) {
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View row = inflater.inflate(R.layout.base_disease_row, diseasesList, false);
+
+                TextView diseaseName = (TextView) row.findViewById(R.id.row_disease_name);
+                TextView diseaseDescription = (TextView) row.findViewById(R.id.row_disease_description);
+
+                if (diseaseName != null) {
+                    diseaseName.setText(record.getName());
+                }
+                if (diseaseDescription != null) {
+                    diseaseDescription.setText(record.getDescription());
+                }
+                diseasesList.addView(row);
+            }
+
+        } else{
+            TextView row = new TextView(getActivity());
+            row.setText(R.string.dummy_none);
+            diseasesList.addView(row);
+        }
+
     }
 
     @Override

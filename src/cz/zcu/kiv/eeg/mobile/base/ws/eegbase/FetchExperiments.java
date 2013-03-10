@@ -124,6 +124,21 @@ public class FetchExperiments extends CommonService<Void, Void, List<ExperimentD
                      experiment.setDiseases(diseases);
                     }
 
+                    List<HardwareData> hwl = res.getHardwareList() != null ? res.getHardwareList().getHardwareList() : null;
+                    if(hwl != null && !hwl.isEmpty()){
+                        List<Hardware> hardwareList = new ArrayList<Hardware>(hwl.size());
+                        for(HardwareData hw : hwl){
+                            Hardware hardware = new Hardware();
+                            hardware.setId(hw.getHardwareId());
+                            hardware.setTitle(hw.getTitle());
+                            hardware.setType(hw.getType());
+                            hardware.setDescription(hw.getDescription());
+                            hardware.setDefaultNumber(hw.getDefaultNumber());
+                            hardwareList.add(hardware);
+                        }
+                        experiment.setHardwares(hardwareList);
+                    }
+
                     ArtifactData ad = res.getArtifact();
                     if(ad != null){
                         Artifact artifact = new Artifact();
@@ -142,6 +157,9 @@ public class FetchExperiments extends CommonService<Void, Void, List<ExperimentD
                         digitization.setSamplingRate(digid.getSamplingRate());
                         experiment.setDigitization(digitization);
                     }
+
+                    if(res.getTemperature() != null)
+                        experiment.setTemperature(res.getTemperature());
 
                     experiment.setSubject(subject);
                     experiment.setEnvironmentNote(res.getEnvironmentNote());

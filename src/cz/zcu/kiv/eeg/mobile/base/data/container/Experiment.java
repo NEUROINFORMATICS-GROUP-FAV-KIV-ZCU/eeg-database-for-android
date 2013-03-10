@@ -26,8 +26,10 @@ public class Experiment implements Serializable {
     private Person subject;
     private Weather weather;
     private List<Disease> diseases;
+    private List<Hardware> hardwares;
     private Artifact artifact;
     private Digitization digitization;
+    private Integer temperature;
 
     public Experiment(int experimentId, String startTime, String endTime, int scenarioId, String scenarioName) throws ParseException {
         this.experimentId = experimentId;
@@ -132,5 +134,21 @@ public class Experiment implements Serializable {
 
     public Digitization getDigitization() {
         return digitization;
+    }
+
+    public Integer getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Integer temperature) {
+        this.temperature = temperature;
+    }
+
+    public List<Hardware> getHardwares() {
+        return hardwares;
+    }
+
+    public void setHardwares(List<Hardware> hardwares) {
+        this.hardwares = hardwares;
     }
 }

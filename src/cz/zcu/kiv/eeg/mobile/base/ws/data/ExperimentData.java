@@ -23,12 +23,16 @@ public class ExperimentData {
     private String startTime, endTime;
     @Element
     private DiseaseDataList diseases;
+    @Element
+    private HardwareDataList hardwareList;
     @Element(required = false)
     private String environmentNote;
     @Element
     private WeatherData weather;
     @Element
     private SubjectData subject;
+    @Element(required = false)
+    private Integer temperature;
 
     public int getExperimentId() {
         return experimentId;
@@ -82,16 +86,16 @@ public class ExperimentData {
         return digitization;
     }
 
+    public void setDigitization(DigitizationData digitization) {
+        this.digitization = digitization;
+    }
+
     public DiseaseDataList getDiseases() {
         return diseases;
     }
 
     public void setDiseases(DiseaseDataList diseases) {
         this.diseases = diseases;
-    }
-
-    public void setDigitization(DigitizationData digitization) {
-        this.digitization = digitization;
     }
 
     public WeatherData getWeather() {
@@ -108,5 +112,21 @@ public class ExperimentData {
 
     public void setSubject(SubjectData subject) {
         this.subject = subject;
+    }
+
+    public Integer getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Integer temperature) {
+        this.temperature = temperature;
+    }
+
+    public HardwareDataList getHardwareList() {
+        return hardwareList;
+    }
+
+    public void setHardwareList(HardwareDataList hardwareList) {
+        this.hardwareList = hardwareList;
     }
 }
