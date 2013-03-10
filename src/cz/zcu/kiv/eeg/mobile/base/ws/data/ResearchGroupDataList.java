@@ -18,5 +18,4 @@ public class ResearchGroupDataList {
 	public void setGroups(List<ResearchGroupData> groups) {
 		this.groups = groups;
 	}
-
 }

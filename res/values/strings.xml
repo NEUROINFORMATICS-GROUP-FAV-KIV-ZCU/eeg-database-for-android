@@ -17,6 +17,9 @@
     <string name="menu_login">Log In</string>
     <string name="logo">Logo</string>
 
+    <string name="no">no</string>
+    <string name="yes">yes</string>
+
     <string name="mandatory">Mandatory</string>
     <string name="optional">Optionable</string>
 
@@ -124,6 +127,14 @@
     <string name="experiment_id">Experiment ID</string>
     <string name="experiment_env_note">Environment note</string>
     <string name="experiment_weather">Weather</string>
+    <string name="experiment_weather_title">Title</string>
+    <string name="experiment_artifact">Artifact</string>
+    <string name="experiment_artifact_compensation">Compensation</string>
+    <string name="experiment_artifact_reject">Reject condition</string>
+    <string name="experiment_digitization">Digitization</string>
+    <string name="experiment_digitization_filter">Filter</string>
+    <string name="experiment_digitization_gain">Gain</string>
+    <string name="experiment_digitization_sampling_rate">Sampling rate</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>
@@ -151,5 +162,6 @@
     <string name="person_phone">Phone number</string>
     <string name="person_owner">Owner</string>
     <string name="person_subject">Subject</string>
+    <string name="person_age">Age</string>
 
 </resources>

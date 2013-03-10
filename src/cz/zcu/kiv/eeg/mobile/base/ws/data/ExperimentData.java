@@ -13,16 +13,22 @@ public class ExperimentData {
 
     @Element
     private int experimentId;
+    @Element
+    private ScenarioSimpleData scenario;
     @Element(required = false)
-    private int artifactId;
+    private ArtifactData artifact;
+    @Element
+    private DigitizationData digitization;
     @Element
     private String startTime, endTime;
+    @Element
+    private DiseaseDataList diseases;
     @Element(required = false)
     private String environmentNote;
     @Element
-    private int scenarioId;
+    private WeatherData weather;
     @Element
-    private String scenarioName;
+    private SubjectData subject;
 
     public int getExperimentId() {
         return experimentId;
@@ -56,19 +62,51 @@ public class ExperimentData {
         this.environmentNote = environmentNote;
     }
 
-    public int getScenarioId() {
-        return scenarioId;
+    public ScenarioSimpleData getScenario() {
+        return scenario;
     }
 
-    public void setScenarioId(int scenarioId) {
-        this.scenarioId = scenarioId;
+    public void setScenario(ScenarioSimpleData scenario) {
+        this.scenario = scenario;
     }
 
-    public String getScenarioName() {
-        return scenarioName;
+    public ArtifactData getArtifact() {
+        return artifact;
     }
 
-    public void setScenarioName(String scenarioName) {
-        this.scenarioName = scenarioName;
+    public void setArtifact(ArtifactData artifact) {
+        this.artifact = artifact;
+    }
+
+    public DigitizationData getDigitization() {
+        return digitization;
+    }
+
+    public DiseaseDataList getDiseases() {
+        return diseases;
+    }
+
+    public void setDiseases(DiseaseDataList diseases) {
+        this.diseases = diseases;
+    }
+
+    public void setDigitization(DigitizationData digitization) {
+        this.digitization = digitization;
+    }
+
+    public WeatherData getWeather() {
+        return weather;
+    }
+
+    public void setWeather(WeatherData weather) {
+        this.weather = weather;
+    }
+
+    public SubjectData getSubject() {
+        return subject;
+    }
+
+    public void setSubject(SubjectData subject) {
+        this.subject = subject;
     }
 }

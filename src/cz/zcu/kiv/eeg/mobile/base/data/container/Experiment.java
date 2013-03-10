@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Experiment data container.
@@ -22,6 +23,11 @@ public class Experiment implements Serializable {
     private String environmentNote;
     private int scenarioId;
     private String scenarioName;
+    private Person subject;
+    private Weather weather;
+    private List<Disease> diseases;
+    private Artifact artifact;
+    private Digitization digitization;
 
     public Experiment(int experimentId, String startTime, String endTime, int scenarioId, String scenarioName) throws ParseException {
         this.experimentId = experimentId;
@@ -86,5 +92,45 @@ public class Experiment implements Serializable {
 
     public void setScenarioName(String scenarioName) {
         this.scenarioName = scenarioName;
+    }
+
+    public Person getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Person subject) {
+        this.subject = subject;
+    }
+
+    public Weather getWeather() {
+        return weather;
+    }
+
+    public void setWeather(Weather weather) {
+        this.weather = weather;
+    }
+
+    public List<Disease> getDiseases() {
+        return diseases;
+    }
+
+    public void setDiseases(List<Disease> diseases) {
+        this.diseases = diseases;
+    }
+
+    public Artifact getArtifact() {
+        return artifact;
+    }
+
+    public void setArtifact(Artifact artifact) {
+        this.artifact = artifact;
+    }
+
+    public void setDigitization(Digitization digitization) {
+        this.digitization = digitization;
+    }
+
+    public Digitization getDigitization() {
+        return digitization;
     }
 }

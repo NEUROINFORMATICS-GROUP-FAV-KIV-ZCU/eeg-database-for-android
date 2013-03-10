@@ -16,6 +16,9 @@
     <string name="menu_login">Přihlásit se</string>
     <string name="logo">Logo</string>
 
+    <string name="no">ne</string>
+    <string name="yes">yes</string>
+
     <string name="mandatory">Povinné</string>
     <string name="optional">Volitelné</string>
 
@@ -91,6 +94,7 @@
     <string name="reser_detail_separator">-</string>
     <string name="reser_detail_creator">Vytvořil</string>
     <string name="reser_detail_time">Časy</string>
+    <string name="reser_detail_contact">Kontakt</string>
 
     <string name="reser_dialog_remove_header">Smazání rezervace</string>
     <string name="reser_dialog_remove_body">Skutečně chcete rezervaci smazat?</string>
@@ -120,6 +124,14 @@
     <string name="experiment_id">ID experimentu</string>
     <string name="experiment_env_note">Poznámka k prostředí</string>
     <string name="experiment_weather">Počasí</string>
+    <string name="experiment_weather_title">Název</string>
+    <string name="experiment_artifact">Artefakt</string>
+    <string name="experiment_artifact_compensation">Kompenzace</string>
+    <string name="experiment_artifact_reject">Podmínka odmítnutí</string>
+    <string name="experiment_digitization">Digitalizace</string>
+    <string name="experiment_digitization_filter">Filtr</string>
+    <string name="experiment_digitization_gain">Zesílení</string>
+    <string name="experiment_digitization_sampling_rate">Vzorkovací frekvence</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>
@@ -147,5 +159,6 @@
     <string name="person_phone">Telefonní číslo</string>
     <string name="person_owner">Vlastník</string>
     <string name="person_subject">Subjekt</string>
+    <string name="person_age">Věk</string>
 
 </resources>

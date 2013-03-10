@@ -7,20 +7,21 @@
 
     <TextView
         android:id="@+id/fromValue"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/detail_padding"
         android:text="@string/reser_detail_from" />
 
     <TextView
         android:id="@+id/timeSeparator"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reser_detail_separator" />
+        android:text="@string/reser_detail_separator"
+        android:paddingLeft="20sp"/>
 
     <TextView
         android:id="@+id/toValue"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/detail_padding"
         android:text="@string/reser_detail_to" />
