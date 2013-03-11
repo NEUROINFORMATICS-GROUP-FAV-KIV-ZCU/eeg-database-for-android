@@ -1,10 +1,12 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container;
 
+import java.io.Serializable;
+
 /**
  * @author Petr Miko
  *         Date: 10.3.13
  */
-public class Artifact {
+public class Artifact implements Serializable {
 
     private int artifactId;
     private String compensation;

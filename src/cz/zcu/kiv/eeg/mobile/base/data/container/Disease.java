@@ -1,10 +1,12 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container;
 
+import java.io.Serializable;
+
 /**
  * @author Petr Miko
  *         Date: 10.3.13
  */
-public class Disease {
+public class Disease implements Serializable {
 
     private int id;
     private String name, description;
