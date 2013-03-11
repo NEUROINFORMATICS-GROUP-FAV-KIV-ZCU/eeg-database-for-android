@@ -16,8 +16,9 @@ import java.util.List;
 
 /**
  * Custom class of ArrayAdapter. Used for viewing Experiment records in ListView.
+ * Adapter data can be filtered.
  *
- * @author Petr Miko - miko.petr (at) gmail.com
+ * @author Petr Miko
  */
 public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterable {
 
@@ -27,6 +28,13 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
     private List<Scenario> filtered;
     private ScenarioListFilter scenarioListFilter = new ScenarioListFilter();
 
+    /**
+     * Adapter constructor.
+     *
+     * @param context    context
+     * @param resourceId row layout identifier
+     * @param items      scenario data collection
+     */
     public ScenarioAdapter(Context context, int resourceId, List<Scenario> items) {
         super(context, resourceId);
         this.context = context;
@@ -39,12 +47,20 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
         this.resourceId = resourceId;
     }
 
+    /**
+     * Add scenario into adapter.
+     *
+     * @param object scenario object
+     */
     public void add(Scenario object) {
         original.add(object);
         filtered.add(object);
         notifyDataSetChanged();
     }
 
+    /**
+     * Clears adapter of all records.
+     */
     @Override
     public void clear() {
         original.clear();
@@ -52,31 +68,71 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
         notifyDataSetChanged();
     }
 
+    /**
+     * Gets scenario from specified row position.
+     *
+     * @param position position in adapter
+     * @return scenario record
+     */
     @Override
     public Scenario getItem(int position) {
         return filtered.get(position);
     }
 
+    /**
+     * Available scenario objects in adapter.
+     *
+     * @return scenario count
+     */
     @Override
     public int getCount() {
         return filtered.size();
     }
 
+    /**
+     * Checker method, whether is adapter empty.
+     *
+     * @return is adapter empty
+     */
     @Override
     public boolean isEmpty() {
         return filtered.isEmpty();
     }
 
+    /**
+     * Getter of row view.
+     *
+     * @param position    position in adapter
+     * @param convertView view in which row should be displayed
+     * @param parent      parent view
+     * @return row view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return initView(position, convertView, parent);
     }
 
+    /**
+     * Getter of row view in drop down element (spinner like).
+     *
+     * @param position    position in adapter
+     * @param convertView view in which row should be displayed
+     * @param parent      parent view
+     * @return row view
+     */
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return initView(position, convertView, parent);
     }
 
+    /**
+     * Getter of row view.
+     *
+     * @param position    position in adapter
+     * @param convertView view in which row should be displayed
+     * @param parent      parent view
+     * @return row view
+     */
     private View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
@@ -106,17 +162,36 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
         return row;
     }
 
+    /**
+     * Notifies GUI that adapter content changed.
+     * Forces GUI to redraw.
+     */
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
     }
 
+    /**
+     * Getter of data filter.
+     *
+     * @return filter
+     */
     @Override
     public Filter getFilter() {
         return scenarioListFilter;
     }
 
+    /**
+     * Filter for scenario adapter.
+     */
     private class ScenarioListFilter extends Filter {
+
+        /**
+         * Filters data in adapter by input.
+         *
+         * @param constraint filter string
+         * @return filtered data collection
+         */
         @Override
         protected Filter.FilterResults performFiltering(CharSequence constraint) {
             final Filter.FilterResults filterResults = new Filter.FilterResults();
@@ -136,6 +211,12 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
 
         }
 
+        /**
+         * Assings filtered data to its collection and forces GUI to update.
+         *
+         * @param constraint filter string
+         * @param results    filtered data collection
+         */
         @Override
         protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
             filtered = (List<Scenario>) results.values;

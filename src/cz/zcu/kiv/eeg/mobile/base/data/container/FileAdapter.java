@@ -15,7 +15,6 @@ import java.util.List;
  * Adapter for displaying file content in list view.
  *
  * @author Petr Miko
- *         Date: 4.2.13
  */
 public class FileAdapter extends ArrayAdapter<FileInfo> {
 
@@ -23,12 +22,27 @@ public class FileAdapter extends ArrayAdapter<FileInfo> {
     private final Context context;
     private final int resourceId;
 
+    /**
+     * Adapter constructor for File information.
+     *
+     * @param context    context
+     * @param resourceId row layout identifier
+     * @param items      file information collection
+     */
     public FileAdapter(Context context, int resourceId, List<FileInfo> items) {
         super(context, resourceId, items);
         this.context = context;
         this.resourceId = resourceId;
     }
 
+    /**
+     * Getter of row view.
+     *
+     * @param position    position in data collection
+     * @param convertView view in which should be row dispplayed
+     * @param parent      view parent
+     * @return row view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
@@ -42,14 +56,17 @@ public class FileAdapter extends ArrayAdapter<FileInfo> {
             TextView additionalText = (TextView) row.findViewById(R.id.fileSize);
             if (topText != null) {
                 topText.setText(record.getName());
+                if (record.isDirectory()) {
+                    topText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dir, 0, 0, 0);
+                } else {
+                    topText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_file, 0, 0, 0);
+                }
             }
             if (additionalText != null) {
                 if (record.isDirectory()) {
                     additionalText.setText("");
-                    topText.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_dir,0, 0, 0);
                 } else {
                     additionalText.setText(record.getFileSize());
-                    topText.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_file,0, 0, 0);
                 }
             }
         }

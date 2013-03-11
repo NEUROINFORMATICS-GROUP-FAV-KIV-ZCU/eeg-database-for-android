@@ -4,78 +4,71 @@ import java.io.Serializable;
 
 /**
  * Data container for Research Group information.
- * 
+ *
  * @author Petr Miko
- * 
  */
 public class ResearchGroup implements Serializable {
 
-	private static final long serialVersionUID = -121212115839199552L;
+    private static final long serialVersionUID = -121212115839199552L;
+    /**
+     * Research group identifier.
+     */
+    private int researchGroupId;
+    /**
+     * Research group name.
+     */
+    private String researchGroupName;
 
-	/**
-	 * Research group identifier.
-	 */
-	private int researchGroupId;
+    /**
+     * Creates uninitialized research group object.
+     */
+    public ResearchGroup() {
+    }
 
-	/**
-	 * Research group name.
-	 */
-	private String researchGroupName;
+    /**
+     * Creates initialized research group object.
+     *
+     * @param researchGroupId   research group identifier
+     * @param researchGroupName research group name
+     */
+    public ResearchGroup(int researchGroupId, String researchGroupName) {
+        this.researchGroupId = researchGroupId;
+        this.researchGroupName = researchGroupName;
+    }
 
-	/**
-	 * Creates uninitialized research group object.
-	 */
-	public ResearchGroup() {
-	}
+    /**
+     * Gets research group identifier.
+     *
+     * @return research group identifier
+     */
+    public int getResearchGroupId() {
+        return researchGroupId;
+    }
 
-	/**
-	 * Creates initialized research group object.
-	 * 
-	 * @param researchGroupId
-	 *            research group identifier
-	 * @param researchGroupName
-	 *            research group name
-	 */
-	public ResearchGroup(int researchGroupId, String researchGroupName) {
-		this.researchGroupId = researchGroupId;
-		this.researchGroupName = researchGroupName;
-	}
+    /**
+     * Sets research group identifier.
+     *
+     * @param researchGroupId research group identifier
+     */
+    public void setResearchGroupId(int researchGroupId) {
+        this.researchGroupId = researchGroupId;
+    }
 
-	/**
-	 * Gets research group identifier.
-	 * 
-	 * @return research group identifier
-	 */
-	public int getResearchGroupId() {
-		return researchGroupId;
-	}
+    /**
+     * Gets research group name.
+     *
+     * @return research group name
+     */
+    public String getResearchGroupName() {
+        return researchGroupName;
+    }
 
-	/**
-	 * Sets research group identifier.
-	 * 
-	 * @param researchGroupId
-	 *            research group identifier
-	 */
-	public void setResearchGroupId(int researchGroupId) {
-		this.researchGroupId = researchGroupId;
-	}
-
-	/**
-	 * Gets research group name.
-	 * 
-	 * @return research group name
-	 */
-	public String getResearchGroupName() {
-		return researchGroupName;
-	}
-
-	/**
-	 * Sets research group name.
-	 * 
-	 * @param researchGroupName
-	 *            research group name
-	 */
-	public void setResearchGroupName(String researchGroupName) {
-		this.researchGroupName = researchGroupName;
-	}
+    /**
+     * Sets research group name.
+     *
+     * @param researchGroupName research group name
+     */
+    public void setResearchGroupName(String researchGroupName) {
+        this.researchGroupName = researchGroupName;
+    }
 }

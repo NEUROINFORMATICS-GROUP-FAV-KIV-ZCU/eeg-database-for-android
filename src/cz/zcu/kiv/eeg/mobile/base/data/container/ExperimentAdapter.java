@@ -17,8 +17,9 @@ import java.util.List;
 
 /**
  * Custom class of ArrayAdapter. Used for viewing Experiment records in ListView.
+ * Data can be filtered.
  *
- * @author Petr Miko - miko.petr (at) gmail.com
+ * @author Petr Miko
  */
 public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filterable {
 
@@ -28,6 +29,13 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
     private List<Experiment> filtered;
     private ExperimentListFilter experimentListFilter = new ExperimentListFilter();
 
+    /**
+     * Experiment adapter constructor.
+     *
+     * @param context    context
+     * @param resourceId row layout identifier
+     * @param items      row data collection
+     */
     public ExperimentAdapter(Context context, int resourceId, List<Experiment> items) {
         super(context, resourceId);
         this.context = context;
@@ -40,12 +48,21 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
         }
     }
 
+    /**
+     * Adds experiment into adapter.
+     *
+     * @param object experiment record
+     */
+    @Override
     public void add(Experiment object) {
         original.add(object);
         filtered.add(object);
         this.notifyDataSetChanged();
     }
 
+    /**
+     * Clears adapter of data.
+     */
     @Override
     public void clear() {
         original.clear();
@@ -53,31 +70,71 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
         notifyDataSetChanged();
     }
 
+    /**
+     * Getter of experiment on specified position.
+     *
+     * @param position position in adapter
+     * @return experiment data
+     */
     @Override
     public Experiment getItem(int position) {
         return filtered.get(position);
     }
 
+    /**
+     * Available experiment count getter.
+     *
+     * @return available experiment count
+     */
     @Override
     public int getCount() {
         return filtered.size();
     }
 
+    /**
+     * Test, whether is adapter empty.
+     *
+     * @return is adapter empty
+     */
     @Override
     public boolean isEmpty() {
         return filtered.isEmpty();
     }
 
+    /**
+     * Row view getter.
+     *
+     * @param position    position in adapter
+     * @param convertView view where row should be displayed in
+     * @param parent      view parent
+     * @return row view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return initView(position, convertView, parent);
     }
 
+    /**
+     * Row view getter for drop down view elements (spinner like)
+     *
+     * @param position    position in adapter
+     * @param convertView view where row should be displayed in
+     * @param parent      view parent
+     * @return row view
+     */
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return initView(position, convertView, parent);
     }
 
+    /**
+     * Row view creator method.
+     *
+     * @param position    position in adapter
+     * @param convertView view where row should be displayed in
+     * @param parent      view parent
+     * @return row view
+     */
     private View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
@@ -91,27 +148,44 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
             TextView experimentName = (TextView) row.findViewById(R.id.row_experiment_name);
             TextView experimentTime = (TextView) row.findViewById(R.id.row_experiment_time);
 
-            if(experimentId != null)
+            if (experimentId != null)
                 experimentId.setText(Integer.toString(record.getExperimentId()));
-            if(experimentName != null)
+            if (experimentName != null)
                 experimentName.setText(record.getScenarioName());
-            if(experimentTime != null)
+            if (experimentTime != null)
                 experimentTime.setText(sf.format(record.getStartTime()) + " – " + sf.format(record.getEndTime()));
         }
         return row;
     }
 
+    /**
+     * Notifies GUI, that data changed.
+     */
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
     }
 
+    /**
+     * Data filter getter.
+     *
+     * @return filter
+     */
     @Override
     public Filter getFilter() {
         return experimentListFilter;
     }
 
+    /**
+     * Filter for experiment data.
+     */
     private class ExperimentListFilter extends Filter {
+        /**
+         * Performs filtering upon data collection.
+         *
+         * @param constraint filter string
+         * @return filtered result collection
+         */
         @Override
         protected Filter.FilterResults performFiltering(CharSequence constraint) {
             final Filter.FilterResults oReturn = new Filter.FilterResults();
@@ -131,6 +205,12 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
 
         }
 
+        /**
+         * Action on publish results.
+         *
+         * @param constraint filter string
+         * @param results    filtered data
+         */
         @Override
         protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
             filtered = (List<Experiment>) results.values;

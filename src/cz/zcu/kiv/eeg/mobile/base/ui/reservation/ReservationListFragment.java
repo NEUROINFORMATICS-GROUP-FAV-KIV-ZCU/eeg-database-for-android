@@ -142,7 +142,7 @@ public class ReservationListFragment extends ListFragment {
 
     private ReservationAdapter getAdapter() {
         if (dataAdapter == null)
-            dataAdapter = new ReservationAdapter(getActivity(), getId(), R.layout.reser_agenda_list_row, new ArrayList<Reservation>(),getId());
+            dataAdapter = new ReservationAdapter(getActivity(), getId(), R.layout.reser_agenda_list_row, new ArrayList<Reservation>());
 
         return dataAdapter;
     }

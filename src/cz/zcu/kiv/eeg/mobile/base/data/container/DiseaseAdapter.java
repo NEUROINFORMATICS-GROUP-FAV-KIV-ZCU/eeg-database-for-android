@@ -14,29 +14,60 @@ import java.util.List;
 /**
  * Custom class of ArrayAdapter. Used for viewing Disease records in ListView.
  *
- * @author Petr Miko - miko.petr (at) gmail.com
+ * @author Petr Miko
  */
 public class DiseaseAdapter extends ArrayAdapter<Disease> {
 
     private final Context context;
     private final int resourceId;
 
+    /**
+     * Constructor of disease array adapter.
+     *
+     * @param context    context
+     * @param resourceId row layout identifier
+     * @param items      item collection
+     */
     public DiseaseAdapter(Context context, int resourceId, List<Disease> items) {
         super(context, resourceId, items);
         this.context = context;
         this.resourceId = resourceId;
     }
 
+    /**
+     * Getter of row view.
+     *
+     * @param position    row position
+     * @param convertView view, where row should be displayed in
+     * @param parent      view parent
+     * @return row view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return initView(position, convertView, parent);
     }
 
+    /**
+     * Getter of row view in drop down element (spinner like).
+     *
+     * @param position    row position, ie. position inside data collection
+     * @param convertView view, where row should be displayed in
+     * @param parent      view, where row should be displayed in
+     * @return row view
+     */
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return initView(position, convertView, parent);
     }
 
+    /**
+     * Creates row view using proper layout and data.
+     *
+     * @param position    row position, ie. position inside data collection
+     * @param convertView view, where row should be displayed in
+     * @param parent      view, where row should be displayed in
+     * @return row view
+     */
     private View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
