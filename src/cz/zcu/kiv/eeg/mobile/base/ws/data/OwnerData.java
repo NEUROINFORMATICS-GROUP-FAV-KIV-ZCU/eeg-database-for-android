@@ -5,30 +5,26 @@ import org.simpleframework.xml.Root;
 
 /**
  * @author Petr Miko
- *         Date: 9.3.13
+ *         Date: 19.3.13
  */
-@Root(name = "subject")
-public class SubjectData {
+@Root(name = "owner")
+public class OwnerData {
 
     @Element
-    private int personId;
+    private int id;
     @Element
-    private String name, surname;
+    private String name;
     @Element
-    private String gender;
-    @Element
-    private int age;
-    @Element
-    private boolean leftHanded;
+    private String surname;
     @Element(required = false)
     private String mailUsername, mailDomain;
 
-    public int getPersonId() {
-        return personId;
+    public int getId() {
+        return id;
     }
 
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -45,34 +41,6 @@ public class SubjectData {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public void setGender(char gender) {
-        this.gender = String.valueOf(gender);
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public boolean isLeftHanded() {
-        return leftHanded;
-    }
-
-    public void setLeftHanded(boolean leftHanded) {
-        this.leftHanded = leftHanded;
     }
 
     public String getMailUsername() {

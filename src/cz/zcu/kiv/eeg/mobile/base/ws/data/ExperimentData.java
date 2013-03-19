@@ -1,6 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.data;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Order;
 import org.simpleframework.xml.Root;
 
 /**
@@ -8,13 +9,15 @@ import org.simpleframework.xml.Root;
  *
  * @author Petr Miko
  */
-@Root(name = "experiment")
+@Root(name = "experiment", strict=false)
 public class ExperimentData {
 
     @Element
     private int experimentId;
     @Element
     private ScenarioSimpleData scenario;
+    @Element
+    private ResearchGroupData researchGroup;
     @Element(required = false)
     private ArtifactData artifact;
     @Element
@@ -29,6 +32,8 @@ public class ExperimentData {
     private String environmentNote;
     @Element
     private WeatherData weather;
+    @Element
+    private OwnerData owner;
     @Element
     private SubjectData subject;
     @Element(required = false)
@@ -74,6 +79,14 @@ public class ExperimentData {
         this.scenario = scenario;
     }
 
+    public ResearchGroupData getResearchGroup() {
+        return researchGroup;
+    }
+
+    public void setResearchGroup(ResearchGroupData researchGroup) {
+        this.researchGroup = researchGroup;
+    }
+
     public ArtifactData getArtifact() {
         return artifact;
     }
@@ -104,6 +117,14 @@ public class ExperimentData {
 
     public void setWeather(WeatherData weather) {
         this.weather = weather;
+    }
+
+    public OwnerData getOwner() {
+        return owner;
+    }
+
+    public void setOwner(OwnerData owner) {
+        this.owner = owner;
     }
 
     public SubjectData getSubject() {
