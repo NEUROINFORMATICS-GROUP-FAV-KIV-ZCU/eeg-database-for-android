@@ -46,31 +46,20 @@ public class CreatePerson extends CommonService<PersonData, Void, UserInfo> {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
+        requestHeaders.setContentType(MediaType.APPLICATION_XML);
 
 
         // Create a new RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
-
 
         PersonData person = personDatas[0];
 
         try {
             Log.d(TAG, url);
-            MultiValueMap<String, Object> form = new LinkedMultiValueMap<String, Object>();
-            form.add("name", person.getName());
-            form.add("surname", person.getSurname());
-            form.add("gender", person.getGender());
-            form.add("birthday", person.getBirthday());
-            form.add("email", person.getEmail());
-            form.add("phone", person.getPhone());
-            form.add("note", person.getNotes());
-            form.add("laterality", person.getLeftHanded());
 
-            HttpEntity<Object> entity = new HttpEntity<Object>(form, requestHeaders);
+            HttpEntity<PersonData> entity = new HttpEntity<PersonData>(person, requestHeaders);
             // Make the network request
             return restTemplate.postForObject(url, entity, UserInfo.class);
         } catch (Exception e) {

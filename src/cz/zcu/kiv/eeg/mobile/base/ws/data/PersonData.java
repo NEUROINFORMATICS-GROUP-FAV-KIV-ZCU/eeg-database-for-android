@@ -1,18 +1,32 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.data;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 /**
+ * Data container for person information.
+ * Used for XML marshaling.
+ *
  * @author Petr Miko
- *         Date: 23.2.13
  */
+@Root(name = "person")
 public class PersonData {
 
+    @Element
     private String name;
+    @Element
     private String surname;
+    @Element
     private String birthday;
+    @Element
     private String gender;
+    @Element
     private String email;
+    @Element(required = false)
     private String leftHanded;
+    @Element(required = false)
     private String notes;
+    @Element(required = false)
     private String phone;
 
     public String getName() {
