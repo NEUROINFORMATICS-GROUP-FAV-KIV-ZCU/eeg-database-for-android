@@ -1,5 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -9,7 +11,7 @@ import org.simpleframework.xml.Root;
  * @author Petr Miko
  */
 @Root(name = "electrodeLocation")
-public class ElectrodeLocation {
+public class ElectrodeLocation implements Parcelable {
 
     @Element
     private int id;
@@ -25,6 +27,18 @@ public class ElectrodeLocation {
     private ElectrodeFix electrodeFix;
     @Element
     private ElectrodeType electrodeType;
+
+    public ElectrodeLocation(){}
+
+    public ElectrodeLocation(Parcel in){
+        id = in.readInt();
+        title = in.readString();
+        abbr = in.readString();
+        description = in.readString();
+        defaultNumber = in.readInt();
+        electrodeFix = in.readParcelable(ElectrodeFix.class.getClassLoader());
+        electrodeType = in.readParcelable(ElectrodeType.class.getClassLoader());
+    }
 
     public int getId() {
         return id;
@@ -81,4 +95,31 @@ public class ElectrodeLocation {
     public void setElectrodeType(ElectrodeType electrodeType) {
         this.electrodeType = electrodeType;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(abbr);
+        dest.writeString(description);
+        dest.writeInt(defaultNumber);
+        dest.writeParcelable(electrodeFix, flags);
+        dest.writeParcelable(electrodeType, flags);
+    }
+
+    public static final Parcelable.Creator<ElectrodeLocation> CREATOR
+            = new Parcelable.Creator<ElectrodeLocation>() {
+        public ElectrodeLocation createFromParcel(Parcel in) {
+            return new ElectrodeLocation(in);
+        }
+
+        public ElectrodeLocation[] newArray(int size) {
+            return new ElectrodeLocation[size];
+        }
+    };
 }

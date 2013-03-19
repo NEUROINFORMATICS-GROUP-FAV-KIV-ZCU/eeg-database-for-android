@@ -2,6 +2,7 @@ package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Transient;
 
 import java.util.List;
 
@@ -21,5 +22,9 @@ public class ScenarioList {
 
     public void setScenarios(List<Scenario> scenarios) {
         this.scenarios = scenarios;
+    }
+
+    public boolean isAvailable(){
+        return scenarios != null;
     }
 }

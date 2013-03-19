@@ -1,5 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -9,7 +11,7 @@ import org.simpleframework.xml.Root;
  * @author Petr Miko
  */
 @Root(name = "electrodeLocation")
-public class ElectrodeConf {
+public class ElectrodeConf implements Parcelable{
 
     @Element
     private int id;
@@ -19,6 +21,15 @@ public class ElectrodeConf {
     private ElectrodeSystem electrodeSystem;
     @Element(required = false)
     private ElectrodeLocationList electrodeLocations;
+
+    public ElectrodeConf(){}
+
+    public ElectrodeConf(Parcel in){
+        id = in.readInt();
+        impedance = in.readInt();
+        electrodeSystem = in.readParcelable(ElectrodeSystem.class.getClassLoader());
+        electrodeLocations = in.readParcelable(ElectrodeLocationList.class.getClassLoader());
+    }
 
     public int getId() {
         return id;
@@ -51,4 +62,28 @@ public class ElectrodeConf {
     public void setElectrodeLocations(ElectrodeLocationList electrodeLocations) {
         this.electrodeLocations = electrodeLocations;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(impedance);
+        dest.writeParcelable(electrodeSystem, flags);
+        dest.writeParcelable(electrodeLocations, flags);
+    }
+
+    public static final Parcelable.Creator<ElectrodeConf> CREATOR
+            = new Parcelable.Creator<ElectrodeConf>() {
+        public ElectrodeConf createFromParcel(Parcel in) {
+            return new ElectrodeConf(in);
+        }
+
+        public ElectrodeConf[] newArray(int size) {
+            return new ElectrodeConf[size];
+        }
+    };
 }

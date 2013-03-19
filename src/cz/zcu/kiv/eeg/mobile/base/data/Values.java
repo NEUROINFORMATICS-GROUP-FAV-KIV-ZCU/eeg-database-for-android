@@ -39,4 +39,8 @@ public class Values {
     //day displayed as first in calendar view
     public static int firstDayOfWeek = Calendar.SUNDAY;
 
+    //bolean values in bytes for parcelable implementation
+    public static byte TRUE = 1;
+    public static byte FALSE = 0;
+
 }

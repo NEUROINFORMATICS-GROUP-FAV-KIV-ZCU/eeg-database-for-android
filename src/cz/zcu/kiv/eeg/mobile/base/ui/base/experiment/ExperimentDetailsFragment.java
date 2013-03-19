@@ -121,7 +121,35 @@ public class ExperimentDetailsFragment extends Fragment {
      * @param experiment   experiment object for accessing data
      */
     private void fillSoftwareList(LinearLayout softwareList, Experiment experiment) {
+        if (experiment.getSoftwareList() != null && experiment.getSoftwareList().isAvailable()){
 
+            //create and inflate row by row
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            for(Software record : experiment.getSoftwareList().getSoftwareList()){
+                View row = inflater.inflate(R.layout.base_software_row, softwareList, false);
+
+
+                TextView swId = (TextView) row.findViewById(R.id.row_software_id);
+                TextView swTitle = (TextView) row.findViewById(R.id.row_software_title);
+                TextView swDescription = (TextView) row.findViewById(R.id.row_software_description);
+
+                if (swId != null) {
+                    swId.setText(Integer.toString(record.getId()));
+                }
+                if (swTitle != null) {
+                    swTitle.setText(record.getTitle());
+                }
+                if (swDescription != null) {
+                    swDescription.setText(record.getDescription());
+                }
+                softwareList.addView(row);
+            }
+        }  else {
+            //inflate information, that no record is available
+            TextView row = new TextView(getActivity());
+            row.setText(R.string.dummy_none);
+            softwareList.addView(row);
+        }
     }
 
     /**
@@ -131,12 +159,11 @@ public class ExperimentDetailsFragment extends Fragment {
      * @param experiment   experiment object for accessing data
      */
     private void fillHardwareList(LinearLayout hardwareList, Experiment experiment) {
-        if (experiment.getHardwareList() != null && experiment.getHardwareList().getHardwareList() != null) {
+        if (experiment.getHardwareList() != null && experiment.getHardwareList().isAvailable()) {
 
             //create and inflate row by row
+            LayoutInflater inflater = getActivity().getLayoutInflater();
             for (Hardware record : experiment.getHardwareList().getHardwareList()) {
-
-                LayoutInflater inflater = getActivity().getLayoutInflater();
                 View row = inflater.inflate(R.layout.base_hardware_row, hardwareList, false);
 
                 TextView hwId = (TextView) row.findViewById(R.id.row_hardware_id);
@@ -173,11 +200,11 @@ public class ExperimentDetailsFragment extends Fragment {
      * @param experiment   experiment object for accessing data
      */
     private void fillDiseases(LinearLayout diseasesList, Experiment experiment) {
-        if (experiment.getDiseases() != null && experiment.getDiseases().getDiseases() != null) {
+        if (experiment.getDiseases() != null && experiment.getDiseases().isAvailable()) {
 
             //create and inflate row by row
+            LayoutInflater inflater = getActivity().getLayoutInflater();
             for (Disease record : experiment.getDiseases().getDiseases()) {
-                LayoutInflater inflater = getActivity().getLayoutInflater();
                 View row = inflater.inflate(R.layout.base_disease_row, diseasesList, false);
 
                 TextView diseaseName = (TextView) row.findViewById(R.id.row_disease_name);

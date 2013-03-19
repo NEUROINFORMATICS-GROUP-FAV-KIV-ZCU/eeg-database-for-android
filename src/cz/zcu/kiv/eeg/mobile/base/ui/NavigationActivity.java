@@ -29,7 +29,8 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
 
         setContentView(R.layout.base);
         final ActionBar actionBar = getActionBar();
-        actionBar.setTitle("");
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         SpinnerAdapter spinnerAdapter = new MenuAdapter(actionBar.getThemedContext(), R.layout.base_menu_row,

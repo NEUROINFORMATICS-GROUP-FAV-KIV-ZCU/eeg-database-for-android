@@ -1,10 +1,11 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-
-import java.io.Serializable;
 
 /**
  * Data container for reservation information.
@@ -12,8 +13,18 @@ import java.io.Serializable;
  * @author Petr Miko
  */
 @Root(name = "reservation")
-public class Reservation implements Serializable {
+public class Reservation implements Parcelable {
 
+    public static final Parcelable.Creator<Reservation> CREATOR
+            = new Parcelable.Creator<Reservation>() {
+        public Reservation createFromParcel(Parcel in) {
+            return new Reservation(in);
+        }
+
+        public Reservation[] newArray(int size) {
+            return new Reservation[size];
+        }
+    };
     @Element
     private String researchGroup;
     @Element
@@ -33,8 +44,19 @@ public class Reservation implements Serializable {
     @Element(required = false)
     private boolean canRemove = false;
 
-
     public Reservation() {
+    }
+
+    public Reservation(Parcel in) {
+        reservationId = in.readInt();
+        researchGroupId = in.readInt();
+        researchGroup = in.readString();
+        fromTime = in.readString();
+        toTime = in.readString();
+        creatorName = in.readString();
+        creatorMailUsername = in.readString();
+        creatorMailDomain = in.readString();
+        canRemove = in.readByte() == Values.TRUE;
     }
 
     public Reservation(int reservationId, int groupId, String groupName, String fromTime, String toTime, boolean canRemove) {
@@ -125,5 +147,23 @@ public class Reservation implements Serializable {
     @Transient
     public String getEmail() {
         return getCreatorMailUsername() + "@" + getCreatorMailDomain();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(reservationId);
+        dest.writeInt(reservationId);
+        dest.writeString(researchGroup);
+        dest.writeString(fromTime);
+        dest.writeString(toTime);
+        dest.writeString(creatorName);
+        dest.writeString(creatorMailUsername);
+        dest.writeString(creatorMailDomain);
+        dest.writeByte(canRemove ? Values.TRUE : Values.FALSE);
     }
 }

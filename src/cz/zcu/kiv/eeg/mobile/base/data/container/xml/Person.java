@@ -1,5 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -10,8 +12,18 @@ import org.simpleframework.xml.Root;
  * @author Petr Miko
  */
 @Root(name = "person")
-public class Person {
+public class Person implements Parcelable {
 
+    public static final Parcelable.Creator<Person> CREATOR
+            = new Parcelable.Creator<Person>() {
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
     @Element
     private String name;
     @Element
@@ -28,6 +40,20 @@ public class Person {
     private String notes;
     @Element(required = false)
     private String phone;
+
+    public Person() {
+    }
+
+    public Person(Parcel in) {
+        name = in.readString();
+        surname = in.readString();
+        birthday = in.readString();
+        gender = in.readString();
+        email = in.readString();
+        leftHanded = in.readString();
+        notes = in.readString();
+        phone = in.readString();
+    }
 
     public String getName() {
         return name;
@@ -91,5 +117,22 @@ public class Person {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(surname);
+        dest.writeString(birthday);
+        dest.writeString(gender);
+        dest.writeString(email);
+        dest.writeString(leftHanded);
+        dest.writeString(notes);
+        dest.writeString(phone);
     }
 }

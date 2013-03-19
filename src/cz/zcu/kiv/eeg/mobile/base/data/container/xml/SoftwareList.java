@@ -2,6 +2,7 @@ package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Transient;
 
 import java.util.List;
 
@@ -23,5 +24,9 @@ public class SoftwareList {
 
     public void setSoftwareList(List<Software> softwareList) {
         this.softwareList = softwareList;
+    }
+
+    public boolean isAvailable(){
+        return softwareList != null;
     }
 }

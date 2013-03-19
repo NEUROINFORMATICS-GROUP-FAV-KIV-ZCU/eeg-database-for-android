@@ -1,5 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -9,14 +11,29 @@ import org.simpleframework.xml.Root;
  * @author Petr Miko
  */
 @Root(name = "researchGroup")
-public class ResearchGroup {
+public class ResearchGroup implements Parcelable {
 
+    public static final Parcelable.Creator<ResearchGroup> CREATOR
+            = new Parcelable.Creator<ResearchGroup>() {
+        public ResearchGroup createFromParcel(Parcel in) {
+            return new ResearchGroup(in);
+        }
+
+        public ResearchGroup[] newArray(int size) {
+            return new ResearchGroup[size];
+        }
+    };
     @Element
     private int groupId;
     @Element
     private String groupName;
 
     public ResearchGroup() {
+    }
+
+    public ResearchGroup(Parcel in) {
+        groupId = in.readInt();
+        groupName = in.readString();
     }
 
     public int getGroupId() {
@@ -35,4 +52,14 @@ public class ResearchGroup {
         this.groupName = groupName;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(groupId);
+        dest.writeString(groupName);
+    }
 }

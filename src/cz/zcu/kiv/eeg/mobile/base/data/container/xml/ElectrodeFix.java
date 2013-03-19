@@ -1,5 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -9,8 +11,18 @@ import org.simpleframework.xml.Root;
  * @author Petr Miko
  */
 @Root(name = "electrodeFixData")
-public class ElectrodeFix {
+public class ElectrodeFix implements Parcelable {
 
+    public static final Parcelable.Creator<ElectrodeConf> CREATOR
+            = new Parcelable.Creator<ElectrodeConf>() {
+        public ElectrodeConf createFromParcel(Parcel in) {
+            return new ElectrodeConf(in);
+        }
+
+        public ElectrodeConf[] newArray(int size) {
+            return new ElectrodeConf[size];
+        }
+    };
     @Element
     private int id;
     @Element
@@ -19,6 +31,16 @@ public class ElectrodeFix {
     private String description;
     @Element
     private int defaultNumber;
+
+    public ElectrodeFix() {
+    }
+
+    public ElectrodeFix(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        description = in.readString();
+        defaultNumber = in.readInt();
+    }
 
     public int getId() {
         return id;
@@ -50,5 +72,18 @@ public class ElectrodeFix {
 
     public void setDefaultNumber(int defaultNumber) {
         this.defaultNumber = defaultNumber;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeInt(defaultNumber);
     }
 }

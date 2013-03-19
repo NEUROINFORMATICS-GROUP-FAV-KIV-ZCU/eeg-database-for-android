@@ -1,9 +1,9 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-
-import java.io.Serializable;
 
 /**
  * Data container for Experiment information.
@@ -11,8 +11,18 @@ import java.io.Serializable;
  * @author Petr Miko
  */
 @Root(name = "experiment", strict = false)
-public class Experiment implements Serializable {
+public class Experiment implements Parcelable {
 
+    public static final Parcelable.Creator<Experiment> CREATOR
+            = new Parcelable.Creator<Experiment>() {
+        public Experiment createFromParcel(Parcel in) {
+            return new Experiment(in);
+        }
+
+        public Experiment[] newArray(int size) {
+            return new Experiment[size];
+        }
+    };
     @Element
     private int experimentId;
     @Element
@@ -45,6 +55,29 @@ public class Experiment implements Serializable {
     private PharmaceuticalList pharmaceuticals;
     @Element
     private ElectrodeConf electrodeConf;
+
+    public Experiment() {
+    }
+
+    public Experiment(Parcel in) {
+        experimentId = in.readInt();
+        startTime = in.readString();
+        endTime = in.readString();
+        environmentNote = in.readString();
+        temperature = in.readInt();
+        scenario = in.readParcelable(Scenario.class.getClassLoader());
+        researchGroup = in.readParcelable(ResearchGroup.class.getClassLoader());
+        artifact = in.readParcelable(Artifact.class.getClassLoader());
+        digitization = in.readParcelable(Digitization.class.getClassLoader());
+        diseases = in.readParcelable(DiseaseList.class.getClassLoader());
+        hardwareList = in.readParcelable(HardwareList.class.getClassLoader());
+        weather = in.readParcelable(Weather.class.getClassLoader());
+        owner = in.readParcelable(Owner.class.getClassLoader());
+        subject = in.readParcelable(Subject.class.getClassLoader());
+        softwareList = in.readParcelable(SoftwareList.class.getClassLoader());
+        pharmaceuticals = in.readParcelable(PharmaceuticalList.class.getClassLoader());
+        electrodeConf = in.readParcelable(ElectrodeConf.class.getClassLoader());
+    }
 
     public int getExperimentId() {
         return experimentId;
@@ -180,5 +213,31 @@ public class Experiment implements Serializable {
 
     public void setElectrodeConf(ElectrodeConf electrodeConf) {
         this.electrodeConf = electrodeConf;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(experimentId);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
+        dest.writeString(environmentNote);
+        dest.writeInt(temperature);
+        dest.writeParcelable(scenario, flags);
+        dest.writeParcelable(researchGroup, flags);
+        dest.writeParcelable(artifact, flags);
+        dest.writeParcelable(digitization, flags);
+        dest.writeParcelable(diseases, flags);
+        dest.writeParcelable(hardwareList, flags);
+        dest.writeParcelable(weather, flags);
+        dest.writeParcelable(owner, flags);
+        dest.writeParcelable(subject, flags);
+        dest.writeParcelable(softwareList, flags);
+        dest.writeParcelable(pharmaceuticals, flags);
+        dest.writeParcelable(electrodeConf, flags);
     }
 }

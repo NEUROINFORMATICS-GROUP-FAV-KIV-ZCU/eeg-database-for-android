@@ -1,15 +1,28 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
+ * Parcelable container of owner information. Supports XML marshaling.
+ *
  * @author Petr Miko
- *         Date: 19.3.13
  */
 @Root(name = "owner")
-public class Owner {
+public class Owner implements Parcelable {
 
+    public static final Parcelable.Creator<Owner> CREATOR
+            = new Parcelable.Creator<Owner>() {
+        public Owner createFromParcel(Parcel in) {
+            return new Owner(in);
+        }
+
+        public Owner[] newArray(int size) {
+            return new Owner[size];
+        }
+    };
     @Element
     private int id;
     @Element
@@ -18,6 +31,17 @@ public class Owner {
     private String surname;
     @Element(required = false)
     private String mailUsername, mailDomain;
+
+    public Owner() {
+    }
+
+    public Owner(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        surname = in.readString();
+        mailUsername = in.readString();
+        mailDomain = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -57,5 +81,19 @@ public class Owner {
 
     public void setMailDomain(String mailDomain) {
         this.mailDomain = mailDomain;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(surname);
+        dest.writeString(mailUsername);
+        dest.writeString(mailDomain);
     }
 }
