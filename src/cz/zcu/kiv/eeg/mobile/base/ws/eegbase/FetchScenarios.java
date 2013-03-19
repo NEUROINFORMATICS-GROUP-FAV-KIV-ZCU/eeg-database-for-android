@@ -6,10 +6,9 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ScenarioAdapter;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.ScenarioData;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.ScenarioDataList;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ScenarioList;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -22,7 +21,7 @@ import java.util.List;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
-public class FetchScenarios extends CommonService<Void, Void, List<ScenarioData>> {
+public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
 
     private static final String TAG = FetchScenarios.class.getSimpleName();
     private final ScenarioAdapter scenarioAdapter;
@@ -35,7 +34,7 @@ public class FetchScenarios extends CommonService<Void, Void, List<ScenarioData>
     }
 
     @Override
-    protected List<ScenarioData> doInBackground(Void... params) {
+    protected List<Scenario> doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
@@ -56,9 +55,9 @@ public class FetchScenarios extends CommonService<Void, Void, List<ScenarioData>
         try {
             // Make the network request
             Log.d(TAG, url);
-            ResponseEntity<ScenarioDataList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
-                    ScenarioDataList.class);
-            ScenarioDataList body = response.getBody();
+            ResponseEntity<ScenarioList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
+                    ScenarioList.class);
+            ScenarioList body = response.getBody();
 
             if (body != null) {
                 return body.getScenarios();
@@ -74,34 +73,18 @@ public class FetchScenarios extends CommonService<Void, Void, List<ScenarioData>
     }
 
     @Override
-    protected void onPostExecute(List<ScenarioData> resultList) {
+    protected void onPostExecute(List<Scenario> resultList) {
         scenarioAdapter.clear();
         if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<ScenarioData>() {
+            Collections.sort(resultList, new Comparator<Scenario>() {
                 @Override
-                public int compare(ScenarioData lhs, ScenarioData rhs) {
+                public int compare(Scenario lhs, Scenario rhs) {
                     return lhs.getScenarioId() - rhs.getScenarioId();
                 }
             });
 
-            for (ScenarioData res : resultList) {
-                try {
-                    Scenario scenario = new Scenario();
-                    scenario.setScenarioId(res.getScenarioId());
-                    scenario.setScenarioName(res.getScenarioName());
-                    scenario.setDescription(res.getDescription());
-                    scenario.setFileLength(res.getFileLength());
-                    scenario.setFileName(res.getFileName());
-                    scenario.setMimeType(res.getMimeType());
-                    scenario.setOwnerName(res.getOwnerName());
-                    scenario.setResearchGroupName(res.getResearchGroupName());
-                    scenario.setPrivate(res.isPrivate());
-
-                    scenarioAdapter.add(scenario);
-                } catch (Exception e) {
-                    setState(ERROR, e);
-                    Log.e(TAG, e.getLocalizedMessage(), e);
-                }
+            for (Scenario scenario : resultList) {
+                scenarioAdapter.add(scenario);
             }
         }
     }

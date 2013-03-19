@@ -14,8 +14,8 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ExperimentAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchExperiments;
 

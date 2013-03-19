@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 
 import java.text.SimpleDateFormat;
 
@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 public class ReservationDetailsFragment extends Fragment {
 
     public final static String TAG = ReservationDetailsFragment.class.getSimpleName();
-
     private boolean empty = true;
 
     @Override

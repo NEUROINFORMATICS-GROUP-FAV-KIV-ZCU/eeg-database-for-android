@@ -11,9 +11,9 @@ import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.PersonData;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.CreatePerson;
 
 /**
@@ -70,7 +70,7 @@ public class PersonAddActivity extends SaveDiscardActivity {
         EditText notes = (EditText) findViewById(R.id.person_notes_value);
         EditText phone = (EditText) findViewById(R.id.person_phone_value);
 
-        PersonData person = new PersonData();
+        Person person = new Person();
 
         person.setName(name.getText().toString());
         person.setSurname(surname.getText().toString());
@@ -84,7 +84,7 @@ public class PersonAddActivity extends SaveDiscardActivity {
         validateAndRun(person);
     }
 
-    private void validateAndRun(PersonData person) {
+    private void validateAndRun(Person person) {
 
         if (!ConnectionUtils.isOnline(this)) {
             showAlert(getString(R.string.error_offline));

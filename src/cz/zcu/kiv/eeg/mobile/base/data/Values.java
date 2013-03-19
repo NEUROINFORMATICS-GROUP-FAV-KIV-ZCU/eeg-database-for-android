@@ -1,6 +1,6 @@
 package cz.zcu.kiv.eeg.mobile.base.data;
 
-import cz.zcu.kiv.eeg.mobile.base.ws.data.UserInfo;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.UserInfo;
 
 import java.util.Calendar;
 

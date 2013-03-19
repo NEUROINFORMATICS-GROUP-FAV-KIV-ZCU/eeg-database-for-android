@@ -11,13 +11,13 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ResearchGroupAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.ui.filechooser.FileChooserActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.FileUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.ScenarioData;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.CreateScenario;
 import cz.zcu.kiv.eeg.mobile.base.ws.reservation.FetchResearchGroups;
 import org.springframework.core.io.FileSystemResource;
@@ -103,9 +103,9 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
         TextView fileName = (TextView) findViewById(R.id.fchooserSelectedFile);
         CompoundButton isPrivate = (CompoundButton) findViewById(R.id.scenario_private);
 
-        ScenarioData scenario = new ScenarioData();
+        Scenario scenario = new Scenario();
         scenario.setScenarioName(scenarioName.getText().toString());
-        scenario.setResearchGroupId(group.getSelectedItem() == null ? null : ((ResearchGroup) group.getSelectedItem()).getResearchGroupId());
+        scenario.setResearchGroupId(group.getSelectedItem() == null ? null : ((ResearchGroup) group.getSelectedItem()).getGroupId());
         scenario.setDescription(description.getText().toString());
         scenario.setMimeType(mime.getText().toString());
         scenario.setFileName(fileName.getText().toString());
@@ -115,7 +115,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
         validateAndRun(scenario);
     }
 
-    private void validateAndRun(ScenarioData scenario) {
+    private void validateAndRun(Scenario scenario) {
 
         if (!ConnectionUtils.isOnline(this)) {
             showAlert(getString(R.string.error_offline));

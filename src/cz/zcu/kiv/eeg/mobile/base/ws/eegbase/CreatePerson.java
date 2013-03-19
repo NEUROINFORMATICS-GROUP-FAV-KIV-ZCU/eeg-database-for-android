@@ -7,16 +7,12 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.PersonData;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.UserInfo;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -26,7 +22,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 /**
  * @author Petr Miko
  */
-public class CreatePerson extends CommonService<PersonData, Void, UserInfo> {
+public class CreatePerson extends CommonService<Person, Void, UserInfo> {
 
     private final static String TAG = CreatePerson.class.getSimpleName();
 
@@ -35,7 +31,7 @@ public class CreatePerson extends CommonService<PersonData, Void, UserInfo> {
     }
 
     @Override
-    protected UserInfo doInBackground(PersonData... personDatas) {
+    protected UserInfo doInBackground(Person... persons) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
@@ -54,12 +50,12 @@ public class CreatePerson extends CommonService<PersonData, Void, UserInfo> {
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
-        PersonData person = personDatas[0];
+        Person person = persons[0];
 
         try {
             Log.d(TAG, url);
 
-            HttpEntity<PersonData> entity = new HttpEntity<PersonData>(person, requestHeaders);
+            HttpEntity<Person> entity = new HttpEntity<Person>(person, requestHeaders);
             // Make the network request
             return restTemplate.postForObject(url, entity, UserInfo.class);
         } catch (Exception e) {

@@ -9,26 +9,23 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ReservationList;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationDetailsFragment;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.ReservationData;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.ReservationDataList;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 @SuppressLint("SimpleDateFormat")
-public class FetchReservationsToDate extends CommonService<Integer, Void, List<ReservationData>> {
+public class FetchReservationsToDate extends CommonService<Integer, Void, List<Reservation>> {
 
     private static final String TAG = FetchReservationsToDate.class.getSimpleName();
     private ReservationAdapter reservationAdapter;
@@ -39,7 +36,7 @@ public class FetchReservationsToDate extends CommonService<Integer, Void, List<R
     }
 
     @Override
-    protected List<ReservationData> doInBackground(Integer... params) {
+    protected List<Reservation> doInBackground(Integer... params) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
@@ -70,9 +67,9 @@ public class FetchReservationsToDate extends CommonService<Integer, Void, List<R
         try {
             // Make the network request
             Log.d(TAG, url);
-            ResponseEntity<ReservationDataList> response = restTemplate.exchange(url, HttpMethod.GET,
-                    new HttpEntity<Object>(requestHeaders), ReservationDataList.class);
-            ReservationDataList body = response.getBody();
+            ResponseEntity<ReservationList> response = restTemplate.exchange(url, HttpMethod.GET,
+                    new HttpEntity<Object>(requestHeaders), ReservationList.class);
+            ReservationList body = response.getBody();
 
             if (body != null) {
                 return body.getReservations();
@@ -88,16 +85,11 @@ public class FetchReservationsToDate extends CommonService<Integer, Void, List<R
     }
 
     @Override
-    protected void onPostExecute(List<ReservationData> resultList) {
+    protected void onPostExecute(List<Reservation> resultList) {
         reservationAdapter.clear();
         if (resultList != null && !resultList.isEmpty()) {
-            for (ReservationData res : resultList) {
+            for (Reservation reservation : resultList) {
                 try {
-                    SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy hh:mm");
-                    Date fromTime = sf.parse(res.getFromTime());
-                    Date toTime = sf.parse(res.getToTime());
-                    Reservation reservation = new Reservation(res.getReservationId(), res.getResearchGroup(), res.getResearchGroupId(), fromTime, toTime,
-                            res.getCreatorName(), res.getCreatorMailUsername() + "@" + res.getCreatorMailDomain(), res.getCanRemove());
                     reservationAdapter.add(reservation);
                 } catch (Exception e) {
                     setState(ERROR, e);

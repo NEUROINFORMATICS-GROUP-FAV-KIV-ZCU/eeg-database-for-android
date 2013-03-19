@@ -6,15 +6,15 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.*;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.*;
+import cz.zcu.kiv.eeg.mobile.base.data.container.ExperimentAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ExperimentList;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,7 +26,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
  *
  * @author Petr Miko
  */
-public class FetchExperiments extends CommonService<Void, Void, List<ExperimentData>> {
+public class FetchExperiments extends CommonService<Void, Void, List<Experiment>> {
 
     private static final String TAG = FetchExperiments.class.getSimpleName();
     private ExperimentAdapter experimentAdapter;
@@ -34,9 +34,10 @@ public class FetchExperiments extends CommonService<Void, Void, List<ExperimentD
 
     /**
      * Constructor.
-     * @param activity parent activity
+     *
+     * @param activity          parent activity
      * @param experimentAdapter adapter for holding collection of experiments
-     * @param qualifier qualifier to distinguish whether to fetch private or public data
+     * @param qualifier         qualifier to distinguish whether to fetch private or public data
      */
     public FetchExperiments(CommonActivity activity, ExperimentAdapter experimentAdapter, String qualifier) {
         super(activity);
@@ -52,17 +53,17 @@ public class FetchExperiments extends CommonService<Void, Void, List<ExperimentD
      * @return list of fetched experiments
      */
     @Override
-    protected List<ExperimentData> doInBackground(Void... params) {
+    protected List<Experiment> doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_EXPERIMENTS;
 
         //TODO HACK temporary solution
-        if(Values.SERVICE_QUALIFIER_ALL.equals(qualifier)){
-           url+= "public/"+Integer.MAX_VALUE;
-        }   else
-        url += qualifier;
+        if (Values.SERVICE_QUALIFIER_ALL.equals(qualifier)) {
+            url += "public/" + Integer.MAX_VALUE;
+        } else
+            url += qualifier;
 
         setState(RUNNING, R.string.working_ws_experiments);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
@@ -79,9 +80,9 @@ public class FetchExperiments extends CommonService<Void, Void, List<ExperimentD
         try {
             // Make the network request
             Log.d(TAG, url);
-            ResponseEntity<ExperimentDataList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
-                    ExperimentDataList.class);
-            ExperimentDataList body = response.getBody();
+            ResponseEntity<ExperimentList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
+                    ExperimentList.class);
+            ExperimentList body = response.getBody();
 
             if (body != null) {
                 return body.getExperiments();
@@ -102,95 +103,18 @@ public class FetchExperiments extends CommonService<Void, Void, List<ExperimentD
      * @param resultList experiments fetched from server
      */
     @Override
-    protected void onPostExecute(List<ExperimentData> resultList) {
+    protected void onPostExecute(List<Experiment> resultList) {
         experimentAdapter.clear();
         if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<ExperimentData>() {
+            Collections.sort(resultList, new Comparator<Experiment>() {
                 @Override
-                public int compare(ExperimentData lhs, ExperimentData rhs) {
+                public int compare(Experiment lhs, Experiment rhs) {
                     return lhs.getExperimentId() - rhs.getExperimentId();
                 }
             });
 
-            for (ExperimentData res : resultList) {
-                try {
-                    Experiment experiment = new Experiment(res.getExperimentId(), res.getStartTime(), res.getEndTime(), res.getScenario().getScenarioId(), res.getScenario().getScenarioName());
-                    SubjectData s = res.getSubject();
-                    Person subject = new Person();
-                    subject.setId(s.getPersonId());
-                    subject.setName(s.getName());
-                    subject.setSurname(s.getSurname());
-                    subject.setGender(s.getGender());
-                    subject.setAge(s.getAge());
-                    subject.setLeftHanded(s.isLeftHanded());
-
-
-                    WeatherData w = res.getWeather();
-                    if (w != null) {
-                        Weather weather = new Weather();
-                        weather.setId(w.getWeatherId());
-                        weather.setTitle(w.getTitle());
-                        weather.setDescription(w.getDescription());
-                        experiment.setWeather(weather);
-                    }
-
-                    List<DiseaseData> dl = res.getDiseases() != null ? res.getDiseases().getDiseases() : null;
-                    if(dl != null && !dl.isEmpty()){
-                    List<Disease> diseases = new ArrayList<Disease>(dl.size());
-                        for(DiseaseData d : dl){
-                            Disease disease = new Disease();
-                            disease.setId(d.getDiseaseId());
-                            disease.setName(d.getName());
-                            disease.setDescription(d.getDescription());
-                            diseases.add(disease);
-                        }
-                     experiment.setDiseases(diseases);
-                    }
-
-                    List<HardwareData> hwl = res.getHardwareList() != null ? res.getHardwareList().getHardwareList() : null;
-                    if(hwl != null && !hwl.isEmpty()){
-                        List<Hardware> hardwareList = new ArrayList<Hardware>(hwl.size());
-                        for(HardwareData hw : hwl){
-                            Hardware hardware = new Hardware();
-                            hardware.setId(hw.getHardwareId());
-                            hardware.setTitle(hw.getTitle());
-                            hardware.setType(hw.getType());
-                            hardware.setDescription(hw.getDescription());
-                            hardware.setDefaultNumber(hw.getDefaultNumber());
-                            hardwareList.add(hardware);
-                        }
-                        experiment.setHardwares(hardwareList);
-                    }
-
-                    ArtifactData ad = res.getArtifact();
-                    if(ad != null){
-                        Artifact artifact = new Artifact();
-                        artifact.setArtifactId(ad.getArtifactId());
-                        artifact.setCompensation(ad.getCompensation());
-                        artifact.setRejectCondition(ad.getRejectCondition());
-                        experiment.setArtifact(artifact);
-                    }
-
-                    DigitizationData digid = res.getDigitization();
-                    if(digid != null){
-                        Digitization digitization = new Digitization();
-                        digitization.setDigitizationId(digid.getDigitizationId());
-                        digitization.setFilter(digid.getFilter());
-                        digitization.setGain(digid.getGain());
-                        digitization.setSamplingRate(digid.getSamplingRate());
-                        experiment.setDigitization(digitization);
-                    }
-
-                    if(res.getTemperature() != null)
-                        experiment.setTemperature(res.getTemperature());
-
-                    experiment.setSubject(subject);
-                    experiment.setEnvironmentNote(res.getEnvironmentNote());
-                    experimentAdapter.add(experiment);
-                } catch (Exception e) {
-                    setState(ERROR, e);
-                    Log.e(TAG, e.getLocalizedMessage(), e);
-                }
+            for (Experiment res : resultList) {
+                experimentAdapter.add(res);
             }
         }
     }

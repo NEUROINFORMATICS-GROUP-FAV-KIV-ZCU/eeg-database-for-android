@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 
 import java.util.List;
 
 /**
- * Custom class of ArrayAdapter. Used for viewing ResearchGroupData records in
+ * Custom class of ArrayAdapter. Used for viewing ResearchGroup records in
  * ListView.
  *
  * @author Petr Miko - miko.petr (at) gmail.com
@@ -53,7 +54,7 @@ public class ResearchGroupAdapter extends ArrayAdapter<ResearchGroup> {
         if (record != null) {
             TextView text = (TextView) row;
             if (text != null) {
-                text.setText(record.getResearchGroupName());
+                text.setText(record.getGroupName());
             }
         }
         return row;

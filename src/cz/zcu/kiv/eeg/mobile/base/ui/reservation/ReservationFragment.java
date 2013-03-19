@@ -15,18 +15,15 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 
 import java.util.Calendar;
 
 public class ReservationFragment extends Fragment implements OnClickListener {
 
     public final static String TAG = ReservationFragment.class.getSimpleName();
-
     private static int year = -1, month = -1, day = -1;
-    private TextView dateLabel;
-
     private final OnDateSetListener dateSetListener = new OnDateSetListener() {
 
         @Override
@@ -38,7 +35,7 @@ public class ReservationFragment extends Fragment implements OnClickListener {
             updateData();
         }
     };
-
+    private TextView dateLabel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

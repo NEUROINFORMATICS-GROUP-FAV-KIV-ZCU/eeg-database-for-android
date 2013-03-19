@@ -3,13 +3,13 @@ package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.container.*;
-
-import java.text.SimpleDateFormat;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.*;
 
 /**
  * Fragment used for displaying details about chosen experiment.
@@ -64,18 +64,17 @@ public class ExperimentDetailsFragment extends Fragment {
         LinearLayout softwareList = (LinearLayout) view.findViewById(R.id.experiment_softwares);
         LinearLayout pharmaceuticals = (LinearLayout) view.findViewById(R.id.experiment_pharmaceuticals);
 
-        SimpleDateFormat sf = new SimpleDateFormat("HH:mm dd.MM.yy");
         Experiment experiment = (Experiment) getArguments().getSerializable("data");
 
         //setting data
         if (experiment != null) {
             experimentIdView.setText(Integer.toString(experiment.getExperimentId()));
-            fromTime.setText(sf.format(experiment.getStartTime()));
-            toTime.setText(sf.format(experiment.getEndTime()));
-            scenarioNameView.setText(experiment.getScenarioName());
+            fromTime.setText(experiment.getStartTime());
+            toTime.setText(experiment.getEndTime());
+            scenarioNameView.setText(experiment.getScenario().getScenarioName());
             envNote.setText(experiment.getEnvironmentNote());
 
-            Person subject = experiment.getSubject();
+            Subject subject = experiment.getSubject();
             subjectName.setText(subject.getName() + " " + subject.getSurname());
             subjectGender.setText(subject.getGender());
             subjectAge.setText(Integer.toString(subject.getAge()));
@@ -107,8 +106,9 @@ public class ExperimentDetailsFragment extends Fragment {
 
     /**
      * Fills view for displaying pharmaceuticals.
+     *
      * @param pharmaceuticals layout element into which should be element child views inflated
-     * @param experiment experiment object for accessing data
+     * @param experiment      experiment object for accessing data
      */
     private void fillPharmaceuticals(LinearLayout pharmaceuticals, Experiment experiment) {
 
@@ -116,8 +116,9 @@ public class ExperimentDetailsFragment extends Fragment {
 
     /**
      * Fills view for displaying software list.
+     *
      * @param softwareList layout element into which should be element child views inflated
-     * @param experiment experiment object for accessing data
+     * @param experiment   experiment object for accessing data
      */
     private void fillSoftwareList(LinearLayout softwareList, Experiment experiment) {
 
@@ -125,14 +126,15 @@ public class ExperimentDetailsFragment extends Fragment {
 
     /**
      * Fills view for displaying hardware list.
+     *
      * @param hardwareList layout element into which should be element child views inflated
-     * @param experiment experiment object for accessing data
+     * @param experiment   experiment object for accessing data
      */
     private void fillHardwareList(LinearLayout hardwareList, Experiment experiment) {
-        if (experiment.getHardwares() != null) {
+        if (experiment.getHardwareList() != null && experiment.getHardwareList().getHardwareList() != null) {
 
             //create and inflate row by row
-            for (Hardware record : experiment.getHardwares()) {
+            for (Hardware record : experiment.getHardwareList().getHardwareList()) {
 
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 View row = inflater.inflate(R.layout.base_hardware_row, hardwareList, false);
@@ -143,7 +145,7 @@ public class ExperimentDetailsFragment extends Fragment {
                 TextView hwDescription = (TextView) row.findViewById(R.id.row_hardware_description);
 
                 if (hwId != null) {
-                    hwId.setText(Integer.toString(record.getId()));
+                    hwId.setText(Integer.toString(record.getHardwareId()));
                 }
                 if (hwTitle != null) {
                     hwTitle.setText(record.getTitle());
@@ -156,7 +158,7 @@ public class ExperimentDetailsFragment extends Fragment {
                 }
                 hardwareList.addView(row);
             }
-        } else{
+        } else {
             //inflate information, that no record is available
             TextView row = new TextView(getActivity());
             row.setText(R.string.dummy_none);
@@ -166,14 +168,15 @@ public class ExperimentDetailsFragment extends Fragment {
 
     /**
      * Method for inflating disease information into its layout element.
+     *
      * @param diseasesList layout element into which should be element child views inflated
-     * @param experiment experiment object for accessing data
+     * @param experiment   experiment object for accessing data
      */
     private void fillDiseases(LinearLayout diseasesList, Experiment experiment) {
-        if (experiment.getDiseases() != null) {
+        if (experiment.getDiseases() != null && experiment.getDiseases().getDiseases() != null) {
 
             //create and inflate row by row
-            for (Disease record : experiment.getDiseases()) {
+            for (Disease record : experiment.getDiseases().getDiseases()) {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 View row = inflater.inflate(R.layout.base_disease_row, diseasesList, false);
 
@@ -189,7 +192,7 @@ public class ExperimentDetailsFragment extends Fragment {
                 diseasesList.addView(row);
             }
 
-        } else{
+        } else {
             //inflate information, that no record is available
             TextView row = new TextView(getActivity());
             row.setText(R.string.dummy_none);

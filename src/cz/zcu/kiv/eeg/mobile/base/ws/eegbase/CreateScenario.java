@@ -7,9 +7,8 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.PersonData;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.ScenarioData;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.UserInfo;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
@@ -29,7 +28,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 /**
  * @author Petr Miko
  */
-public class CreateScenario extends CommonService<ScenarioData, Void, URI> {
+public class CreateScenario extends CommonService<Scenario, Void, URI> {
 
     private final static String TAG = CreateScenario.class.getSimpleName();
 
@@ -38,7 +37,7 @@ public class CreateScenario extends CommonService<ScenarioData, Void, URI> {
     }
 
     @Override
-    protected URI doInBackground(ScenarioData... scenarioDatas) {
+    protected URI doInBackground(Scenario... scenarios) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
@@ -59,7 +58,7 @@ public class CreateScenario extends CommonService<ScenarioData, Void, URI> {
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
 
-        ScenarioData scenario = scenarioDatas[0];
+        Scenario scenario = scenarios[0];
 
         try {
             Log.d(TAG, url);

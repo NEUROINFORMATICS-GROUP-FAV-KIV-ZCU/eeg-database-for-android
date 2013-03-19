@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Hardware;
 
 import java.util.List;
 
@@ -82,7 +83,7 @@ public class HardwareAdapter extends ArrayAdapter<Hardware> {
             TextView hwDescription = (TextView) row.findViewById(R.id.row_hardware_description);
 
             if (hwId != null) {
-                hwId.setText(Integer.toString(record.getId()));
+                hwId.setText(Integer.toString(record.getHardwareId()));
             }
             if (hwTitle != null) {
                 hwTitle.setText(record.getTitle());

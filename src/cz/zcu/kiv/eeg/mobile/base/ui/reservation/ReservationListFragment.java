@@ -1,21 +1,22 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 
-import java.util.ArrayList;
-
-import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
-import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
-import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
-import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.reservation.FetchReservationsToDate;
-
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
+import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
+import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.ws.reservation.FetchReservationsToDate;
+
+import java.util.ArrayList;
 
 public class ReservationListFragment extends ListFragment {
 

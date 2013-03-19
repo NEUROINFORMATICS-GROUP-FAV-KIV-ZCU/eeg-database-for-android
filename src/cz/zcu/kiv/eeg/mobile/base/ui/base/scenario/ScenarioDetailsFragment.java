@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.container.Scenario;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.utils.FileUtils;
 
 @SuppressLint("SimpleDateFormat")

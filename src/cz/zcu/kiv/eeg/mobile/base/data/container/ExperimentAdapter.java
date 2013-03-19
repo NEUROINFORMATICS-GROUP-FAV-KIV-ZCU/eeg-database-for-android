@@ -10,6 +10,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -151,9 +152,9 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
             if (experimentId != null)
                 experimentId.setText(Integer.toString(record.getExperimentId()));
             if (experimentName != null)
-                experimentName.setText(record.getScenarioName());
+                experimentName.setText(record.getScenario().getScenarioName());
             if (experimentTime != null)
-                experimentTime.setText(sf.format(record.getStartTime()) + " – " + sf.format(record.getEndTime()));
+                experimentTime.setText(record.getStartTime() + " – " + record.getEndTime());
         }
         return row;
     }
@@ -194,7 +195,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
             if (original != null) {
                 boolean noConstraint = constraint == null || constraint.toString().isEmpty();
                 for (Experiment exp : original) {
-                    if (noConstraint || Integer.toString(exp.getExperimentId()).contains(constraint) || exp.getScenarioName().toLowerCase().contains(constraint)) {
+                    if (noConstraint || Integer.toString(exp.getExperimentId()).contains(constraint) || exp.getScenario().getScenarioName().toLowerCase().contains(constraint)) {
                         results.add(exp);
                     }
                 }

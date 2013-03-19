@@ -8,9 +8,9 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.ReservationData;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -19,10 +19,10 @@ import org.springframework.web.client.RestTemplate;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
-public class RemoveReservation extends CommonService<ReservationData, Void, Boolean> {
+public class RemoveReservation extends CommonService<Reservation, Void, Boolean> {
 
     private static final String TAG = RemoveReservation.class.getSimpleName();
-    private ReservationData data;
+    private Reservation data;
     private int fragmentId;
 
     public RemoveReservation(CommonActivity context, int fragmentId) {
@@ -31,7 +31,7 @@ public class RemoveReservation extends CommonService<ReservationData, Void, Bool
     }
 
     @Override
-    protected Boolean doInBackground(ReservationData... params) {
+    protected Boolean doInBackground(Reservation... params) {
 
         data = params[0];
 
@@ -51,7 +51,7 @@ public class RemoveReservation extends CommonService<ReservationData, Void, Bool
             HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setAuthorization(authHeader);
-            HttpEntity<ReservationData> entity = new HttpEntity<ReservationData>(requestHeaders);
+            HttpEntity<Reservation> entity = new HttpEntity<Reservation>(requestHeaders);
 
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));

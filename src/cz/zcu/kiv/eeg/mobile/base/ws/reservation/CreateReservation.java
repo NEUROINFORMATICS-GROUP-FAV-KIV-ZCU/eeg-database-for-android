@@ -1,98 +1,85 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.reservation;
 
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
-
-import java.text.ParseException;
-import java.util.Collections;
-
-import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
-import cz.zcu.kiv.eeg.mobile.base.data.container.Reservation;
-import cz.zcu.kiv.eeg.mobile.base.ws.data.ReservationData;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
+import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
+import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
+import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
-public class CreateReservation extends CommonService<ReservationData, Void, Boolean> {
+import java.util.Collections;
 
-	private static final String TAG = CreateReservation.class.getSimpleName();
+import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
-	private ReservationData data;
+public class CreateReservation extends CommonService<Reservation, Void, Boolean> {
 
-	public CreateReservation(CommonActivity context) {
-		super(context);
-	}
+    private static final String TAG = CreateReservation.class.getSimpleName();
+    private Reservation data;
 
-	@Override
-	protected Boolean doInBackground(ReservationData... params) {
+    public CreateReservation(CommonActivity context) {
+        super(context);
+    }
 
-		data = params[0];
+    @Override
+    protected Boolean doInBackground(Reservation... params) {
 
-		// will be fixed properly in future
-		if (data == null)
-			return false;
+        data = params[0];
 
-		try {
+        // will be fixed properly in future
+        if (data == null)
+            return false;
 
-			setState(RUNNING, R.string.working_ws_create);
+        try {
 
-			SharedPreferences credentials = getCredentials();
-			String username = credentials.getString("username", null);
-			String password = credentials.getString("password", null);
-			String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION;
+            setState(RUNNING, R.string.working_ws_create);
 
-			HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
-			HttpHeaders requestHeaders = new HttpHeaders();
-			requestHeaders.setAuthorization(authHeader);
-			requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
-			requestHeaders.setContentType(MediaType.APPLICATION_XML);
-			HttpEntity<ReservationData> entity = new HttpEntity<ReservationData>(data, requestHeaders);
+            SharedPreferences credentials = getCredentials();
+            String username = credentials.getString("username", null);
+            String password = credentials.getString("password", null);
+            String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION;
 
-			RestTemplate restTemplate = new RestTemplate();
-			restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
-			restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
+            HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.setAuthorization(authHeader);
+            requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
+            requestHeaders.setContentType(MediaType.APPLICATION_XML);
+            HttpEntity<Reservation> entity = new HttpEntity<Reservation>(data, requestHeaders);
 
-			Log.d(TAG, url);
-			 ResponseEntity<ReservationData> dataEntity = restTemplate.postForEntity(url, entity, ReservationData.class);
-			 data = dataEntity.getBody();
-			return true;
-		} catch (Exception e) {
-			Log.e(TAG, e.getLocalizedMessage());
-			setState(ERROR, e);
-		} finally {
-			setState(DONE);
-		}
-		return false;
-	}
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
+            restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
-	@Override
-	protected void onPostExecute(Boolean success) {
+            Log.d(TAG, url);
+            ResponseEntity<Reservation> dataEntity = restTemplate.postForEntity(url, entity, Reservation.class);
+            data = dataEntity.getBody();
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, e.getLocalizedMessage());
+            setState(ERROR, e);
+        } finally {
+            setState(DONE);
+        }
+        return false;
+    }
 
-		if (success) {
-			try {
-				Intent resultIntent = new Intent();
-				Reservation record = new Reservation(data.getReservationId(), data.getResearchGroup(), data.getResearchGroupId(), data.getFromTime(),
-						data.getToTime(), data.getCreatorName(), data.getCreatorMailUsername() + "@"
-								+ data.getCreatorMailDomain(),data.getCanRemove());
-				resultIntent.putExtra(Values.ADD_RECORD_KEY, record);
-				Toast.makeText(activity, activity.getString(R.string.reser_created), Toast.LENGTH_SHORT).show();
-				activity.setResult(Activity.RESULT_OK, resultIntent);
-				activity.finish();
-			} catch (ParseException e) {
-				Log.e(TAG, e.getLocalizedMessage());
-				setState(ERROR, e);
-			}
-		}
-	}
+    @Override
+    protected void onPostExecute(Boolean success) {
+
+        if (success) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(Values.ADD_RECORD_KEY, data);
+            Toast.makeText(activity, activity.getString(R.string.reser_created), Toast.LENGTH_SHORT).show();
+            activity.setResult(Activity.RESULT_OK, resultIntent);
+            activity.finish();
+        }
+    }
 }
