@@ -140,6 +140,8 @@
     <string name="experiment_diseases">Diseases</string>
     <string name="experiment_temperature">Temperature</string>
     <string name="experiment_hardware">Hardware</string>
+    <string name="experiment_softwares">Software</string>
+    <string name="experiment_pharmaceuticals">Pharmaceuticals</string>
 
 
     <!-- scenarios -->

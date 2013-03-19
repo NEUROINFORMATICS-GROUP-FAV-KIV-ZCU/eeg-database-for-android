@@ -13,8 +13,10 @@ import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.TabListener;
 
 /**
+ * Activity for displaying experiments.
+ * Uses tabs and overwrites default icon with section icon.
+ *
  * @author Petr Miko
- *         Date: 19.2.13
  */
 public class ExperimentActivity extends CommonActivity {
 
@@ -26,6 +28,7 @@ public class ExperimentActivity extends CommonActivity {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        //setting tabs
         ActionBar.Tab tab = actionBar.newTab()
                 .setText(R.string.experiment_list_mine)
                 .setTabListener(new TabListener<ListMineExperimentsFragment>(

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?android:attr/detailsElementBackground" >
+            android:background="?android:attr/detailsElementBackground">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -11,8 +11,8 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5">
+                android:layout_height="wrap_content"
+                android:weightSum="5">
 
             <ImageView
                     android:layout_width="0dp"
@@ -44,8 +44,8 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:weightSum="5"
                 android:background="@color/background_alternate">
 
             <ImageView
@@ -78,8 +78,8 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5">
+                android:layout_height="wrap_content"
+                android:weightSum="5">
 
             <ImageView
                     android:layout_width="0dp"
@@ -203,8 +203,8 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:weightSum="5"
                 android:background="@color/background_alternate">
 
 
@@ -237,8 +237,8 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5">
+                android:layout_height="wrap_content"
+                android:weightSum="5">
 
 
             <ImageView
@@ -308,8 +308,8 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:weightSum="5"
                 android:background="@color/background_alternate">
 
 
@@ -339,8 +339,8 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5">
+                android:layout_height="wrap_content"
+                android:weightSum="5">
 
 
             <ImageView
@@ -501,45 +501,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5">
-
-
-            <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/experiment_diseases"
-                    android:src="@drawable/ic_action_virus"/>
-
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:weightSum="2">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/experiment_diseases"
-                        android:textStyle="italic"/>
-
-                <LinearLayout
-                        android:id="@+id/experiment_diseases"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:background="@android:drawable/alert_dark_frame"
-                        />
-            </LinearLayout>
-        </LinearLayout>
+        <include layout="@layout/base_disease_details"/>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -574,45 +536,12 @@
 
         </LinearLayout>
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5">
+        <include layout="@layout/base_hardware_details"/>
 
+        <include layout="@layout/base_software_details"/>
 
-            <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/experiment_hardware"
-                    android:src="@drawable/ic_action_hardware"/>
+        <include layout="@layout/base_pharmaceutical_details"/>
 
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:weightSum="2">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/experiment_hardware"
-                        android:textStyle="italic"/>
-
-                <LinearLayout
-                        android:id="@+id/experiment_hardware_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:background="@android:drawable/alert_dark_frame"
-                        />
-            </LinearLayout>
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

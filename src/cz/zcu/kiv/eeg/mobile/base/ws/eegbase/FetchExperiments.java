@@ -21,18 +21,36 @@ import java.util.List;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
+/**
+ * Common service (Asynctask) for fetching experiments from server.
+ *
+ * @author Petr Miko
+ */
 public class FetchExperiments extends CommonService<Void, Void, List<ExperimentData>> {
 
     private static final String TAG = FetchExperiments.class.getSimpleName();
     private ExperimentAdapter experimentAdapter;
     private String qualifier;
 
+    /**
+     * Constructor.
+     * @param activity parent activity
+     * @param experimentAdapter adapter for holding collection of experiments
+     * @param qualifier qualifier to distinguish whether to fetch private or public data
+     */
     public FetchExperiments(CommonActivity activity, ExperimentAdapter experimentAdapter, String qualifier) {
         super(activity);
         this.experimentAdapter = experimentAdapter;
         this.qualifier = qualifier;
     }
 
+    /**
+     * Method, where all experiments are read from server.
+     * All heavy lifting is made here.
+     *
+     * @param params not used (omitted) here
+     * @return list of fetched experiments
+     */
     @Override
     protected List<ExperimentData> doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
@@ -78,6 +96,11 @@ public class FetchExperiments extends CommonService<Void, Void, List<ExperimentD
         return Collections.emptyList();
     }
 
+    /**
+     * Read experiments are assigned to adapter here.
+     *
+     * @param resultList experiments fetched from server
+     */
     @Override
     protected void onPostExecute(List<ExperimentData> resultList) {
         experimentAdapter.clear();

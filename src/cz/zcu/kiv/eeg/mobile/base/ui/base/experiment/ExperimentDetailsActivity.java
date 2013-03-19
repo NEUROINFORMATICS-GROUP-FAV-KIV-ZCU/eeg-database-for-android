@@ -9,6 +9,13 @@ import android.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 
+/**
+ * Activity for displaying experiments details.
+ * Only contains ExperimentDetailsFragments.
+ * Used on devices < 7", where details cannot fit next to experiment list.
+ *
+ * @author Petr Miko
+ */
 public class ExperimentDetailsActivity extends CommonActivity {
 
     @Override

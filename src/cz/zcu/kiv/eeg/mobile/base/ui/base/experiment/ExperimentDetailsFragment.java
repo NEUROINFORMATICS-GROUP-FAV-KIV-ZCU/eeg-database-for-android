@@ -11,6 +11,11 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.*;
 
 import java.text.SimpleDateFormat;
 
+/**
+ * Fragment used for displaying details about chosen experiment.
+ *
+ * @author Petr Miko
+ */
 @SuppressLint("SimpleDateFormat")
 public class ExperimentDetailsFragment extends Fragment {
 
@@ -18,6 +23,7 @@ public class ExperimentDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //check if data are available and selection index is positive
         boolean hasData = getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) >= 0;
 
         if (hasData) {
@@ -29,12 +35,13 @@ public class ExperimentDetailsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedState) {
-        super.onActivityCreated(savedState);
-    }
-
+    /**
+     * Method for filling element views with proper data.
+     *
+     * @param view object of layout, which contains element child views
+     */
     private void initData(View view) {
+        //get all view elements
         TextView experimentIdView = (TextView) view.findViewById(R.id.experimentIdValue);
         TextView scenarioNameView = (TextView) view.findViewById(R.id.scenarioNameValue);
         TextView fromTime = (TextView) view.findViewById(R.id.fromValue);
@@ -54,9 +61,13 @@ public class ExperimentDetailsFragment extends Fragment {
         TextView temperature = (TextView) view.findViewById(R.id.experiment_temperature);
         LinearLayout diseasesList = (LinearLayout) view.findViewById(R.id.experiment_diseases);
         LinearLayout hardwareList = (LinearLayout) view.findViewById(R.id.experiment_hardware_list);
+        LinearLayout softwareList = (LinearLayout) view.findViewById(R.id.experiment_softwares);
+        LinearLayout pharmaceuticals = (LinearLayout) view.findViewById(R.id.experiment_pharmaceuticals);
 
         SimpleDateFormat sf = new SimpleDateFormat("HH:mm dd.MM.yy");
         Experiment experiment = (Experiment) getArguments().getSerializable("data");
+
+        //setting data
         if (experiment != null) {
             experimentIdView.setText(Integer.toString(experiment.getExperimentId()));
             fromTime.setText(sf.format(experiment.getStartTime()));
@@ -89,12 +100,38 @@ public class ExperimentDetailsFragment extends Fragment {
 
             fillDiseases(diseasesList, experiment);
             fillHardwareList(hardwareList, experiment);
+            fillSoftwareList(softwareList, experiment);
+            fillPharmaceuticals(pharmaceuticals, experiment);
         }
     }
 
+    /**
+     * Fills view for displaying pharmaceuticals.
+     * @param pharmaceuticals layout element into which should be element child views inflated
+     * @param experiment experiment object for accessing data
+     */
+    private void fillPharmaceuticals(LinearLayout pharmaceuticals, Experiment experiment) {
+
+    }
+
+    /**
+     * Fills view for displaying software list.
+     * @param softwareList layout element into which should be element child views inflated
+     * @param experiment experiment object for accessing data
+     */
+    private void fillSoftwareList(LinearLayout softwareList, Experiment experiment) {
+
+    }
+
+    /**
+     * Fills view for displaying hardware list.
+     * @param hardwareList layout element into which should be element child views inflated
+     * @param experiment experiment object for accessing data
+     */
     private void fillHardwareList(LinearLayout hardwareList, Experiment experiment) {
         if (experiment.getHardwares() != null) {
 
+            //create and inflate row by row
             for (Hardware record : experiment.getHardwares()) {
 
                 LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -120,15 +157,22 @@ public class ExperimentDetailsFragment extends Fragment {
                 hardwareList.addView(row);
             }
         } else{
+            //inflate information, that no record is available
             TextView row = new TextView(getActivity());
             row.setText(R.string.dummy_none);
             hardwareList.addView(row);
         }
     }
 
+    /**
+     * Method for inflating disease information into its layout element.
+     * @param diseasesList layout element into which should be element child views inflated
+     * @param experiment experiment object for accessing data
+     */
     private void fillDiseases(LinearLayout diseasesList, Experiment experiment) {
         if (experiment.getDiseases() != null) {
 
+            //create and inflate row by row
             for (Disease record : experiment.getDiseases()) {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 View row = inflater.inflate(R.layout.base_disease_row, diseasesList, false);
@@ -146,6 +190,7 @@ public class ExperimentDetailsFragment extends Fragment {
             }
 
         } else{
+            //inflate information, that no record is available
             TextView row = new TextView(getActivity());
             row.setText(R.string.dummy_none);
             diseasesList.addView(row);
@@ -153,8 +198,4 @@ public class ExperimentDetailsFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 }
