@@ -1,7 +1,6 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.data;
 
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Order;
 import org.simpleframework.xml.Root;
 
 /**
@@ -9,7 +8,7 @@ import org.simpleframework.xml.Root;
  *
  * @author Petr Miko
  */
-@Root(name = "experiment", strict=false)
+@Root(name = "experiment", strict = false)
 public class ExperimentData {
 
     @Element
@@ -38,6 +37,12 @@ public class ExperimentData {
     private SubjectData subject;
     @Element(required = false)
     private Integer temperature;
+    @Element
+    private SoftwareDataList softwareList;
+    @Element
+    private PharmaceuticalDataList pharmaceuticals;
+    @Element
+    private ElectrodeConfData electrodeConf;
 
     public int getExperimentId() {
         return experimentId;
@@ -149,5 +154,29 @@ public class ExperimentData {
 
     public void setHardwareList(HardwareDataList hardwareList) {
         this.hardwareList = hardwareList;
+    }
+
+    public SoftwareDataList getSoftwareList() {
+        return softwareList;
+    }
+
+    public void setSoftwareList(SoftwareDataList softwareList) {
+        this.softwareList = softwareList;
+    }
+
+    public PharmaceuticalDataList getPharmaceuticals() {
+        return pharmaceuticals;
+    }
+
+    public void setPharmaceuticals(PharmaceuticalDataList pharmaceutics) {
+        this.pharmaceuticals = pharmaceutics;
+    }
+
+    public ElectrodeConfData getElectrodeConf() {
+        return electrodeConf;
+    }
+
+    public void setElectrodeConf(ElectrodeConfData electrodeConf) {
+        this.electrodeConf = electrodeConf;
     }
 }
