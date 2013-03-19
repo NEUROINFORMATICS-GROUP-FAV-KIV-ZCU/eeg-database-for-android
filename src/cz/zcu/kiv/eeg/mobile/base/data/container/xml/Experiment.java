@@ -65,7 +65,7 @@ public class Experiment implements Parcelable {
         endTime = in.readString();
         environmentNote = in.readString();
         temperature = in.readInt();
-        scenario = in.readParcelable(Scenario.class.getClassLoader());
+        scenario = in.readParcelable(ScenarioSimple.class.getClassLoader());
         researchGroup = in.readParcelable(ResearchGroup.class.getClassLoader());
         artifact = in.readParcelable(Artifact.class.getClassLoader());
         digitization = in.readParcelable(Digitization.class.getClassLoader());

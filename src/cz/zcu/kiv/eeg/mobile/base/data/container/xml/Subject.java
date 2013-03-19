@@ -1,15 +1,30 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
+ * Data container of subject information.
+ * Supports XML marshaling and is parcelable.
+ *
  * @author Petr Miko
- *         Date: 9.3.13
  */
 @Root(name = "subject")
-public class Subject {
+public class Subject implements Parcelable {
 
+    public static final Parcelable.Creator<Subject> CREATOR
+            = new Parcelable.Creator<Subject>() {
+        public Subject createFromParcel(Parcel in) {
+            return new Subject(in);
+        }
+
+        public Subject[] newArray(int size) {
+            return new Subject[size];
+        }
+    };
     @Element
     private int personId;
     @Element
@@ -22,6 +37,20 @@ public class Subject {
     private boolean leftHanded;
     @Element(required = false)
     private String mailUsername, mailDomain;
+
+    public Subject() {
+    }
+
+    public Subject(Parcel in) {
+        personId = in.readInt();
+        name = in.readString();
+        surname = in.readString();
+        gender = in.readString();
+        age = in.readInt();
+        leftHanded = in.readByte() == Values.TRUE;
+        mailUsername = in.readString();
+        mailDomain = in.readString();
+    }
 
     public int getPersonId() {
         return personId;
@@ -89,5 +118,22 @@ public class Subject {
 
     public void setMailDomain(String mailDomain) {
         this.mailDomain = mailDomain;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(personId);
+        dest.writeString(name);
+        dest.writeString(surname);
+        dest.writeString(gender);
+        dest.writeInt(age);
+        dest.writeByte(leftHanded ? Values.TRUE : Values.FALSE);
+        dest.writeString(mailUsername);
+        dest.writeString(mailDomain);
     }
 }

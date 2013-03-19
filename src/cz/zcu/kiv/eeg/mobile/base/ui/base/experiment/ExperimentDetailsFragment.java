@@ -24,7 +24,7 @@ public class ExperimentDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //check if data are available and selection index is positive
-        boolean hasData = getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) >= 0;
+        boolean hasData = getArguments().getParcelable("data") != null && getArguments().getInt("index", -1) >= 0;
 
         if (hasData) {
             View view = inflater.inflate(R.layout.base_experiment_details, container, false);
@@ -64,7 +64,7 @@ public class ExperimentDetailsFragment extends Fragment {
         LinearLayout softwareList = (LinearLayout) view.findViewById(R.id.experiment_softwares);
         LinearLayout pharmaceuticals = (LinearLayout) view.findViewById(R.id.experiment_pharmaceuticals);
 
-        Experiment experiment = (Experiment) getArguments().getSerializable("data");
+        Experiment experiment = (Experiment) getArguments().getParcelable("data");
 
         //setting data
         if (experiment != null) {

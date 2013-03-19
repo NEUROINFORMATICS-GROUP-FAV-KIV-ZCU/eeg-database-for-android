@@ -1,9 +1,10 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-
-import java.io.Serializable;
 
 /**
  * Data container for holding scenario information.
@@ -11,8 +12,18 @@ import java.io.Serializable;
  * @author Petr Miko
  */
 @Root(name = "scenario")
-public class Scenario implements Serializable {
+public class Scenario implements Parcelable {
 
+    public static final Parcelable.Creator<Scenario> CREATOR
+            = new Parcelable.Creator<Scenario>() {
+        public Scenario createFromParcel(Parcel in) {
+            return new Scenario(in);
+        }
+
+        public Scenario[] newArray(int size) {
+            return new Scenario[size];
+        }
+    };
     @Element
     private int scenarioId;
     @Element
@@ -34,6 +45,22 @@ public class Scenario implements Serializable {
     @Element
     private Integer researchGroupId;
     private String filePath;
+
+    public Scenario() {
+    }
+
+    public Scenario(Parcel in) {
+        scenarioId = in.readInt();
+        scenarioName = in.readString();
+        researchGroupId = in.readInt();
+        researchGroupName = in.readString();
+        ownerName = in.readString();
+        description = in.readString();
+        mimeType = in.readString();
+        fileName = in.readString();
+        fileLength = in.readString();
+        isPrivate = in.readByte() == Values.TRUE;
+    }
 
     public int getScenarioId() {
         return scenarioId;
@@ -121,5 +148,25 @@ public class Scenario implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(scenarioId);
+        dest.writeString(scenarioName);
+        dest.writeInt(researchGroupId);
+        dest.writeString(researchGroupName);
+        dest.writeString(ownerName);
+        dest.writeString(description);
+        dest.writeString(mimeType);
+        dest.writeString(fileName);
+        dest.writeString(filePath);
+        dest.writeString(fileLength);
+        dest.writeByte(isPrivate ? Values.TRUE : Values.FALSE);
     }
 }

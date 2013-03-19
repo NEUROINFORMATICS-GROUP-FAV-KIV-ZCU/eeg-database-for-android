@@ -116,7 +116,7 @@ public class ReservationListFragment extends ListFragment {
                 }
                 Bundle args = new Bundle();
                 args.putInt("index", index);
-                args.putSerializable("data", dataAdapter.getItem(index - HEADER_ROW));
+                args.putParcelable("data", dataAdapter.getItem(index - HEADER_ROW));
                 details.setArguments(args);
 
                 ft.replace(R.id.details, details, ReservationDetailsFragment.TAG);

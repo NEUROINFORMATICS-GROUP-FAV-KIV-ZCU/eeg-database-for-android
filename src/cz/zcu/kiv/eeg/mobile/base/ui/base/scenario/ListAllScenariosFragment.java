@@ -121,7 +121,7 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
 
             Bundle args = new Bundle();
             args.putInt("index", index);
-            args.putSerializable("data", empty ? null : dataAdapter.getItem(index));
+            args.putParcelable("data", empty ? null : dataAdapter.getItem(index));
             details.setArguments(args);
 
             ft.replace(R.id.details, details, ScenarioDetailsFragment.TAG);

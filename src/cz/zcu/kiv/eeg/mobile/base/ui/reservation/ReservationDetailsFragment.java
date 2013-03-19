@@ -44,12 +44,11 @@ public class ReservationDetailsFragment extends Fragment {
         TextView creatorName = (TextView) getActivity().findViewById(R.id.creatorName);
         TextView creatorMail = (TextView) getActivity().findViewById(R.id.creatorMail);
 
-        SimpleDateFormat sf = new SimpleDateFormat("HH:mm dd.MM.yy");
-        Reservation reservation = (Reservation) getArguments().getSerializable("data");
+        Reservation reservation = (Reservation) getArguments().getParcelable("data");
         if (reservation != null) {
             groupName.setText(reservation.getResearchGroup());
-            fromTime.setText(sf.format(reservation.getFromTime()));
-            toTime.setText(sf.format(reservation.getToTime()));
+            fromTime.setText(reservation.getFromTime());
+            toTime.setText(reservation.getToTime());
 
             creatorName.setText(reservation.getCreatorName());
             creatorMail.setText(reservation.getEmail());

@@ -16,7 +16,7 @@ public class ScenarioDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        boolean hasData = getArguments().getSerializable("data") != null && getArguments().getInt("index", -1) >= 0;
+        boolean hasData = getArguments().getParcelable("data") != null && getArguments().getInt("index", -1) >= 0;
 
         if (hasData) {
             View view = inflater.inflate(R.layout.base_scenario_details, container, false);
@@ -36,7 +36,7 @@ public class ScenarioDetailsFragment extends Fragment {
         TextView fileSize = (TextView) view.findViewById(R.id.scenarioFileLength);
         TextView description = (TextView) view.findViewById(R.id.scenarioDescription);
 
-        Scenario scenario = (Scenario) getArguments().getSerializable("data");
+        Scenario scenario = (Scenario) getArguments().getParcelable("data");
         if (scenario != null) {
             scenarioId.setText(Integer.toString(scenario.getScenarioId()));
             scenarioName.setText(scenario.getScenarioName());

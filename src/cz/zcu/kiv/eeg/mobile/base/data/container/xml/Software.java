@@ -1,17 +1,29 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
  * Data container for holding software information.
- * Used within XML marshaling.
+ * Used within XML marshaling and is parcelable.
  *
  * @author Petr Miko
  */
 @Root(name = "software")
-public class Software {
+public class Software implements Parcelable {
 
+    public static final Parcelable.Creator<Software> CREATOR
+            = new Parcelable.Creator<Software>() {
+        public Software createFromParcel(Parcel in) {
+            return new Software(in);
+        }
+
+        public Software[] newArray(int size) {
+            return new Software[size];
+        }
+    };
     @Element
     private int id;
     @Element
@@ -20,6 +32,17 @@ public class Software {
     private String description;
     @Element(required = false)
     private int defaultNumber;
+
+    public Software() {
+
+    }
+
+    public Software(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        description = in.readString();
+        defaultNumber = in.readInt();
+    }
 
     public int getId() {
         return id;
@@ -51,5 +74,18 @@ public class Software {
 
     public void setDefaultNumber(int defaultNumber) {
         this.defaultNumber = defaultNumber;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeInt(defaultNumber);
     }
 }
