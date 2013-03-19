@@ -46,7 +46,7 @@ public class HardwareList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return hardwareList != null;
+        return hardwareList != null && !hardwareList.isEmpty();
     }
 
     @Override

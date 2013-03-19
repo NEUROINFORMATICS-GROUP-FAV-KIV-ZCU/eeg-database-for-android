@@ -47,7 +47,7 @@ public class ScenarioList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return scenarios != null;
+        return scenarios != null && !scenarios.isEmpty();
     }
 
     @Override

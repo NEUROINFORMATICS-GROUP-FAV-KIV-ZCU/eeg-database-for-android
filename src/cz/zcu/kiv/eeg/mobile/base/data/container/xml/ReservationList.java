@@ -47,7 +47,7 @@ public class ReservationList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return reservations != null;
+        return reservations != null && !reservations.isEmpty();
     }
 
     @Override

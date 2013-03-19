@@ -47,7 +47,7 @@ public class ResearchGroupList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return groups != null;
+        return groups != null && !groups.isEmpty();
     }
 
     @Override

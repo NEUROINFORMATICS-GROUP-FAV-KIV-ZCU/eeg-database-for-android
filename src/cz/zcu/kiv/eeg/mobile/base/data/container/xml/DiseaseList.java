@@ -46,7 +46,7 @@ public class DiseaseList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return diseases != null;
+        return diseases != null && !diseases.isEmpty();
     }
 
     @Override

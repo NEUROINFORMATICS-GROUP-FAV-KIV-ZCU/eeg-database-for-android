@@ -36,7 +36,7 @@ public class ExperimentList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return experiments != null;
+        return experiments != null && !experiments.isEmpty();
     }
 
     @Override

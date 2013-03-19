@@ -137,6 +137,9 @@
     <string name="experiment_diseases">Nemoci</string>
     <string name="experiment_temperature">Teplota</string>
     <string name="experiment_pharmaceuticals">Farmaceutika</string>
+    <string name="experiment_electrodes">Elektrody</string>
+    <string name="experiment_electrode_system_title">Název systému</string>
+    <string name="experiment_electrode_system_description">Popis systému</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>

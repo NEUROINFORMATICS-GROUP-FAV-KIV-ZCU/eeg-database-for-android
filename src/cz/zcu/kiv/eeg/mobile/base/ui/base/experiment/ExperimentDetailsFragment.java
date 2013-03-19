@@ -63,6 +63,10 @@ public class ExperimentDetailsFragment extends Fragment {
         LinearLayout hardwareList = (LinearLayout) view.findViewById(R.id.experiment_hardware_list);
         LinearLayout softwareList = (LinearLayout) view.findViewById(R.id.experiment_softwares);
         LinearLayout pharmaceuticals = (LinearLayout) view.findViewById(R.id.experiment_pharmaceuticals);
+        TextView electrodeImpendace = (TextView) view.findViewById(R.id.experiment_electrode_impedance);
+        TextView electrodeSystemDescription = (TextView) view.findViewById(R.id.experiment_electrode_system_description);
+        TextView electrodeSystemName = (TextView) view.findViewById(R.id.experiment_electrode_system_title);
+        LinearLayout electrodeLocations = (LinearLayout) view.findViewById(R.id.experiment_electrodes);
 
         Experiment experiment = (Experiment) getArguments().getParcelable("data");
 
@@ -101,6 +105,65 @@ public class ExperimentDetailsFragment extends Fragment {
             fillHardwareList(hardwareList, experiment);
             fillSoftwareList(softwareList, experiment);
             fillPharmaceuticals(pharmaceuticals, experiment);
+            fillElectroders(electrodeImpendace, electrodeSystemName, electrodeSystemDescription, electrodeLocations, experiment);
+        }
+    }
+
+    /**
+     * Method for displaying electrode information.
+     *
+     * @param electrodeImpendace         set impedance
+     * @param electrodeSystemName        name of electrode system
+     * @param electrodeSystemDescription electrode system description
+     * @param electrodeLocations         frame, where will be all electrode locations data inflated in
+     * @param experiment                 original source object
+     */
+    private void fillElectroders(TextView electrodeImpendace, TextView electrodeSystemName, TextView electrodeSystemDescription, LinearLayout electrodeLocations, Experiment experiment) {
+
+        ElectrodeConf electrodeConf = experiment.getElectrodeConf();
+        electrodeImpendace.setText(Integer.toString(electrodeConf.getImpedance()));
+        ElectrodeSystem electrodeSystem = electrodeConf.getElectrodeSystem();
+        electrodeSystemDescription.setText(electrodeSystem.getDescription());
+        electrodeSystemName.setText(electrodeSystem.getTitle());
+
+        ElectrodeLocationList electrodeLocationList = electrodeConf.getElectrodeLocations();
+
+        if (electrodeLocationList != null && electrodeLocationList.isAvailable()) {
+
+            //create and inflate electrode locations row by row
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            for (ElectrodeLocation eLocation : electrodeLocationList.getElectrodeLocations()) {
+                View row = inflater.inflate(R.layout.base_electrode_location_row, electrodeLocations, false);
+
+                TextView electrodeId = (TextView) row.findViewById(R.id.row_electrode_location_id);
+                TextView electrodeAbbr = (TextView) row.findViewById(R.id.row_electrode_location_abbr);
+                TextView electrodeTitle = (TextView) row.findViewById(R.id.row_electrode_location_title);
+                TextView electrodeDescription = (TextView) row.findViewById(R.id.row_electrode_location_description);
+
+                if (electrodeId != null) {
+                    electrodeId.setText(Integer.toString(eLocation.getId()));
+                }
+
+                if (electrodeAbbr != null) {
+                    electrodeAbbr.setText(eLocation.getAbbr());
+                }
+
+                if (electrodeTitle != null) {
+                    electrodeTitle.setText(eLocation.getTitle());
+                }
+
+                if (electrodeDescription != null) {
+                    electrodeDescription.setText(eLocation.getDescription());
+                }
+
+                electrodeLocations.addView(row);
+            }
+        } else {
+            //inflate information, that no record is available
+            TextView row = new TextView(getActivity());
+            row.setText(R.string.dummy_none);
+            electrodeLocations.addView(row);
         }
     }
 
@@ -111,7 +174,33 @@ public class ExperimentDetailsFragment extends Fragment {
      * @param experiment      experiment object for accessing data
      */
     private void fillPharmaceuticals(LinearLayout pharmaceuticals, Experiment experiment) {
+        if (experiment.getPharmaceuticals() != null && experiment.getPharmaceuticals().isAvailable()) {
+            //create and inflate row by row
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            for (Pharmaceutical record : experiment.getPharmaceuticals().getPharmaceuticals()) {
+                View row = inflater.inflate(R.layout.base_pharmaceutical_row, pharmaceuticals, false);
 
+                TextView pharmId = (TextView) row.findViewById(R.id.row_software_id);
+                TextView pharmTitle = (TextView) row.findViewById(R.id.row_software_title);
+                TextView pharmDescription = (TextView) row.findViewById(R.id.row_software_description);
+
+                if (pharmId != null) {
+                    pharmId.setText(Integer.toString(record.getId()));
+                }
+                if (pharmTitle != null) {
+                    pharmTitle.setText(record.getTitle());
+                }
+                if (pharmDescription != null) {
+                    pharmDescription.setText(record.getDescription());
+                }
+                pharmaceuticals.addView(row);
+            }
+        } else {
+            //inflate information, that no record is available
+            TextView row = new TextView(getActivity());
+            row.setText(R.string.dummy_none);
+            pharmaceuticals.addView(row);
+        }
     }
 
     /**
@@ -121,13 +210,12 @@ public class ExperimentDetailsFragment extends Fragment {
      * @param experiment   experiment object for accessing data
      */
     private void fillSoftwareList(LinearLayout softwareList, Experiment experiment) {
-        if (experiment.getSoftwareList() != null && experiment.getSoftwareList().isAvailable()){
+        if (experiment.getSoftwareList() != null && experiment.getSoftwareList().isAvailable()) {
 
             //create and inflate row by row
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            for(Software record : experiment.getSoftwareList().getSoftwareList()){
+            for (Software record : experiment.getSoftwareList().getSoftwareList()) {
                 View row = inflater.inflate(R.layout.base_software_row, softwareList, false);
-
 
                 TextView swId = (TextView) row.findViewById(R.id.row_software_id);
                 TextView swTitle = (TextView) row.findViewById(R.id.row_software_title);
@@ -144,7 +232,7 @@ public class ExperimentDetailsFragment extends Fragment {
                 }
                 softwareList.addView(row);
             }
-        }  else {
+        } else {
             //inflate information, that no record is available
             TextView row = new TextView(getActivity());
             row.setText(R.string.dummy_none);
@@ -163,6 +251,8 @@ public class ExperimentDetailsFragment extends Fragment {
 
             //create and inflate row by row
             LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            int counter = 0;
             for (Hardware record : experiment.getHardwareList().getHardwareList()) {
                 View row = inflater.inflate(R.layout.base_hardware_row, hardwareList, false);
 

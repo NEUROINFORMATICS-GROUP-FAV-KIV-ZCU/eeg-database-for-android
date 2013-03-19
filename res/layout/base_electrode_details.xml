@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="5"
+              android:background="@color/background_alternate">
+
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/experiment_electrodes"
+            android:src="@drawable/ic_action_electrode"/>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:weightSum="2">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/experiment_electrodes"
+                android:textStyle="italic"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/experiment_electrode_impedance"/>
+
+
+            <TextView
+                    android:id="@+id/experiment_electrode_impedance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/experiment_electrode_impedance"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/experiment_electrode_system_title"/>
+
+
+            <TextView
+                    android:id="@+id/experiment_electrode_system_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/experiment_electrode_system_title"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/experiment_electrode_system_description"/>
+
+
+            <TextView
+                    android:id="@+id/experiment_electrode_system_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/detail_padding"
+                    android:text="@string/experiment_electrode_system_description"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:id="@+id/experiment_electrodes"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@android:drawable/alert_dark_frame"
+                />
+    </LinearLayout>
+</LinearLayout>

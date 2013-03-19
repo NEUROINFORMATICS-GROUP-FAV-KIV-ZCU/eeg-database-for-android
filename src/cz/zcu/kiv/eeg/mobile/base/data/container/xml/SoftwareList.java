@@ -47,7 +47,7 @@ public class SoftwareList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return softwareList != null;
+        return softwareList != null && !softwareList.isEmpty();
     }
 
     @Override

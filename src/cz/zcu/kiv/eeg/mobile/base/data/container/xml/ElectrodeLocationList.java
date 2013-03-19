@@ -47,7 +47,7 @@ public class ElectrodeLocationList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return electrodeLocations != null;
+        return electrodeLocations != null && !electrodeLocations.isEmpty();
     }
 
     @Override

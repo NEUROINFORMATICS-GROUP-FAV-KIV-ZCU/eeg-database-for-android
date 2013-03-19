@@ -47,7 +47,7 @@ public class PharmaceuticalList implements Parcelable {
     }
 
     public boolean isAvailable() {
-        return pharmaceuticals != null;
+        return pharmaceuticals != null && !pharmaceuticals.isEmpty();
     }
 
     @Override

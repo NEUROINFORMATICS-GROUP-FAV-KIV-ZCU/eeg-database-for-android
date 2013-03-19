@@ -142,6 +142,8 @@
     <string name="experiment_hardware">Hardware</string>
     <string name="experiment_softwares">Software</string>
     <string name="experiment_pharmaceuticals">Pharmaceuticals</string>
+    <string name="experiment_electrodes">Electrodes</string>
+    <string name="experiment_electrode_impedance">Impedance</string>
 
 
     <!-- scenarios -->
@@ -157,6 +159,8 @@
     <string name="scenario_file_length">File size</string>
     <string name="scenario_add_group_label">Research group</string>
     <string name="scenario_private">Private scenario</string>
+    <string name="experiment_electrode_system_title">System title</string>
+    <string name="experiment_electrode_system_description">System description</string>
 
     <!-- person management -->
     <string name="person_add">Add person</string>
