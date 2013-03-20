@@ -144,6 +144,14 @@
     <string name="experiment_pharmaceuticals">Pharmaceuticals</string>
     <string name="experiment_electrodes">Electrodes</string>
     <string name="experiment_electrode_impedance">Impedance</string>
+    <string name="experiment_electrode_type">Electrode type</string>
+    <string name="experiment_electrode_fix">Electrode fix</string>
+    <string name="experiment_electrodes_location">Electrodes\' locations</string>
+    <string name="experiment_electrode_detail">Electrode detail</string>
+    <string name="experiment_electrode_id">Electrode identifier</string>
+    <string name="experiment_electrode_title">Title</string>
+    <string name="experiment_electrode_abbr">Abbreviation</string>
+    <string name="experiment_electrode_description">Details</string>
 
 
     <!-- scenarios -->

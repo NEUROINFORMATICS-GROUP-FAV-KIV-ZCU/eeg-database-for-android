@@ -140,6 +140,14 @@
     <string name="experiment_electrodes">Elektrody</string>
     <string name="experiment_electrode_system_title">Název systému</string>
     <string name="experiment_electrode_system_description">Popis systému</string>
+    <string name="experiment_electrode_type">Typ elektrody</string>
+    <string name="experiment_electrode_fix">Upevnění elektrody</string>
+    <string name="experiment_electrodes_location">Umístění elektrod</string>
+    <string name="experiment_electrode_detail">Detail elektrody</string>
+    <string name="experiment_electrode_id">Identifikátor elektrody</string>
+    <string name="experiment_electrode_title">Pojmenování</string>
+    <string name="experiment_electrode_abbr">Zkratka</string>
+    <string name="experiment_electrode_description">Podrobnosti</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>

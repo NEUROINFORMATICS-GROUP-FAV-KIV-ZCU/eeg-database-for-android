@@ -106,6 +106,13 @@
 
         </LinearLayout>
 
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/experiment_electrodes_location"
+                android:textStyle="italic"/>
 
         <LinearLayout
                 android:id="@+id/experiment_electrodes"

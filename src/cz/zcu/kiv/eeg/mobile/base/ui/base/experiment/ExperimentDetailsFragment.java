@@ -1,6 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -131,9 +132,9 @@ public class ExperimentDetailsFragment extends Fragment {
         if (electrodeLocationList != null && electrodeLocationList.isAvailable()) {
 
             //create and inflate electrode locations row by row
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            final LayoutInflater inflater = getActivity().getLayoutInflater();
 
-            for (ElectrodeLocation eLocation : electrodeLocationList.getElectrodeLocations()) {
+            for (final ElectrodeLocation eLocation : electrodeLocationList.getElectrodeLocations()) {
                 View row = inflater.inflate(R.layout.base_electrode_location_row, electrodeLocations, false);
 
                 TextView electrodeId = (TextView) row.findViewById(R.id.row_electrode_location_id);
@@ -158,6 +159,38 @@ public class ExperimentDetailsFragment extends Fragment {
                 }
 
                 electrodeLocations.addView(row);
+
+                row.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle(R.string.experiment_electrode_detail);
+                        View view = inflater.inflate(R.layout.base_electrode_dialog_details, null);
+
+                        TextView id = (TextView) view.findViewById(R.id.experiment_electrode_id);
+                        TextView abbr = (TextView) view.findViewById(R.id.experiment_electrode_abbr);
+                        TextView title = (TextView) view.findViewById(R.id.experiment_electrode_title);
+                        TextView description = (TextView) view.findViewById(R.id.experiment_electrode_description);
+
+                        TextView typeTitle = (TextView) view.findViewById(R.id.experiment_electrode_type_title);
+                        TextView typeDescription = (TextView) view.findViewById(R.id.experiment_electrode_type_description);
+                        TextView fixTitle = (TextView) view.findViewById(R.id.experiment_electrode_fix_title);
+                        TextView fixDescription = (TextView) view.findViewById(R.id.experiment_electrode_fix_description);
+
+                        id.setText(Integer.toString(eLocation.getId()));
+                        title.setText(eLocation.getTitle());
+                        abbr.setText(eLocation.getAbbr());
+                        description.setText(eLocation.getDescription());
+                        typeTitle.setText(eLocation.getElectrodeType().getTitle());
+                        typeDescription.setText(eLocation.getElectrodeType().getDescription());
+                        fixTitle.setText(eLocation.getElectrodeFix().getTitle());
+                        fixDescription.setText(eLocation.getElectrodeFix().getDescription());
+
+                        builder.setView(view);
+                        builder.show();
+                    }
+                });
             }
         } else {
             //inflate information, that no record is available
@@ -317,5 +350,4 @@ public class ExperimentDetailsFragment extends Fragment {
         }
 
     }
-
 }
