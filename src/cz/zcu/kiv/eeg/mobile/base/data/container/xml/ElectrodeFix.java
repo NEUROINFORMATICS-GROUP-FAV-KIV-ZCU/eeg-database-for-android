@@ -13,14 +13,14 @@ import org.simpleframework.xml.Root;
 @Root(name = "electrodeFixData")
 public class ElectrodeFix implements Parcelable {
 
-    public static final Parcelable.Creator<ElectrodeConf> CREATOR
-            = new Parcelable.Creator<ElectrodeConf>() {
-        public ElectrodeConf createFromParcel(Parcel in) {
-            return new ElectrodeConf(in);
+    public static final Parcelable.Creator<ElectrodeFix> CREATOR
+            = new Parcelable.Creator<ElectrodeFix>() {
+        public ElectrodeFix createFromParcel(Parcel in) {
+            return new ElectrodeFix(in);
         }
 
-        public ElectrodeConf[] newArray(int size) {
-            return new ElectrodeConf[size];
+        public ElectrodeFix[] newArray(int size) {
+            return new ElectrodeFix[size];
         }
     };
     @Element

@@ -226,7 +226,7 @@ public class Experiment implements Parcelable {
         dest.writeString(startTime);
         dest.writeString(endTime);
         dest.writeString(environmentNote);
-        dest.writeInt(temperature);
+        dest.writeInt(temperature != null ? temperature : 0);
         dest.writeParcelable(scenario, flags);
         dest.writeParcelable(researchGroup, flags);
         dest.writeParcelable(artifact, flags);
