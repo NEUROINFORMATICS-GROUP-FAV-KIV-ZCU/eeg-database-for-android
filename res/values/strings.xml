@@ -147,12 +147,6 @@
     <string name="experiment_electrode_type">Electrode type</string>
     <string name="experiment_electrode_fix">Electrode fix</string>
     <string name="experiment_electrodes_location">Electrodes\' locations</string>
-    <string name="experiment_electrode_detail">Electrode detail</string>
-    <string name="experiment_electrode_id">Electrode identifier</string>
-    <string name="experiment_electrode_title">Title</string>
-    <string name="experiment_electrode_abbr">Abbreviation</string>
-    <string name="experiment_electrode_description">Details</string>
-
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>
@@ -183,4 +177,18 @@
     <string name="person_owner">Owner</string>
     <string name="person_subject">Subject</string>
     <string name="person_age">Age</string>
+
+    <!--dialogs-->
+    <string name="dialog_electrode_detail">Electrode detail</string>
+    <string name="dialog_hardware_detail">Hardware detail</string>
+    <string name="dialog_software_detail">Software detail</string>
+    <string name="dialog_pharmaceutical_detail">Pharmaceutical detail</string>
+    <string name="dialog_disease_detail">Disease detail</string>
+
+    <string name="dialog_id">Identifier</string>
+    <string name="dialog_title">Title</string>
+    <string name="dialog_abbr">Abbreviation</string>
+    <string name="dialog_description">Details</string>
+    <string name="dialog_type">Type</string>
+
 </resources>

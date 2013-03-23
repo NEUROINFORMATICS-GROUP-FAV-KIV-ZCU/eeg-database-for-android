@@ -80,7 +80,6 @@ public class HardwareAdapter extends ArrayAdapter<Hardware> {
             TextView hwId = (TextView) row.findViewById(R.id.row_hardware_id);
             TextView hwTitle = (TextView) row.findViewById(R.id.row_hardware_title);
             TextView hwType = (TextView) row.findViewById(R.id.row_hardware_type);
-            TextView hwDescription = (TextView) row.findViewById(R.id.row_hardware_description);
 
             if (hwId != null) {
                 hwId.setText(Integer.toString(record.getHardwareId()));
@@ -90,9 +89,6 @@ public class HardwareAdapter extends ArrayAdapter<Hardware> {
             }
             if (hwType != null) {
                 hwType.setText(record.getType());
-            }
-            if (hwDescription != null) {
-                hwDescription.setText(record.getDescription());
             }
         }
         return row;

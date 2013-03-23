@@ -143,11 +143,6 @@
     <string name="experiment_electrode_type">Typ elektrody</string>
     <string name="experiment_electrode_fix">Upevnění elektrody</string>
     <string name="experiment_electrodes_location">Umístění elektrod</string>
-    <string name="experiment_electrode_detail">Detail elektrody</string>
-    <string name="experiment_electrode_id">Identifikátor elektrody</string>
-    <string name="experiment_electrode_title">Pojmenování</string>
-    <string name="experiment_electrode_abbr">Zkratka</string>
-    <string name="experiment_electrode_description">Podrobnosti</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>
@@ -176,5 +171,18 @@
     <string name="person_owner">Vlastník</string>
     <string name="person_subject">Subjekt</string>
     <string name="person_age">Věk</string>
+
+    <!--dialogs-->
+    <string name="dialog_electrode_detail">Detail elektrody</string>
+    <string name="dialog_hardware_detail">Detail hardwaru</string>
+    <string name="dialog_software_detail">Detail softwaru</string>
+    <string name="dialog_pharmaceutical_detail">Detail farmaceutika</string>
+    <string name="dialog_disease_detail">Detail nemoci</string>
+
+    <string name="dialog_id">Identifikátor</string>
+    <string name="dialog_title">Pojmenování</string>
+    <string name="dialog_abbr">Zkratka</string>
+    <string name="dialog_description">Podrobnosti</string>
+    <string name="dialog_type">Typ</string>
 
 </resources>

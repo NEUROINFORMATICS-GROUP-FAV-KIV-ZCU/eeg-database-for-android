@@ -160,23 +160,24 @@ public class ExperimentDetailsFragment extends Fragment {
 
                 electrodeLocations.addView(row);
 
+                //every row has its detail dialog
                 row.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         LayoutInflater inflater = getActivity().getLayoutInflater();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle(R.string.experiment_electrode_detail);
+                        builder.setTitle(R.string.dialog_electrode_detail);
                         View view = inflater.inflate(R.layout.base_electrode_dialog_details, null);
 
-                        TextView id = (TextView) view.findViewById(R.id.experiment_electrode_id);
-                        TextView abbr = (TextView) view.findViewById(R.id.experiment_electrode_abbr);
-                        TextView title = (TextView) view.findViewById(R.id.experiment_electrode_title);
-                        TextView description = (TextView) view.findViewById(R.id.experiment_electrode_description);
+                        TextView id = (TextView) view.findViewById(R.id.dialog_id);
+                        TextView abbr = (TextView) view.findViewById(R.id.dialog_abbr);
+                        TextView title = (TextView) view.findViewById(R.id.dialog_title);
+                        TextView description = (TextView) view.findViewById(R.id.dialog_description);
 
-                        TextView typeTitle = (TextView) view.findViewById(R.id.experiment_electrode_type_title);
-                        TextView typeDescription = (TextView) view.findViewById(R.id.experiment_electrode_type_description);
-                        TextView fixTitle = (TextView) view.findViewById(R.id.experiment_electrode_fix_title);
-                        TextView fixDescription = (TextView) view.findViewById(R.id.experiment_electrode_fix_description);
+                        TextView typeTitle = (TextView) view.findViewById(R.id.dialog_type_title);
+                        TextView typeDescription = (TextView) view.findViewById(R.id.dialog_type_description);
+                        TextView fixTitle = (TextView) view.findViewById(R.id.dialog_fix_title);
+                        TextView fixDescription = (TextView) view.findViewById(R.id.dialog_fix_description);
 
                         id.setText(Integer.toString(eLocation.getId()));
                         title.setText(eLocation.getTitle());
@@ -210,7 +211,7 @@ public class ExperimentDetailsFragment extends Fragment {
         if (experiment.getPharmaceuticals() != null && experiment.getPharmaceuticals().isAvailable()) {
             //create and inflate row by row
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            for (Pharmaceutical record : experiment.getPharmaceuticals().getPharmaceuticals()) {
+            for (final Pharmaceutical record : experiment.getPharmaceuticals().getPharmaceuticals()) {
                 View row = inflater.inflate(R.layout.base_pharmaceutical_row, pharmaceuticals, false);
 
                 TextView pharmId = (TextView) row.findViewById(R.id.row_software_id);
@@ -226,6 +227,29 @@ public class ExperimentDetailsFragment extends Fragment {
                 if (pharmDescription != null) {
                     pharmDescription.setText(record.getDescription());
                 }
+
+                //every row has its detail dialog
+                row.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle(R.string.dialog_pharmaceutical_detail);
+                        View view = inflater.inflate(R.layout.base_pharmaceutical_dialog_details, null);
+
+                        TextView id = (TextView) view.findViewById(R.id.dialog_id);
+                        TextView title = (TextView) view.findViewById(R.id.dialog_title);
+                        TextView description = (TextView) view.findViewById(R.id.dialog_description);
+
+                        id.setText(Integer.toString(record.getId()));
+                        title.setText(record.getTitle());
+                        description.setText(record.getDescription());
+
+                        builder.setView(view);
+                        builder.show();
+                    }
+                });
+
                 pharmaceuticals.addView(row);
             }
         } else {
@@ -247,7 +271,7 @@ public class ExperimentDetailsFragment extends Fragment {
 
             //create and inflate row by row
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            for (Software record : experiment.getSoftwareList().getSoftwareList()) {
+            for (final Software record : experiment.getSoftwareList().getSoftwareList()) {
                 View row = inflater.inflate(R.layout.base_software_row, softwareList, false);
 
                 TextView swId = (TextView) row.findViewById(R.id.row_software_id);
@@ -263,6 +287,29 @@ public class ExperimentDetailsFragment extends Fragment {
                 if (swDescription != null) {
                     swDescription.setText(record.getDescription());
                 }
+
+                //every row has its detail dialog
+                row.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle(R.string.dialog_software_detail);
+                        View view = inflater.inflate(R.layout.base_software_dialog_details, null);
+
+                        TextView id = (TextView) view.findViewById(R.id.dialog_id);
+                        TextView title = (TextView) view.findViewById(R.id.dialog_title);
+                        TextView description = (TextView) view.findViewById(R.id.dialog_description);
+
+                        id.setText(Integer.toString(record.getId()));
+                        title.setText(record.getTitle());
+                        description.setText(record.getDescription());
+
+                        builder.setView(view);
+                        builder.show();
+                    }
+                });
+
                 softwareList.addView(row);
             }
         } else {
@@ -285,13 +332,12 @@ public class ExperimentDetailsFragment extends Fragment {
             //create and inflate row by row
             LayoutInflater inflater = getActivity().getLayoutInflater();
 
-            for (Hardware record : experiment.getHardwareList().getHardwareList()) {
+            for (final Hardware record : experiment.getHardwareList().getHardwareList()) {
                 View row = inflater.inflate(R.layout.base_hardware_row, hardwareList, false);
 
                 TextView hwId = (TextView) row.findViewById(R.id.row_hardware_id);
                 TextView hwTitle = (TextView) row.findViewById(R.id.row_hardware_title);
                 TextView hwType = (TextView) row.findViewById(R.id.row_hardware_type);
-                TextView hwDescription = (TextView) row.findViewById(R.id.row_hardware_description);
 
                 if (hwId != null) {
                     hwId.setText(Integer.toString(record.getHardwareId()));
@@ -302,9 +348,31 @@ public class ExperimentDetailsFragment extends Fragment {
                 if (hwType != null) {
                     hwType.setText(record.getType());
                 }
-                if (hwDescription != null) {
-                    hwDescription.setText(record.getDescription());
-                }
+
+                //every row has its detail dialog
+                row.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle(R.string.dialog_hardware_detail);
+                        View view = inflater.inflate(R.layout.base_hardware_dialog_details, null);
+
+                        TextView id = (TextView) view.findViewById(R.id.dialog_id);
+                        TextView title = (TextView) view.findViewById(R.id.dialog_title);
+                        TextView description = (TextView) view.findViewById(R.id.dialog_description);
+                        TextView type = (TextView) view.findViewById(R.id.dialog_type);
+
+                        id.setText(Integer.toString(record.getHardwareId()));
+                        title.setText(record.getTitle());
+                        description.setText(record.getDescription());
+                        type.setText(record.getType());
+
+                        builder.setView(view);
+                        builder.show();
+                    }
+                });
+
                 hardwareList.addView(row);
             }
         } else {
@@ -326,7 +394,7 @@ public class ExperimentDetailsFragment extends Fragment {
 
             //create and inflate row by row
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            for (Disease record : experiment.getDiseases().getDiseases()) {
+            for (final Disease record : experiment.getDiseases().getDiseases()) {
                 View row = inflater.inflate(R.layout.base_disease_row, diseasesList, false);
 
                 TextView diseaseName = (TextView) row.findViewById(R.id.row_disease_name);
@@ -338,6 +406,29 @@ public class ExperimentDetailsFragment extends Fragment {
                 if (diseaseDescription != null) {
                     diseaseDescription.setText(record.getDescription());
                 }
+
+                //every row has its detail dialog
+                row.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle(R.string.dialog_disease_detail);
+                        View view = inflater.inflate(R.layout.base_disease_dialog_details, null);
+
+                        TextView id = (TextView) view.findViewById(R.id.dialog_id);
+                        TextView title = (TextView) view.findViewById(R.id.dialog_title);
+                        TextView description = (TextView) view.findViewById(R.id.dialog_description);
+
+                        id.setText(Integer.toString(record.getDiseaseId()));
+                        title.setText(record.getName());
+                        description.setText(record.getDescription());
+
+                        builder.setView(view);
+                        builder.show();
+                    }
+                });
+
                 diseasesList.addView(row);
             }
 
