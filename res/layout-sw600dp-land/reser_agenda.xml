@@ -35,10 +35,10 @@
                 android:drawableLeft="@drawable/ic_action_date"
                 android:text="@string/reser_agenda_choose_date"/>
 
-        <FrameLayout
-                android:id="@+id/reservation_list"
+        <ListView
+                android:id="@android:id/list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/dateLabel"/>
     </RelativeLayout>
 

@@ -12,6 +12,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ReservationList;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationDetailsFragment;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
@@ -25,7 +26,7 @@ import java.util.List;
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 @SuppressLint("SimpleDateFormat")
-public class FetchReservationsToDate extends CommonService<Integer, Void, List<Reservation>> {
+public class FetchReservationsToDate extends CommonService<TimeContainer, Void, List<Reservation>> {
 
     private static final String TAG = FetchReservationsToDate.class.getSimpleName();
     private ReservationAdapter reservationAdapter;
@@ -36,17 +37,18 @@ public class FetchReservationsToDate extends CommonService<Integer, Void, List<R
     }
 
     @Override
-    protected List<Reservation> doInBackground(Integer... params) {
+    protected List<Reservation> doInBackground(TimeContainer... params) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION;
 
-        if (params.length == 3) {
-            url = url + params[0] + "-" + params[1] + "-" + params[2];
+        if (params.length == 1) {
+            TimeContainer time = params[0];
+            url = url + time.getDay() + "-" + time.getMonth() + "-" + time.getYear();
         } else {
-            Log.e(TAG, "Invalid params count! Must be 3 in order of year, month, day");
-            setState(ERROR, "Invalid params count! Must be 3 in order of year, month, day");
+            Log.e(TAG, "Invalid params count! There must be one TimeContainer instance");
+            setState(ERROR, "Invalid params count! There must be one TimeContainer instance");
             return Collections.emptyList();
         }
 
@@ -99,12 +101,12 @@ public class FetchReservationsToDate extends CommonService<Integer, Void, List<R
         }
 
         FragmentManager fm = activity.getFragmentManager();
+
+        ReservationDetailsFragment details = new ReservationDetailsFragment();
         ReservationDetailsFragment frag = (ReservationDetailsFragment) fm.findFragmentByTag(ReservationDetailsFragment.TAG);
         if (frag != null) {
             FragmentTransaction ft = fm.beginTransaction();
-            ft.detach(frag);
-            ft.remove(frag);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.replace(R.id.details, details, ReservationDetailsFragment.TAG);
             ft.commit();
         }
     }

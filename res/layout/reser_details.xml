@@ -6,24 +6,22 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
+            android:layout_height="wrap_content"
+            android:weightSum="6"
+            android:padding="@dimen/detail_padding"
+            android:gravity="center_vertical">
 
         <ImageView
-                android:id="@+id/groupIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical"
                 android:contentDescription="@string/reser_detail_group"
                 android:src="@drawable/ic_action_group"/>
 
         <TextView
-                android:id="@+id/groupLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:layout_gravity="center_vertical"
                 android:text="@string/reser_detail_group"/>
 
 
@@ -31,9 +29,7 @@
                 android:id="@+id/groupValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
+                android:layout_weight="3"
                 android:text="@string/reser_detail_group"/>
 
 
@@ -41,33 +37,31 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
+            android:layout_height="wrap_content"
+            android:weightSum="6"
+            android:padding="@dimen/detail_padding"
+            android:gravity="center_vertical"
+            android:background="@color/background_alternate">
 
 
         <ImageView
-                android:id="@+id/timeIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical"
                 android:contentDescription="@string/reser_detail_time"
                 android:src="@drawable/ic_action_time"/>
 
         <TextView
-                android:id="@+id/timeLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:layout_gravity="center_vertical"
                 android:text="@string/reser_detail_time"/>
 
         <include
                 android:id="@+id/TimeValues_ref"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
                 layout="@layout/reser_details_times"/>
 
     </LinearLayout>
@@ -75,67 +69,60 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
+            android:layout_height="wrap_content"
+            android:weightSum="6"
+            android:padding="@dimen/detail_padding"
+            android:gravity="center_vertical">
 
         <ImageView
-                android:id="@+id/creatorIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical"
                 android:contentDescription="@string/reser_detail_creator"
                 android:src="@drawable/ic_action_save"/>
 
         <TextView
-                android:id="@+id/creatorLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:layout_gravity="center_vertical"
                 android:text="@string/reser_detail_creator"/>
 
         <TextView
                 android:id="@+id/creatorName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/detail_padding"
+                android:layout_weight="3"
                 android:text="@string/reser_detail_creator"/>
 
     </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5">
+            android:layout_height="wrap_content"
+            android:weightSum="6"
+            android:padding="@dimen/detail_padding"
+            android:gravity="center_vertical"
+            android:background="@color/background_alternate">
 
         <ImageView
-                android:id="@+id/mailIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical"
                 android:contentDescription="@string/reser_detail_contact"
                 android:src="@drawable/ic_action_mail"/>
 
         <TextView
-                android:id="@+id/creatorMailLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:layout_gravity="center_vertical"
                 android:text="@string/reser_detail_contact"/>
 
         <TextView
                 android:id="@+id/creatorMail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
                 android:autoLink="email"
-                android:padding="@dimen/detail_padding"
                 android:text="@string/reser_detail_contact"/>
 
     </LinearLayout>

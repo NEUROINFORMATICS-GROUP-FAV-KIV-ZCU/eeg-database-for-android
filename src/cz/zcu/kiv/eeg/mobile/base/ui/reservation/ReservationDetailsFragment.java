@@ -1,6 +1,5 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.*;
@@ -8,51 +7,49 @@ import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 
-import java.text.SimpleDateFormat;
-
-@SuppressLint("SimpleDateFormat")
+/**
+ * Fragment for displaying reservation details.
+ *
+ * @author Petr Miko
+ */
 public class ReservationDetailsFragment extends Fragment {
 
     public final static String TAG = ReservationDetailsFragment.class.getSimpleName();
-    private boolean empty = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getArguments() != null && container != null) {
-            empty = false;
-            return inflater.inflate(R.layout.reser_details, container, false);
+        Reservation reservation = getArguments() != null ? (Reservation) getArguments().getParcelable("data") : null;
+        boolean hasData = reservation != null && getArguments().getInt("index", -1) >= 0;
+        if (hasData) {
+            View view = inflater.inflate(R.layout.reser_details, container, false);
+            initView(view, reservation);
+            return view;
         } else {
-            empty = true;
             return inflater.inflate(R.layout.details_empty, container, false);
         }
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedState) {
-        super.onActivityCreated(savedState);
+    /**
+     * Initializes view elements with reservation data.
+     *
+     * @param view        view to be displayed
+     * @param reservation reservation data
+     */
+    private void initView(View view, Reservation reservation) {
 
-        if (!empty) {
-            initData();
-        }
-    }
+        //obtaining view elements
+        TextView groupName = (TextView) view.findViewById(R.id.groupValue);
+        TextView fromTime = (TextView) view.findViewById(R.id.fromValue);
+        TextView toTime = (TextView) view.findViewById(R.id.toValue);
+        TextView creatorName = (TextView) view.findViewById(R.id.creatorName);
+        TextView creatorMail = (TextView) view.findViewById(R.id.creatorMail);
 
-    private void initData() {
-
-        TextView groupName = (TextView) getActivity().findViewById(R.id.groupValue);
-        TextView fromTime = (TextView) getActivity().findViewById(R.id.fromValue);
-        TextView toTime = (TextView) getActivity().findViewById(R.id.toValue);
-        TextView creatorName = (TextView) getActivity().findViewById(R.id.creatorName);
-        TextView creatorMail = (TextView) getActivity().findViewById(R.id.creatorMail);
-
-        Reservation reservation = (Reservation) getArguments().getParcelable("data");
-        if (reservation != null) {
-            groupName.setText(reservation.getResearchGroup());
-            fromTime.setText(reservation.getFromTime());
-            toTime.setText(reservation.getToTime());
-
-            creatorName.setText(reservation.getCreatorName());
-            creatorMail.setText(reservation.getEmail());
-        }
+        //setting data
+        groupName.setText(reservation.getResearchGroup());
+        fromTime.setText(reservation.getFromTime().toString());
+        toTime.setText(reservation.getToTime().toString());
+        creatorName.setText(reservation.getCreatorName());
+        creatorMail.setText(reservation.getEmail());
     }
 
     @Override

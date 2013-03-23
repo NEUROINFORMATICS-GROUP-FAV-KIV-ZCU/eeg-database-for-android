@@ -3,8 +3,8 @@ package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.res.Resources.NotFoundException;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
@@ -18,16 +18,18 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ResearchGroupAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.reservation.CreateReservation;
 import cz.zcu.kiv.eeg.mobile.base.ws.reservation.FetchResearchGroups;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
+/**
+ * Activity for creating new Reservation.
+ *
+ * @author Petr Miko
+ */
 @SuppressLint("SimpleDateFormat")
 public class AddRecordActivity extends SaveDiscardActivity {
 
@@ -36,11 +38,11 @@ public class AddRecordActivity extends SaveDiscardActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            fromHour = hourOfDay;
-            fromMinute = minute;
+            fromTime.setHour(hourOfDay);
+            fromTime.setMinute(minute);
 
             TextView fromField = (TextView) findViewById(R.id.fromField);
-            fromField.setText(String.format("%02d:%02d", fromHour, fromMinute));
+            fromField.setText(fromTime.toTimeString());
 
         }
     };
@@ -48,15 +50,15 @@ public class AddRecordActivity extends SaveDiscardActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            toHour = hourOfDay;
-            toMinute = minute;
+            toTime.setHour(hourOfDay);
+            toTime.setMinute(minute);
 
             TextView toField = (TextView) findViewById(R.id.toField);
-            toField.setText(String.format("%02d:%02d", toHour, toMinute));
+            toField.setText(toTime.toTimeString());
 
         }
     };
-    private int year, month, day, fromHour, fromMinute, toHour, toMinute;
+    private TimeContainer fromTime, toTime;
     private ResearchGroupAdapter researchGroupAdapter;
 
     @Override
@@ -67,10 +69,18 @@ public class AddRecordActivity extends SaveDiscardActivity {
         setContentView(R.layout.reser_add);
 
         Bundle b = getIntent().getExtras();
-        year = b.getInt("year");
-        month = b.getInt("month") + 1;
-        day = b.getInt("day");
-        setTitle(String.format("%d.%d.%d - %s", day, month, year, getString(R.string.reser_create)));
+        TimeContainer originalDate = b.getParcelable("time");
+
+        Time time = new Time();
+        time.setToNow();
+
+        fromTime = new TimeContainer(originalDate);
+        fromTime.setHour(time.hour);
+        fromTime.setMinute(time.minute);
+
+        toTime = new TimeContainer(originalDate);
+        toTime.setHour(time.hour);
+        toTime.setMinute(time.minute);
 
         initFields();
         updateData();
@@ -80,14 +90,8 @@ public class AddRecordActivity extends SaveDiscardActivity {
         TextView fromField = (TextView) findViewById(R.id.fromField);
         TextView toField = (TextView) findViewById(R.id.toField);
 
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
-
-        fromHour = toHour = c.get(Calendar.HOUR_OF_DAY);
-        fromMinute = toMinute = c.get(Calendar.MINUTE);
-
-        fromField.setText(sf.format(c.getTime()));
-        toField.setText(sf.format(c.getTime()));
+        fromField.setText(fromTime.toTimeString());
+        toField.setText(toTime.toTimeString());
 
         researchGroupAdapter = new ResearchGroupAdapter(this, R.layout.base_row_simple, new ArrayList<ResearchGroup>());
         Spinner groupList = (Spinner) findViewById(R.id.groupList);
@@ -103,12 +107,12 @@ public class AddRecordActivity extends SaveDiscardActivity {
     }
 
     public void fromTimeClick(View v) {
-        TimePickerDialog fromDialog = new TimePickerDialog(this, fromListener, fromHour, fromMinute, true);
+        TimePickerDialog fromDialog = new TimePickerDialog(this, fromListener, fromTime.getHour(), fromTime.getMinute(), true);
         fromDialog.show();
     }
 
     public void toTimeClick(View v) {
-        TimePickerDialog toDialog = new TimePickerDialog(this, toListener, toHour, toMinute, true);
+        TimePickerDialog toDialog = new TimePickerDialog(this, toListener, toTime.getHour(), toTime.getMinute(), true);
         toDialog.show();
     }
 
@@ -116,34 +120,21 @@ public class AddRecordActivity extends SaveDiscardActivity {
 
         if (ConnectionUtils.isOnline(this)) {
 
-            SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            try {
-                Date fromDate = sf.parse(String.format("%02d.%02d.%04d %02d:%02d", day, month, year, fromHour,
-                        fromMinute));
-                Date toDate = sf.parse(String.format("%02d.%02d.%04d %02d:%02d", day, month, year, toHour, toMinute));
-
-                if (fromDate.getTime() >= toDate.getTime()) {
-                    Toast.makeText(this, R.string.error_date_comparison, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                ResearchGroup group = (ResearchGroup) ((Spinner) findViewById(R.id.groupList)).getSelectedItem();
-                Reservation record = new Reservation();
-
-                record.setResearchGroupId(group.getGroupId());
-                record.setResearchGroup(group.getGroupName());
-                record.setFromTime(sf.format(fromDate));
-                record.setToTime(sf.format(toDate));
-                record.setCanRemove(true);
-
-                new CreateReservation(this).execute(record);
-            } catch (NotFoundException e) {
-                Log.d(TAG, e.getLocalizedMessage(), e);
-                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            } catch (ParseException e) {
-                Log.d(TAG, e.getLocalizedMessage(), e);
-                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            if (Time.compare(fromTime.getTime(), toTime.getTime()) >= 0) {
+                Toast.makeText(this, R.string.error_date_comparison, Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            ResearchGroup group = (ResearchGroup) ((Spinner) findViewById(R.id.groupList)).getSelectedItem();
+            Reservation record = new Reservation();
+
+            record.setResearchGroupId(group.getGroupId());
+            record.setResearchGroup(group.getGroupName());
+            record.setFromTime(fromTime);
+            record.setToTime(toTime);
+            record.setCanRemove(true);
+
+            new CreateReservation(this).execute(record);
         } else {
             showAlert(getString(R.string.error_offline));
         }

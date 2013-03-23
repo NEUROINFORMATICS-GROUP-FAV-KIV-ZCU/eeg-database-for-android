@@ -94,8 +94,10 @@ public class ListMineExperimentsFragment extends ListFragment implements SearchV
     }
 
     /**
-     * Helper function to show the details of a selected item, either by displaying a fragment in-place in the current UI, or starting a whole new
-     * activity in which it is displayed.
+     * Method to show the details of a selected item.
+     * Details are displayed either in-place in the current UI fragment, or new ExperimentDetailsActivity is created.
+     *
+     * @param index index of selected item in list
      */
     void showDetails(int index) {
         cursorPosition = index;

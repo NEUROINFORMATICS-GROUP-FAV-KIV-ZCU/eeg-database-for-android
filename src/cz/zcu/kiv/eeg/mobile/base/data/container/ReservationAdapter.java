@@ -1,9 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,19 +28,19 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
 
     private final static String TAG = ReservationAdapter.class.getSimpleName();
     private final int resourceId, fragmentId;
-    private Context context;
+    private CommonActivity parentActivity;
 
     /**
      * Reservation adapter constructor.
      *
-     * @param context    context
-     * @param fragmentId fragment parent fragment identifier
-     * @param resourceId row layout identifier
-     * @param items      reservation data collection
+     * @param parentActivity parent CommonActivity
+     * @param fragmentId     fragment parent fragment identifier
+     * @param resourceId     row layout identifier
+     * @param items          reservation data collection
      */
-    public ReservationAdapter(Context context, int fragmentId, int resourceId, List<Reservation> items) {
-        super(context, resourceId, items);
-        this.context = context;
+    public ReservationAdapter(CommonActivity parentActivity, int fragmentId, int resourceId, List<Reservation> items) {
+        super(parentActivity, resourceId, items);
+        this.parentActivity = parentActivity;
         this.resourceId = resourceId;
         this.fragmentId = fragmentId;
     }
@@ -59,7 +57,7 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            LayoutInflater inflater = parentActivity.getLayoutInflater();
             row = inflater.inflate(resourceId, parent, false);
         }
         Reservation record = getItem(position);
@@ -68,7 +66,7 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
             TextView additionalText = (TextView) row.findViewById(R.id.bottomtext);
             ImageView removeButton = (ImageView) row.findViewById(R.id.removeButton);
             if (topText != null) {
-                topText.setText(record.getFromTime() + " – " + record.getToTime());
+                topText.setText(record.getFromTime().toTimeString() + " – " + record.getToTime().toTimeString());
             }
             if (additionalText != null) {
                 additionalText.setText(record.getResearchGroup());
@@ -101,27 +99,27 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
 
             Log.d(TAG, "Clicked on remove record: " + reservation.getFromTime() + " | " + reservation.getToTime());
 
-            new AlertDialog.Builder(context).setIcon(android.R.drawable.ic_dialog_alert).setTitle(context.getString(R.string.reser_dialog_remove_header))
-                    .setMessage(context.getString(R.string.reser_dialog_remove_body))
-                    .setPositiveButton(context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(parentActivity).setIcon(android.R.drawable.ic_dialog_alert).setTitle(parentActivity.getString(R.string.reser_dialog_remove_header))
+                    .setMessage(parentActivity.getString(R.string.reser_dialog_remove_body))
+                    .setPositiveButton(parentActivity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Reservation data = new Reservation(reservation.getReservationId(), reservation.getResearchGroupId(), reservation.getResearchGroup().toString(),
                                     reservation.getFromTime(), reservation.getToTime(), reservation.isCanRemove());
-                            new RemoveReservation((CommonActivity) context, fragmentId).execute(data);
+                            new RemoveReservation(parentActivity, fragmentId).execute(data);
                         }
 
-                    }).setNegativeButton(context.getString(android.R.string.cancel), null).show();
+                    }).setNegativeButton(parentActivity.getString(android.R.string.cancel), null).show();
         }
 
     }
 
     /**
-     * Context setter.
+     * Parent activity setter.
      *
-     * @param context context
+     * @param parentActivity parent CommonActivity
      */
-    public void setContext(Context context) {
-        this.context = context;
+    public void setContext(CommonActivity parentActivity) {
+        this.parentActivity = parentActivity;
     }
 }

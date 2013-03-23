@@ -2,10 +2,13 @@ package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
+
+import java.text.ParseException;
 
 /**
  * Data container for reservation information.
@@ -14,6 +17,8 @@ import org.simpleframework.xml.Transient;
  */
 @Root(name = "reservation")
 public class Reservation implements Parcelable {
+
+    private final static String TAG = Reservation.class.getSimpleName();
 
     public static final Parcelable.Creator<Reservation> CREATOR
             = new Parcelable.Creator<Reservation>() {
@@ -31,10 +36,10 @@ public class Reservation implements Parcelable {
     private int researchGroupId;
     @Element
     private int reservationId;
-    @Element
-    private String fromTime;
-    @Element
-    private String toTime;
+    @Transient
+    private TimeContainer fromTime;
+    @Transient
+    private TimeContainer toTime;
     @Element(required = false)
     private String creatorName;
     @Element(required = false)
@@ -51,15 +56,15 @@ public class Reservation implements Parcelable {
         reservationId = in.readInt();
         researchGroupId = in.readInt();
         researchGroup = in.readString();
-        fromTime = in.readString();
-        toTime = in.readString();
+        fromTime = in.readParcelable(TimeContainer.class.getClassLoader());
+        toTime = in.readParcelable(TimeContainer.class.getClassLoader());
         creatorName = in.readString();
         creatorMailUsername = in.readString();
         creatorMailDomain = in.readString();
         canRemove = in.readByte() == Values.TRUE;
     }
 
-    public Reservation(int reservationId, int groupId, String groupName, String fromTime, String toTime, boolean canRemove) {
+    public Reservation(int reservationId, int groupId, String groupName, TimeContainer fromTime, TimeContainer toTime, boolean canRemove) {
         this.reservationId = reservationId;
         this.researchGroupId = groupId;
         this.researchGroup = groupName;
@@ -92,20 +97,50 @@ public class Reservation implements Parcelable {
         this.reservationId = reservationId;
     }
 
-    public String getFromTime() {
+    public TimeContainer getFromTime() {
         return fromTime;
     }
 
-    public void setFromTime(String fromTime) {
+    public void setFromTime(TimeContainer fromTime) {
         this.fromTime = fromTime;
     }
 
-    public String getToTime() {
+    @Element(name = "fromTime")
+    public void setFromTimeString(String fromTime) {
+        try {
+            this.fromTime = new TimeContainer(fromTime, "dd.MM.yyyy HH:mm");
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
+            this.fromTime = null;
+        }
+    }
+
+    @Element(name = "fromTime")
+    public String getFromTimeString() {
+        return fromTime.toString();
+    }
+
+    public TimeContainer getToTime() {
         return toTime;
     }
 
-    public void setToTime(String toTime) {
+    public void setToTime(TimeContainer toTime) {
         this.toTime = toTime;
+    }
+
+    @Element(name = "toTime")
+    public void setToTimeString(String toTime) {
+        try {
+            this.toTime = new TimeContainer(toTime, "dd.MM.yyyy HH:mm");
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
+            this.toTime = null;
+        }
+    }
+
+    @Element(name = "toTime")
+    public String getToTimeString() {
+        return toTime.toString();
     }
 
     public String getCreatorName() {
@@ -159,8 +194,8 @@ public class Reservation implements Parcelable {
         dest.writeInt(reservationId);
         dest.writeInt(reservationId);
         dest.writeString(researchGroup);
-        dest.writeString(fromTime);
-        dest.writeString(toTime);
+        dest.writeParcelable(fromTime, flags);
+        dest.writeParcelable(toTime, flags);
         dest.writeString(creatorName);
         dest.writeString(creatorMailUsername);
         dest.writeString(creatorMailDomain);

@@ -3,12 +3,17 @@ package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 
+/**
+ * Activity for displaying reservation details.
+ * On create activity fills itself with ReservationDetailsFragment.
+ *
+ * @author Petr Miko
+ */
 public class ReservationDetailsActivity extends CommonActivity {
 
     @Override
@@ -17,6 +22,7 @@ public class ReservationDetailsActivity extends CommonActivity {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setIcon(R.drawable.ic_action_info);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction;
@@ -27,7 +33,7 @@ public class ReservationDetailsActivity extends CommonActivity {
             details.setArguments(getIntent().getExtras());
             fragmentManager.beginTransaction();
             transaction = fragmentManager.beginTransaction();
-            transaction.replace(android.R.id.content, details, ReservationListFragment.TAG);
+            transaction.replace(android.R.id.content, details, ReservationFragment.TAG);
             transaction.commit();
         }
     }
@@ -36,11 +42,6 @@ public class ReservationDetailsActivity extends CommonActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent parentActivityIntent = new Intent(this, NavigationActivity.class);
-                parentActivityIntent.addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(parentActivityIntent);
                 finish();
                 break;
         }
