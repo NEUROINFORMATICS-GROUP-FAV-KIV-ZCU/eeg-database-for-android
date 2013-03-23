@@ -14,7 +14,7 @@ import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
-import cz.zcu.kiv.eeg.mobile.base.ws.reservation.RemoveReservation;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.RemoveReservation;
 
 import java.util.List;
 

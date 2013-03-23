@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ws.reservation;
+package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
@@ -19,23 +19,41 @@ import org.springframework.web.client.RestTemplate;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
+/**
+ * Service (AsyncTask) for removing existing reservation from eeg base.
+ * After removing record it forces reservation fragment to update its content.
+ *
+ * @author Petr Miko
+ */
 public class RemoveReservation extends CommonService<Reservation, Void, Boolean> {
 
     private static final String TAG = RemoveReservation.class.getSimpleName();
-    private Reservation data;
     private int fragmentId;
 
+    /**
+     * Constructor.
+     *
+     * @param context    parent activity
+     * @param fragmentId identifier of reservation fragment (vital for refreshing)
+     */
     public RemoveReservation(CommonActivity context, int fragmentId) {
         super(context);
         this.fragmentId = fragmentId;
     }
 
+    /**
+     * Method, where reservation information is pushed to server in order to remove it.
+     * All heavy lifting is made here.
+     *
+     * @param params only one Reservation object is accepted
+     * @return true if reservation is removed
+     */
     @Override
     protected Boolean doInBackground(Reservation... params) {
 
-        data = params[0];
+        Reservation data = params[0];
 
-        // will be fixed properly in future
+        //nothing to remove
         if (data == null)
             return false;
 
@@ -69,6 +87,11 @@ public class RemoveReservation extends CommonService<Reservation, Void, Boolean>
         return false;
     }
 
+    /**
+     * If reservation was removed, attempt to update reservation fragment or at least inform user, that he should do that manually.
+     *
+     * @param success true if reservation is removed
+     */
     @Override
     protected void onPostExecute(Boolean success) {
         if (success) {

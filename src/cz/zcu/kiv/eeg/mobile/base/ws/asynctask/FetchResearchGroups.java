@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ws.reservation;
+package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -20,18 +20,37 @@ import java.util.List;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
+/**
+ * Service (AsyncTask) for fetching user's research groups from eeg base.
+ *
+ * @author Petr Miko
+ */
 public class FetchResearchGroups extends CommonService<Void, Void, List<ResearchGroup>> {
 
     private static final String TAG = FetchResearchGroups.class.getSimpleName();
     private final ResearchGroupAdapter groupAdapter;
     private final String qualifier;
 
+    /**
+     * Constructor.
+     *
+     * @param activity     parent activity
+     * @param groupAdapter adapter where should be stored fetched research groups
+     * @param qualifier    qualifier (whether to fetch private or public records)
+     */
     public FetchResearchGroups(CommonActivity activity, ResearchGroupAdapter groupAdapter, String qualifier) {
         super(activity);
         this.groupAdapter = groupAdapter;
         this.qualifier = qualifier;
     }
 
+    /**
+     * Method, where all research groups are read from server.
+     * All heavy lifting is made here.
+     *
+     * @param params omitted here
+     * @return list of fetched research groups
+     */
     @Override
     protected List<ResearchGroup> doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
@@ -71,6 +90,11 @@ public class FetchResearchGroups extends CommonService<Void, Void, List<Research
         return Collections.emptyList();
     }
 
+    /**
+     * Fetched research groups are stored into adapter.
+     *
+     * @param resultList fetched research groups
+     */
     @Override
     protected void onPostExecute(List<ResearchGroup> resultList) {
         groupAdapter.clear();

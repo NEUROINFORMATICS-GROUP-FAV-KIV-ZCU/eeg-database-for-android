@@ -1,14 +1,21 @@
 package cz.zcu.kiv.eeg.mobile.base.utils;
 
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 /**
+ * Method gathering util methods for file handling.
+ *
  * @author Petr Miko
- *         Date: 24.2.13
  */
 public class FileUtils {
 
+    /**
+     * Returns file size with size suffix from B up to TB.
+     * If is file greater than 1TB, ">1 TB" string will be returned.
+     *
+     * @param size file length (size in bytes)
+     * @return file size with suffix
+     */
     public static String getFileSize(long size) {
         double fSize = size;
 
@@ -33,6 +40,12 @@ public class FileUtils {
         }
     }
 
+    /**
+     * Method returning MIME type, if file suffix is recognized.
+     *
+     * @param url path to file
+     * @return MIME type if is extension recognized. Nothing otherwise.
+     */
     public static String getMimeType(String url) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(
                 url.substring(url.lastIndexOf(".")));

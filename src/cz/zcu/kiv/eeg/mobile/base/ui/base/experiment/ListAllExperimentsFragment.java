@@ -17,7 +17,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ExperimentAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchExperiments;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchExperiments;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ws.eegbase;
+package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -20,16 +20,31 @@ import java.util.Collections;
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
+ * Common service (Asynctask) for creating new Person on eeg base.
+ * Meant mainly for creating new subject.
+ *
  * @author Petr Miko
  */
 public class CreatePerson extends CommonService<Person, Void, UserInfo> {
 
     private final static String TAG = CreatePerson.class.getSimpleName();
 
+    /**
+     * Constructor, which sets reference to parent activity.
+     *
+     * @param context parent activity
+     */
     public CreatePerson(CommonActivity context) {
         super(context);
     }
 
+    /**
+     * Method, where person information is pushed to server in order to create user.
+     * All heavy lifting is made here.
+     *
+     * @param persons only one Person object is accepted
+     * @return information about created user
+     */
     @Override
     protected UserInfo doInBackground(Person... persons) {
         SharedPreferences credentials = getCredentials();
@@ -67,6 +82,11 @@ public class CreatePerson extends CommonService<Person, Void, UserInfo> {
         return null;
     }
 
+    /**
+     * Informs user whether person creation was successful or not.
+     *
+     * @param userInfo returned user info if any
+     */
     @Override
     protected void onPostExecute(UserInfo userInfo) {
         if (userInfo != null) {

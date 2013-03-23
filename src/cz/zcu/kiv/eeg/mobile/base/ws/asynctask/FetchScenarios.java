@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ws.eegbase;
+package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -21,18 +21,37 @@ import java.util.List;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
+/**
+ * Common service (Asynctask) for fetching scenarios from eeg base.
+ *
+ * @author Petr Miko
+ */
 public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
 
     private static final String TAG = FetchScenarios.class.getSimpleName();
     private final ScenarioAdapter scenarioAdapter;
     private final String qualifier;
 
+    /**
+     * Constructor.
+     *
+     * @param activity        parent activity
+     * @param scenarioAdapter adapter for holding collection of scenarios
+     * @param qualifier       qualifier to distinguish whether to fetch private or public data
+     */
     public FetchScenarios(CommonActivity activity, ScenarioAdapter scenarioAdapter, String qualifier) {
         super(activity);
         this.scenarioAdapter = scenarioAdapter;
         this.qualifier = qualifier;
     }
 
+    /**
+     * Method, where all scenarios are read from server.
+     * All heavy lifting is made here.
+     *
+     * @param params omitted here
+     * @return list of fetched scenarios
+     */
     @Override
     protected List<Scenario> doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
@@ -72,6 +91,11 @@ public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
         return Collections.emptyList();
     }
 
+    /**
+     * Fetched scenarios are put into scenario adapter and sorted.
+     *
+     * @param resultList fetched scenarios
+     */
     @Override
     protected void onPostExecute(List<Scenario> resultList) {
         scenarioAdapter.clear();

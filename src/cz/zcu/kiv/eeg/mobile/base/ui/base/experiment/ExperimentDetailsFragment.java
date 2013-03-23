@@ -285,7 +285,6 @@ public class ExperimentDetailsFragment extends Fragment {
             //create and inflate row by row
             LayoutInflater inflater = getActivity().getLayoutInflater();
 
-            int counter = 0;
             for (Hardware record : experiment.getHardwareList().getHardwareList()) {
                 View row = inflater.inflate(R.layout.base_hardware_row, hardwareList, false);
 

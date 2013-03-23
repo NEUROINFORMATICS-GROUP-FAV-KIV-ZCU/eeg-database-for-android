@@ -19,8 +19,8 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.ui.filechooser.FileChooserActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
-import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchExperiments;
-import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.UploadDataFile;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchExperiments;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.UploadDataFile;
 
 import java.io.File;
 import java.util.ArrayList;

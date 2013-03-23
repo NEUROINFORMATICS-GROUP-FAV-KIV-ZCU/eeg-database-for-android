@@ -23,10 +23,15 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.reservation.FetchReservationsToDate;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchReservationsToDate;
 
 import java.util.ArrayList;
 
+/**
+ * Reservation fragment for displaying reservation created on eeg base.
+ *
+ * @author Petr Miko
+ */
 public class ReservationFragment extends ListFragment implements OnClickListener {
 
     public final static String TAG = ReservationFragment.class.getSimpleName();
@@ -41,8 +46,10 @@ public class ReservationFragment extends ListFragment implements OnClickListener
             // +1 is correction due to "bug" in java Date implementation (months starts from 0, not 1)
             timeContainer.setMonth(monthOfYear + 1);
             timeContainer.setDay(dayOfMonth);
-            updateDate();
             updateData();
+
+            //update date
+            dateLabel.setText(timeContainer.toDateString());
         }
     };
     private boolean isDualView;
@@ -50,6 +57,11 @@ public class ReservationFragment extends ListFragment implements OnClickListener
     private View header = null;
     private TextView dateLabel;
 
+    /**
+     * Sets, that fragment has own menu items and initializes time to be set.
+     *
+     * @param savedInstanceState previous instance bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +88,7 @@ public class ReservationFragment extends ListFragment implements OnClickListener
         View detailsFrame = view.findViewById(R.id.details);
         isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
-        initView(view, savedInstanceState);
+        initView(view);
 
         return view;
     }
@@ -99,20 +111,29 @@ public class ReservationFragment extends ListFragment implements OnClickListener
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void initView(View view, Bundle savedInstanceState) {
+    /**
+     * Sets date label text field and sets onClick listener on choose date button.
+     *
+     * @param view view to be displayed
+     */
+    private void initView(View view) {
         //obtaining view elements
         dateLabel = (TextView) view.findViewById(R.id.dateLabel);
         Button chooseDateButton = (Button) view.findViewById(R.id.chooseDateButton);
 
+
         // setting onclick listener
         chooseDateButton.setOnClickListener(this);
+
+        //setting date
+        dateLabel.setText(timeContainer.toDateString());
     }
 
     @Override
     public void onActivityCreated(Bundle savedState) {
         super.onActivityCreated(savedState);
+        //due to refreshing view on update, activity must be set on creation - prevention from losing activity reference on activity recreation
         dataAdapter.setContext((CommonActivity) getActivity());
-        updateDate();
     }
 
     @Override
@@ -123,14 +144,14 @@ public class ReservationFragment extends ListFragment implements OnClickListener
         outState.putInt("cursorPos", cursorPosition);
     }
 
-    protected void updateDate() {
-        dateLabel.setText(timeContainer.toDateString());
-    }
-
+    /**
+     * If online fetches reservations up to set date.
+     * Un-selects selected item in process.
+     */
     public void updateData() {
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
-            //unselects row
+            //un-selects row
             getListView().clearChoices();
 
             (ReservationDetailsActivity.service) = (CommonService) new FetchReservationsToDate(activity, getAdapter()).execute(timeContainer);
@@ -162,6 +183,11 @@ public class ReservationFragment extends ListFragment implements OnClickListener
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * On choose date button click event show date picker dialog.
+     *
+     * @param v date picker button
+     */
     public void chooseDateClick(View v) {
         Log.d(TAG, "Add new booking time chosen");
 

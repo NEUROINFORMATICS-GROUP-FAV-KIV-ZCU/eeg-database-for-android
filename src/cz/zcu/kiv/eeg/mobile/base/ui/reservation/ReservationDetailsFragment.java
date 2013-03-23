@@ -52,6 +52,12 @@ public class ReservationDetailsFragment extends Fragment {
         creatorMail.setText(reservation.getEmail());
     }
 
+    /**
+     * Adds menu items to action bar.
+     *
+     * @param menu     menu to inflate into
+     * @param inflater menu inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);

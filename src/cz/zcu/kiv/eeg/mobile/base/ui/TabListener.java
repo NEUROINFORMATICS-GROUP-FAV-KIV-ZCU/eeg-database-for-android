@@ -5,6 +5,12 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 
+/**
+ * Tab listener for tab onclick event handling.
+ *
+ * @param <T> instance type inheriting fragment class
+ * @author Petr Miko
+ */
 public class TabListener<T extends Fragment> implements ActionBar.TabListener {
     private final Activity activity;
     private final String tag;

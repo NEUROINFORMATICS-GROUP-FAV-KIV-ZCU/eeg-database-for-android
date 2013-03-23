@@ -16,6 +16,9 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
  */
 public class ReservationDetailsActivity extends CommonActivity {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,9 @@ public class ReservationDetailsActivity extends CommonActivity {
         }
     }
 
+    /**
+     * On up (home) button click closes activity.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

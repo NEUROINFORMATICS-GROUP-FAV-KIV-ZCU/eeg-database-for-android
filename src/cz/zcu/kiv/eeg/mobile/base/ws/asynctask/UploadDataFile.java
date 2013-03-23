@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ws.eegbase;
+package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -7,15 +7,12 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -26,24 +23,38 @@ import java.util.Collections;
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
+ * Common service (Asynctask) for uploading data file to specified experiment on eeg base.
+ *
  * @author Petr Miko
  */
-public class CreateScenario extends CommonService<Scenario, Void, URI> {
+public class UploadDataFile extends CommonService<String, Void, URI> {
 
-    private final static String TAG = CreateScenario.class.getSimpleName();
+    private final static String TAG = UploadDataFile.class.getSimpleName();
 
-    public CreateScenario(CommonActivity context) {
+    /**
+     * Constructor, which sets reference to parent activity.
+     *
+     * @param context parent activity
+     */
+    public UploadDataFile(CommonActivity context) {
         super(context);
     }
 
+    /**
+     * Method, where data file information is pushed to server in order to create data file record.
+     * All heavy lifting is made here.
+     *
+     * @param dataFileContents must be three params in order - experiment id, description, path to file
+     * @return URI of uploaded file
+     */
     @Override
-    protected URI doInBackground(Scenario... scenarios) {
+    protected URI doInBackground(String... dataFileContents) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_SCENARIOS;
+        String url = credentials.getString("url", null) + Values.SERVICE_DATAFILE;
 
-        setState(RUNNING, R.string.working_ws_create_scenario);
+        setState(RUNNING, R.string.working_ws_upload_data_file);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -55,25 +66,19 @@ public class CreateScenario extends CommonService<Scenario, Void, URI> {
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-        restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
-
-        Scenario scenario = scenarios[0];
 
         try {
             Log.d(TAG, url);
-            FileSystemResource toBeUploadedFile = new FileSystemResource(scenario.getFilePath());
+            FileSystemResource toBeUploadedFile = new FileSystemResource(dataFileContents[2]);
             MultiValueMap<String, Object> form = new LinkedMultiValueMap<String, Object>();
-            form.add("scenarioName", scenario.getScenarioName());
-            form.add("researchGroupId", Integer.toString(scenario.getResearchGroupId()));
-            form.add("description", scenario.getDescription());
-            form.add("mimeType", scenario.getMimeType());
-            form.add("private", Boolean.toString(scenario.isPrivate()));
+            form.add("experimentId", dataFileContents[0]);
+            form.add("description", dataFileContents[1]);
             form.add("file", toBeUploadedFile);
 
             HttpEntity<Object> entity = new HttpEntity<Object>(form, requestHeaders);
             // Make the network request
-            return restTemplate.postForLocation(url, entity, UserInfo.class);
+            return restTemplate.postForLocation(url, entity);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
             setState(ERROR, e);
@@ -83,14 +88,18 @@ public class CreateScenario extends CommonService<Scenario, Void, URI> {
         return null;
     }
 
+    /**
+     * If file was successfully uploaded, URI of data file is displayed shortly.
+     *
+     * @param uri URI to data file on eeg base
+     */
     @Override
     protected void onPostExecute(URI uri) {
         if (uri != null) {
-            Toast.makeText(activity, "Scenario was successfully created and is now available on location:\n " + uri.toASCIIString(), Toast.LENGTH_SHORT).show();
-            activity.finish();
+            Toast.makeText(activity, "File was successfully uploaded and now is available on location:\n " + uri.toString(), Toast.LENGTH_SHORT).show();
 
         } else {
-            Toast.makeText(activity, "Scenario creation was unsuccessful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "File upload was unsuccessful", Toast.LENGTH_SHORT).show();
         }
     }
 }

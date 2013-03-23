@@ -20,8 +20,8 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.reservation.CreateReservation;
-import cz.zcu.kiv.eeg.mobile.base.ws.reservation.FetchResearchGroups;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateReservation;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchResearchGroups;
 
 import java.util.ArrayList;
 
@@ -61,6 +61,9 @@ public class AddRecordActivity extends SaveDiscardActivity {
     private TimeContainer fromTime, toTime;
     private ResearchGroupAdapter researchGroupAdapter;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "Add new record activity loaded");
@@ -86,6 +89,9 @@ public class AddRecordActivity extends SaveDiscardActivity {
         updateData();
     }
 
+    /**
+     * Sets default time values into from and to text fields. Also set adapter for research groups spinner.
+     */
     private void initFields() {
         TextView fromField = (TextView) findViewById(R.id.fromField);
         TextView toField = (TextView) findViewById(R.id.toField);
@@ -98,6 +104,9 @@ public class AddRecordActivity extends SaveDiscardActivity {
         groupList.setAdapter(researchGroupAdapter);
     }
 
+    /**
+     * If online, fetches research groups into research groups adapter.
+     */
     private void updateData() {
         if (ConnectionUtils.isOnline(this)) {
             (AddRecordActivity.service) = (CommonService) new FetchResearchGroups(this, researchGroupAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
@@ -106,16 +115,29 @@ public class AddRecordActivity extends SaveDiscardActivity {
         }
     }
 
+    /**
+     * On fromTime button click event shows TimePickerDialog.
+     *
+     * @param v fromTime button
+     */
     public void fromTimeClick(View v) {
         TimePickerDialog fromDialog = new TimePickerDialog(this, fromListener, fromTime.getHour(), fromTime.getMinute(), true);
         fromDialog.show();
     }
 
+    /**
+     * On toTime button click event shows TimePickerDialog.
+     *
+     * @param v toTime button
+     */
     public void toTimeClick(View v) {
         TimePickerDialog toDialog = new TimePickerDialog(this, toListener, toTime.getHour(), toTime.getMinute(), true);
         toDialog.show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void save() {
 
         if (ConnectionUtils.isOnline(this)) {
@@ -140,6 +162,9 @@ public class AddRecordActivity extends SaveDiscardActivity {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void discard() {
         finish();

@@ -18,6 +18,12 @@ public class LimitedTextWatcher implements TextWatcher {
     private TextView availableCharsView;
     private Context context;
 
+    /**
+     * Constructor setting basic text watcher characteristics.
+     *
+     * @param charLimit          max text length
+     * @param availableCharsView view where available character count will be displayed in
+     */
     public LimitedTextWatcher(int charLimit, TextView availableCharsView) {
         this.charLimit = charLimit;
         this.availableCharsView = availableCharsView;

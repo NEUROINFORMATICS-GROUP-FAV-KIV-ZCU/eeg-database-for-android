@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ws.reservation;
+package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,24 +20,35 @@ import java.util.Collections;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
-public class CreateReservation extends CommonService<Reservation, Void, Boolean> {
+/**
+ * Common service (AsyncTask) for creating reservation on eeg base.
+ *
+ * @author Petr Miko
+ */
+public class CreateReservation extends CommonService<Reservation, Void, Reservation> {
 
     private static final String TAG = CreateReservation.class.getSimpleName();
-    private Reservation data;
 
+    /**
+     * Constructor.
+     *
+     * @param context parent activity
+     */
     public CreateReservation(CommonActivity context) {
         super(context);
     }
 
+    /**
+     * Method, where reservation information is pushed to server in order to create reservation record.
+     * All heavy lifting is made here.
+     *
+     * @param params only one reservation instance is allowed here - reservation to be created
+     * @return object of created reservation if any
+     */
     @Override
-    protected Boolean doInBackground(Reservation... params) {
+    protected Reservation doInBackground(Reservation... params) {
 
-        data = params[0];
-
-        // will be fixed properly in future
-        if (data == null)
-            return false;
-
+        Reservation data = params[0];
         try {
 
             setState(RUNNING, R.string.working_ws_create);
@@ -47,6 +58,7 @@ public class CreateReservation extends CommonService<Reservation, Void, Boolean>
             String password = credentials.getString("password", null);
             String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION;
 
+            //set HTTP connection
             HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setAuthorization(authHeader);
@@ -60,23 +72,27 @@ public class CreateReservation extends CommonService<Reservation, Void, Boolean>
 
             Log.d(TAG, url);
             ResponseEntity<Reservation> dataEntity = restTemplate.postForEntity(url, entity, Reservation.class);
-            data = dataEntity.getBody();
-            return true;
+            return dataEntity.getBody();
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
             setState(ERROR, e);
         } finally {
             setState(DONE);
         }
-        return false;
+        return null;
     }
 
+    /**
+     * If reservation was created
+     *
+     * @param reservation created reservation if any
+     */
     @Override
-    protected void onPostExecute(Boolean success) {
+    protected void onPostExecute(Reservation reservation) {
 
-        if (success) {
+        if (reservation != null) {
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(Values.ADD_RECORD_KEY, data);
+            resultIntent.putExtra(Values.ADD_RECORD_KEY, reservation);
             Toast.makeText(activity, activity.getString(R.string.reser_created), Toast.LENGTH_SHORT).show();
             activity.setResult(Activity.RESULT_OK, resultIntent);
             activity.finish();

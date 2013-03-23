@@ -8,6 +8,14 @@ import android.os.Bundle;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 
+/**
+ * Activity started on application startup.
+ * Tests whether are available user credentials.
+ * If so, NavigationActivity is displayed.
+ * Otherwise, WelcomeActivity is displayed so user could log in.
+ *
+ * @author Petr Miko
+ */
 public class StartUpActivity extends Activity {
 
     @Override

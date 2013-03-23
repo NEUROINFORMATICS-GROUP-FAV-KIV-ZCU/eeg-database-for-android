@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
@@ -18,6 +17,13 @@ import cz.zcu.kiv.eeg.mobile.base.ui.base.scenario.ScenarioActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
 
+/**
+ * Main application activity.
+ * It is responsible for fetching menu items into actionbar as spinner, and also handles menu items onClick events.
+ * On menu item click, new activity or fragment is displayed.
+ *
+ * @author Petr Miko
+ */
 public class NavigationActivity extends CommonActivity implements ActionBar.OnNavigationListener {
 
     private final static String TAG = NavigationActivity.class.getSimpleName();
@@ -52,6 +58,7 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
         Fragment previousFragment = getFragmentManager().findFragmentById(R.id.content);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         switch (itemPosition) {
+            // dashboard
             case 0:
                 DashboardFragment dashboardFrag;
                 if (previousFragment == null || !(previousFragment instanceof DashboardFragment)) {
@@ -62,18 +69,24 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 }
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
+
+            // scenarios
             case 1:
                 intent = new Intent();
                 intent.setClass(this, ScenarioActivity.class);
                 startActivity(intent);
                 getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
                 return true;
+
+            // experiments
             case 2:
                 intent = new Intent();
                 intent.setClass(this, ExperimentActivity.class);
                 startActivity(intent);
                 getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
                 return true;
+
+            // datafile upload
             case 3:
                 DataFileUploadFragment dataFileFrag;
                 if (previousFragment == null || !(previousFragment instanceof DataFileUploadFragment)) {
@@ -84,6 +97,8 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 }
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
+
+            // reservations
             case 4:
                 ReservationFragment agendaFrag;
                 if (previousFragment == null || !(previousFragment instanceof ReservationFragment)) {
@@ -95,6 +110,8 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
 
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
+
+            // application settings
             case 5:
                 intent = new Intent();
                 intent.setClass(this, SettingsActivity.class);

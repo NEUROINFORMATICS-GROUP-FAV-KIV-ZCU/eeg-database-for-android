@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ws.eegbase;
+package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
 import android.content.SharedPreferences;
 import android.util.Log;

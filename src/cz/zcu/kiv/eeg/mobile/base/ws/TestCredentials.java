@@ -20,11 +20,22 @@ import java.util.Collections;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
+/**
+ * Service for testing user's credentials.
+ *
+ * @author Petr Miko
+ */
 public class TestCredentials extends CommonService<Void, Void, UserInfo> {
 
     private final static String TAG = TestCredentials.class.getSimpleName();
     private boolean startupTest;
 
+    /**
+     * Constructor method.
+     *
+     * @param activity    parent activity
+     * @param startupTest is this first login (if so, navigation activity will be created on success)
+     */
     public TestCredentials(CommonActivity activity, boolean startupTest) {
         super(activity);
         this.startupTest = startupTest;
@@ -65,6 +76,8 @@ public class TestCredentials extends CommonService<Void, Void, UserInfo> {
     protected void onPostExecute(UserInfo loggedUser) {
         SharedPreferences credentials = getCredentials();
         if (loggedUser != null) {
+
+            //credentials are correct, save them
             String username = credentials.getString("tmp_username", null);
             String password = credentials.getString("tmp_password", null);
             String url = credentials.getString("tmp_url", null);

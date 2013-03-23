@@ -1,6 +1,5 @@
-package cz.zcu.kiv.eeg.mobile.base.ws.reservation;
+package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
-import android.annotation.SuppressLint;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
@@ -25,17 +24,34 @@ import java.util.List;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
-@SuppressLint("SimpleDateFormat")
+/**
+ * Service (AsyncTask) for fetching reservations created to specified day.
+ *
+ * @author Petr Miko
+ */
 public class FetchReservationsToDate extends CommonService<TimeContainer, Void, List<Reservation>> {
 
     private static final String TAG = FetchReservationsToDate.class.getSimpleName();
     private ReservationAdapter reservationAdapter;
 
+    /**
+     * Constructor.
+     *
+     * @param activity           parent activity
+     * @param reservationAdapter adapter into which should be stored fetched reservations
+     */
     public FetchReservationsToDate(CommonActivity activity, ReservationAdapter reservationAdapter) {
         super(activity);
         this.reservationAdapter = reservationAdapter;
     }
 
+    /**
+     * Method, where all reservations to specified date are read from server.
+     * All heavy lifting is made here.
+     *
+     * @param params only one TimeContainer parameter is allowed here - specifies day, month and year
+     * @return list of fetched reservations
+     */
     @Override
     protected List<Reservation> doInBackground(TimeContainer... params) {
         SharedPreferences credentials = getCredentials();
@@ -86,6 +102,12 @@ public class FetchReservationsToDate extends CommonService<TimeContainer, Void, 
         return Collections.emptyList();
     }
 
+    /**
+     * Clears adapter of current data and fills it with fetched reservations.
+     * In process it clears details fragment, so it could not display information about no longer existing reservation.
+     *
+     * @param resultList fetched reservations
+     */
     @Override
     protected void onPostExecute(List<Reservation> resultList) {
         reservationAdapter.clear();
