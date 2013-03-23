@@ -158,6 +158,7 @@ public class ExperimentDetailsFragment extends Fragment {
                     electrodeDescription.setText(eLocation.getDescription());
                 }
 
+                row.setBackgroundResource(R.drawable.list_selector);
                 electrodeLocations.addView(row);
 
                 //every row has its detail dialog
@@ -250,6 +251,7 @@ public class ExperimentDetailsFragment extends Fragment {
                     }
                 });
 
+                row.setBackgroundResource(R.drawable.list_selector);
                 pharmaceuticals.addView(row);
             }
         } else {
@@ -310,6 +312,7 @@ public class ExperimentDetailsFragment extends Fragment {
                     }
                 });
 
+                row.setBackgroundResource(R.drawable.list_selector);
                 softwareList.addView(row);
             }
         } else {
@@ -373,6 +376,7 @@ public class ExperimentDetailsFragment extends Fragment {
                     }
                 });
 
+                row.setBackgroundResource(R.drawable.list_selector);
                 hardwareList.addView(row);
             }
         } else {
@@ -428,6 +432,8 @@ public class ExperimentDetailsFragment extends Fragment {
                         builder.show();
                     }
                 });
+
+                row.setBackgroundResource(R.drawable.list_selector);
 
                 diseasesList.addView(row);
             }
