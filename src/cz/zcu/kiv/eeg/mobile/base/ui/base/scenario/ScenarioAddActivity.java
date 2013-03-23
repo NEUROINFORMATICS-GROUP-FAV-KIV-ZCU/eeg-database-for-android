@@ -3,8 +3,6 @@ package cz.zcu.kiv.eeg.mobile.base.ui.base.scenario;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 import cz.zcu.kiv.eeg.mobile.base.R;
@@ -17,6 +15,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.ui.filechooser.FileChooserActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.FileUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.CreateScenario;
 import cz.zcu.kiv.eeg.mobile.base.ws.reservation.FetchResearchGroups;
@@ -25,8 +24,9 @@ import org.springframework.core.io.FileSystemResource;
 import java.util.ArrayList;
 
 /**
+ * Activity for creating new Scenario record on eeg base.
+ *
  * @author Petr Miko
- *         Date: 25.2.13
  */
 public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnClickListener {
 
@@ -45,32 +45,21 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
         updateData();
     }
 
+    /**
+     * Method for initializing layout elements.
+     * Sets limit for description text length and an adapter for research group list.
+     */
     private void initView() {
-
+        //obtaining view elements
         final TextView descriptionCountText = (TextView) findViewById(R.id.scenario_description_count);
-
-        final TextWatcher datafileDescriptionWatcher = new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    descriptionCountText.setVisibility(View.VISIBLE);
-                    descriptionCountText.setText(getString(R.string.app_characters_left) + (getResources().getInteger(R.integer.limit_description_chars) - s.length()));
-                } else {
-                    descriptionCountText.setVisibility(View.INVISIBLE);
-                }
-
-            }
-
-            public void afterTextChanged(Editable s) {
-            }
-        };
         EditText descriptionText = (EditText) findViewById(R.id.scenario_description_value);
-        descriptionText.addTextChangedListener(datafileDescriptionWatcher);
-
-        researchGroupAdapter = new ResearchGroupAdapter(this, R.layout.base_row_simple, new ArrayList<ResearchGroup>());
         Spinner groupList = (Spinner) findViewById(R.id.groupList);
+
+        //limiting description text length
+        descriptionText.addTextChangedListener(new LimitedTextWatcher(getResources().getInteger(R.integer.limit_description_chars), descriptionCountText));
+
+        //setting adapter for list of research groups
+        researchGroupAdapter = new ResearchGroupAdapter(this, R.layout.base_row_simple, new ArrayList<ResearchGroup>());
         groupList.setAdapter(researchGroupAdapter);
     }
 
@@ -96,6 +85,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
 
     @Override
     protected void save() {
+        //obtaining layout elements
         Spinner group = (Spinner) findViewById(R.id.groupList);
         EditText scenarioName = (EditText) findViewById(R.id.scenario_name_value);
         EditText description = (EditText) findViewById(R.id.scenario_description_value);
@@ -103,6 +93,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
         TextView fileName = (TextView) findViewById(R.id.fchooserSelectedFile);
         CompoundButton isPrivate = (CompoundButton) findViewById(R.id.scenario_private);
 
+        //creating scenario instance
         Scenario scenario = new Scenario();
         scenario.setScenarioName(scenarioName.getText().toString());
         scenario.setResearchGroupId(group.getSelectedItem() == null ? null : ((ResearchGroup) group.getSelectedItem()).getGroupId());
@@ -115,6 +106,11 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
         validateAndRun(scenario);
     }
 
+    /**
+     * Validates if scenario data are correct and starts service for creating scenario if no error found.
+     *
+     * @param scenario scenario to be created
+     */
     private void validateAndRun(Scenario scenario) {
 
         if (!ConnectionUtils.isOnline(this)) {
@@ -124,6 +120,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
 
         StringBuilder error = new StringBuilder();
 
+        //validations
         if (scenario.getResearchGroupId() == null) {
             error.append(getString(R.string.error_no_group_selected)).append('\n');
         }
@@ -133,6 +130,8 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
         if (scenario.getFilePath() == null) {
             error.append(getString(R.string.error_no_file_selected)).append('\n');
         }
+
+        //if no error occurs, service starts
         if (error.toString().isEmpty()) {
             service = (CommonService) new CreateScenario(this).execute(scenario);
         } else {
@@ -149,6 +148,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+            //obtaining file selected in FileChooserActivity
             case (Values.SELECT_FILE_FLAG): {
                 if (resultCode == Activity.RESULT_OK) {
                     selectedFile = data.getExtras().getString(Values.FILE_PATH);

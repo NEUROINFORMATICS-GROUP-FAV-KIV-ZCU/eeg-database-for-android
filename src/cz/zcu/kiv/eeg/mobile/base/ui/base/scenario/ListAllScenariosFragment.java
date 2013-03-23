@@ -22,8 +22,11 @@ import cz.zcu.kiv.eeg.mobile.base.ws.eegbase.FetchScenarios;
 import java.util.ArrayList;
 
 /**
+ * Fragment for listing all public scenarios.
+ * Data are displayed in list and can be filtered by query string.
+ * Details are displayed in own activity on devices with small display, in details fragment otherwise.
+ *
  * @author Petr Miko
- *         Date: 19.2.13
  */
 public class ListAllScenariosFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
@@ -83,6 +86,9 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * If online, fetches available public scenarios.
+     */
     public void update() {
 
         CommonActivity activity = (CommonActivity) getActivity();
@@ -92,6 +98,12 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
             activity.showAlert(activity.getString(R.string.error_offline));
     }
 
+    /**
+     * Scenario adapter getter.
+     * Instance is created in moment of first invocation.
+     *
+     * @return scenario adapter
+     */
     public ScenarioAdapter getAdapter() {
         if (adapter == null) {
             adapter = new ScenarioAdapter(getActivity(), R.layout.base_scenario_row, new ArrayList<Scenario>());
@@ -100,10 +112,12 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
     }
 
     /**
-     * Helper function to show the details of a selected item, either by displaying a fragment in-place in the current UI, or starting a whole new
-     * activity in which it is displayed.
+     * Method to show the details of a selected item.
+     * Details are displayed either in-place in the current UI fragment, or new ScenarioDetailsActivity is created.
+     *
+     * @param index index of selected item in list
      */
-    void showDetails(int index) {
+    private void showDetails(int index) {
         cursorPosition = index;
 
         ScenarioAdapter dataAdapter = getAdapter();

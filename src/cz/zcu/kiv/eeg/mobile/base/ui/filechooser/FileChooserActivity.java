@@ -15,12 +15,12 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.FileInfo;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
+ * Activity for browsing devices file system. On file select activity ends and returns path to selected file.
+ *
  * @author Petr Miko
- *         Date: 4.2.13
  */
 public class FileChooserActivity extends ListActivity {
 
@@ -38,6 +38,11 @@ public class FileChooserActivity extends ListActivity {
         loadDir(ROOT);
     }
 
+    /**
+     * Loads directory content on specified path.
+     *
+     * @param dirPath path to directory
+     */
     private void loadDir(String dirPath) {
 
         Log.d(TAG, "Loading path " + dirPath);
@@ -45,7 +50,6 @@ public class FileChooserActivity extends ListActivity {
         File[] files = f.listFiles();
         currentUrlView.setText(f.getAbsolutePath());
         this.files.clear();
-
 
         for (File file : files) {
             //application does not have permission to list
@@ -57,18 +61,7 @@ public class FileChooserActivity extends ListActivity {
         }
 
         FileAdapter fileList = new FileAdapter(this, R.layout.fchooser_list_row, this.files);
-        fileList.sort(new Comparator<File>() {
-            @Override
-            public int compare(File lhs, File rhs) {
-                if (lhs.isDirectory() && !rhs.isDirectory()) {
-                    return -1;
-                } else if (!lhs.isDirectory() && rhs.isDirectory()) {
-                    return 1;
-                } else {
-                    return lhs.getName().compareTo(rhs.getName());
-                }
-            }
-        });
+        fileList.sort(FileInfo.getFileComparator());
 
         //adding references to previous directory and to root
         if (!dirPath.equals(ROOT)) {

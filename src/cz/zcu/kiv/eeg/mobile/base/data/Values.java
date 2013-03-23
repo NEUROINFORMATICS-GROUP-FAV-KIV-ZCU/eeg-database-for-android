@@ -10,7 +10,7 @@ import java.util.Calendar;
  */
 public class Values {
 
-    //activitity results flags
+    //activity results flags
     public final static int ADD_RECORD_FLAG = 1;
     public static final int SELECT_FILE_FLAG = 2;
     public final static String ADD_RECORD_KEY = "addRecord";

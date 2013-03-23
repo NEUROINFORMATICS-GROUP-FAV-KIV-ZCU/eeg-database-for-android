@@ -20,7 +20,7 @@ import java.util.Collections;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
-public class TestCredentials extends CommonService<Void, Void, Boolean> {
+public class TestCredentials extends CommonService<Void, Void, UserInfo> {
 
     private final static String TAG = TestCredentials.class.getSimpleName();
     private boolean startupTest;
@@ -31,7 +31,7 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    protected UserInfo doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("tmp_username", null);
         String password = credentials.getString("tmp_password", null);
@@ -51,21 +51,20 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
             // Make the network request
             Log.d(TAG, url);
             ResponseEntity<UserInfo> userInfo = restTemplate.exchange(url, HttpMethod.GET, entity, UserInfo.class);
-            Values.user = userInfo.getBody();
-            return true;
+            return (Values.user = userInfo.getBody());
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
             setState(ERROR, e);
-            return false;
+            return null;
         } finally {
             setState(DONE);
         }
     }
 
     @Override
-    protected void onPostExecute(Boolean verified) {
+    protected void onPostExecute(UserInfo loggedUser) {
         SharedPreferences credentials = getCredentials();
-        if (verified) {
+        if (loggedUser != null) {
             String username = credentials.getString("tmp_username", null);
             String password = credentials.getString("tmp_password", null);
             String url = credentials.getString("tmp_url", null);
@@ -74,6 +73,7 @@ public class TestCredentials extends CommonService<Void, Void, Boolean> {
             editor.putString("username", username);
             editor.putString("password", password);
             editor.putString("url", url);
+
             editor.commit();
 
             Toast.makeText(activity, R.string.settings_saved, Toast.LENGTH_SHORT).show();

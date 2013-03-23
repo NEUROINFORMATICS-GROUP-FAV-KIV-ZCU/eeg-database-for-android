@@ -4,17 +4,15 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.TabListener;
 
 /**
+ * Scenario activity with tabs for choosing between user's or all public scenarios.
+ *
  * @author Petr Miko
- *         Date: 19.2.13
  */
 public class ScenarioActivity extends CommonActivity {
 
@@ -23,7 +21,6 @@ public class ScenarioActivity extends CommonActivity {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
         boolean recreated = savedInstanceState != null;
-
 
         actionBar.setIcon(R.drawable.ic_action_scenario);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -41,7 +38,7 @@ public class ScenarioActivity extends CommonActivity {
         actionBar.addTab(mine);
         actionBar.addTab(all);
 
-        if(recreated){
+        if (recreated) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tabIndex", 1));
         }
     }

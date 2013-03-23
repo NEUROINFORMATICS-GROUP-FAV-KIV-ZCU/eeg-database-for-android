@@ -1,6 +1,5 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.base.scenario;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.*;
@@ -9,7 +8,11 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.utils.FileUtils;
 
-@SuppressLint("SimpleDateFormat")
+/**
+ * Fragment for displaying scenario details.
+ *
+ * @author Petr Miko
+ */
 public class ScenarioDetailsFragment extends Fragment {
 
     public final static String TAG = ScenarioDetailsFragment.class.getSimpleName();
@@ -27,8 +30,14 @@ public class ScenarioDetailsFragment extends Fragment {
         }
     }
 
+    /**
+     * Initializes view elements and sets proper data into them.
+     *
+     * @param view view to be displayed
+     */
     private void initData(View view) {
 
+        // obtaining view elements
         TextView scenarioId = (TextView) view.findViewById(R.id.scenarioId);
         TextView scenarioName = (TextView) view.findViewById(R.id.scenarioName);
         TextView scenarioType = (TextView) view.findViewById(R.id.scenarioMime);

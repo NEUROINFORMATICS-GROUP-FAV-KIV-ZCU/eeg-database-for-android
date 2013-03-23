@@ -1,10 +1,5 @@
 package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
-/**
- * @author Petr Miko
- *         Date: 9.3.13
- */
-
 import android.os.Parcel;
 import android.os.Parcelable;
 import org.simpleframework.xml.Element;

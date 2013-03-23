@@ -9,12 +9,19 @@ import android.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 
+/**
+ * Activity for displaying scenario details.
+ * Only creates activity and inflates ScenarioDetailsFragment inside of itself.
+ *
+ * @author Petr Miko
+ */
 public class ScenarioDetailsActivity extends CommonActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //enables up button, sets section icon
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setIcon(R.drawable.ic_action_info);

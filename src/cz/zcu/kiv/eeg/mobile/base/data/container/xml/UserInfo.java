@@ -5,6 +5,8 @@ import org.simpleframework.xml.Root;
 
 /**
  * Data container for user information.
+ *
+ * @author Petr Miko
  */
 
 @Root(name = "user")
