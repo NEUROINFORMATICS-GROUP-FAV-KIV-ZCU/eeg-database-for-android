@@ -69,6 +69,7 @@
     <string name="working_ws_scenarios">Stahují se dostupné scénáře…</string>
     <string name="working_ws_create_scenario">Vytváření nového scénáře…</string>
     <string name="working_ws_people">Stahují se dostupné záznamy o jedincích…</string>
+    <string name="working_ws_artifacts">Stahují se existující artefakty…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>
@@ -164,6 +165,16 @@
     <string name="scenario_file_length">Velikost souboru</string>
     <string name="scenario_add_group_label">Výzkumná skupina</string>
     <string name="scenario_private">Soukromý scénář</string>
+    <string name="experiment_add_artifact">Vyberte artefakt</string>
+    <string name="experiment_add_digitization">Vyberte digitalizaci</string>
+    <string name="experiment_add_disease">Vyberte nemoci</string>
+    <string name="experiment_add_hardware">Vyberte hardware</string>
+    <string name="experiment_add_software">Vyberte software</string>
+    <string name="experiment_add_pharmaceuticals">Vyberte farmaceutika</string>
+    <string name="experiment_add_electrode_location">Vyberte umístění elektrod</string>
+    <string name="experiment_add_electrode_system">Vyberte systém elektrod</string>
+    <string name="experiment_add_electrode_fix">Vyberte upevnění elektrod</string>
+    <string name="experiment_add_electrode_type">Vyberte typ elektrod</string>
 
     <!-- person management -->
     <string name="person_add">Přidat osobu</string>

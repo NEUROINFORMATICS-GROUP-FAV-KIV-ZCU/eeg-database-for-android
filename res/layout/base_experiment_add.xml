@@ -81,6 +81,20 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/experiment_add_artifact"/>
+
+
+        <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                android:layout_gravity="fill_horizontal"
+                android:id="@+id/experiment_add_artifact"/>
+
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/experiment_env_note"/>
 
         <EditText android:layout_width="match_parent"

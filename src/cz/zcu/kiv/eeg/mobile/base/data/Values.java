@@ -28,6 +28,16 @@ public class Values {
     public final static String SERVICE_RESEARCH_GROUPS = "/groups/";
     public final static String SERVICE_USER = "/user/";
     public final static String SERVICE_RESERVATION = "/reservation/";
+    public static final String SERVICE_ARTIFACTS = "/experiments/artifacts";
+    public static final String SERVICE_DIGITIZATIONS = "/experiments/digitizations";
+    public static final String SERVICE_DISEASES = "/experiments/diseases";
+    public static final String SERVICE_HARDWARE = "/experiments/hardwareList";
+    public static final String SERVICE_SOFTWARE = "/experiments/softwareList";
+    public static final String SERVICE_PHARMACEUTICAL = "/experiments/pharmaceuticals";
+    public static final String SERVICE_ELECTRODE_LOCATIONS = "/experiments/electrodeLocations";
+    public static final String SERVICE_ELECTRODE_FIXLIST = "/experiments/electrodeFixList";
+    public static final String SERVICE_ELECTRODE_TYPES = "/experiments/electrodeTypes";
+    public static final String SERVICE_ELECTRODE_SYSTEMS = "/experiments/electrodeSystems";
 
     //REST service qualifiers
     public final static String SERVICE_QUALIFIER_MINE = "mine";
@@ -49,4 +59,5 @@ public class Values {
     public final static String ADD_RESERVATION_KEY = "addReservation";
     public final static String ADD_PERSON_KEY = "addPerson";
     public final static String ADD_SCENARIO_KEY = "addScenario";
+
 }

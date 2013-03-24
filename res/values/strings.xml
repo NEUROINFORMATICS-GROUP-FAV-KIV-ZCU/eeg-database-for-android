@@ -76,6 +76,7 @@
     <string name="working_ws_scenarios">Fetching available scenarios…</string>
     <string name="working_ws_create_scenario">Creating new scenario…</string>
     <string name="working_ws_people">Fetching available people records…</string>
+    <string name="working_ws_artifacts">Fetching existing artifacts…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
@@ -167,6 +168,16 @@
     <string name="scenario_private">Private scenario</string>
     <string name="experiment_electrode_system_title">System title</string>
     <string name="experiment_electrode_system_description">System description</string>
+    <string name="experiment_add_artifact">Select artifact</string>
+    <string name="experiment_add_digitization">Select digitization</string>
+    <string name="experiment_add_disease">Select disease</string>
+    <string name="experiment_add_hardware">Select hardware</string>
+    <string name="experiment_add_software">Select software</string>
+    <string name="experiment_add_pharmaceuticals">Select pharmaceuticals</string>
+    <string name="experiment_add_electrode_location">Select electrode location</string>
+    <string name="experiment_add_electrode_system">Select electrode system</string>
+    <string name="experiment_add_electrode_fix">Select electrode fix</string>
+    <string name="experiment_add_electrode_type">Select electrode type</string>
 
     <!-- person management -->
     <string name="person_add">Add person</string>

@@ -11,15 +11,18 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
+import cz.zcu.kiv.eeg.mobile.base.data.container.ArtifactAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.PersonAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ResearchGroupAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.ScenarioAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Artifact;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.ui.base.person.PersonAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.base.scenario.ScenarioAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchArtifacts;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchPeople;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchResearchGroups;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchScenarios;
@@ -36,6 +39,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     private static ResearchGroupAdapter groupAdapter;
     private static ScenarioAdapter scenarioAdapter;
     private static PersonAdapter personAdapter;
+    private static ArtifactAdapter artifactAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         updateGroups();
         updateScenarios();
         updateSubjects();
+        updateArtifacts();
     }
 
     private void initView() {
@@ -62,11 +67,13 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         Spinner scenarios = (Spinner) findViewById(R.id.experiment_add_scenario);
         Spinner groups = (Spinner) findViewById(R.id.experiment_add_group);
         Spinner subjects = (Spinner) findViewById(R.id.experiment_add_subject);
+        Spinner artifacts = (Spinner) findViewById(R.id.experiment_add_artifact);
 
 
         scenarios.setAdapter(getScenarioAdapter());
         groups.setAdapter(getGroupAdapter());
         subjects.setAdapter(getPersonAdapter());
+        artifacts.setAdapter(getArtifactAdapter());
     }
 
     @Override
@@ -138,6 +145,13 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    private void updateArtifacts(){
+        if (ConnectionUtils.isOnline(this)) {
+            (ExperimentAddActivity.service) = (CommonService) new FetchArtifacts(this, getArtifactAdapter()).execute();
+        } else
+            showAlert(getString(R.string.error_offline));
+    }
+
     private ScenarioAdapter getScenarioAdapter() {
         if (scenarioAdapter == null) {
             scenarioAdapter = new ScenarioAdapter(this, R.layout.base_scenario_row, new ArrayList<Scenario>());
@@ -158,5 +172,12 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             personAdapter = new PersonAdapter(this, R.layout.base_person_row, new ArrayList<Person>());
 
         return personAdapter;
+    }
+
+    public ArtifactAdapter getArtifactAdapter(){
+        if (artifactAdapter == null)
+            artifactAdapter = new ArtifactAdapter(this, R.layout.base_artifact_row, new ArrayList<Artifact>());
+
+        return artifactAdapter;
     }
 }
