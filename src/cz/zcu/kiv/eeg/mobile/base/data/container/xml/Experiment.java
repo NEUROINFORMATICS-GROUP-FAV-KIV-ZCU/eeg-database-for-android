@@ -2,8 +2,11 @@ package cz.zcu.kiv.eeg.mobile.base.data.container.xml;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+
+import java.text.ParseException;
 
 /**
  * Data container for Experiment information.
@@ -12,6 +15,8 @@ import org.simpleframework.xml.Root;
  */
 @Root(name = "experiment", strict = false)
 public class Experiment implements Parcelable {
+
+    private final static String TAG = Experiment.class.getSimpleName();
 
     public static final Parcelable.Creator<Experiment> CREATOR
             = new Parcelable.Creator<Experiment>() {
@@ -33,8 +38,7 @@ public class Experiment implements Parcelable {
     private Artifact artifact;
     @Element
     private Digitization digitization;
-    @Element
-    private String startTime, endTime;
+    private TimeContainer startTime, endTime;
     @Element
     private DiseaseList diseases;
     @Element
@@ -61,8 +65,8 @@ public class Experiment implements Parcelable {
 
     public Experiment(Parcel in) {
         experimentId = in.readInt();
-        startTime = in.readString();
-        endTime = in.readString();
+        startTime = in.readParcelable(TimeContainer.class.getClassLoader());
+        endTime = in.readParcelable(TimeContainer.class.getClassLoader());
         environmentNote = in.readString();
         temperature = in.readInt();
         scenario = in.readParcelable(ScenarioSimple.class.getClassLoader());
@@ -87,20 +91,50 @@ public class Experiment implements Parcelable {
         this.experimentId = experimentId;
     }
 
-    public String getStartTime() {
+    public TimeContainer getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(TimeContainer startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public TimeContainer getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(TimeContainer endTime) {
         this.endTime = endTime;
+    }
+
+    @Element(name = "startTime")
+    public void setStartTimeString(String startTime) {
+        try {
+            this.startTime = new TimeContainer(startTime, "dd.MM.yyyy HH:mm");
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
+            this.startTime = null;
+        }
+    }
+
+    @Element(name = "endTime")
+    public String getEndTimeString() {
+        return endTime.toString();
+    }
+
+    @Element(name = "endTime")
+    public void setEndTimeString(String endtime) {
+        try {
+            this.endTime = new TimeContainer(endtime, "dd.MM.yyyy HH:mm");
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
+            this.endTime = null;
+        }
+    }
+
+    @Element(name = "startTime")
+    public String getStartTimeString() {
+        return startTime.toString();
     }
 
     public String getEnvironmentNote() {
@@ -223,8 +257,8 @@ public class Experiment implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(experimentId);
-        dest.writeString(startTime);
-        dest.writeString(endTime);
+        dest.writeParcelable(startTime, flags);
+        dest.writeParcelable(endTime, flags);
         dest.writeString(environmentNote);
         dest.writeInt(temperature != null ? temperature : 0);
         dest.writeParcelable(scenario, flags);

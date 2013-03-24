@@ -74,8 +74,8 @@ public class ExperimentDetailsFragment extends Fragment {
         //setting data
         if (experiment != null) {
             experimentIdView.setText(Integer.toString(experiment.getExperimentId()));
-            fromTime.setText(experiment.getStartTime());
-            toTime.setText(experiment.getEndTime());
+            fromTime.setText(experiment.getStartTime().toString());
+            toTime.setText(experiment.getEndTime().toString());
             scenarioNameView.setText(experiment.getScenario().getScenarioName());
             envNote.setText(experiment.getEnvironmentNote());
 

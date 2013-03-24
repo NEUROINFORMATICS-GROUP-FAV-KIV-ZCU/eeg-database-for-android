@@ -1,76 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="@dimen/detail_padding">
-
-    <TextView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/experiment_add_group"/>
-
-
-    <Spinner
+        >
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_gravity="fill_horizontal"
-            android:id="@+id/experiment_add_group"/>
+            android:padding="@dimen/detail_padding">
 
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/experiment_add_group"/>
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/experiment_add_scenario"/>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
 
         <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="fill_horizontal"
                 android:spinnerMode="dialog"
-                android:id="@+id/experiment_add_scenario"/>
-
-        <ImageButton
-                android:id="@+id/experiment_add_scenario_new"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_action_add"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@string/experiment_add_scenario"/>
-
-    </RelativeLayout>
+                android:layout_gravity="fill_horizontal"
+                android:id="@+id/experiment_add_group"/>
 
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/experiment_add_subject"/>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-        <Spinner
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="fill_horizontal"
-                android:spinnerMode="dialog"
-                android:id="@+id/experiment_add_subject"/>
+                android:text="@string/experiment_add_scenario"/>
 
-        <ImageButton
-                android:id="@+id/experiment_add_subject_new"
+        <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_action_person_add"
-                android:contentDescription="@string/experiment_add_subject"/>
-    </RelativeLayout>
-</LinearLayout>
+                >
+
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="fill_horizontal"
+                    android:spinnerMode="dialog"
+                    android:id="@+id/experiment_add_scenario"/>
+
+            <ImageButton
+                    android:id="@+id/experiment_add_scenario_new"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_action_add"
+                    android:layout_alignParentRight="true"
+                    android:contentDescription="@string/experiment_add_scenario"/>
+
+        </RelativeLayout>
+
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/experiment_add_subject"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="fill_horizontal"
+                    android:spinnerMode="dialog"
+                    android:id="@+id/experiment_add_subject"/>
+
+            <ImageButton
+                    android:id="@+id/experiment_add_subject_new"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_action_person_add"
+                    android:contentDescription="@string/experiment_add_subject"/>
+        </RelativeLayout>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/experiment_env_note"/>
+
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="textMultiLine"
+                  android:id="@+id/experiment_add_env_note"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/experiment_temperature"/>
+
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="text"
+                  android:id="@+id/experiment_add_temperature"/>
+
+    </LinearLayout>
+</ScrollView>
