@@ -11,9 +11,9 @@ import java.util.Calendar;
 public class Values {
 
     //activity results flags
-    public final static int ADD_RECORD_FLAG = 1;
+    public final static int ADD_RESERVATION_FLAG = 1;
     public static final int SELECT_FILE_FLAG = 2;
-    public final static String ADD_RECORD_KEY = "addRecord";
+
     public static final String FILE_PATH = "filePath";
 
     //shared preferences keys
@@ -43,4 +43,10 @@ public class Values {
     public static byte TRUE = 1;
     public static byte FALSE = 0;
 
+    public static final int ADD_SCENARIO_FLAG = 20;
+    public static final int ADD_PERSON_FLAG = 21;
+
+    public final static String ADD_RESERVATION_KEY = "addReservation";
+    public final static String ADD_PERSON_KEY = "addPerson";
+    public final static String ADD_SCENARIO_KEY = "addScenario";
 }

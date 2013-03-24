@@ -75,6 +75,7 @@
     <string name="working_ws_create_user">Creating new user…</string>
     <string name="working_ws_scenarios">Fetching available scenarios…</string>
     <string name="working_ws_create_scenario">Creating new scenario…</string>
+    <string name="working_ws_people">Fetching available people records…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
@@ -147,6 +148,9 @@
     <string name="experiment_electrode_type">Electrode type</string>
     <string name="experiment_electrode_fix">Electrode fix</string>
     <string name="experiment_electrodes_location">Electrodes\' locations</string>
+    <string name="experiment_add_scenario">Select scenario</string>
+    <string name="experiment_add_group">Select research group</string>
+    <string name="experiment_add_subject">Select subject</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>

@@ -60,6 +60,9 @@
                 android:label="@string/app_experiments"
                 android:uiOptions="splitActionBarWhenNarrow"/>
         <activity
+                android:name=".ui.base.experiment.ExperimentAddActivity"
+                android:label="@string/experiment_add"/>
+        <activity
                 android:name=".ui.base.experiment.ExperimentDetailsActivity"
                 android:label="@string/detail"/>
         <activity

@@ -24,11 +24,13 @@ public class Person implements Parcelable {
             return new Person[size];
         }
     };
+    @Element(required = false)
+    private int id;
     @Element
     private String name;
     @Element
     private String surname;
-    @Element
+    @Element(required = false)
     private String birthday;
     @Element
     private String gender;
@@ -41,10 +43,12 @@ public class Person implements Parcelable {
     @Element(required = false)
     private String phone;
 
+
     public Person() {
     }
 
     public Person(Parcel in) {
+        id = in.readInt();
         name = in.readString();
         surname = in.readString();
         birthday = in.readString();
@@ -53,6 +57,14 @@ public class Person implements Parcelable {
         leftHanded = in.readString();
         notes = in.readString();
         phone = in.readString();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -126,6 +138,7 @@ public class Person implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(surname);
         dest.writeString(birthday);
@@ -135,4 +148,6 @@ public class Person implements Parcelable {
         dest.writeString(notes);
         dest.writeString(phone);
     }
+
+
 }

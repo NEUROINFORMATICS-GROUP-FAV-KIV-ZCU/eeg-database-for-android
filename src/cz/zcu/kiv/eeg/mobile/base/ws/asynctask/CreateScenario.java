@@ -1,5 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
@@ -8,7 +10,6 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
@@ -20,7 +21,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.util.Collections;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
@@ -30,7 +30,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
  *
  * @author Petr Miko
  */
-public class CreateScenario extends CommonService<Scenario, Void, URI> {
+public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
 
     private final static String TAG = CreateScenario.class.getSimpleName();
 
@@ -48,10 +48,10 @@ public class CreateScenario extends CommonService<Scenario, Void, URI> {
      * All heavy lifting is made here.
      *
      * @param scenarios only one scenario is accepted - scenario to be uploaded
-     * @return URI of scenario file
+     * @return scenario stored
      */
     @Override
-    protected URI doInBackground(Scenario... scenarios) {
+    protected Scenario doInBackground(Scenario... scenarios) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
@@ -89,7 +89,8 @@ public class CreateScenario extends CommonService<Scenario, Void, URI> {
 
             HttpEntity<Object> entity = new HttpEntity<Object>(form, requestHeaders);
             // Make the network request
-            return restTemplate.postForLocation(url, entity, UserInfo.class);
+            ResponseEntity<Scenario> response = restTemplate.postForEntity(url, entity, Scenario.class);
+            return response.getBody();
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
             setState(ERROR, e);
@@ -102,12 +103,16 @@ public class CreateScenario extends CommonService<Scenario, Void, URI> {
     /**
      * If scenario was created successfully, URI to scenario file will be displayed shortly.
      *
-     * @param uri URI to scenario file
+     * @param scenario created scenario if any
      */
     @Override
-    protected void onPostExecute(URI uri) {
-        if (uri != null) {
-            Toast.makeText(activity, "Scenario was successfully created and is now available on location:\n " + uri.toASCIIString(), Toast.LENGTH_SHORT).show();
+    protected void onPostExecute(Scenario scenario) {
+        if (scenario != null) {
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(Values.ADD_SCENARIO_KEY, scenario);
+            activity.setResult(Activity.RESULT_OK, resultIntent);
+            Toast.makeText(activity, "Scenario was successfully created", Toast.LENGTH_SHORT).show();
             activity.finish();
 
         } else {

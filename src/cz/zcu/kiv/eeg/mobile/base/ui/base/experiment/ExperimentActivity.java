@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.TabListener;
 
 /**
@@ -41,7 +39,7 @@ public class ExperimentActivity extends CommonActivity {
                         this, ListAllExperimentsFragment.class.getSimpleName(), ListAllExperimentsFragment.class));
         actionBar.addTab(tab);
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tabIndex", 1));
         }
     }
@@ -61,7 +59,9 @@ public class ExperimentActivity extends CommonActivity {
                 finish();
                 break;
             case R.id.exp_add:
-                Toast.makeText(this, "Create experiment clicked", Toast.LENGTH_SHORT).show();
+                Intent addExperimentIntent = new Intent();
+                addExperimentIntent.setClass(this, ExperimentAddActivity.class);
+                startActivity(addExperimentIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);

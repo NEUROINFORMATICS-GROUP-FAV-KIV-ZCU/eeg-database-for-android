@@ -92,7 +92,7 @@ public class CreateReservation extends CommonService<Reservation, Void, Reservat
 
         if (reservation != null) {
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(Values.ADD_RECORD_KEY, reservation);
+            resultIntent.putExtra(Values.ADD_RESERVATION_KEY, reservation);
             Toast.makeText(activity, activity.getString(R.string.reser_created), Toast.LENGTH_SHORT).show();
             activity.setResult(Activity.RESULT_OK, resultIntent);
             activity.finish();

@@ -1,5 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
@@ -8,7 +10,6 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -25,7 +26,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
  *
  * @author Petr Miko
  */
-public class CreatePerson extends CommonService<Person, Void, UserInfo> {
+public class CreatePerson extends CommonService<Person, Void, Person> {
 
     private final static String TAG = CreatePerson.class.getSimpleName();
 
@@ -46,7 +47,7 @@ public class CreatePerson extends CommonService<Person, Void, UserInfo> {
      * @return information about created user
      */
     @Override
-    protected UserInfo doInBackground(Person... persons) {
+    protected Person doInBackground(Person... persons) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
@@ -72,7 +73,7 @@ public class CreatePerson extends CommonService<Person, Void, UserInfo> {
 
             HttpEntity<Person> entity = new HttpEntity<Person>(person, requestHeaders);
             // Make the network request
-            return restTemplate.postForObject(url, entity, UserInfo.class);
+            return restTemplate.postForObject(url, entity, Person.class);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
             setState(ERROR, e);
@@ -85,14 +86,16 @@ public class CreatePerson extends CommonService<Person, Void, UserInfo> {
     /**
      * Informs user whether person creation was successful or not.
      *
-     * @param userInfo returned user info if any
+     * @param person returned user info if any
      */
     @Override
-    protected void onPostExecute(UserInfo userInfo) {
-        if (userInfo != null) {
-            Toast.makeText(activity, "Person was successfully created with rights:\n " + userInfo.getRights(), Toast.LENGTH_SHORT).show();
+    protected void onPostExecute(Person person) {
+        if (person != null) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(Values.ADD_PERSON_KEY, person);
+            Toast.makeText(activity, "Person was successfully created with id:\n " + person.getId(), Toast.LENGTH_SHORT).show();
+            activity.setResult(Activity.RESULT_OK, resultIntent);
             activity.finish();
-
         } else {
             Toast.makeText(activity, "User creation was unsuccessful", Toast.LENGTH_SHORT).show();
         }

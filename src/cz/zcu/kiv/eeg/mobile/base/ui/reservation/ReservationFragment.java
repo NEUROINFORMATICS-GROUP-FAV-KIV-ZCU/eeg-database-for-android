@@ -174,7 +174,7 @@ public class ReservationFragment extends ListFragment implements OnClickListener
                 Bundle b = new Bundle();
                 b.putParcelable("time", timeContainer);
                 intent.putExtras(b);
-                startActivityForResult(intent, Values.ADD_RECORD_FLAG);
+                startActivityForResult(intent, Values.ADD_RESERVATION_FLAG);
                 break;
             case R.id.refresh:
                 updateData();
@@ -201,9 +201,9 @@ public class ReservationFragment extends ListFragment implements OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case (Values.ADD_RECORD_FLAG): {
+            case (Values.ADD_RESERVATION_FLAG): {
                 if (resultCode == Activity.RESULT_OK) {
-                    Reservation record = (Reservation) data.getExtras().get(Values.ADD_RECORD_KEY);
+                    Reservation record = (Reservation) data.getExtras().get(Values.ADD_RESERVATION_KEY);
                     ((ReservationAdapter) getListAdapter()).add(record);
                 }
                 break;
