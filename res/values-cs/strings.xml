@@ -71,6 +71,7 @@
     <string name="working_ws_people">Stahují se dostupné záznamy o jedincích…</string>
     <string name="working_ws_artifacts">Stahují se existující artefakty…</string>
     <string name="working_ws_digitization">Stahují se známé druhy digitalizací…</string>
+    <string name="working_ws_hardware">Stahuje se seznam hardwaru…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>
@@ -203,5 +204,9 @@
     <string name="dialog_abbr">Zkratka</string>
     <string name="dialog_description">Podrobnosti</string>
     <string name="dialog_type">Typ</string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_cancel">Zrušit</string>
+    <string name="dialog_button_clear_selection">Zrušit výběr</string>
+    <string name="dialog_selection_cleared">Výběr zrušen</string>
 
 </resources>

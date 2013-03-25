@@ -49,31 +49,31 @@
                 android:label="@string/reser_create"
                 android:uiOptions="splitActionBarWhenNarrow"/>
         <activity
-                android:name=".ui.base.person.PersonAddActivity"
+                android:name=".ui.person.PersonAddActivity"
                 android:label="@string/person_add"/>
         <activity
                 android:name=".ui.filechooser.FileChooserActivity"
                 android:label="@string/fchooser"
                 android:theme="@android:style/Theme.Holo.NoActionBar"/>
         <activity
-                android:name=".ui.base.experiment.ExperimentActivity"
+                android:name=".ui.experiment.ExperimentActivity"
                 android:label="@string/app_experiments"
                 android:uiOptions="splitActionBarWhenNarrow"/>
         <activity
-                android:name=".ui.base.experiment.ExperimentAddActivity"
+                android:name=".ui.experiment.ExperimentAddActivity"
                 android:label="@string/experiment_add"/>
         <activity
-                android:name=".ui.base.experiment.ExperimentDetailsActivity"
+                android:name=".ui.experiment.ExperimentDetailsActivity"
                 android:label="@string/detail"/>
         <activity
-                android:name=".ui.base.scenario.ScenarioActivity"
+                android:name=".ui.scenario.ScenarioActivity"
                 android:label="@string/app_scenarios"
                 android:uiOptions="splitActionBarWhenNarrow"/>
         <activity
-                android:name=".ui.base.scenario.ScenarioDetailsActivity"
+                android:name=".ui.scenario.ScenarioDetailsActivity"
                 android:label="@string/detail"/>
         <activity
-                android:name=".ui.base.scenario.ScenarioAddActivity"
+                android:name=".ui.scenario.ScenarioAddActivity"
                 android:label="@string/scenario_add"/>
     </application>
 

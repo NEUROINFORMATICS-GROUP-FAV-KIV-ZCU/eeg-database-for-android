@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.datafile;
+package cz.zcu.kiv.eeg.mobile.base.ui.datafile;
 
 
 import android.app.Activity;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ExperimentAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;

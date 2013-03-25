@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
+package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
 import android.app.ActionBar;
 import android.content.Intent;

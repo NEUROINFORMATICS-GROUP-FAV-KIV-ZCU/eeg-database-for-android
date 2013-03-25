@@ -1,37 +1,36 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.scenario;
+package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 
 /**
- * Activity for displaying scenario details.
- * Only creates activity and inflates ScenarioDetailsFragment inside of itself.
+ * Activity for displaying experiments details.
+ * Only contains ExperimentDetailsFragments.
+ * Used on devices < 7", where details cannot fit next to experiment list.
  *
  * @author Petr Miko
  */
-public class ScenarioDetailsActivity extends CommonActivity {
+public class ExperimentDetailsActivity extends CommonActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //enables up button, sets section icon
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setIcon(R.drawable.ic_action_info);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction;
-        ScenarioDetailsFragment details;
+        ExperimentDetailsFragment details;
 
         if (savedInstanceState == null) {
-            details = new ScenarioDetailsFragment();
+            details = new ExperimentDetailsFragment();
             details.setArguments(getIntent().getExtras());
             fragmentManager.beginTransaction();
             transaction = fragmentManager.beginTransaction();

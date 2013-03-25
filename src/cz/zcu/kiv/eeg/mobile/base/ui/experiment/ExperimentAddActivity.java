@@ -1,24 +1,27 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
+package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.*;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.*;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.*;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.person.PersonAddActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.scenario.ScenarioAddActivity;
+import cz.zcu.kiv.eeg.mobile.base.ui.person.PersonAddActivity;
+import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Activity for creating new experiment on eeg base.
@@ -32,6 +35,8 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     private static PersonAdapter personAdapter;
     private static ArtifactAdapter artifactAdapter;
     private static DigitizationAdapter digitizationAdapter;
+    private static HardwareAdapter hardwareAdapter;
+    private static List<Hardware> selectedHardware = new ArrayList<Hardware>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         subjects.setAdapter(getPersonAdapter());
         artifacts.setAdapter(getArtifactAdapter());
         digitizations.setAdapter(getDigitizationAdapter());
+
+        Button selectHw = (Button) findViewById(R.id.experiment_add_hardware_button);
+        selectHw.setOnClickListener(this);
+
+        fillHardwareListRows();
     }
 
     @Override
@@ -92,6 +102,10 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 Intent personAddIntent = new Intent();
                 personAddIntent.setClass(this, PersonAddActivity.class);
                 startActivityForResult(personAddIntent, Values.ADD_PERSON_FLAG);
+                break;
+
+            case R.id.experiment_add_hardware_button:
+                selectHardwareDialog();
                 break;
         }
 
@@ -162,6 +176,13 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    private void updateHardwareList() {
+        if (ConnectionUtils.isOnline(this))
+            new FetchHardwareList(this, getHardwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        else
+            showAlert(getString(R.string.error_offline));
+    }
+
     private ScenarioAdapter getScenarioAdapter() {
         if (scenarioAdapter == null) {
             scenarioAdapter = new ScenarioAdapter(this, R.layout.base_scenario_row, new ArrayList<Scenario>());
@@ -197,4 +218,81 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
         return digitizationAdapter;
     }
+
+    private HardwareAdapter getHardwareAdapter() {
+        if (hardwareAdapter == null)
+            hardwareAdapter = new HardwareAdapter(this, R.layout.base_hardware_row, new ArrayList<Hardware>());
+
+        return hardwareAdapter;
+    }
+
+    private void selectHardwareDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.base_list, null, false);
+        final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        listView.setAdapter(getHardwareAdapter());
+
+        if (!isWorking() && hardwareAdapter.isEmpty())
+            updateHardwareList();
+
+        dialog.setTitle(R.string.experiment_add_hardware);
+        dialog.setView(dialogView);
+        dialog.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.setPositiveButton(R.string.dialog_button_ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int len = listView.getCount();
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
+
+                selectedHardware.clear();
+
+                //find out selected items
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i))
+                        selectedHardware.add(getHardwareAdapter().getItem(i));
+                }
+
+                fillHardwareListRows();
+            }
+        });
+
+        dialog.setNeutralButton(R.string.dialog_button_clear_selection, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                selectedHardware.clear();
+                fillHardwareListRows();
+                Toast.makeText(ExperimentAddActivity.this, R.string.dialog_selection_cleared, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //reselect previously selected items
+        for (Hardware hw : selectedHardware)
+            for (int i = 0; i < hardwareAdapter.getCount(); i++) {
+                if (hardwareAdapter.getItem(i).getHardwareId() == hw.getHardwareId()) {
+                    listView.setItemChecked(i, true);
+                }
+            }
+        dialog.show();
+    }
+
+    private void fillHardwareListRows() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_hardware_list);
+        //clear previous values
+        layout.removeAllViews();
+
+        ExperimentDetailLists.fillHardwareList(layout, selectedHardware);
+    }
+
 }

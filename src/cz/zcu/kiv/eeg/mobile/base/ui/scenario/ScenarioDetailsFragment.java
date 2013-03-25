@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.scenario;
+package cz.zcu.kiv.eeg.mobile.base.ui.scenario;
 
 import android.app.Fragment;
 import android.os.Bundle;

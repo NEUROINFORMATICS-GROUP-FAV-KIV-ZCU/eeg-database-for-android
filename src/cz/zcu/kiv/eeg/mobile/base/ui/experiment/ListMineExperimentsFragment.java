@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.experiment;
+package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ExperimentAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
@@ -25,9 +24,9 @@ import java.util.ArrayList;
  * @author Petr Miko
  *         Date: 19.2.13
  */
-public class ListAllExperimentsFragment extends ListFragment implements SearchView.OnQueryTextListener {
+public class ListMineExperimentsFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
-    private final static String TAG = ListAllExperimentsFragment.class.getSimpleName();
+    private final static String TAG = ListMineExperimentsFragment.class.getSimpleName();
     private static ExperimentAdapter adapter;
     private boolean isDualView;
     private int cursorPosition;
@@ -81,7 +80,7 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
 
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
-            new FetchExperiments(activity, getAdapter(), Values.SERVICE_QUALIFIER_ALL).execute();
+            new FetchExperiments(activity, getAdapter(), Values.SERVICE_QUALIFIER_MINE).execute();
         } else
             activity.showAlert(activity.getString(R.string.error_offline));
     }
@@ -94,8 +93,10 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
     }
 
     /**
-     * Helper function to show the details of a selected item, either by displaying a fragment in-place in the current UI, or starting a whole new
-     * activity in which it is displayed.
+     * Method to show the details of a selected item.
+     * Details are displayed either in-place in the current UI fragment, or new ExperimentDetailsActivity is created.
+     *
+     * @param index index of selected item in list
      */
     void showDetails(int index) {
         cursorPosition = index;
@@ -142,7 +143,7 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.exp_all_menu, menu);
+        inflater.inflate(R.menu.exp_mine_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
         MenuItem search = menu.findItem(R.id.exp_search);
         SearchView searchView = new SearchView(getActivity());
@@ -162,4 +163,5 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         getAdapter().getFilter().filter(newText);
         return true;
     }
+
 }

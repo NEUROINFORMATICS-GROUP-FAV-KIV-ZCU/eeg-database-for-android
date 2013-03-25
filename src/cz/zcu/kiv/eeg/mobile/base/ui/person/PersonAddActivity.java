@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.person;
+package cz.zcu.kiv.eeg.mobile.base.ui.person;
 
 import android.os.Bundle;
 import android.widget.CompoundButton;
@@ -6,7 +6,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;

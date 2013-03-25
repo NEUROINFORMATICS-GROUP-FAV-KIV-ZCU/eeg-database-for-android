@@ -100,7 +100,7 @@ public class FetchArtifacts extends CommonService<Void, Void, List<Artifact>> {
             Collections.sort(resultList, new Comparator<Artifact>() {
                 @Override
                 public int compare(Artifact lhs, Artifact rhs) {
-                    return lhs.getArtifactId() - rhs.getArtifactId();
+                    return lhs.getCompensation().toLowerCase().compareTo(rhs.getCompensation().toLowerCase());
                 }
             });
 

@@ -4,6 +4,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
         >
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -105,25 +106,41 @@
                 android:id="@+id/experiment_add_digitization"/>
 
 
+        <Button
+                android:id="@+id/experiment_add_hardware_button"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/experiment_add_hardware"/>
+
+        <LinearLayout
+                android:id="@+id/experiment_add_hardware_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@android:drawable/alert_dark_frame"
+                />
+
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/experiment_env_note"/>
 
-        <EditText android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:inputType="textMultiLine"
-                  android:id="@+id/experiment_add_env_note"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:id="@+id/experiment_add_env_note"/>
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/experiment_temperature"/>
 
-        <EditText android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:inputType="text"
-                  android:id="@+id/experiment_add_temperature"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/experiment_add_temperature"/>
 
     </LinearLayout>
 </ScrollView>

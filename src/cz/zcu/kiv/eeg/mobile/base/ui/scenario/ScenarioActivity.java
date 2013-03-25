@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.scenario;
+package cz.zcu.kiv.eeg.mobile.base.ui.scenario;
 
 import android.app.ActionBar;
 import android.content.Intent;

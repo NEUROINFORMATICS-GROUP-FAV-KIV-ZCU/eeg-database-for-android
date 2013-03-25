@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.ui.base.dashboard;
+package cz.zcu.kiv.eeg.mobile.base.ui.dashboard;
 
 import android.app.Fragment;
 import android.os.Bundle;

@@ -100,7 +100,10 @@ public class FetchDigitizations extends CommonService<Void, Void, List<Digitizat
             Collections.sort(resultList, new Comparator<Digitization>() {
                 @Override
                 public int compare(Digitization lhs, Digitization rhs) {
-                    return lhs.getFilter().compareTo(rhs.getFilter());
+                    float sub = lhs.getSamplingRate() - rhs.getSamplingRate();
+
+                    if (sub > 0) return 1;
+                    else return sub < 0 ? -1 : 0;
                 }
             });
 

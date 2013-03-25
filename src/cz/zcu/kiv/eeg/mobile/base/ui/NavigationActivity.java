@@ -10,11 +10,11 @@ import android.widget.SpinnerAdapter;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.MenuAdapter;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.dashboard.DashboardFragment;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.datafile.DataFileUploadFragment;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.experiment.ExperimentActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.base.scenario.ScenarioActivity;
+import cz.zcu.kiv.eeg.mobile.base.ui.dashboard.DashboardFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.datafile.DataFileUploadFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.experiment.ExperimentActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
+import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
 
 /**

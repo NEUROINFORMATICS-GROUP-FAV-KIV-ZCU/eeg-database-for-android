@@ -78,6 +78,7 @@
     <string name="working_ws_people">Fetching available people records…</string>
     <string name="working_ws_artifacts">Fetching existing artifacts…</string>
     <string name="working_ws_digitization">Fetching known digitization types…</string>
+    <string name="working_ws_hardware">Fetching list of available hardware…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
@@ -206,5 +207,9 @@
     <string name="dialog_abbr">Abbreviation</string>
     <string name="dialog_description">Details</string>
     <string name="dialog_type">Type</string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_button_clear_selection">Clear selection</string>
+    <string name="dialog_selection_cleared">Selection cleared</string>
 
 </resources>
