@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.data.container;
+package cz.zcu.kiv.eeg.mobile.base.data.adapter;
 
 import android.app.Activity;
 import android.content.Context;

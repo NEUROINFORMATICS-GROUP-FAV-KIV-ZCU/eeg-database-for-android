@@ -101,7 +101,7 @@ public class PersonAddActivity extends SaveDiscardActivity {
 
         //if no error, run service
         if (error.toString().isEmpty()) {
-            service = (CommonService) new CreatePerson(this).execute(person);
+            new CreatePerson(this).execute(person);
         } else {
             showAlert(error.toString());
         }

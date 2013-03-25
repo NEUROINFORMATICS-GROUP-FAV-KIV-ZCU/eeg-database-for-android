@@ -6,9 +6,9 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.adapter.ExperimentAdapter;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ExperimentList;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.DigitizationAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Digitization;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.DigitizationList;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -22,50 +22,41 @@ import java.util.List;
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
- * Common service (Asynctask) for fetching experiments from server.
+ * Common service (Asynctask) for fetching digitizations from eeg base.
  *
  * @author Petr Miko
  */
-public class FetchExperiments extends CommonService<Void, Void, List<Experiment>> {
+public class FetchDigitizations extends CommonService<Void, Void, List<Digitization>> {
 
-    private static final String TAG = FetchExperiments.class.getSimpleName();
-    private ExperimentAdapter experimentAdapter;
-    private String qualifier;
+    private static final String TAG = FetchDigitizations.class.getSimpleName();
+    private final DigitizationAdapter digitizationAdapter;
 
     /**
      * Constructor.
      *
-     * @param activity          parent activity
-     * @param experimentAdapter adapter for holding collection of experiments
-     * @param qualifier         qualifier to distinguish whether to fetch private or public data
+     * @param activity            parent activity
+     * @param digitizationAdapter adapter for holding collection of digitizations
      */
-    public FetchExperiments(CommonActivity activity, ExperimentAdapter experimentAdapter, String qualifier) {
+    public FetchDigitizations(CommonActivity activity, DigitizationAdapter digitizationAdapter) {
         super(activity);
-        this.experimentAdapter = experimentAdapter;
-        this.qualifier = qualifier;
+        this.digitizationAdapter = digitizationAdapter;
     }
 
     /**
-     * Method, where all experiments are read from server.
+     * Method, where all digitizations are read from server.
      * All heavy lifting is made here.
      *
-     * @param params not used (omitted) here
-     * @return list of fetched experiments
+     * @param params omitted here
+     * @return list of fetched digitizations
      */
     @Override
-    protected List<Experiment> doInBackground(Void... params) {
+    protected List<Digitization> doInBackground(Void... params) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_EXPERIMENTS;
+        String url = credentials.getString("url", null) + Values.SERVICE_DIGITIZATIONS;
 
-        //TODO HACK temporary solution
-        if (Values.SERVICE_QUALIFIER_ALL.equals(qualifier)) {
-            url += "public/" + Integer.MAX_VALUE;
-        } else
-            url += qualifier;
-
-        setState(RUNNING, R.string.working_ws_experiments);
+        setState(RUNNING, R.string.working_ws_digitization);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -80,12 +71,12 @@ public class FetchExperiments extends CommonService<Void, Void, List<Experiment>
         try {
             // Make the network request
             Log.d(TAG, url);
-            ResponseEntity<ExperimentList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
-                    ExperimentList.class);
-            ExperimentList body = response.getBody();
+            ResponseEntity<DigitizationList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
+                    DigitizationList.class);
+            DigitizationList body = response.getBody();
 
             if (body != null) {
-                return body.getExperiments();
+                return body.getDigitizations();
             }
 
         } catch (Exception e) {
@@ -98,23 +89,23 @@ public class FetchExperiments extends CommonService<Void, Void, List<Experiment>
     }
 
     /**
-     * Read experiments are assigned to adapter here.
+     * Fetched records are put into Digitization adapter and sorted.
      *
-     * @param resultList experiments fetched from server
+     * @param resultList fetched records
      */
     @Override
-    protected void onPostExecute(List<Experiment> resultList) {
-        experimentAdapter.clear();
+    protected void onPostExecute(List<Digitization> resultList) {
+        digitizationAdapter.clear();
         if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Experiment>() {
+            Collections.sort(resultList, new Comparator<Digitization>() {
                 @Override
-                public int compare(Experiment lhs, Experiment rhs) {
-                    return lhs.getExperimentId() - rhs.getExperimentId();
+                public int compare(Digitization lhs, Digitization rhs) {
+                    return lhs.getFilter().compareTo(rhs.getFilter());
                 }
             });
 
-            for (Experiment res : resultList) {
-                experimentAdapter.add(res);
+            for (Digitization artifact : resultList) {
+                digitizationAdapter.add(artifact);
             }
         }
     }

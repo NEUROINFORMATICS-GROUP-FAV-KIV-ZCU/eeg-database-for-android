@@ -13,6 +13,10 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Activity with capability of recognizing CommonService state.
  * If CommonService was set and activity is recreated, progress dialog is recreated as well.
@@ -22,20 +26,18 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 public class CommonActivity extends Activity {
 
     /**
-     * Assigned common service (AsyncTask actually).
+     * Assigned common service (AsyncTask actually) and its description.
+     * Handled as a FIFO of services, only first is used for creating progress dialog and removing after it is done.
      */
-    public static CommonService service;
+    public static List<ServiceReference> services = Collections.synchronizedList(new LinkedList<ServiceReference>());
     /**
      * Progress dialog informing of common service state.
      */
     protected volatile ProgressDialog progressDialog;
-    /**
-     * Message to be shown in progress dialog.
-     */
-    private String progressMessage;
 
     /**
      * Actions performed upon activity creation.
+     *
      * @param savedInstanceState information bundle from previously destroyed instance
      */
     @Override
@@ -43,21 +45,23 @@ public class CommonActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         synchronized (CommonActivity.class) {
-            if (service != null) {
-                service.setActivity(this);
+            if (!services.isEmpty()) {
 
-                if (savedInstanceState != null) {
-                    progressMessage = savedInstanceState.getString("progressMsg");
-                    progressDialog = ProgressDialog.show(CommonActivity.this,
-                            getString(R.string.working), progressMessage, true, false);
-
+                //every asynctask must refresh its reference to activity (or leaked window will occur)
+                for (ServiceReference reference : services) {
+                    reference.service.setActivity(this);
                 }
+
+                progressDialog = ProgressDialog.show(CommonActivity.this,
+                        getString(R.string.working), services.get(0).message, true, false);
+
             }
         }
     }
 
     /**
      * Sets progress dialog.
+     *
      * @param state new state of progress dialog
      */
     public void changeProgress(ServiceState state) {
@@ -66,7 +70,8 @@ public class CommonActivity extends Activity {
 
     /**
      * Sets progress dialog and its message.
-     * @param state new state of progress dialog
+     *
+     * @param state   new state of progress dialog
      * @param message message to be displayed
      */
     public void changeProgress(final ServiceState state, final String message) {
@@ -75,15 +80,15 @@ public class CommonActivity extends Activity {
             public void run() {
                 switch (state) {
                     case RUNNING:
-                        progressMessage = message;
+                        ServiceReference current = services.get(0);
+                        current.message = message;
                         progressDialog = ProgressDialog.show(CommonActivity.this,
                                 getString(R.string.working), message, true, false);
                         break;
                     case INACTIVE:
                     case DONE:
                         synchronized (CommonActivity.class) {
-                            service = null;
-                            progressMessage = null;
+                            services.remove(0);
                             if (progressDialog != null && progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }
@@ -100,15 +105,17 @@ public class CommonActivity extends Activity {
 
     /**
      * Display alert dialog.
+     *
      * @param alert message
      */
-    public void showAlert(final String alert){
+    public void showAlert(final String alert) {
         showAlert(alert, false);
     }
 
     /**
      * Method for showing alert dialog with option, whether activity should be finished after confirmation.
-     * @param alert alert message
+     *
+     * @param alert         alert message
      * @param closeActivity close activity on confirmation
      */
     public void showAlert(final String alert, final boolean closeActivity) {
@@ -118,24 +125,12 @@ public class CommonActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        if(closeActivity){
+                        if (closeActivity) {
                             finish();
                         }
                     }
                 });
         builder.create().show();
-    }
-
-    /**
-     * Actions performed on save stage (before activity is destroyed).
-     * @param outState activity state information bundle
-     */
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (service != null && progressDialog != null) {
-            outState.putString("progressMsg", progressMessage);
-        }
     }
 
     /**
@@ -151,6 +146,7 @@ public class CommonActivity extends Activity {
 
     /**
      * Getter of credentials information bundle.
+     *
      * @return credentials preferences
      */
     protected SharedPreferences getCredentials() {
@@ -159,7 +155,8 @@ public class CommonActivity extends Activity {
 
     /**
      * Getter of various information bundle (various as without obvious category).
-     * @return  various information bundle
+     *
+     * @return various information bundle
      */
     protected SharedPreferences getVarious() {
         return getSharedPreferences(Values.PREFS_VARIOUS, Context.MODE_PRIVATE);

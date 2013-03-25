@@ -70,6 +70,7 @@
     <string name="working_ws_create_scenario">Vytváření nového scénáře…</string>
     <string name="working_ws_people">Stahují se dostupné záznamy o jedincích…</string>
     <string name="working_ws_artifacts">Stahují se existující artefakty…</string>
+    <string name="working_ws_digitization">Stahují se známé druhy digitalizací…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>

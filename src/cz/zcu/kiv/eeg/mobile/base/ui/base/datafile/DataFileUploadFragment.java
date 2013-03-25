@@ -14,7 +14,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.ExperimentAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.ExperimentAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.ui.filechooser.FileChooserActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
@@ -90,7 +90,7 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
      */
     private void initData(CommonActivity parentActivity) {
         if (ConnectionUtils.isOnline(parentActivity)) {
-            (CommonActivity.service) = (CommonService) new FetchExperiments(parentActivity, experimentAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
+            new FetchExperiments(parentActivity, experimentAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
         } else
             parentActivity.showAlert(getString(R.string.error_offline));
     }

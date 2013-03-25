@@ -6,7 +6,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.PersonAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.PersonAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.PersonList;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;

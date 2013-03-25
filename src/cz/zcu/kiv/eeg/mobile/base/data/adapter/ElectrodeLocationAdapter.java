@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.data.container;
+package cz.zcu.kiv.eeg.mobile.base.data.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,16 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Artifact;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeLocation;
 
 import java.util.List;
 
 /**
- * Custom class of ArrayAdapter. Used for viewing Artifact records in ListView.
+ * Custom class of ArrayAdapter. Used for viewing ElectrodeLocation records in ListView.
  *
  * @author Petr Miko
  */
-public class ArtifactAdapter extends ArrayAdapter<Artifact> {
+public class ElectrodeLocationAdapter extends ArrayAdapter<ElectrodeLocation> {
 
     private final Context context;
     private final int resourceId;
@@ -29,7 +29,7 @@ public class ArtifactAdapter extends ArrayAdapter<Artifact> {
      * @param resourceId row layout identifier
      * @param items      item collection
      */
-    public ArtifactAdapter(Context context, int resourceId, List<Artifact> items) {
+    public ElectrodeLocationAdapter(Context context, int resourceId, List<ElectrodeLocation> items) {
         super(context, resourceId, items);
         this.context = context;
         this.resourceId = resourceId;
@@ -75,16 +75,26 @@ public class ArtifactAdapter extends ArrayAdapter<Artifact> {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(resourceId, parent, false);
         }
-        Artifact record = getItem(position);
+        ElectrodeLocation record = getItem(position);
         if (record != null) {
-            TextView compensation = (TextView) row.findViewById(R.id.row_artifact_compensation);
-            TextView rejectCondition = (TextView) row.findViewById(R.id.row_artifact_reject_condition);
+            TextView id = (TextView) row.findViewById(R.id.row_electrode_location_id);
+            TextView abbr = (TextView) row.findViewById(R.id.row_electrode_location_abbr);
+            TextView title = (TextView) row.findViewById(R.id.row_electrode_location_title);
+            TextView description = (TextView) row.findViewById(R.id.row_electrode_location_description);
 
-            if (compensation != null) {
-                compensation.setText(record.getCompensation());
+            if (id != null) {
+                id.setText(Integer.toString(record.getId()));
             }
-            if (rejectCondition != null) {
-                rejectCondition.setText(record.getRejectCondition());
+
+            if (abbr != null) {
+                abbr.setText(record.getAbbr());
+            }
+            if (title != null) {
+                title.setText(record.getTitle());
+            }
+
+            if(description != null){
+                description.setText(record.getDescription());
             }
         }
         return row;

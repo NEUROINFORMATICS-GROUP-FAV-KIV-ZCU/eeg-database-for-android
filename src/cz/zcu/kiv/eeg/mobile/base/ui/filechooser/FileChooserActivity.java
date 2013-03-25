@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.FileAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.FileAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.FileInfo;
 
 import java.io.File;

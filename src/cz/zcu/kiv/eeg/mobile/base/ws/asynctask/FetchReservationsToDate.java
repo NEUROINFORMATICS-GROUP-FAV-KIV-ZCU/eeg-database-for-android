@@ -8,7 +8,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.ReservationAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ReservationList;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;

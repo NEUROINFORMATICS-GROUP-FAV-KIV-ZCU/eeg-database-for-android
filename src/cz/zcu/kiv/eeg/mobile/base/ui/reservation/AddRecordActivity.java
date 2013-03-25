@@ -15,7 +15,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.ResearchGroupAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.ResearchGroupAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
@@ -109,7 +109,7 @@ public class AddRecordActivity extends SaveDiscardActivity {
      */
     private void updateData() {
         if (ConnectionUtils.isOnline(this)) {
-            (AddRecordActivity.service) = (CommonService) new FetchResearchGroups(this, researchGroupAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
+            new FetchResearchGroups(this, researchGroupAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
         } else {
             showAlert(getString(R.string.error_offline), true);
         }

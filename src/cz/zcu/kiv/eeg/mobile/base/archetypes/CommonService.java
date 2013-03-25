@@ -34,6 +34,11 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
      */
     public CommonService(CommonActivity context) {
         this.activity = context;
+
+        //explicit reference between activity and service must be set for new onCreate activity refreshes
+        ServiceReference ref = new ServiceReference();
+        ref.service = this;
+        CommonActivity.services.add(ref);
     }
 
     /**

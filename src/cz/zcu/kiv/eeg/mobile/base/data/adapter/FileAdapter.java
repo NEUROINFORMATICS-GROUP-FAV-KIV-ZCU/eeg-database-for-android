@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.data.container;
+package cz.zcu.kiv.eeg.mobile.base.data.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.data.container.FileInfo;
 
 import java.util.List;
 

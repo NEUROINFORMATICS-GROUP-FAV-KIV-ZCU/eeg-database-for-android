@@ -77,6 +77,7 @@
     <string name="working_ws_create_scenario">Creating new scenario…</string>
     <string name="working_ws_people">Fetching available people records…</string>
     <string name="working_ws_artifacts">Fetching existing artifacts…</string>
+    <string name="working_ws_digitization">Fetching known digitization types…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>

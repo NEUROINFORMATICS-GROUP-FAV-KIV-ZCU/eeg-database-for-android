@@ -14,7 +14,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.ScenarioAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.ScenarioAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchScenarios;
@@ -93,7 +93,7 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
 
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
-            (ScenarioActivity.service) = (CommonService) new FetchScenarios(activity, getAdapter(), Values.SERVICE_QUALIFIER_ALL).execute();
+            new FetchScenarios(activity, getAdapter(), Values.SERVICE_QUALIFIER_ALL).execute();
         } else
             activity.showAlert(activity.getString(R.string.error_offline));
     }

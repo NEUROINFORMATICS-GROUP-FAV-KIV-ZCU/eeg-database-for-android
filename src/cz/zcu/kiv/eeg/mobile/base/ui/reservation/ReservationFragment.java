@@ -19,7 +19,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.ReservationAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.ReservationAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
@@ -154,7 +154,7 @@ public class ReservationFragment extends ListFragment implements OnClickListener
             //un-selects row
             getListView().clearChoices();
 
-            (ReservationDetailsActivity.service) = (CommonService) new FetchReservationsToDate(activity, getAdapter()).execute(timeContainer);
+            new FetchReservationsToDate(activity, getAdapter()).execute(timeContainer);
         } else
             activity.showAlert(activity.getString(R.string.error_offline));
     }

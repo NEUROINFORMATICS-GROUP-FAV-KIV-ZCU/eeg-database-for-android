@@ -1,4 +1,4 @@
-package cz.zcu.kiv.eeg.mobile.base.data.container;
+package cz.zcu.kiv.eeg.mobile.base.data.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,16 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Disease;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
 
 import java.util.List;
 
 /**
- * Custom class of ArrayAdapter. Used for viewing Disease records in ListView.
+ * Custom class of ArrayAdapter. Used for viewing ElectrodeFix records in ListView.
  *
  * @author Petr Miko
  */
-public class DiseaseAdapter extends ArrayAdapter<Disease> {
+public class ElectrodeFixAdapter extends ArrayAdapter<ElectrodeFix> {
 
     private final Context context;
     private final int resourceId;
@@ -29,7 +29,7 @@ public class DiseaseAdapter extends ArrayAdapter<Disease> {
      * @param resourceId row layout identifier
      * @param items      item collection
      */
-    public DiseaseAdapter(Context context, int resourceId, List<Disease> items) {
+    public ElectrodeFixAdapter(Context context, int resourceId, List<ElectrodeFix> items) {
         super(context, resourceId, items);
         this.context = context;
         this.resourceId = resourceId;
@@ -75,16 +75,22 @@ public class DiseaseAdapter extends ArrayAdapter<Disease> {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(resourceId, parent, false);
         }
-        Disease record = getItem(position);
+        ElectrodeFix record = getItem(position);
         if (record != null) {
-            TextView diseaseName = (TextView) row.findViewById(R.id.row_disease_name);
-            TextView diseaseDescription = (TextView) row.findViewById(R.id.row_disease_description);
+            TextView id = (TextView) row.findViewById(R.id.row_electrode_id);
+            TextView title = (TextView) row.findViewById(R.id.row_electrode_title);
+            TextView description = (TextView) row.findViewById(R.id.row_electrode_description);
 
-            if (diseaseName != null) {
-                diseaseName.setText(record.getName());
+            if (id != null) {
+                id.setText(Integer.toString(record.getId()));
             }
-            if (diseaseDescription != null) {
-                diseaseDescription.setText(record.getDescription());
+
+            if (title != null) {
+                title.setText(record.getTitle());
+            }
+
+            if (description != null) {
+                description.setText(record.getDescription());
             }
         }
         return row;

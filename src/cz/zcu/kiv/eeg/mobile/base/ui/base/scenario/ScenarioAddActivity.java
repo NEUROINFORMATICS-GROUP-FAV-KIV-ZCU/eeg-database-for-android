@@ -9,7 +9,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.ResearchGroupAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.adapter.ResearchGroupAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.ui.filechooser.FileChooserActivity;
@@ -65,7 +65,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
 
     private void updateData() {
         if (ConnectionUtils.isOnline(this)) {
-            (ScenarioAddActivity.service) = (CommonService) new FetchResearchGroups(this, researchGroupAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
+            new FetchResearchGroups(this, researchGroupAdapter, Values.SERVICE_QUALIFIER_MINE).execute();
         } else {
             showAlert(getString(R.string.error_offline), true);
         }
@@ -133,7 +133,7 @@ public class ScenarioAddActivity extends SaveDiscardActivity implements View.OnC
 
         //if no error occurs, service starts
         if (error.toString().isEmpty()) {
-            service = (CommonService) new CreateScenario(this).execute(scenario);
+            new CreateScenario(this).execute(scenario);
         } else {
             showAlert(error.toString());
         }

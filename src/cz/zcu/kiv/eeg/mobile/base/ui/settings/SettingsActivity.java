@@ -106,7 +106,7 @@ public class SettingsActivity extends SaveDiscardActivity {
             editor.putString("tmp_url", url);
             editor.commit();
 
-            SettingsActivity.service = (CommonService) new TestCredentials(this, false).execute();
+            new TestCredentials(this, false).execute();
         } else {
             showAlert(error.toString());
         }
