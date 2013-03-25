@@ -72,6 +72,9 @@
     <string name="working_ws_artifacts">Stahují se existující artefakty…</string>
     <string name="working_ws_digitization">Stahují se známé druhy digitalizací…</string>
     <string name="working_ws_hardware">Stahuje se seznam hardwaru…</string>
+    <string name="working_ws_software">Stahuje se seznam softwaru…</string>
+    <string name="working_ws_disease">Stahuje se seznam nemocí…</string>
+    <string name="working_ws_pharmaceutical">Stahuje se seznam farmaceutik…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>

@@ -37,6 +37,12 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     private static DigitizationAdapter digitizationAdapter;
     private static HardwareAdapter hardwareAdapter;
     private static List<Hardware> selectedHardware = new ArrayList<Hardware>();
+    private static SoftwareAdapter softwareAdapter;
+    private static List<Software> selectedSoftware = new ArrayList<Software>();
+    private static DiseaseAdapter diseaseAdapter;
+    private static List<Disease> selectedDiseases = new ArrayList<Disease>();
+    private static PharmaceuticalAdapter pharmaceuticalAdapter;
+    private static List<Pharmaceutical> selectedPharmaceuticals = new ArrayList<Pharmaceutical>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +91,17 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
         Button selectHw = (Button) findViewById(R.id.experiment_add_hardware_button);
         selectHw.setOnClickListener(this);
+        Button selectSw = (Button) findViewById(R.id.experiment_add_software_button);
+        selectSw.setOnClickListener(this);
+        Button selectDiseases = (Button) findViewById(R.id.experiment_add_disease_button);
+        selectDiseases.setOnClickListener(this);
+        Button selectPharmaceuticals = (Button) findViewById(R.id.experiment_add_pharmaceutical_button);
+        selectPharmaceuticals.setOnClickListener(this);
 
         fillHardwareListRows();
+        fillSoftwareListRows();
+        fillDiseasesRows();
+        fillPharmaceuticalsRows();
     }
 
     @Override
@@ -106,6 +121,18 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
             case R.id.experiment_add_hardware_button:
                 selectHardwareDialog();
+                break;
+
+            case R.id.experiment_add_software_button:
+                selectSoftwareDialog();
+                break;
+
+            case R.id.experiment_add_disease_button:
+                selectDiseaseDialog();
+                break;
+
+            case R.id.experiment_add_pharmaceutical_button:
+                selectPharmaceuticalDialog();
                 break;
         }
 
@@ -183,6 +210,27 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    private void updateSoftwareList() {
+        if (ConnectionUtils.isOnline(this))
+            new FetchSoftwareList(this, getSoftwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        else
+            showAlert(getString(R.string.error_offline));
+    }
+
+    private void updateDiseases() {
+        if (ConnectionUtils.isOnline(this))
+            new FetchDiseases(this, getDiseaseAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        else
+            showAlert(getString(R.string.error_offline));
+    }
+
+    private void updatePharmaceuticals() {
+        if (ConnectionUtils.isOnline(this))
+            new FetchPharmaceuticals(this, getPharmaceuticalAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        else
+            showAlert(getString(R.string.error_offline));
+    }
+
     private ScenarioAdapter getScenarioAdapter() {
         if (scenarioAdapter == null) {
             scenarioAdapter = new ScenarioAdapter(this, R.layout.base_scenario_row, new ArrayList<Scenario>());
@@ -224,6 +272,24 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             hardwareAdapter = new HardwareAdapter(this, R.layout.base_hardware_row, new ArrayList<Hardware>());
 
         return hardwareAdapter;
+    }
+
+    private SoftwareAdapter getSoftwareAdapter() {
+        if (softwareAdapter == null)
+            softwareAdapter = new SoftwareAdapter(this, R.layout.base_software_row, new ArrayList<Software>());
+        return softwareAdapter;
+    }
+
+    private DiseaseAdapter getDiseaseAdapter() {
+        if (diseaseAdapter == null)
+            diseaseAdapter = new DiseaseAdapter(this, R.layout.base_disease_row, new ArrayList<Disease>());
+        return diseaseAdapter;
+    }
+
+    private PharmaceuticalAdapter getPharmaceuticalAdapter() {
+        if (pharmaceuticalAdapter == null)
+            pharmaceuticalAdapter = new PharmaceuticalAdapter(this, R.layout.base_pharmaceutical_row, new ArrayList<Pharmaceutical>());
+        return pharmaceuticalAdapter;
     }
 
     private void selectHardwareDialog() {
@@ -287,12 +353,219 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         dialog.show();
     }
 
+    private void selectSoftwareDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.base_list, null, false);
+        final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        listView.setAdapter(getSoftwareAdapter());
+
+        if (!isWorking() && softwareAdapter.isEmpty())
+            updateSoftwareList();
+
+        dialog.setTitle(R.string.experiment_add_software);
+        dialog.setView(dialogView);
+        dialog.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.setPositiveButton(R.string.dialog_button_ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int len = listView.getCount();
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
+
+                selectedSoftware.clear();
+
+                //find out selected items
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i))
+                        selectedSoftware.add(getSoftwareAdapter().getItem(i));
+                }
+
+                fillSoftwareListRows();
+            }
+        });
+
+        dialog.setNeutralButton(R.string.dialog_button_clear_selection, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                selectedSoftware.clear();
+                fillSoftwareListRows();
+                Toast.makeText(ExperimentAddActivity.this, R.string.dialog_selection_cleared, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //reselect previously selected items
+        for (Software sw : selectedSoftware)
+            for (int i = 0; i < softwareAdapter.getCount(); i++) {
+                if (softwareAdapter.getItem(i).getId() == sw.getId()) {
+                    listView.setItemChecked(i, true);
+                }
+            }
+        dialog.show();
+    }
+
+    private void selectDiseaseDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.base_list, null, false);
+        final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        listView.setAdapter(getDiseaseAdapter());
+
+        if (!isWorking() && diseaseAdapter.isEmpty())
+            updateDiseases();
+
+        dialog.setTitle(R.string.experiment_add_disease);
+        dialog.setView(dialogView);
+        dialog.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.setPositiveButton(R.string.dialog_button_ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int len = listView.getCount();
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
+
+                selectedDiseases.clear();
+
+                //find out selected items
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i))
+                        selectedDiseases.add(getDiseaseAdapter().getItem(i));
+                }
+
+                fillDiseasesRows();
+            }
+        });
+
+        dialog.setNeutralButton(R.string.dialog_button_clear_selection, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                selectedDiseases.clear();
+                fillDiseasesRows();
+                Toast.makeText(ExperimentAddActivity.this, R.string.dialog_selection_cleared, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //reselect previously selected items
+        for (Disease disease : selectedDiseases)
+            for (int i = 0; i < diseaseAdapter.getCount(); i++) {
+                if (diseaseAdapter.getItem(i).getDiseaseId() == disease.getDiseaseId()) {
+                    listView.setItemChecked(i, true);
+                }
+            }
+        dialog.show();
+    }
+
+    private void selectPharmaceuticalDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.base_list, null, false);
+        final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        listView.setAdapter(getPharmaceuticalAdapter());
+
+        if (!isWorking() && pharmaceuticalAdapter.isEmpty())
+            updatePharmaceuticals();
+
+        dialog.setTitle(R.string.experiment_add_pharmaceuticals);
+        dialog.setView(dialogView);
+        dialog.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.setPositiveButton(R.string.dialog_button_ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int len = listView.getCount();
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
+
+                selectedPharmaceuticals.clear();
+
+                //find out selected items
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i))
+                        selectedPharmaceuticals.add(getPharmaceuticalAdapter().getItem(i));
+                }
+
+                fillPharmaceuticalsRows();
+            }
+        });
+
+        dialog.setNeutralButton(R.string.dialog_button_clear_selection, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                selectedPharmaceuticals.clear();
+                fillPharmaceuticalsRows();
+                Toast.makeText(ExperimentAddActivity.this, R.string.dialog_selection_cleared, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //reselect previously selected items
+        for (Pharmaceutical pharmaceutical : selectedPharmaceuticals)
+            for (int i = 0; i < pharmaceuticalAdapter.getCount(); i++) {
+                if (pharmaceuticalAdapter.getItem(i).getId() == pharmaceutical.getId()) {
+                    listView.setItemChecked(i, true);
+                }
+            }
+        dialog.show();
+    }
+
     private void fillHardwareListRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_hardware_list);
         //clear previous values
         layout.removeAllViews();
 
         ExperimentDetailLists.fillHardwareList(layout, selectedHardware);
+    }
+
+    private void fillSoftwareListRows() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_software_list);
+        //clear previous values
+        layout.removeAllViews();
+
+        ExperimentDetailLists.fillSoftwareList(layout, selectedSoftware);
+    }
+
+    private void fillDiseasesRows() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_disease_list);
+        //clear previous values
+        layout.removeAllViews();
+
+        ExperimentDetailLists.fillDiseaseList(layout, selectedDiseases);
+    }
+
+    private void fillPharmaceuticalsRows() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_pharmaceutical_list);
+        //clear previous values
+        layout.removeAllViews();
+
+        ExperimentDetailLists.fillPharmaceuticals(layout, selectedPharmaceuticals);
     }
 
 }

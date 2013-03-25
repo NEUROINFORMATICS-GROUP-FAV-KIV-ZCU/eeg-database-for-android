@@ -79,6 +79,9 @@
     <string name="working_ws_artifacts">Fetching existing artifacts…</string>
     <string name="working_ws_digitization">Fetching known digitization types…</string>
     <string name="working_ws_hardware">Fetching list of available hardware…</string>
+    <string name="working_ws_software">Fetching list of available software…</string>
+    <string name="working_ws_disease">Fetching list of diseases…</string>
+    <string name="working_ws_pharmaceutical">Fetching list of pharmaceuticals…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
