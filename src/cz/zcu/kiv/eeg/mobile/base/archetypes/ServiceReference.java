@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Petr Miko
  */
-public class ServiceReference {
+final class ServiceReference {
 
     /**
      * Assigned common service (AsyncTask actually) and its description.

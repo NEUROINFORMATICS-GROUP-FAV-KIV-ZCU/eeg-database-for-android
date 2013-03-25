@@ -147,4 +147,12 @@ public class CommonActivity extends Activity {
     protected SharedPreferences getVarious() {
         return getSharedPreferences(Values.PREFS_VARIOUS, Context.MODE_PRIVATE);
     }
+
+    /**
+     * Informs activity whether there are running CommonServices.
+     * @return true if working CommonService
+     */
+    protected boolean isWorking(){
+        return !ServiceReference.isEmpty();
+    }
 }
