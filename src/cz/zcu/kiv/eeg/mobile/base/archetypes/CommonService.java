@@ -12,11 +12,10 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 
-import javax.net.ssl.SSLException;
-
 /**
  * Parent for async tasks used in this application.
  * Meant for direct cooperation with CommonActivity and relies on its setState capabilities.
+ *
  * @param <T> parameters type
  * @param <U> progress units type
  * @param <V> result object type
@@ -30,19 +29,17 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
 
     /**
      * Constructor, which pairs CommonService and CommonActivity.
+     *
      * @param context parent activity
      */
     public CommonService(CommonActivity context) {
-        this.activity = context;
-
         //explicit reference between activity and service must be set for new onCreate activity refreshes
-        ServiceReference ref = new ServiceReference();
-        ref.service = this;
-        CommonActivity.services.add(ref);
+        ServiceReference.push(context, this);
     }
 
     /**
      * Hands over progress state change towards the activity.
+     *
      * @param state new service state
      */
     protected void setState(ServiceState state) {
@@ -51,7 +48,8 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
 
     /**
      * Hands over progress state change towards the activity.
-     * @param state new service state
+     *
+     * @param state       new service state
      * @param messageCode android string identifier
      */
     protected void setState(ServiceState state, int messageCode) {
@@ -60,7 +58,8 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
 
     /**
      * Hands over progress state change towards the activity.
-     * @param state new service state
+     *
+     * @param state   new service state
      * @param message message
      */
     protected void setState(ServiceState state, String message) {
@@ -71,6 +70,7 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
      * Hands over progress state change towards the activity.
      * Method tries to recognize throwable type for displaying custom message.
      * If throwable is not recognized, basic exception message is displayed.
+     *
      * @param state new service state
      * @param error error occurred during computation
      */
@@ -116,10 +116,9 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
                         break;
                 }
                 //connection broke
-            } else if(error instanceof ResourceAccessException){
+            } else if (error instanceof ResourceAccessException) {
                 message = activity.getString(R.string.error_ssl);
-            }
-            else {
+            } else {
                 error = ((RestClientException) error).getRootCause();
                 message = error == null ? activity.getString(R.string.error_connection) : error.getMessage();
 
@@ -140,6 +139,7 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
     /**
      * Set parent activity.
      * Usually used when activity got recreated but we need to keep service paired with displayed instance.
+     *
      * @param activity new parent CommonActivity
      */
     public void setActivity(CommonActivity activity) {
@@ -148,6 +148,7 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
 
     /**
      * Credentials information bundle getter.
+     *
      * @return credentials information bundle
      */
     protected SharedPreferences getCredentials() {

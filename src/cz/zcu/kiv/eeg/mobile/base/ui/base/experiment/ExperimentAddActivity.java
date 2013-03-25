@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.ServiceReference;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.*;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.*;
@@ -43,7 +44,8 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     }
 
     private void updateData() {
-        if (services.isEmpty()) {
+        //services are not loading data currently
+        if (ServiceReference.isEmpty()) {
             if (groupAdapter.isEmpty())
                 updateGroups();
             if (scenarioAdapter.isEmpty())

@@ -13,10 +13,6 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * Activity with capability of recognizing CommonService state.
  * If CommonService was set and activity is recreated, progress dialog is recreated as well.
@@ -25,11 +21,6 @@ import java.util.List;
  */
 public class CommonActivity extends Activity {
 
-    /**
-     * Assigned common service (AsyncTask actually) and its description.
-     * Handled as a FIFO of services, only first is used for creating progress dialog and removing after it is done.
-     */
-    public static List<ServiceReference> services = Collections.synchronizedList(new LinkedList<ServiceReference>());
     /**
      * Progress dialog informing of common service state.
      */
@@ -45,15 +36,10 @@ public class CommonActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         synchronized (CommonActivity.class) {
-            if (!services.isEmpty()) {
-
-                //every asynctask must refresh its reference to activity (or leaked window will occur)
-                for (ServiceReference reference : services) {
-                    reference.service.setActivity(this);
-                }
-
+            if (!ServiceReference.isEmpty()) {
+                ServiceReference.refreshReferences(this);
                 progressDialog = ProgressDialog.show(CommonActivity.this,
-                        getString(R.string.working), services.get(0).message, true, false);
+                        getString(R.string.working), ServiceReference.peek().message, true, false);
 
             }
         }
@@ -80,7 +66,7 @@ public class CommonActivity extends Activity {
             public void run() {
                 switch (state) {
                     case RUNNING:
-                        ServiceReference current = services.get(0);
+                        ServiceReference current = ServiceReference.peek();
                         current.message = message;
                         progressDialog = ProgressDialog.show(CommonActivity.this,
                                 getString(R.string.working), message, true, false);
@@ -88,7 +74,7 @@ public class CommonActivity extends Activity {
                     case INACTIVE:
                     case DONE:
                         synchronized (CommonActivity.class) {
-                            services.remove(0);
+                            ServiceReference.pop();
                             if (progressDialog != null && progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }
