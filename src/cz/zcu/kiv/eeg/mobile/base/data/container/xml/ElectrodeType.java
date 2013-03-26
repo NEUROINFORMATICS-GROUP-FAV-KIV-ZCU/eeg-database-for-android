@@ -10,7 +10,7 @@ import org.simpleframework.xml.Root;
  *
  * @author Petr Miko
  */
-@Root(name = "electrodeTypeData")
+@Root(name = "electrodeType")
 public class ElectrodeType implements Parcelable {
 
     public static final Parcelable.Creator<ElectrodeType> CREATOR

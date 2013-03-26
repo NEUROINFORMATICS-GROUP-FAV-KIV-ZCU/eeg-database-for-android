@@ -100,9 +100,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
         ImageButton createScenario = (ImageButton) findViewById(R.id.experiment_add_scenario_new);
         ImageButton createSubject = (ImageButton) findViewById(R.id.experiment_add_subject_new);
+        ImageButton createElectrodeLocation = (ImageButton) findViewById(R.id.experiment_add_electrode_new_location_button);
 
         createScenario.setOnClickListener(this);
         createSubject.setOnClickListener(this);
+        createElectrodeLocation.setOnClickListener(this);
 
         Spinner scenarios = (Spinner) findViewById(R.id.experiment_add_scenario);
         Spinner groups = (Spinner) findViewById(R.id.experiment_add_group);
@@ -183,6 +185,12 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
             case R.id.experiment_add_electrode_location_button:
                 selectElectrodeLocationsDialog();
+                break;
+
+            case R.id.experiment_add_electrode_new_location_button:
+                Intent intent = new Intent();
+                intent.setClass(this, ElectrodeLocationAddActivity.class);
+                startActivityForResult(intent, Values.ADD_ELECTRODE_LOCATION_FLAG);
                 break;
         }
 

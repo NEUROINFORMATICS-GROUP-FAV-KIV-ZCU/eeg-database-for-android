@@ -10,7 +10,7 @@ import org.simpleframework.xml.Root;
  *
  * @author Petr Miko
  */
-@Root(name = "electrodeFixData")
+@Root(name = "electrodeFix")
 public class ElectrodeFix implements Parcelable {
 
     public static final Parcelable.Creator<ElectrodeFix> CREATOR

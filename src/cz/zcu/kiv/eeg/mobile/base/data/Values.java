@@ -55,9 +55,11 @@ public class Values {
 
     public static final int ADD_SCENARIO_FLAG = 20;
     public static final int ADD_PERSON_FLAG = 21;
+    public static final int ADD_ELECTRODE_LOCATION_FLAG = 22;
 
     public final static String ADD_RESERVATION_KEY = "addReservation";
     public final static String ADD_PERSON_KEY = "addPerson";
     public final static String ADD_SCENARIO_KEY = "addScenario";
+    public final static String ADD_ELECTRODE_LOCATION_KEY = "addElectrodeLocation";
 
 }

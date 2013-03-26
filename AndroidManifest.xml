@@ -63,6 +63,9 @@
                 android:name=".ui.experiment.ExperimentAddActivity"
                 android:label="@string/experiment_add"/>
         <activity
+                android:name=".ui.experiment.ElectrodeLocationAddActivity"
+                android:label="@string/electrode_add"/>
+        <activity
                 android:name=".ui.experiment.ExperimentDetailsActivity"
                 android:label="@string/detail"/>
         <activity
