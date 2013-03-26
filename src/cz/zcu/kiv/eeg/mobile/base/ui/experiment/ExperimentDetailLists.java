@@ -254,7 +254,7 @@ public final class ExperimentDetailLists {
      */
     private static AlertDialog.Builder getElectrodeLocationDetailDialog(final LayoutInflater inflater, ViewGroup viewGroup, ElectrodeLocation record) {
         AlertDialog.Builder builder = new AlertDialog.Builder(viewGroup.getContext());
-        builder.setTitle(R.string.dialog_electrode_detail);
+        builder.setTitle(R.string.dialog_electrode_location_detail);
         View view = inflater.inflate(R.layout.base_electrode_dialog_details, null);
 
         TextView id = (TextView) view.findViewById(R.id.dialog_id);

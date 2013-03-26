@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+            style="@style/section_title"
+            android:text="@string/experiment_electrodes"
+            android:drawableLeft="@drawable/ic_action_electrode"
+            />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/experiment_electrode_impedance"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:id="@+id/experiment_add_electrode_impedance"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/experiment_add_electrode_system"/>
+
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="fill_horizontal"
+            android:spinnerMode="dialog"
+            android:id="@+id/experiment_add_electrode_system"/>
+
+    <Button
+            android:id="@+id/experiment_add_electrode_location_button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/experiment_add_electrode_location"/>
+
+    <LinearLayout
+            android:id="@+id/experiment_add_electrode_location_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:drawable/alert_dark_frame"
+            />
+
+
+</LinearLayout>

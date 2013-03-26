@@ -6,7 +6,7 @@
     <string name="app_search">Search</string>
     <string name="app_dashboard">Dashboard</string>
     <string name="app_welcome">Welcome to EEG Base!</string>
-    <string name="app_underDevelopment">This application is curently under development, so its features
+    <string name="app_underDevelopment">This application is currently under development, so its features
         are limited and maybe bugged sometimes. Thank you for your patience and bug reporting on GitHub project site!
     </string>
 
@@ -99,6 +99,7 @@
     <string name="time_change">Change time</string>
     <string name="time_choose_date">Choose date</string>
     <string name="time_choose_time">Choose time</string>
+    <string name="time_span">Time span</string>
 
     <string name="detail">Details</string>
     <string name="reser_detail_group">Research group</string>
@@ -138,6 +139,7 @@
     <string name="experiment_env_note">Environment note</string>
     <string name="experiment_weather">Weather</string>
     <string name="experiment_weather_title">Title</string>
+    <string name="experiment_weather_description">Description</string>
     <string name="experiment_artifact">Artifact</string>
     <string name="experiment_artifact_compensation">Compensation</string>
     <string name="experiment_artifact_reject">Reject condition</string>
@@ -155,9 +157,19 @@
     <string name="experiment_electrode_type">Electrode type</string>
     <string name="experiment_electrode_fix">Electrode fix</string>
     <string name="experiment_electrodes_location">Electrodes\' locations</string>
-    <string name="experiment_add_scenario">Select scenario</string>
-    <string name="experiment_add_group">Select research group</string>
-    <string name="experiment_add_subject">Select subject</string>
+    <string name="experiment_add_scenario">Scenario</string>
+    <string name="experiment_add_group">Research group</string>
+    <string name="experiment_add_subject">Subject</string>
+    <string name="experiment_add_artifact">Artifact</string>
+    <string name="experiment_add_digitization">Digitizations</string>
+    <string name="experiment_add_disease">Select diseases</string>
+    <string name="experiment_add_hardware">Select hardware</string>
+    <string name="experiment_add_software">Select software</string>
+    <string name="experiment_add_pharmaceuticals">Select pharmaceuticals</string>
+    <string name="experiment_add_electrode_location">Select electrodes\' locations</string>
+    <string name="experiment_add_electrode_system">Electrode system</string>
+    <string name="experiment_add_electrode_fix">Electrode fix</string>
+    <string name="experiment_add_electrode_type">Electrode type</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>
@@ -174,16 +186,6 @@
     <string name="scenario_private">Private scenario</string>
     <string name="experiment_electrode_system_title">System title</string>
     <string name="experiment_electrode_system_description">System description</string>
-    <string name="experiment_add_artifact">Select artifact</string>
-    <string name="experiment_add_digitization">Select digitization</string>
-    <string name="experiment_add_disease">Select disease</string>
-    <string name="experiment_add_hardware">Select hardware</string>
-    <string name="experiment_add_software">Select software</string>
-    <string name="experiment_add_pharmaceuticals">Select pharmaceuticals</string>
-    <string name="experiment_add_electrode_location">Select electrode location</string>
-    <string name="experiment_add_electrode_system">Select electrode system</string>
-    <string name="experiment_add_electrode_fix">Select electrode fix</string>
-    <string name="experiment_add_electrode_type">Select electrode type</string>
 
     <!-- person management -->
     <string name="person_add">Add person</string>
@@ -200,7 +202,7 @@
     <string name="person_age">Age</string>
 
     <!--dialogs-->
-    <string name="dialog_electrode_detail">Electrode detail</string>
+    <string name="dialog_electrode_location_detail">Electrode location detail</string>
     <string name="dialog_hardware_detail">Hardware detail</string>
     <string name="dialog_software_detail">Software detail</string>
     <string name="dialog_pharmaceutical_detail">Pharmaceutical detail</string>

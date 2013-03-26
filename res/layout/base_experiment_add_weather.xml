@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <TextView
+            style="@style/section_title"
+            android:text="@string/experiment_weather"
+            android:drawableLeft="@drawable/ic_action_weather"
+            />
+
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/experiment_weather_title"/>
+
+    <EditText
+            android:id="@+id/experiment_add_weather_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/experiment_weather_description"
+            />
+
+    <EditText
+            android:id="@+id/experiment_add_weather_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxLength="@integer/limit_description_chars"
+            />
+
+</LinearLayout>

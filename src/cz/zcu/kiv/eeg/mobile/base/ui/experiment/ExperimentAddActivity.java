@@ -131,58 +131,16 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.experiment_add_from_date:
-                final Button fromDateButton = (Button) findViewById(R.id.experiment_add_from_date);
-
-                new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        fromTime.setYear(year);
-                        fromTime.setMonth(monthOfYear + 1);
-                        fromTime.setDay(dayOfMonth);
-
-                        fromDateButton.setText(fromTime.toDateString());
-
-                    }
-                }, fromTime.getYear(), fromTime.getMonth() - 1, fromTime.getDay()).show();
+                showDateDialog((Button) findViewById(R.id.experiment_add_from_date), fromTime);
                 break;
             case R.id.experiment_add_from_time:
-                final Button fromTimeButton = (Button) findViewById(R.id.experiment_add_from_time);
-
-                new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        fromTime.setHour(hourOfDay);
-                        fromTime.setMinute(minute);
-                        fromTimeButton.setText(fromTime.toTimeString());
-                    }
-                }, fromTime.getHour(), fromTime.getMinute(), true).show();
+                showTimeDialog((Button) findViewById(R.id.experiment_add_from_time), fromTime);
                 break;
             case R.id.experiment_add_to_date:
-                final Button toDateButton = (Button) findViewById(R.id.experiment_add_to_date);
-
-                new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        toTime.setYear(year);
-                        toTime.setMonth(monthOfYear + 1);
-                        toTime.setDay(dayOfMonth);
-
-                        toDateButton.setText(toTime.toDateString());
-                    }
-                }, toTime.getYear(), toTime.getMonth() - 1, toTime.getDay()).show();
+                showDateDialog((Button) findViewById(R.id.experiment_add_to_date), toTime);
                 break;
             case R.id.experiment_add_to_time:
-                final Button toTimeButton = (Button) findViewById(R.id.experiment_add_to_time);
-
-                new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        toTime.setHour(hourOfDay);
-                        toTime.setMinute(minute);
-
-                        toTimeButton.setText(toTime.toTimeString());
-                    }
-                }, toTime.getHour(), toTime.getMinute(), true).show();
+                showTimeDialog((Button) findViewById(R.id.experiment_add_to_time), toTime);
                 break;
 
             case R.id.experiment_add_scenario_new:
@@ -215,6 +173,31 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         }
 
         super.onClick(v);
+    }
+
+    private void showTimeDialog(final Button timeButton, final TimeContainer timeContainer) {
+        new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                timeContainer.setHour(hourOfDay);
+                timeContainer.setMinute(minute);
+                timeButton.setText(timeContainer.toTimeString());
+            }
+        }, timeContainer.getHour(), timeContainer.getMinute(), true).show();
+    }
+
+    private void showDateDialog(final Button dateButton, final TimeContainer timeContainer) {
+        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                timeContainer.setYear(year);
+                timeContainer.setMonth(monthOfYear + 1);
+                timeContainer.setDay(dayOfMonth);
+
+                dateButton.setText(timeContainer.toDateString());
+
+            }
+        }, timeContainer.getYear(), timeContainer.getMonth() - 1, timeContainer.getDay()).show();
     }
 
     @Override

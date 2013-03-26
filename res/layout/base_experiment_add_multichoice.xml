@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:orientation="vertical">
+
+    <Button
+            android:id="@+id/experiment_add_hardware_button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/experiment_add_hardware"
+            android:drawableLeft="@drawable/ic_action_hardware"/>
+
+    <LinearLayout
+            android:id="@+id/experiment_add_hardware_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:drawable/alert_dark_frame"
+            />
+
+    <Button
+            android:id="@+id/experiment_add_software_button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/experiment_add_software"
+            android:drawableLeft="@drawable/ic_action_software"/>
+
+    <LinearLayout
+            android:id="@+id/experiment_add_software_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:drawable/alert_dark_frame"
+            />
+
+    <Button
+            android:id="@+id/experiment_add_disease_button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/experiment_add_disease"
+            android:drawableLeft="@drawable/ic_action_virus"/>
+
+    <LinearLayout
+            android:id="@+id/experiment_add_disease_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:drawable/alert_dark_frame"
+            />
+
+    <Button
+            android:id="@+id/experiment_add_pharmaceutical_button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/experiment_add_pharmaceuticals"
+            android:drawableLeft="@drawable/ic_action_pharmaceutical"/>
+
+    <LinearLayout
+            android:id="@+id/experiment_add_pharmaceutical_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:drawable/alert_dark_frame"
+            />
+
+</LinearLayout>

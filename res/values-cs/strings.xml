@@ -99,6 +99,7 @@
     <string name="time_change">Změnit čas</string>
     <string name="time_choose_date">Vyberte datum</string>
     <string name="time_choose_time">Vyberte čas</string>
+    <string name="time_span">Časový rozsah</string>
 
     <string name="detail">Podrobnosti</string>
     <string name="reser_detail_group">Výzkumná skupina</string>
@@ -138,6 +139,7 @@
     <string name="experiment_env_note">Poznámka k prostředí</string>
     <string name="experiment_weather">Počasí</string>
     <string name="experiment_weather_title">Název</string>
+    <string name="experiment_weather_description">Popis</string>
     <string name="experiment_artifact">Artefakt</string>
     <string name="experiment_artifact_compensation">Kompenzace</string>
     <string name="experiment_artifact_reject">Podmínka odmítnutí</string>
@@ -154,9 +156,19 @@
     <string name="experiment_electrode_type">Typ elektrody</string>
     <string name="experiment_electrode_fix">Upevnění elektrody</string>
     <string name="experiment_electrodes_location">Umístění elektrod</string>
-    <string name="experiment_add_scenario">Vyberte scénář</string>
-    <string name="experiment_add_group">Vyberte výzkumnou skupinu</string>
-    <string name="experiment_add_subject">Vyberte subjekt</string>
+    <string name="experiment_add_scenario">Scénář</string>
+    <string name="experiment_add_group">Výzkumná skupina</string>
+    <string name="experiment_add_subject">Subjekt</string>
+    <string name="experiment_add_artifact">Artefakt</string>
+    <string name="experiment_add_digitization">Digitalizace</string>
+    <string name="experiment_add_disease">Vyberte nemoci</string>
+    <string name="experiment_add_hardware">Vyberte hardware</string>
+    <string name="experiment_add_software">Vyberte software</string>
+    <string name="experiment_add_pharmaceuticals">Vyberte farmaceutika</string>
+    <string name="experiment_add_electrode_location">Vyberte místění elektrod</string>
+    <string name="experiment_add_electrode_system">Systém elektrod</string>
+    <string name="experiment_add_electrode_fix">Upevnění elektrod</string>
+    <string name="experiment_add_electrode_type">Typ elektrod</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>
@@ -171,16 +183,6 @@
     <string name="scenario_file_length">Velikost souboru</string>
     <string name="scenario_add_group_label">Výzkumná skupina</string>
     <string name="scenario_private">Soukromý scénář</string>
-    <string name="experiment_add_artifact">Vyberte artefakt</string>
-    <string name="experiment_add_digitization">Vyberte digitalizaci</string>
-    <string name="experiment_add_disease">Vyberte nemoci</string>
-    <string name="experiment_add_hardware">Vyberte hardware</string>
-    <string name="experiment_add_software">Vyberte software</string>
-    <string name="experiment_add_pharmaceuticals">Vyberte farmaceutika</string>
-    <string name="experiment_add_electrode_location">Vyberte umístění elektrod</string>
-    <string name="experiment_add_electrode_system">Vyberte systém elektrod</string>
-    <string name="experiment_add_electrode_fix">Vyberte upevnění elektrod</string>
-    <string name="experiment_add_electrode_type">Vyberte typ elektrod</string>
 
     <!-- person management -->
     <string name="person_add">Přidat osobu</string>
@@ -197,7 +199,7 @@
     <string name="person_age">Věk</string>
 
     <!--dialogs-->
-    <string name="dialog_electrode_detail">Detail elektrody</string>
+    <string name="dialog_electrode_location_detail">Detail umístění elektrody</string>
     <string name="dialog_hardware_detail">Detail hardwaru</string>
     <string name="dialog_software_detail">Detail softwaru</string>
     <string name="dialog_pharmaceutical_detail">Detail farmaceutika</string>
