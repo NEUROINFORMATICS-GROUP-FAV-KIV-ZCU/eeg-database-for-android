@@ -75,6 +75,10 @@
     <string name="working_ws_software">Stahuje se seznam softwaru…</string>
     <string name="working_ws_disease">Stahuje se seznam nemocí…</string>
     <string name="working_ws_pharmaceutical">Stahuje se seznam farmaceutik…</string>
+    <string name="working_ws_electrode_location">Stahují se umístění elektrod…</string>
+    <string name="working_ws_electrode_type">Stahují se typy elektrod…</string>
+    <string name="working_ws_electrode_fix">Stahuje se seznam upevnění elektrod…</string>
+    <string name="working_ws_electrode_system">Stahuje se seznam systémů elektrod…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>
@@ -165,7 +169,7 @@
     <string name="experiment_add_hardware">Vyberte hardware</string>
     <string name="experiment_add_software">Vyberte software</string>
     <string name="experiment_add_pharmaceuticals">Vyberte farmaceutika</string>
-    <string name="experiment_add_electrode_location">Vyberte místění elektrod</string>
+    <string name="experiment_add_electrode_location">Vyberte umístění elektrod</string>
     <string name="experiment_add_electrode_system">Systém elektrod</string>
     <string name="experiment_add_electrode_fix">Upevnění elektrod</string>
     <string name="experiment_add_electrode_type">Typ elektrod</string>

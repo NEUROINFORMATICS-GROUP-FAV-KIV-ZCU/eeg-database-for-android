@@ -36,11 +36,29 @@
             android:spinnerMode="dialog"
             android:id="@+id/experiment_add_electrode_system"/>
 
-    <Button
-            android:id="@+id/experiment_add_electrode_location_button"
-            android:layout_height="wrap_content"
+    <LinearLayout
             android:layout_width="match_parent"
-            android:text="@string/experiment_add_electrode_location"/>
+            android:layout_height="wrap_content"
+            android:weightSum="5"
+            >
+
+        <Button
+                android:id="@+id/experiment_add_electrode_location_button"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:text="@string/experiment_add_electrode_location"/>
+
+        <ImageButton
+                android:id="@+id/experiment_add_electrode_new_location_button"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_add"
+                android:contentDescription="@string/experiment_add_electrode_location"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
             android:id="@+id/experiment_add_electrode_location_list"

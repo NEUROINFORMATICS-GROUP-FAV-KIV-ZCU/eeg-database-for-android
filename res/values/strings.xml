@@ -82,6 +82,10 @@
     <string name="working_ws_software">Fetching list of available software…</string>
     <string name="working_ws_disease">Fetching list of diseases…</string>
     <string name="working_ws_pharmaceutical">Fetching list of pharmaceuticals…</string>
+    <string name="working_ws_electrode_location">Fetching electrode locations…</string>
+    <string name="working_ws_electrode_type">Fetching electrode types…</string>
+    <string name="working_ws_electrode_fix">Fetching electrode fix list…</string>
+    <string name="working_ws_electrode_system">Fetching electrode systems…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>

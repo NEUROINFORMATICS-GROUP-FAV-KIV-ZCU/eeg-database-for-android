@@ -45,6 +45,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     private static List<Disease> selectedDiseases = new ArrayList<Disease>();
     private static PharmaceuticalAdapter pharmaceuticalAdapter;
     private static List<Pharmaceutical> selectedPharmaceuticals = new ArrayList<Pharmaceutical>();
+    private static ElectrodeLocationAdapter electrodeLocationAdapter;
+    private static List<ElectrodeLocation> selectedElectrodeLocations = new ArrayList<ElectrodeLocation>();
+    private static ElectrodeSystemAdapter electrodeSystemAdapter;
     private TimeContainer fromTime;
     private TimeContainer toTime;
 
@@ -70,6 +73,8 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 updateArtifacts();
             if (digitizationAdapter.isEmpty())
                 updateDigitizations();
+            if(electrodeSystemAdapter.isEmpty())
+                updateElectrodeSystems();
         }
     }
 
@@ -104,6 +109,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         Spinner subjects = (Spinner) findViewById(R.id.experiment_add_subject);
         Spinner artifacts = (Spinner) findViewById(R.id.experiment_add_artifact);
         Spinner digitizations = (Spinner) findViewById(R.id.experiment_add_digitization);
+        Spinner electrodeSystems = (Spinner) findViewById(R.id.experiment_add_electrode_system);
 
 
         scenarios.setAdapter(getScenarioAdapter());
@@ -111,6 +117,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         subjects.setAdapter(getPersonAdapter());
         artifacts.setAdapter(getArtifactAdapter());
         digitizations.setAdapter(getDigitizationAdapter());
+        electrodeSystems.setAdapter(getElectrodeSystemAdapter());
 
         Button selectHw = (Button) findViewById(R.id.experiment_add_hardware_button);
         selectHw.setOnClickListener(this);
@@ -120,11 +127,14 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         selectDiseases.setOnClickListener(this);
         Button selectPharmaceuticals = (Button) findViewById(R.id.experiment_add_pharmaceutical_button);
         selectPharmaceuticals.setOnClickListener(this);
+        Button selectElectrodeLocations = (Button) findViewById(R.id.experiment_add_electrode_location_button);
+        selectElectrodeLocations.setOnClickListener(this);
 
         fillHardwareListRows();
         fillSoftwareListRows();
         fillDiseasesRows();
         fillPharmaceuticalsRows();
+        fillElectrodeLocationsRows();
     }
 
     @Override
@@ -169,6 +179,10 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
             case R.id.experiment_add_pharmaceutical_button:
                 selectPharmaceuticalDialog();
+                break;
+
+            case R.id.experiment_add_electrode_location_button:
+                selectElectrodeLocationsDialog();
                 break;
         }
 
@@ -299,6 +313,20 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    private void updateElectrodeSystems(){
+        if(ConnectionUtils.isOnline(this))
+            new FetchElectrodeSystems(this, getElectrodeSystemAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        else
+            showAlert(getString(R.string.error_offline));
+    }
+
+    private void updateElectrodeLocations(){
+        if(ConnectionUtils.isOnline(this))
+            new FetchElectrodeLocations(this, getElectrodeLocationsAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        else
+        showAlert(getString(R.string.error_offline));
+    }
+
     private ScenarioAdapter getScenarioAdapter() {
         if (scenarioAdapter == null) {
             scenarioAdapter = new ScenarioAdapter(this, R.layout.base_scenario_row, new ArrayList<Scenario>());
@@ -358,6 +386,18 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         if (pharmaceuticalAdapter == null)
             pharmaceuticalAdapter = new PharmaceuticalAdapter(this, R.layout.base_pharmaceutical_row, new ArrayList<Pharmaceutical>());
         return pharmaceuticalAdapter;
+    }
+
+    private ElectrodeSystemAdapter getElectrodeSystemAdapter(){
+        if(electrodeSystemAdapter == null)
+            electrodeSystemAdapter = new ElectrodeSystemAdapter(this, R.layout.base_electrode_simple_row, new ArrayList<ElectrodeSystem>());
+        return electrodeSystemAdapter;
+    }
+
+    private ElectrodeLocationAdapter getElectrodeLocationsAdapter(){
+        if(electrodeLocationAdapter == null)
+            electrodeLocationAdapter = new ElectrodeLocationAdapter(this, R.layout.base_electrode_location_row, new ArrayList<ElectrodeLocation>());
+        return electrodeLocationAdapter;
     }
 
     private void selectHardwareDialog() {
@@ -604,6 +644,67 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         dialog.show();
     }
 
+    private void selectElectrodeLocationsDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.base_list, null, false);
+        final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        listView.setAdapter(getElectrodeLocationsAdapter());
+
+        if (!isWorking() && electrodeLocationAdapter.isEmpty())
+            updateElectrodeLocations();
+
+        dialog.setTitle(R.string.experiment_add_electrode_location);
+        dialog.setView(dialogView);
+        dialog.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.setPositiveButton(R.string.dialog_button_ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int len = listView.getCount();
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
+
+                selectedElectrodeLocations.clear();
+
+                //find out selected items
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i))
+                        selectedElectrodeLocations.add(getElectrodeLocationsAdapter().getItem(i));
+                }
+
+                fillElectrodeLocationsRows();
+            }
+        });
+
+        dialog.setNeutralButton(R.string.dialog_button_clear_selection, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                selectedElectrodeLocations.clear();
+                fillElectrodeLocationsRows();
+                Toast.makeText(ExperimentAddActivity.this, R.string.dialog_selection_cleared, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //reselect previously selected items
+        for (ElectrodeLocation electrodeLocation : selectedElectrodeLocations)
+            for (int i = 0; i < electrodeLocationAdapter.getCount(); i++) {
+                if (electrodeLocationAdapter.getItem(i).getId() == electrodeLocation.getId()) {
+                    listView.setItemChecked(i, true);
+                }
+            }
+        dialog.show();
+    }
+
     private void fillHardwareListRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_hardware_list);
         //clear previous values
@@ -634,6 +735,14 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         layout.removeAllViews();
 
         ExperimentDetailLists.fillPharmaceuticals(layout, selectedPharmaceuticals);
+    }
+
+    private void fillElectrodeLocationsRows(){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_electrode_location_list);
+        //clear previous values
+        layout.removeAllViews();
+
+        ExperimentDetailLists.fillElectrodeLocations(layout, selectedElectrodeLocations);
     }
 
 }
