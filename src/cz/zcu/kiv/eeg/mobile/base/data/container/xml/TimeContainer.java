@@ -29,7 +29,6 @@ public class TimeContainer implements Parcelable {
             return new TimeContainer[size];
         }
     };
-
     @Element
     private int second;
     @Element
@@ -43,7 +42,21 @@ public class TimeContainer implements Parcelable {
     @Element
     private int year;
 
+    /**
+     * Creates Time container and sets its field to time of creation;
+     */
     public TimeContainer() {
+
+        Time time = new Time();
+        time.setToNow();
+
+        second = time.second;
+        minute = time.minute;
+        hour = time.hour;
+        day = time.monthDay;
+        //due to java date lib
+        month = time.month + 1;
+        year = time.year;
     }
 
     public TimeContainer(Parcel in) {

@@ -2,6 +2,8 @@ package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -43,13 +45,15 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     private static List<Disease> selectedDiseases = new ArrayList<Disease>();
     private static PharmaceuticalAdapter pharmaceuticalAdapter;
     private static List<Pharmaceutical> selectedPharmaceuticals = new ArrayList<Pharmaceutical>();
+    private TimeContainer fromTime;
+    private TimeContainer toTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_experiment_add);
 
-        initView();
+        initView(savedInstanceState);
         updateData();
     }
 
@@ -69,7 +73,26 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         }
     }
 
-    private void initView() {
+    private void initView(Bundle savedInstanceState) {
+
+        if (savedInstanceState == null) {
+            fromTime = new TimeContainer();
+            toTime = new TimeContainer();
+        } else {
+            fromTime = savedInstanceState.getParcelable("fromTime");
+            toTime = savedInstanceState.getParcelable("toTime");
+        }
+
+        Button fromTime = (Button) findViewById(R.id.experiment_add_from_time);
+        Button fromDate = (Button) findViewById(R.id.experiment_add_from_date);
+        Button toTime = (Button) findViewById(R.id.experiment_add_to_time);
+        Button toDate = (Button) findViewById(R.id.experiment_add_to_date);
+        fromTime.setOnClickListener(this);
+        fromDate.setOnClickListener(this);
+        toTime.setOnClickListener(this);
+        toDate.setOnClickListener(this);
+
+
         ImageButton createScenario = (ImageButton) findViewById(R.id.experiment_add_scenario_new);
         ImageButton createSubject = (ImageButton) findViewById(R.id.experiment_add_subject_new);
 
@@ -107,6 +130,61 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.experiment_add_from_date:
+                final Button fromDateButton = (Button) findViewById(R.id.experiment_add_from_date);
+
+                new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        fromTime.setYear(year);
+                        fromTime.setMonth(monthOfYear + 1);
+                        fromTime.setDay(dayOfMonth);
+
+                        fromDateButton.setText(fromTime.toDateString());
+
+                    }
+                }, fromTime.getYear(), fromTime.getMonth() - 1, fromTime.getDay()).show();
+                break;
+            case R.id.experiment_add_from_time:
+                final Button fromTimeButton = (Button) findViewById(R.id.experiment_add_from_time);
+
+                new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        fromTime.setHour(hourOfDay);
+                        fromTime.setMinute(minute);
+                        fromTimeButton.setText(fromTime.toTimeString());
+                    }
+                }, fromTime.getHour(), fromTime.getMinute(), true).show();
+                break;
+            case R.id.experiment_add_to_date:
+                final Button toDateButton = (Button) findViewById(R.id.experiment_add_to_date);
+
+                new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        toTime.setYear(year);
+                        toTime.setMonth(monthOfYear + 1);
+                        toTime.setDay(dayOfMonth);
+
+                        toDateButton.setText(toTime.toDateString());
+                    }
+                }, toTime.getYear(), toTime.getMonth() - 1, toTime.getDay()).show();
+                break;
+            case R.id.experiment_add_to_time:
+                final Button toTimeButton = (Button) findViewById(R.id.experiment_add_to_time);
+
+                new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        toTime.setHour(hourOfDay);
+                        toTime.setMinute(minute);
+
+                        toTimeButton.setText(toTime.toTimeString());
+                    }
+                }, toTime.getHour(), toTime.getMinute(), true).show();
+                break;
+
             case R.id.experiment_add_scenario_new:
                 Intent scenarioAddIntent = new Intent();
                 scenarioAddIntent.setClass(this, ScenarioAddActivity.class);
@@ -166,6 +244,13 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("fromTime", fromTime);
+        outState.putParcelable("toTime", toTime);
     }
 
     private void updateScenarios() {

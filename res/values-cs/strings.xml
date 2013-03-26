@@ -90,14 +90,15 @@
     <string name="reser_edited">Rezervace upravena</string>
     <string name="reser_removed">Rezervace smazána</string>
     <string name="reser_removed_update">Rezervace smazána, prosím aktualizujte agendu.</string>
-
     <string name="reser_agenda_list_header">Rezervace</string>
-    <string name="reser_agenda_choose_date">Vyberte datum</string>
-
     <string name="reser_add_group_label">Výzkumná skupina</string>
-    <string name="reser_add_from_label">Od času</string>
-    <string name="reser_add_to_label">Do času</string>
-    <string name="reser_add_change">Změnit čas</string>
+
+
+    <string name="time_from">Od času</string>
+    <string name="time_to">Do času</string>
+    <string name="time_change">Změnit čas</string>
+    <string name="time_choose_date">Vyberte datum</string>
+    <string name="time_choose_time">Vyberte čas</string>
 
     <string name="detail">Podrobnosti</string>
     <string name="reser_detail_group">Výzkumná skupina</string>

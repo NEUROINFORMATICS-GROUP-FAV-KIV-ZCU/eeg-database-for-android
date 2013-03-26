@@ -92,12 +92,13 @@
     <string name="reser_removed_update">Reservation removed, please update view.</string>
 
     <string name="reser_agenda_list_header">Reservations</string>
-    <string name="reser_agenda_choose_date">Choose date</string>
-
     <string name="reser_add_group_label">Research group</string>
-    <string name="reser_add_from_label">From time</string>
-    <string name="reser_add_to_label">To time</string>
-    <string name="reser_add_change">Change time</string>
+
+    <string name="time_from">From time</string>
+    <string name="time_to">To time</string>
+    <string name="time_change">Change time</string>
+    <string name="time_choose_date">Choose date</string>
+    <string name="time_choose_time">Choose time</string>
 
     <string name="detail">Details</string>
     <string name="reser_detail_group">Research group</string>

@@ -17,7 +17,7 @@
                 android:layout_row="0"
                 android:drawableLeft="@drawable/ic_action_time"
                 android:onClick="fromTimeClick"
-                android:text="@string/reser_add_change"
+                android:text="@string/time_choose_time"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 
@@ -27,7 +27,7 @@
                 android:layout_columnSpan="2"
                 android:layout_gravity="center_vertical"
                 android:layout_row="0"
-                android:text="@string/reser_add_from_label"
+                android:text="@string/time_from"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 
@@ -47,7 +47,7 @@
                 android:layout_columnSpan="2"
                 android:layout_gravity="center_vertical"
                 android:layout_row="1"
-                android:text="@string/reser_add_to_label"
+                android:text="@string/time_to"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 
@@ -59,7 +59,7 @@
                 android:layout_row="1"
                 android:drawableLeft="@drawable/ic_action_time"
                 android:onClick="toTimeClick"
-                android:text="@string/reser_add_change"
+                android:text="@string/time_choose_time"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 

@@ -32,7 +32,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:drawableLeft="@drawable/ic_action_date"
-                android:text="@string/reser_agenda_choose_date"/>
+                android:text="@string/time_choose_date"/>
 
         <ListView
                 android:id="@android:id/list"
