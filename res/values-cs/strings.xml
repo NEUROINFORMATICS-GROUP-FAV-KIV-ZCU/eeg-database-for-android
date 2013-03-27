@@ -84,7 +84,7 @@
     <string name="dummy_date">DATUM</string>
     <string name="dummy_from">OD</string>
     <string name="dummy_to">DO</string>
-    <string name="dummy_no_record">Nevybrán žádný záznam</string>
+    <string name="dummy_no_record">Není k dispozici žádný záznam</string>
     <string name="dummy_none">Žádný záznam</string>
 
     <!-- Rezervace -->
@@ -159,6 +159,7 @@
     <string name="experiment_electrode_system_description">Popis systému</string>
     <string name="experiment_electrode_type">Typ elektrody</string>
     <string name="experiment_electrode_fix">Upevnění elektrody</string>
+    <string name="experiment_electrode_fix_new">Nové upevnění elektrody</string>
     <string name="experiment_electrodes_location">Umístění elektrod</string>
     <string name="experiment_add_scenario">Scénář</string>
     <string name="experiment_add_group">Výzkumná skupina</string>

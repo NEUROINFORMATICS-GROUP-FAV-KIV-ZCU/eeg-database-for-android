@@ -25,13 +25,15 @@
             android:drawableLeft="@drawable/ic_action_scenario"
             />
 
-    <RelativeLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:weightSum="5"
             >
 
         <Spinner
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="4"
                 android:layout_height="wrap_content"
                 android:gravity="fill_horizontal"
                 android:spinnerMode="dialog"
@@ -40,13 +42,11 @@
         <ImageButton
                 android:id="@+id/experiment_add_scenario_new"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:src="@drawable/ic_action_add"
-                android:layout_alignParentRight="true"
                 android:contentDescription="@string/experiment_add_scenario"/>
-
-    </RelativeLayout>
-
+    </LinearLayout>
 
     <TextView
             style="@style/section_title"
@@ -54,13 +54,15 @@
             android:drawableLeft="@drawable/ic_action_person"
             />
 
-    <RelativeLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:weightSum="5"
             >
 
         <Spinner
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="4"
                 android:layout_height="wrap_content"
                 android:gravity="fill_horizontal"
                 android:spinnerMode="dialog"
@@ -69,11 +71,11 @@
         <ImageButton
                 android:id="@+id/experiment_add_subject_new"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_action_person_add"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_add"
                 android:contentDescription="@string/experiment_add_subject"/>
-    </RelativeLayout>
+    </LinearLayout>
 
     <TextView
             style="@style/section_title"
@@ -81,12 +83,28 @@
             android:drawableLeft="@drawable/ic_action_artifact"
             />
 
-    <Spinner
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_gravity="fill_horizontal"
-            android:id="@+id/experiment_add_artifact"/>
+            android:weightSum="5"
+            >
+
+        <Spinner
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:gravity="fill_horizontal"
+                android:spinnerMode="dialog"
+                android:id="@+id/experiment_add_artifact"/>
+
+        <ImageButton
+                android:id="@+id/experiment_add_artifact_new"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_add"
+                android:contentDescription="@string/experiment_add_artifact"/>
+    </LinearLayout>
 
     <TextView
             style="@style/section_title"
@@ -94,11 +112,27 @@
             android:drawableLeft="@drawable/ic_action_digitization"
             />
 
-    <Spinner
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_gravity="fill_horizontal"
-            android:id="@+id/experiment_add_digitization"/>
+            android:weightSum="5"
+            >
+
+        <Spinner
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:gravity="fill_horizontal"
+                android:spinnerMode="dialog"
+                android:id="@+id/experiment_add_digitization"/>
+
+        <ImageButton
+                android:id="@+id/experiment_add_digitization_new"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_add"
+                android:contentDescription="@string/experiment_add_digitization"/>
+    </LinearLayout>
 
 </LinearLayout>

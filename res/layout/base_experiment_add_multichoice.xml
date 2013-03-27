@@ -4,6 +4,53 @@
               android:layout_width="match_parent"
               android:orientation="vertical">
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5"
+            >
+
+        <Button
+                android:id="@+id/experiment_add_disease_button"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:text="@string/experiment_add_disease"
+                android:drawableLeft="@drawable/ic_action_virus"/>
+
+        <ImageButton
+                android:id="@+id/experiment_add_disease_new_button"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_add"
+                android:contentDescription="@string/experiment_add_electrode_location"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/experiment_add_disease_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:drawable/alert_dark_frame"
+            />
+
+
+    <Button
+            android:id="@+id/experiment_add_pharmaceutical_button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/experiment_add_pharmaceuticals"
+            android:drawableLeft="@drawable/ic_action_pharmaceutical"/>
+
+    <LinearLayout
+            android:id="@+id/experiment_add_pharmaceutical_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:drawable/alert_dark_frame"
+            />
+
     <Button
             android:id="@+id/experiment_add_hardware_button"
             android:layout_height="wrap_content"
@@ -28,36 +75,6 @@
 
     <LinearLayout
             android:id="@+id/experiment_add_software_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:drawable/alert_dark_frame"
-            />
-
-    <Button
-            android:id="@+id/experiment_add_disease_button"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:text="@string/experiment_add_disease"
-            android:drawableLeft="@drawable/ic_action_virus"/>
-
-    <LinearLayout
-            android:id="@+id/experiment_add_disease_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:drawable/alert_dark_frame"
-            />
-
-    <Button
-            android:id="@+id/experiment_add_pharmaceutical_button"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:text="@string/experiment_add_pharmaceuticals"
-            android:drawableLeft="@drawable/ic_action_pharmaceutical"/>
-
-    <LinearLayout
-            android:id="@+id/experiment_add_pharmaceutical_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

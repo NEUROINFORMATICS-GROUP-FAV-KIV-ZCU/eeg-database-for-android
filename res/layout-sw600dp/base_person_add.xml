@@ -24,13 +24,8 @@
                 >
 
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/section_title"
                     android:text="@string/mandatory"
-                    android:background="@android:color/holo_blue_dark"
-                    android:textColor="@android:color/primary_text_dark"
-                    android:textStyle="italic"
-                    android:gravity="center_horizontal"
                     />
 
             <TextView
@@ -111,13 +106,8 @@
                 >
 
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/section_title"
                     android:text="@string/optional"
-                    android:background="@android:color/holo_blue_dark"
-                    android:textColor="@android:color/primary_text_dark"
-                    android:textStyle="italic"
-                    android:gravity="center_horizontal"
                     />
 
             <TextView

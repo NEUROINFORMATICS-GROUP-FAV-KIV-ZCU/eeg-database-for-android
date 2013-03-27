@@ -414,7 +414,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         View dialogView = inflater.inflate(R.layout.base_list, null, false);
         final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
+        listView.setEmptyView(dialogView.findViewById(android.R.id.empty));
         listView.setAdapter(getHardwareAdapter());
 
         if (!isWorking() && hardwareAdapter.isEmpty())
@@ -474,6 +474,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         final LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.base_list, null, false);
         final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
+        listView.setEmptyView(dialogView.findViewById(android.R.id.empty));
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         listView.setAdapter(getSoftwareAdapter());
@@ -536,7 +537,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         View dialogView = inflater.inflate(R.layout.base_list, null, false);
         final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
+        listView.setEmptyView(dialogView.findViewById(android.R.id.empty));
         listView.setAdapter(getDiseaseAdapter());
 
         if (!isWorking() && diseaseAdapter.isEmpty())
@@ -597,7 +598,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         View dialogView = inflater.inflate(R.layout.base_list, null, false);
         final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
+        listView.setEmptyView(dialogView.findViewById(android.R.id.empty));
         listView.setAdapter(getPharmaceuticalAdapter());
 
         if (!isWorking() && pharmaceuticalAdapter.isEmpty())
@@ -658,7 +659,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         View dialogView = inflater.inflate(R.layout.base_list, null, false);
         final ListView listView = (ListView) dialogView.findViewById(android.R.id.list);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
+        listView.setEmptyView(dialogView.findViewById(android.R.id.empty));
         listView.setAdapter(getElectrodeLocationsAdapter());
 
         if (!isWorking() && electrodeLocationAdapter.isEmpty())

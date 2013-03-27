@@ -59,7 +59,7 @@
     <string name="dummy_date">DATE</string>
     <string name="dummy_from">FROM</string>
     <string name="dummy_to">TO</string>
-    <string name="dummy_no_record">No record selected</string>
+    <string name="dummy_no_record">No record available</string>
     <string name="dummy_none">No record</string>
 
     <!-- Working -->
@@ -160,6 +160,7 @@
     <string name="experiment_electrode_impedance">Impedance</string>
     <string name="experiment_electrode_type">Electrode type</string>
     <string name="experiment_electrode_fix">Electrode fix</string>
+    <string name="experiment_electrode_fix_new">New electrode fix</string>
     <string name="experiment_electrodes_location">Electrodes\' locations</string>
     <string name="experiment_add_scenario">Scenario</string>
     <string name="experiment_add_group">Research group</string>

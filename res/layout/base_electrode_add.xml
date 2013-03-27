@@ -1,99 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="@dimen/detail_padding">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        >
 
     <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4">
+            android:layout_height="match_parent"
+            android:padding="@dimen/detail_padding">
 
-        <TextView
-                android:text="@string/dialog_title"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4">
+
+            <TextView
+                    android:text="@string/dialog_title"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            <EditText
+                    android:id="@+id/electrode_add_title"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:inputType="text"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4">
+
+            <TextView
+                    android:text="@string/dialog_abbr"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            <EditText
+                    android:id="@+id/electrode_add_abbr"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:inputType="text"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+            <TextView
+                    android:text="@string/dialog_description"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/electrode_add_description_count"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
 
         <EditText
-                android:id="@+id/electrode_add_title"
+                android:id="@+id/electrode_add_description"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:inputType="text"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4">
+                android:layout_width="match_parent"
+                android:inputType="textMultiLine"
+                android:maxLength="@integer/limit_description_chars"/>
 
         <TextView
-                android:text="@string/dialog_abbr"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:text="@string/experiment_electrode_type"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <EditText
-                android:id="@+id/electrode_add_abbr"
+        <Spinner
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:inputType="text"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
+                android:gravity="fill_horizontal"
+                android:spinnerMode="dialog"
+                android:id="@+id/electrode_add_type"/>
 
         <TextView
-                android:text="@string/dialog_description"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:text="@string/experiment_electrode_fix"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <TextView
-                android:id="@+id/electrode_add_description_count"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:layout_height="wrap_content"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5"
+                >
+
+            <Spinner
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:gravity="fill_horizontal"
+                    android:spinnerMode="dialog"
+                    android:id="@+id/electrode_add_fix"/>
+
+            <ImageButton
+                    android:id="@+id/electrode_add_fix_new"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_action_add"
+                    android:contentDescription="@string/experiment_add_electrode_fix"/>
+        </LinearLayout>
+
     </LinearLayout>
-
-    <EditText
-            android:id="@+id/electrode_add_description"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="textMultiLine"
-            android:maxLength="@integer/limit_description_chars"/>
-
-    <TextView
-            android:text="@string/experiment_electrode_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="fill_horizontal"
-            android:spinnerMode="dialog"
-            android:id="@+id/electrode_add_type"/>
-
-    <TextView
-            android:text="@string/experiment_electrode_fix"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="fill_horizontal"
-            android:spinnerMode="dialog"
-            android:id="@+id/electrode_add_fix"/>
-
-</LinearLayout>
+</ScrollView>
