@@ -66,6 +66,18 @@
                 android:name=".ui.experiment.ElectrodeLocationAddActivity"
                 android:label="@string/electrode_add"/>
         <activity
+                android:name=".ui.experiment.DigitizationAddActivity"
+                android:label="@string/experiment_digitization_add"/>
+        <activity
+                android:name=".ui.experiment.DiseaseAddActivity"
+                android:label="@string/experiment_disease_add"/>
+        <activity
+                android:name=".ui.experiment.ArtifactAddActivity"
+                android:label="@string/experiment_artifact_add"/>
+        <activity
+                android:name=".ui.experiment.ElectrodeFixAddActivity"
+                android:label="@string/experiment_electrode_fix_new"/>
+        <activity
                 android:name=".ui.experiment.ExperimentDetailsActivity"
                 android:label="@string/detail"/>
         <activity

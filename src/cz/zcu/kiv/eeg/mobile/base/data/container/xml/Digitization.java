@@ -23,7 +23,7 @@ public class Digitization implements Parcelable {
             return new Digitization[size];
         }
     };
-    @Element
+    @Element(required = false)
     private int digitizationId;
     @Element
     private String filter;

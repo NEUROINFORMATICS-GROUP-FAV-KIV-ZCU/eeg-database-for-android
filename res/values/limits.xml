@@ -2,4 +2,5 @@
 <resources>
 
     <integer name="limit_description_chars">250</integer>
+    <integer name="limit_artifact">300</integer>
 </resources>

@@ -9,7 +9,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -21,39 +21,38 @@ import java.util.Collections;
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
- * Common service (Asynctask) for creating new Person on eeg base.
- * Meant mainly for creating new subject.
+ * Common service (Asynctask) for creating new Electrode Fix on eeg base.
  *
  * @author Petr Miko
  */
-public class CreatePerson extends CommonService<Person, Void, Person> {
+public class CreateElectrodeFix extends CommonService<ElectrodeFix, Void, ElectrodeFix> {
 
-    private final static String TAG = CreatePerson.class.getSimpleName();
+    private final static String TAG = CreateElectrodeFix.class.getSimpleName();
 
     /**
      * Constructor, which sets reference to parent activity.
      *
      * @param context parent activity
      */
-    public CreatePerson(CommonActivity context) {
+    public CreateElectrodeFix(CommonActivity context) {
         super(context);
     }
 
     /**
-     * Method, where person information is pushed to server in order to create user.
+     * Method, where electrode fix information is pushed to server in order to create user.
      * All heavy lifting is made here.
      *
-     * @param persons only one Person object is accepted
-     * @return information about created user
+     * @param electrodeFixes only one ElectrodeFix object is accepted
+     * @return information about created electrode fix
      */
     @Override
-    protected Person doInBackground(Person... persons) {
+    protected ElectrodeFix doInBackground(ElectrodeFix... electrodeFixes) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_USER + "create";
+        String url = credentials.getString("url", null) + Values.SERVICE_ELECTRODE_FIXLIST;
 
-        setState(RUNNING, R.string.working_ws_create_user);
+        setState(RUNNING, R.string.working_ws_create_electrode_fix);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -66,14 +65,14 @@ public class CreatePerson extends CommonService<Person, Void, Person> {
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
-        Person person = persons[0];
+        ElectrodeFix fix = electrodeFixes[0];
 
         try {
             Log.d(TAG, url);
 
-            HttpEntity<Person> entity = new HttpEntity<Person>(person, requestHeaders);
+            HttpEntity<ElectrodeFix> entity = new HttpEntity<ElectrodeFix>(fix, requestHeaders);
             // Make the network request
-            return restTemplate.postForObject(url, entity, Person.class);
+            return restTemplate.postForObject(url, entity, ElectrodeFix.class);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
             setState(ERROR, e);
@@ -84,15 +83,15 @@ public class CreatePerson extends CommonService<Person, Void, Person> {
     }
 
     /**
-     * Informs user whether person creation was successful or not.
+     * Informs user whether ElectrodeFix creation was successful or not.
      *
-     * @param person returned user info if any
+     * @param fix returned electrode fix info if any
      */
     @Override
-    protected void onPostExecute(Person person) {
-        if (person != null) {
+    protected void onPostExecute(ElectrodeFix fix) {
+        if (fix != null) {
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(Values.ADD_PERSON_KEY, person);
+            resultIntent.putExtra(Values.ADD_ELECTRODE_FIX_KEY, fix);
             Toast.makeText(activity, R.string.creation_ok, Toast.LENGTH_SHORT).show();
             activity.setResult(Activity.RESULT_OK, resultIntent);
             activity.finish();

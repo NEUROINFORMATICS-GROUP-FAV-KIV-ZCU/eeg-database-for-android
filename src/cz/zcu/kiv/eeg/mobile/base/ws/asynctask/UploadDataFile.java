@@ -96,10 +96,10 @@ public class UploadDataFile extends CommonService<String, Void, URI> {
     @Override
     protected void onPostExecute(URI uri) {
         if (uri != null) {
-            Toast.makeText(activity, "File was successfully uploaded and now is available on location:\n " + uri.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, R.string.creation_ok, Toast.LENGTH_SHORT).show();
 
         } else {
-            Toast.makeText(activity, "File upload was unsuccessful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, R.string.creation_failed, Toast.LENGTH_SHORT).show();
         }
     }
 }

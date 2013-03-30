@@ -86,6 +86,9 @@
     <string name="working_ws_electrode_type">Fetching electrode types…</string>
     <string name="working_ws_electrode_fix">Fetching electrode fix list…</string>
     <string name="working_ws_electrode_system">Fetching electrode systems…</string>
+    <string name="working_ws_create_digitization">Creating new digitization record…</string>
+    <string name="working_ws_create_artifact">Creating new artifact record…</string>
+    <string name="working_ws_create_disease">Creating new disease record…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
@@ -145,13 +148,16 @@
     <string name="experiment_weather_title">Title</string>
     <string name="experiment_weather_description">Description</string>
     <string name="experiment_artifact">Artifact</string>
+    <string name="experiment_artifact_add">Create new artifact record</string>
     <string name="experiment_artifact_compensation">Compensation</string>
     <string name="experiment_artifact_reject">Reject condition</string>
     <string name="experiment_digitization">Digitization</string>
+    <string name="experiment_digitization_add">Create new digitization record</string>
     <string name="experiment_digitization_filter">Filter</string>
     <string name="experiment_digitization_gain">Gain</string>
     <string name="experiment_digitization_sampling_rate">Sampling rate</string>
     <string name="experiment_diseases">Diseases</string>
+    <string name="experiment_disease_add">Create new disease record</string>
     <string name="experiment_temperature">Temperature</string>
     <string name="experiment_hardware">Hardware</string>
     <string name="experiment_softwares">Software</string>
@@ -174,6 +180,7 @@
     <string name="experiment_add_electrode_location">Select electrodes\' locations</string>
     <string name="experiment_add_electrode_system">Electrode system</string>
     <string name="experiment_add_electrode_fix">Electrode fix</string>
+    <string name="working_ws_create_electrode_fix">Creating new electrode fix…</string>
     <string name="experiment_add_electrode_type">Electrode type</string>
     <string name="electrode_add">Add experiment</string>
 
@@ -223,5 +230,8 @@
     <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_button_clear_selection">Clear selection</string>
     <string name="dialog_selection_cleared">Selection cleared</string>
+
+    <string name="creation_ok">Record was successfully created.</string>
+    <string name="creation_failed">Record creation failed.</string>
 
 </resources>

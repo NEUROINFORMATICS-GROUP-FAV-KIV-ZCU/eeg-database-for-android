@@ -1,14 +1,16 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.*;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeFixAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeTypeAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
@@ -62,44 +64,23 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.electrode_add_fix_new:
-                createFixDialog();
+                Intent intent = new Intent();
+                intent.setClass(this, ElectrodeFixAddActivity.class);
+                startActivityForResult(intent, Values.ADD_ELECTRODE_FIX);
                 break;
             default:
                 super.onClick(v);
         }
     }
 
-    private void createFixDialog() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        final LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.base_electrode_fix_add, null, false);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Values.ADD_ELECTRODE_FIX && resultCode == Activity.RESULT_OK) {
+            ElectrodeFix fix = (ElectrodeFix) data.getExtras().get(Values.ADD_ELECTRODE_FIX_KEY);
+            electrodeFixAdapter.add(fix);
+        }
 
-        final TextView fixTitle = (TextView) dialogView.findViewById(R.id.electrode_add_fix_title);
-        final EditText fixDescription = (EditText) dialogView.findViewById(R.id.electrode_add_fix_description);
-        TextView fixDescriptionCount = (TextView) dialogView.findViewById(R.id.electrode_add_fix_description_count);
-        fixDescription.addTextChangedListener(new LimitedTextWatcher(getResources().getInteger(R.integer.limit_description_chars), fixDescriptionCount));
-
-        dialog.setNegativeButton(R.string.dialog_button_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        dialog.setPositiveButton(R.string.dialog_button_ok, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(ElectrodeLocationAddActivity.this, "Should create fix \"" + fixTitle.getText().toString() + "\" with description \"" +
-                        fixDescription.getText().toString() + "\".", Toast.LENGTH_SHORT).show();
-                dialog.cancel();
-            }
-        });
-
-        dialog.setTitle(R.string.experiment_electrode_fix_new);
-        dialog.setView(dialogView);
-        dialog.show();
-
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

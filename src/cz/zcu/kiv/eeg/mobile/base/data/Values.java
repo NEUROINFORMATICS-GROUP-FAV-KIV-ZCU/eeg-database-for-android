@@ -11,23 +11,23 @@ import java.util.Calendar;
 public class Values {
 
     //activity results flags
-    public final static int ADD_RESERVATION_FLAG = 1;
+    public static final int ADD_RESERVATION_FLAG = 1;
     public static final int SELECT_FILE_FLAG = 2;
 
     public static final String FILE_PATH = "filePath";
 
     //shared preferences keys
-    public final static String PREFS_CREDENTIALS = "AccountCredentials";
-    public final static String PREFS_VARIOUS = "VariousValues";
+    public static final String PREFS_CREDENTIALS = "AccountCredentials";
+    public static final String PREFS_VARIOUS = "VariousValues";
 
     //REST service suffixes
-    public final static String ENDPOINT = "/rest";
-    public final static String SERVICE_DATAFILE = "/datafile/";
-    public final static String SERVICE_EXPERIMENTS = "/experiments/";
-    public final static String SERVICE_SCENARIOS = "/scenarios/";
-    public final static String SERVICE_RESEARCH_GROUPS = "/groups/";
-    public final static String SERVICE_USER = "/user/";
-    public final static String SERVICE_RESERVATION = "/reservation/";
+    public static final String ENDPOINT = "/rest";
+    public static final String SERVICE_DATAFILE = "/datafile/";
+    public static final String SERVICE_EXPERIMENTS = "/experiments/";
+    public static final String SERVICE_SCENARIOS = "/scenarios/";
+    public static final String SERVICE_RESEARCH_GROUPS = "/groups/";
+    public static final String SERVICE_USER = "/user/";
+    public static final String SERVICE_RESERVATION = "/reservation/";
     public static final String SERVICE_ARTIFACTS = "/experiments/artifacts";
     public static final String SERVICE_DIGITIZATIONS = "/experiments/digitizations";
     public static final String SERVICE_DISEASES = "/experiments/diseases";
@@ -40,8 +40,8 @@ public class Values {
     public static final String SERVICE_ELECTRODE_SYSTEMS = "/experiments/electrodeSystems";
 
     //REST service qualifiers
-    public final static String SERVICE_QUALIFIER_MINE = "mine";
-    public final static String SERVICE_QUALIFIER_ALL = "all";
+    public static final String SERVICE_QUALIFIER_MINE = "mine";
+    public static final String SERVICE_QUALIFIER_ALL = "all";
 
     //logged in user information
     public static UserInfo user;
@@ -56,10 +56,18 @@ public class Values {
     public static final int ADD_SCENARIO_FLAG = 20;
     public static final int ADD_PERSON_FLAG = 21;
     public static final int ADD_ELECTRODE_LOCATION_FLAG = 22;
+    public static final int ADD_DIGITIZATION_FLAG = 23;
+    public static final int ADD_ARTIFACT_FLAG = 24;
+    public static final int ADD_DISEASE_FLAG = 25;
+    public static final int ADD_ELECTRODE_FIX = 26;
 
-    public final static String ADD_RESERVATION_KEY = "addReservation";
-    public final static String ADD_PERSON_KEY = "addPerson";
-    public final static String ADD_SCENARIO_KEY = "addScenario";
-    public final static String ADD_ELECTRODE_LOCATION_KEY = "addElectrodeLocation";
 
+    public static final String ADD_RESERVATION_KEY = "addReservation";
+    public static final String ADD_PERSON_KEY = "addPerson";
+    public static final String ADD_SCENARIO_KEY = "addScenario";
+    public static final String ADD_ELECTRODE_LOCATION_KEY = "addElectrodeLocation";
+    public static final String ADD_ARTIFACT_KEY = "addArtifact";
+    public static final String ADD_DIGITIZATION_KEY = "addDigitization";
+    public static final String ADD_DISEASE_KEY = "addDisease";
+    public static final String ADD_ELECTRODE_FIX_KEY = "addElectrodeFix";
 }

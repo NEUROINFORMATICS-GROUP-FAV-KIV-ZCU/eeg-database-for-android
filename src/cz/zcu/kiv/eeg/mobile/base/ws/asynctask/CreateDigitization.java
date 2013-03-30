@@ -9,7 +9,7 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Digitization;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -21,39 +21,38 @@ import java.util.Collections;
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
- * Common service (Asynctask) for creating new Person on eeg base.
- * Meant mainly for creating new subject.
+ * Common service (Asynctask) for creating new Digitization on eeg base.
  *
  * @author Petr Miko
  */
-public class CreatePerson extends CommonService<Person, Void, Person> {
+public class CreateDigitization extends CommonService<Digitization, Void, Digitization> {
 
-    private final static String TAG = CreatePerson.class.getSimpleName();
+    private final static String TAG = CreateDigitization.class.getSimpleName();
 
     /**
      * Constructor, which sets reference to parent activity.
      *
      * @param context parent activity
      */
-    public CreatePerson(CommonActivity context) {
+    public CreateDigitization(CommonActivity context) {
         super(context);
     }
 
     /**
-     * Method, where person information is pushed to server in order to create user.
+     * Method, where digitization information is pushed to server in order to create user.
      * All heavy lifting is made here.
      *
-     * @param persons only one Person object is accepted
-     * @return information about created user
+     * @param digitizations only one Digitization object is accepted
+     * @return information about created digitization
      */
     @Override
-    protected Person doInBackground(Person... persons) {
+    protected Digitization doInBackground(Digitization... digitizations) {
         SharedPreferences credentials = getCredentials();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_USER + "create";
+        String url = credentials.getString("url", null) + Values.SERVICE_DIGITIZATIONS;
 
-        setState(RUNNING, R.string.working_ws_create_user);
+        setState(RUNNING, R.string.working_ws_create_digitization);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -66,14 +65,14 @@ public class CreatePerson extends CommonService<Person, Void, Person> {
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
-        Person person = persons[0];
+        Digitization digitization = digitizations[0];
 
         try {
             Log.d(TAG, url);
 
-            HttpEntity<Person> entity = new HttpEntity<Person>(person, requestHeaders);
+            HttpEntity<Digitization> entity = new HttpEntity<Digitization>(digitization, requestHeaders);
             // Make the network request
-            return restTemplate.postForObject(url, entity, Person.class);
+            return restTemplate.postForObject(url, entity, Digitization.class);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
             setState(ERROR, e);
@@ -84,15 +83,15 @@ public class CreatePerson extends CommonService<Person, Void, Person> {
     }
 
     /**
-     * Informs user whether person creation was successful or not.
+     * Informs user whether digitization creation was successful or not.
      *
-     * @param person returned user info if any
+     * @param digitization returned digitization info if any
      */
     @Override
-    protected void onPostExecute(Person person) {
-        if (person != null) {
+    protected void onPostExecute(Digitization digitization) {
+        if (digitization != null) {
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(Values.ADD_PERSON_KEY, person);
+            resultIntent.putExtra(Values.ADD_DIGITIZATION_KEY, digitization);
             Toast.makeText(activity, R.string.creation_ok, Toast.LENGTH_SHORT).show();
             activity.setResult(Activity.RESULT_OK, resultIntent);
             activity.finish();

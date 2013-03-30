@@ -112,11 +112,11 @@ public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
             Intent resultIntent = new Intent();
             resultIntent.putExtra(Values.ADD_SCENARIO_KEY, scenario);
             activity.setResult(Activity.RESULT_OK, resultIntent);
-            Toast.makeText(activity, "Scenario was successfully created", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, R.string.creation_ok, Toast.LENGTH_SHORT).show();
             activity.finish();
 
         } else {
-            Toast.makeText(activity, "Scenario creation was unsuccessful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, R.string.creation_failed, Toast.LENGTH_SHORT).show();
         }
     }
 }

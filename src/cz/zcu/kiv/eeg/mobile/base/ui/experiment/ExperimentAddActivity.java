@@ -73,7 +73,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 updateArtifacts();
             if (digitizationAdapter.isEmpty())
                 updateDigitizations();
-            if(electrodeSystemAdapter.isEmpty())
+            if (electrodeSystemAdapter.isEmpty())
                 updateElectrodeSystems();
         }
     }
@@ -101,10 +101,16 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ImageButton createScenario = (ImageButton) findViewById(R.id.experiment_add_scenario_new);
         ImageButton createSubject = (ImageButton) findViewById(R.id.experiment_add_subject_new);
         ImageButton createElectrodeLocation = (ImageButton) findViewById(R.id.experiment_add_electrode_new_location_button);
+        ImageButton createArtifact = (ImageButton) findViewById(R.id.experiment_add_artifact_new);
+        ImageButton createDisesase = (ImageButton) findViewById(R.id.experiment_add_disease_new_button);
+        ImageButton createDigitization = (ImageButton) findViewById(R.id.experiment_add_digitization_new);
 
         createScenario.setOnClickListener(this);
         createSubject.setOnClickListener(this);
         createElectrodeLocation.setOnClickListener(this);
+        createArtifact.setOnClickListener(this);
+        createDisesase.setOnClickListener(this);
+        createDigitization.setOnClickListener(this);
 
         Spinner scenarios = (Spinner) findViewById(R.id.experiment_add_scenario);
         Spinner groups = (Spinner) findViewById(R.id.experiment_add_group);
@@ -141,6 +147,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.experiment_add_from_date:
                 showDateDialog((Button) findViewById(R.id.experiment_add_from_date), fromTime);
@@ -156,15 +163,15 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 break;
 
             case R.id.experiment_add_scenario_new:
-                Intent scenarioAddIntent = new Intent();
-                scenarioAddIntent.setClass(this, ScenarioAddActivity.class);
-                startActivityForResult(scenarioAddIntent, Values.ADD_SCENARIO_FLAG);
+                intent = new Intent();
+                intent.setClass(this, ScenarioAddActivity.class);
+                startActivityForResult(intent, Values.ADD_SCENARIO_FLAG);
                 break;
 
             case R.id.experiment_add_subject_new:
-                Intent personAddIntent = new Intent();
-                personAddIntent.setClass(this, PersonAddActivity.class);
-                startActivityForResult(personAddIntent, Values.ADD_PERSON_FLAG);
+                intent = new Intent();
+                intent.setClass(this, PersonAddActivity.class);
+                startActivityForResult(intent, Values.ADD_PERSON_FLAG);
                 break;
 
             case R.id.experiment_add_hardware_button:
@@ -188,38 +195,29 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 break;
 
             case R.id.experiment_add_electrode_new_location_button:
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.setClass(this, ElectrodeLocationAddActivity.class);
                 startActivityForResult(intent, Values.ADD_ELECTRODE_LOCATION_FLAG);
+                break;
+
+            case R.id.experiment_add_digitization_new:
+                intent = new Intent();
+                intent.setClass(this, DigitizationAddActivity.class);
+                startActivityForResult(intent, Values.ADD_DIGITIZATION_FLAG);
+                break;
+            case R.id.experiment_add_disease_new_button:
+                intent = new Intent();
+                intent.setClass(this, DiseaseAddActivity.class);
+                startActivityForResult(intent, Values.ADD_DISEASE_FLAG);
+                break;
+            case R.id.experiment_add_artifact_new:
+                intent = new Intent();
+                intent.setClass(this, ArtifactAddActivity.class);
+                startActivityForResult(intent, Values.ADD_ARTIFACT_FLAG);
                 break;
         }
 
         super.onClick(v);
-    }
-
-    private void showTimeDialog(final Button timeButton, final TimeContainer timeContainer) {
-        new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                timeContainer.setHour(hourOfDay);
-                timeContainer.setMinute(minute);
-                timeButton.setText(timeContainer.toTimeString());
-            }
-        }, timeContainer.getHour(), timeContainer.getMinute(), true).show();
-    }
-
-    private void showDateDialog(final Button dateButton, final TimeContainer timeContainer) {
-        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                timeContainer.setYear(year);
-                timeContainer.setMonth(monthOfYear + 1);
-                timeContainer.setDay(dayOfMonth);
-
-                dateButton.setText(timeContainer.toDateString());
-
-            }
-        }, timeContainer.getYear(), timeContainer.getMonth() - 1, timeContainer.getDay()).show();
     }
 
     @Override
@@ -248,6 +246,27 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                     personAdapter.add(record);
                 }
                 break;
+
+            case Values.ADD_ARTIFACT_FLAG:
+                if (resultCode == Activity.RESULT_OK) {
+                    Artifact record = (Artifact) data.getExtras().get(Values.ADD_ARTIFACT_KEY);
+                    artifactAdapter.add(record);
+                }
+                break;
+
+            case Values.ADD_DIGITIZATION_FLAG:
+                if (resultCode == Activity.RESULT_OK) {
+                    Digitization record = (Digitization) data.getExtras().get(Values.ADD_DIGITIZATION_KEY);
+                    digitizationAdapter.add(record);
+                }
+                break;
+
+            case Values.ADD_DISEASE_FLAG:
+                if (resultCode == Activity.RESULT_OK) {
+                    Disease record = (Disease) data.getExtras().get(Values.ADD_DISEASE_KEY);
+                    diseaseAdapter.add(record);
+                }
+                break;
         }
     }
 
@@ -257,6 +276,36 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         outState.putParcelable("fromTime", fromTime);
         outState.putParcelable("toTime", toTime);
     }
+
+
+    /* --------------------------------- Time choice dialogs ------------------ */
+
+    private void showTimeDialog(final Button timeButton, final TimeContainer timeContainer) {
+        new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                timeContainer.setHour(hourOfDay);
+                timeContainer.setMinute(minute);
+                timeButton.setText(timeContainer.toTimeString());
+            }
+        }, timeContainer.getHour(), timeContainer.getMinute(), true).show();
+    }
+
+    private void showDateDialog(final Button dateButton, final TimeContainer timeContainer) {
+        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                timeContainer.setYear(year);
+                timeContainer.setMonth(monthOfYear + 1);
+                timeContainer.setDay(dayOfMonth);
+
+                dateButton.setText(timeContainer.toDateString());
+
+            }
+        }, timeContainer.getYear(), timeContainer.getMonth() - 1, timeContainer.getDay()).show();
+    }
+
+    /* --------------------------------- CommonService invoke-methods ------------------ */
 
     private void updateScenarios() {
         if (ConnectionUtils.isOnline(this)) {
@@ -321,19 +370,21 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
-    private void updateElectrodeSystems(){
-        if(ConnectionUtils.isOnline(this))
+    private void updateElectrodeSystems() {
+        if (ConnectionUtils.isOnline(this))
             new FetchElectrodeSystems(this, getElectrodeSystemAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
         else
             showAlert(getString(R.string.error_offline));
     }
 
-    private void updateElectrodeLocations(){
-        if(ConnectionUtils.isOnline(this))
+    private void updateElectrodeLocations() {
+        if (ConnectionUtils.isOnline(this))
             new FetchElectrodeLocations(this, getElectrodeLocationsAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
         else
-        showAlert(getString(R.string.error_offline));
+            showAlert(getString(R.string.error_offline));
     }
+
+    /* --------------------------------- Data adapters ------------------ */
 
     private ScenarioAdapter getScenarioAdapter() {
         if (scenarioAdapter == null) {
@@ -396,17 +447,19 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return pharmaceuticalAdapter;
     }
 
-    private ElectrodeSystemAdapter getElectrodeSystemAdapter(){
-        if(electrodeSystemAdapter == null)
+    private ElectrodeSystemAdapter getElectrodeSystemAdapter() {
+        if (electrodeSystemAdapter == null)
             electrodeSystemAdapter = new ElectrodeSystemAdapter(this, R.layout.base_electrode_simple_row, new ArrayList<ElectrodeSystem>());
         return electrodeSystemAdapter;
     }
 
-    private ElectrodeLocationAdapter getElectrodeLocationsAdapter(){
-        if(electrodeLocationAdapter == null)
+    private ElectrodeLocationAdapter getElectrodeLocationsAdapter() {
+        if (electrodeLocationAdapter == null)
             electrodeLocationAdapter = new ElectrodeLocationAdapter(this, R.layout.base_electrode_location_row, new ArrayList<ElectrodeLocation>());
         return electrodeLocationAdapter;
     }
+
+    /* --------------------------------- Multi-select spinners and handling their behaviour ------------------ */
 
     private void selectHardwareDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -714,6 +767,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         dialog.show();
     }
 
+    /* --------------------------------- Methods for filling linear layout with rows from multi-select spinners ------------------ */
     private void fillHardwareListRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_hardware_list);
         //clear previous values
@@ -746,7 +800,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ExperimentDetailLists.fillPharmaceuticals(layout, selectedPharmaceuticals);
     }
 
-    private void fillElectrodeLocationsRows(){
+    private void fillElectrodeLocationsRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_electrode_location_list);
         //clear previous values
         layout.removeAllViews();

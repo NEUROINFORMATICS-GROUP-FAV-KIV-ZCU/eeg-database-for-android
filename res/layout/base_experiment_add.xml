@@ -12,7 +12,9 @@
             android:padding="@dimen/detail_padding">
 
         <include layout="@layout/base_experiment_add_singlechoice"/>
+
         <include layout="@layout/base_experiment_add_times"/>
+
         <include layout="@layout/base_experiment_add_weather"/>
 
         <TextView
@@ -34,10 +36,11 @@
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="numberDecimal"
                 android:id="@+id/experiment_add_temperature"/>
 
         <include layout="@layout/base_experiment_add_electrode"/>
+
         <include layout="@layout/base_experiment_add_multichoice"/>
 
     </LinearLayout>
