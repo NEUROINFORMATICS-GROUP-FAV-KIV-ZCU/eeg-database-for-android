@@ -52,7 +52,13 @@
     <string name="error_ssl">SSL connection fell apart. Try again.</string>
     <string name="error_no_type_selected">No electrode type selected!</string>
     <string name="error_no_fix_selected">No electrode fix selected!</string>
-
+    <string name="error_no_scenario_selected">No scenario selected!</string>
+    <string name="error_no_subject_selected">No subject selected!</string>
+    <string name="error_no_artifact_selected">No artifact selected!</string>
+    <string name="error_no_digitization_selected">No digitization selected!</string>
+    <string name="error_no_electrode_system_selected">No electrode system selected!</string>
+    <string name="error_no_electrode_location_selected">No electrode location selected!</string>
+    <string name="error_time_start_after_end">Time of start cannot be after the end time!</string>
 
     <!-- Buttons -->
     <string name="button_remove">Remove</string>
@@ -92,6 +98,7 @@
     <string name="working_ws_create_artifact">Creating new artifact record…</string>
     <string name="working_ws_create_disease">Creating new disease record…</string>
     <string name="working_ws_create_electrode_location">Creating new electrode location…</string>
+    <string name="working_ws_create_experiment">Creating new experiment…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>

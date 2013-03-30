@@ -38,6 +38,10 @@ public class SoftwareList implements Parcelable {
         in.readTypedList(softwareList, Software.CREATOR);
     }
 
+    public SoftwareList(List<Software> softwareList) {
+        this.softwareList = softwareList;
+    }
+
     public List<Software> getSoftwareList() {
         return softwareList;
     }

@@ -37,6 +37,10 @@ public class HardwareList implements Parcelable {
         in.readTypedList(hardwareList, Hardware.CREATOR);
     }
 
+    public HardwareList(List<Hardware> hardwareList) {
+        this.hardwareList = hardwareList;
+    }
+
     public List<Hardware> getHardwareList() {
         return hardwareList;
     }

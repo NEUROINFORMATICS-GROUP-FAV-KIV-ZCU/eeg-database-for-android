@@ -47,7 +47,7 @@ public class Experiment implements Parcelable {
     private String environmentNote;
     @Element
     private Weather weather;
-    @Element
+    @Element(required = false)
     private Owner owner;
     @Element
     private Subject subject;

@@ -60,6 +60,7 @@ public class Values {
     public static final int ADD_ARTIFACT_FLAG = 24;
     public static final int ADD_DISEASE_FLAG = 25;
     public static final int ADD_ELECTRODE_FIX = 26;
+    public static final int ADD_EXPERIMENT = 27;
 
 
     public static final String ADD_RESERVATION_KEY = "addReservation";
@@ -70,4 +71,5 @@ public class Values {
     public static final String ADD_DIGITIZATION_KEY = "addDigitization";
     public static final String ADD_DISEASE_KEY = "addDisease";
     public static final String ADD_ELECTRODE_FIX_KEY = "addElectrodeFix";
+    public static final String ADD_EXPERIMENT_KEY = "addExperiment";
 }

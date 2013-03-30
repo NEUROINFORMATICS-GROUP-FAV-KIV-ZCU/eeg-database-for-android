@@ -38,6 +38,10 @@ public class PharmaceuticalList implements Parcelable {
         in.readTypedList(pharmaceuticals, Pharmaceutical.CREATOR);
     }
 
+    public PharmaceuticalList(List<Pharmaceutical> pharmaceuticals) {
+        this.pharmaceuticals = pharmaceuticals;
+    }
+
     public List<Pharmaceutical> getPharmaceuticals() {
         return pharmaceuticals;
     }

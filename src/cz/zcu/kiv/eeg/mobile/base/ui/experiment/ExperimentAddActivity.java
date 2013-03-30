@@ -22,6 +22,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.*;
 import cz.zcu.kiv.eeg.mobile.base.ui.person.PersonAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.*;
 
 import java.util.ArrayList;
@@ -248,7 +249,13 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
     @Override
     protected void save() {
-        Toast.makeText(this, "not implemented yet", Toast.LENGTH_SHORT).show();
+        Experiment experiment;
+        if ((experiment = getValidRecord()) != null) {
+            if (ConnectionUtils.isOnline(this)) {
+                new CreateExperiment(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, experiment);
+            } else
+                showAlert(getString(R.string.error_offline));
+        }
     }
 
     @Override
@@ -841,4 +848,102 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ExperimentDetailLists.fillElectrodeLocations(layout, selectedElectrodeLocations);
     }
 
+    public Experiment getValidRecord() {
+
+        //misc
+        EditText temperature = (EditText) findViewById(R.id.experiment_add_temperature);
+        EditText environmentNote = (EditText) findViewById(R.id.experiment_add_env_note);
+
+        //weather
+        EditText weatherTitle = (EditText) findViewById(R.id.experiment_add_weather_title);
+        EditText weatherDescription = (EditText) findViewById(R.id.experiment_add_weather_description);
+
+        //single choice
+        Spinner groupSpinner = (Spinner) findViewById(R.id.experiment_add_group);
+        Spinner scenariosSpinner = (Spinner) findViewById(R.id.experiment_add_scenario);
+        Spinner subjectsSpinner = (Spinner) findViewById(R.id.experiment_add_subject);
+        Spinner artifactsSpinner = (Spinner) findViewById(R.id.experiment_add_artifact);
+        Spinner digitizationsSpinner = (Spinner) findViewById(R.id.experiment_add_digitization);
+        Spinner electrodeSystemsSpinner = (Spinner) findViewById(R.id.experiment_add_electrode_system);
+
+        ResearchGroup group = (ResearchGroup) groupSpinner.getSelectedItem();
+        Scenario scenario = (Scenario) scenariosSpinner.getSelectedItem();
+        Person subject = (Person) subjectsSpinner.getSelectedItem();
+        Artifact artifact = (Artifact) artifactsSpinner.getSelectedItem();
+        Digitization digitization = (Digitization) digitizationsSpinner.getSelectedItem();
+        ElectrodeSystem system = (ElectrodeSystem) electrodeSystemsSpinner.getSelectedItem();
+
+        //electrode
+        EditText impedance = (EditText) findViewById(R.id.experiment_add_electrode_impedance);
+
+        //weather
+
+        StringBuilder error = new StringBuilder();
+        //validations
+        if (group == null)
+            error.append(getString(R.string.error_no_group_selected)).append('\n');
+        if (scenario == null)
+            error.append(getString(R.string.error_no_scenario_selected)).append('\n');
+        if (subject == null)
+            error.append(getString(R.string.error_no_subject_selected)).append('\n');
+        if (artifact == null)
+            error.append(getString(R.string.error_no_artifact_selected)).append('\n');
+        if (digitization == null)
+            error.append(getString(R.string.error_no_digitization_selected)).append('\n');
+        if (fromTime.getTime().after(toTime.getTime()))
+            error.append(getString(R.string.error_time_start_after_end)).append('\n');
+        if (ValidationUtils.isEmpty(weatherTitle.getText().toString()))
+            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.experiment_weather) + ": " + getString(R.string.experiment_weather_title)).append(")").append('\n');
+        if (ValidationUtils.isEmpty(impedance.getText().toString()))
+            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.experiment_electrode_impedance)).append(")").append('\n');
+        if (system == null)
+            error.append(getString(R.string.error_no_electrode_system_selected)).append('\n');
+        if (selectedElectrodeLocations.isEmpty())
+            error.append(getString(R.string.error_no_electrode_location_selected)).append('\n');
+
+        if (error.toString().isEmpty()) {
+            Experiment experiment = new Experiment();
+            experiment.setResearchGroup(group);
+            experiment.setArtifact(artifact);
+
+            ScenarioSimple scenarioSimple = new ScenarioSimple();
+            scenarioSimple.setScenarioId(scenario.getScenarioId());
+            scenarioSimple.setScenarioName(scenario.getScenarioName());
+            experiment.setScenario(scenarioSimple);
+
+            Subject subj = new Subject();
+            subj.setPersonId(subject.getId());
+            subj.setName(subject.getName());
+            subj.setSurname(subject.getSurname());
+            subj.setGender(subject.getGender());
+            experiment.setSubject(subj);
+            experiment.setDigitization(digitization);
+
+            experiment.setTemperature(Integer.parseInt(temperature.getText().toString()));
+            experiment.setEnvironmentNote(environmentNote.getText().toString());
+
+            ElectrodeConf conf = new ElectrodeConf();
+            conf.setImpedance(Integer.parseInt(impedance.getText().toString()));
+            conf.setElectrodeSystem(system);
+            conf.setElectrodeLocations(new ElectrodeLocationList(selectedElectrodeLocations));
+            experiment.setElectrodeConf(conf);
+            experiment.setDiseases(new DiseaseList(selectedDiseases));
+            experiment.setPharmaceuticals(new PharmaceuticalList(selectedPharmaceuticals));
+            experiment.setHardwareList(new HardwareList(selectedHardware));
+            experiment.setSoftwareList(new SoftwareList(selectedSoftware));
+
+            Weather weather = new Weather();
+            weather.setTitle(weatherTitle.getText().toString());
+            weather.setDescription(weatherDescription.getText().toString());
+            experiment.setWeather(weather);
+
+            experiment.setStartTime(fromTime);
+            experiment.setEndTime(toTime);
+
+            return experiment;
+        } else {
+            showAlert(error.toString());
+            return null;
+        }
+    }
 }

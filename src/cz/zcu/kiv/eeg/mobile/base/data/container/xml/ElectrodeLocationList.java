@@ -38,6 +38,10 @@ public class ElectrodeLocationList implements Parcelable {
         in.readTypedList(electrodeLocations, ElectrodeLocation.CREATOR);
     }
 
+    public ElectrodeLocationList(List<ElectrodeLocation> electrodeLocations) {
+        this.electrodeLocations = electrodeLocations;
+    }
+
     public List<ElectrodeLocation> getElectrodeLocations() {
         return electrodeLocations;
     }

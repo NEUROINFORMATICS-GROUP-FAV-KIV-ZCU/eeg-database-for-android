@@ -37,6 +37,10 @@ public class DiseaseList implements Parcelable {
         in.readTypedList(diseases, Disease.CREATOR);
     }
 
+    public DiseaseList(List<Disease> diseases) {
+        this.diseases = diseases;
+    }
+
     public List<Disease> getDiseases() {
         return diseases;
     }

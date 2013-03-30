@@ -52,6 +52,13 @@
     <string name="error_ssl">Rozpadlo se SSL spojení. Zkuste znovu.</string>
     <string name="error_no_type_selected">Nevybrán typ elektrody!</string>
     <string name="error_no_fix_selected">Nevybráno upevnění elektrody!</string>
+    <string name="error_no_scenario_selected">Nevybrán žádný scénář!</string>
+    <string name="error_no_subject_selected">Není vybrán subjekt!</string>
+    <string name="error_no_artifact_selected">Není vybrán žádný artefakt!</string>
+    <string name="error_no_digitization_selected">Nevybrána digitalizace!</string>
+    <string name="error_no_electrode_system_selected">Nevybrán systém elektrod!</string>
+    <string name="error_no_electrode_location_selected">Nevybráno žádné umístění elektrody!</string>
+    <string name="error_time_start_after_end">Čas začátku nemůže být po času konce!</string>
 
 
     <!-- Tlacitka -->
@@ -85,6 +92,7 @@
     <string name="working_ws_create_artifact">Vytváření nového artefaktu…</string>
     <string name="working_ws_create_disease">Vytváření nového záznamu nemoci…</string>
     <string name="working_ws_create_electrode_location">Vytváření nového umístění elektrody…</string>
+    <string name="working_ws_create_experiment">Vytváření nového experimentu…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>
