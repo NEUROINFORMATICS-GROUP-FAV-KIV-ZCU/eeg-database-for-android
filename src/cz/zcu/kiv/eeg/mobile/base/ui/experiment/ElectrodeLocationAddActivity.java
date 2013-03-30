@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -14,9 +17,12 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeFixAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeTypeAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeLocation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeType;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
+import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateElectrodeLocation;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchElectrodeFixes;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchElectrodeTypes;
 
@@ -74,6 +80,19 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                if (!isWorking()) {
+                    updateElectrodeFixes();
+                    updateElectrodeTypes();
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Values.ADD_ELECTRODE_FIX && resultCode == Activity.RESULT_OK) {
             ElectrodeFix fix = (ElectrodeFix) data.getExtras().get(Values.ADD_ELECTRODE_FIX_KEY);
@@ -97,7 +116,13 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
 
     @Override
     protected void save() {
-        //not implemented yet
+        ElectrodeLocation record;
+        if ((record = getValidRecord()) != null) {
+            if (ConnectionUtils.isOnline(this)) {
+                new CreateElectrodeLocation(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
+            } else
+                showAlert(getString(R.string.error_offline));
+        }
     }
 
     @Override
@@ -149,4 +174,51 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
         return electrodeTypeAdapter;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.exp_add_menu, menu);
+        return true;
+    }
+
+    public ElectrodeLocation getValidRecord() {
+
+        EditText title = (EditText) findViewById(R.id.electrode_add_title);
+        EditText abbr = (EditText) findViewById(R.id.electrode_add_abbr);
+        EditText description = (EditText) findViewById(R.id.electrode_add_description);
+        Spinner type = (Spinner) findViewById(R.id.electrode_add_type);
+        Spinner fix = (Spinner) findViewById(R.id.electrode_add_fix);
+
+        StringBuilder error = new StringBuilder();
+
+        ElectrodeFix fixData = (ElectrodeFix) fix.getSelectedItem();
+        ElectrodeType typeData = (ElectrodeType) type.getSelectedItem();
+
+        //validations
+        if (ValidationUtils.isEmpty(title.getText().toString()))
+            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.dialog_title)).append(")").append('\n');
+        if (ValidationUtils.isEmpty(abbr.getText().toString()))
+            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.dialog_abbr)).append(")").append('\n');
+        if (fixData == null)
+            error.append(getString(R.string.error_no_fix_selected)).append('\n');
+        if (typeData == null)
+            error.append(getString(R.string.error_no_type_selected)).append('\n');
+
+        //if no error, run service
+        if (error.toString().isEmpty()) {
+            ElectrodeLocation record = new ElectrodeLocation();
+            record.setTitle(title.getText().toString());
+            record.setAbbr(abbr.getText().toString());
+            record.setDescription(description.getText().toString());
+
+            record.setElectrodeFix(fixData);
+            record.setElectrodeType(typeData);
+
+            return record;
+        } else {
+            showAlert(error.toString());
+        }
+
+        return null;
+    }
 }

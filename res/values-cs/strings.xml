@@ -50,6 +50,8 @@
     <string name="error_invalid_date_format">Neplatný formát data!</string>
     <string name="error_empty_field">Pole musí být zadané!</string>
     <string name="error_ssl">Rozpadlo se SSL spojení. Zkuste znovu.</string>
+    <string name="error_no_type_selected">Nevybrán typ elektrody!</string>
+    <string name="error_no_fix_selected">Nevybráno upevnění elektrody!</string>
 
 
     <!-- Tlacitka -->
@@ -82,6 +84,7 @@
     <string name="working_ws_create_digitization">Vytváření nové digitalizace…</string>
     <string name="working_ws_create_artifact">Vytváření nového artefaktu…</string>
     <string name="working_ws_create_disease">Vytváření nového záznamu nemoci…</string>
+    <string name="working_ws_create_electrode_location">Vytváření nového umístění elektrody…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>

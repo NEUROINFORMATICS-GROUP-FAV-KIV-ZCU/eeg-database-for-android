@@ -10,6 +10,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import cz.zcu.kiv.eeg.mobile.base.R;
@@ -221,6 +223,30 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.exp_add_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                if (!isWorking()) {
+                    updateGroups();
+                    updateScenarios();
+                    updateSubjects();
+                    updateArtifacts();
+                    updateDigitizations();
+                    updateElectrodeSystems();
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void save() {
         Toast.makeText(this, "not implemented yet", Toast.LENGTH_SHORT).show();
     }
@@ -265,6 +291,13 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 if (resultCode == Activity.RESULT_OK) {
                     Disease record = (Disease) data.getExtras().get(Values.ADD_DISEASE_KEY);
                     diseaseAdapter.add(record);
+                }
+                break;
+
+            case Values.ADD_ELECTRODE_LOCATION_FLAG:
+                if (resultCode == Activity.RESULT_OK) {
+                    ElectrodeLocation record = (ElectrodeLocation) data.getExtras().get(Values.ADD_ELECTRODE_LOCATION_KEY);
+                    electrodeLocationAdapter.add(record);
                 }
                 break;
         }

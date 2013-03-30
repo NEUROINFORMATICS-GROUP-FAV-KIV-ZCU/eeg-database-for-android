@@ -50,6 +50,8 @@
     <string name="error_invalid_date_format">Invalid date format!</string>
     <string name="error_empty_field">Field must be filled</string>
     <string name="error_ssl">SSL connection fell apart. Try again.</string>
+    <string name="error_no_type_selected">No electrode type selected!</string>
+    <string name="error_no_fix_selected">No electrode fix selected!</string>
 
 
     <!-- Buttons -->
@@ -89,6 +91,7 @@
     <string name="working_ws_create_digitization">Creating new digitization record…</string>
     <string name="working_ws_create_artifact">Creating new artifact record…</string>
     <string name="working_ws_create_disease">Creating new disease record…</string>
+    <string name="working_ws_create_electrode_location">Creating new electrode location…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
