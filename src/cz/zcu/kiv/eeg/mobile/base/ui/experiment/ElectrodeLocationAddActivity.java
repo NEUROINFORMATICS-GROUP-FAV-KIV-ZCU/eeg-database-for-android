@@ -208,6 +208,8 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
         //validations
         if (ValidationUtils.isEmpty(title.getText().toString()))
             error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.dialog_title)).append(")").append('\n');
+        if (ValidationUtils.isEmpty(description.getText().toString()))
+            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.dialog_description)).append(")").append('\n');
         if (ValidationUtils.isEmpty(abbr.getText().toString()))
             error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.dialog_abbr)).append(")").append('\n');
         if (fixData == null)

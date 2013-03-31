@@ -10,6 +10,28 @@
         are limited and maybe bugged sometimes. Thank you for your patience and bug reporting on GitHub project site!
     </string>
 
+    <string name="app_intro">This application was created in order to cover basic needs of EEG researchers.\n
+        \n
+        By clicking on drop-down menu in left upper corner you can select from following sections:\n
+        *
+        <b>Scenarios</b>
+        - Here you can look over basic scenario information and create new scenario of your own.\n
+        *
+        <b>Experiments</b>
+        - Section for displaying basic information about experiments and for creating a new ones.\n
+        *
+        <b>Upload file</b>
+        - If you need to upload a data file to your experiment, head over here.\n
+        *
+        <b>Reservations</b>
+        - Here you can use EEG Lab reservation system, for creating a reservation time for your research team!\n
+        *
+        <b>Settings</b>
+        - Gathers basic settings for this application to run properly.\n
+        \n
+        Hopefully you will find this application useful!
+    </string>
+
     <string name="login_mail_suffix">\ @students.zcu.cz</string>
     <string name="login_protocol">https://</string>
     <string name="menu_save">Save</string>

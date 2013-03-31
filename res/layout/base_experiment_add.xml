@@ -36,7 +36,7 @@
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal|numberSigned"
+                android:inputType="numberSigned"
                 android:id="@+id/experiment_add_temperature"/>
 
         <include layout="@layout/base_experiment_add_electrode"/>

@@ -21,7 +21,7 @@
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:id="@+id/experiment_add_electrode_impedance"/>
 
     <TextView
