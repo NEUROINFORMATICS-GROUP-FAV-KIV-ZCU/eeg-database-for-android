@@ -279,6 +279,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         if ((experiment = getValidRecord()) != null) {
             if (ConnectionUtils.isOnline(this)) {
                 new CreateExperiment(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, experiment);
+                selectedElectrodeLocations.clear();
+                selectedHardware.clear();
+                selectedSoftware.clear();
+                selectedPharmaceuticals.clear();
+                selectedDiseases.clear();
             } else
                 showAlert(getString(R.string.error_offline));
         }
