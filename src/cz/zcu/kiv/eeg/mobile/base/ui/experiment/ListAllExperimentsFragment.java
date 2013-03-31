@@ -21,8 +21,10 @@ import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchExperiments;
 import java.util.ArrayList;
 
 /**
+ * Fragment for listing all public experiments.
+ * Supports filtering using string query.
+ *
  * @author Petr Miko
- *         Date: 19.2.13
  */
 public class ListAllExperimentsFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
@@ -76,7 +78,10 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         return super.onOptionsItemSelected(item);
     }
 
-    public void update() {
+    /**
+     * If online, fetches all public experiments from server.
+     */
+    private void update() {
 
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
@@ -85,7 +90,13 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
             activity.showAlert(activity.getString(R.string.error_offline));
     }
 
-    public ExperimentAdapter getAdapter() {
+    /**
+     * Getter of experiment array adapter.
+     * If not created yet, new instance is made.
+     *
+     * @return experiment array adapter.
+     */
+    private ExperimentAdapter getAdapter() {
         if (adapter == null)
             adapter = new ExperimentAdapter(getActivity(), R.layout.base_experiment_row, new ArrayList<Experiment>());
 
@@ -96,7 +107,7 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
      * Helper function to show the details of a selected item, either by displaying a fragment in-place in the current UI, or starting a whole new
      * activity in which it is displayed.
      */
-    void showDetails(int index) {
+    private void showDetails(int index) {
         cursorPosition = index;
         ExperimentAdapter dataAdapter = getAdapter();
         boolean empty = dataAdapter == null || dataAdapter.isEmpty();
@@ -127,18 +138,37 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         }
     }
 
+    /**
+     * Stores current cursor position on save.
+     *
+     * @param outState instance state
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("cursorPos", cursorPosition);
     }
 
+    /**
+     * On click displays selected item details.
+     *
+     * @param listView event list view source (omitted here)
+     * @param view     event view source (omitted here)
+     * @param position position of selected item in list view
+     * @param id       list item identifier
+     */
     @Override
-    public void onListItemClick(ListView l, View v, int pos, long id) {
-        showDetails(pos);
-        this.setSelection(pos);
+    public void onListItemClick(ListView listView, View view, int position, long id) {
+        showDetails(position);
+        this.setSelection(position);
     }
 
+    /**
+     * Adds to options menu search possibility.
+     *
+     * @param menu     menu to extend
+     * @param inflater menu inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.exp_all_menu, menu);
@@ -149,6 +179,12 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         search.setActionView(searchView);
     }
 
+    /**
+     * If query is not empty, on submit hides keyboard.
+     *
+     * @param query filter query
+     * @return event handled
+     */
     @Override
     public boolean onQueryTextSubmit(String query) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -156,6 +192,12 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         return true;
     }
 
+    /**
+     * Adds filtering after any changes to filter string.
+     *
+     * @param newText updated filter string
+     * @return event handled
+     */
     @Override
     public boolean onQueryTextChange(String newText) {
         getAdapter().getFilter().filter(newText);

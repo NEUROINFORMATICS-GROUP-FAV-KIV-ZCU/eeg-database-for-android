@@ -114,6 +114,9 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
         }
     }
 
+    /**
+     * Reads data from fields, if valid proceeds with creating new record on server.
+     */
     @Override
     protected void save() {
         ElectrodeLocation record;
@@ -125,6 +128,9 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void discard() {
         finish();
@@ -181,7 +187,12 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
         return true;
     }
 
-    public ElectrodeLocation getValidRecord() {
+    /**
+     * Returns valid record or null, if input values are not valid.
+     *
+     * @return valid record
+     */
+    private ElectrodeLocation getValidRecord() {
 
         EditText title = (EditText) findViewById(R.id.electrode_add_title);
         EditText abbr = (EditText) findViewById(R.id.electrode_add_abbr);

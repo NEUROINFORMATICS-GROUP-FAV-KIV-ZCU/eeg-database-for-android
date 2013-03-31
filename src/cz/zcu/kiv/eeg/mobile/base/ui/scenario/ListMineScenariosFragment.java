@@ -88,7 +88,7 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
     /**
      * If online, fetches available user's scenarios.
      */
-    public void update() {
+    private void update() {
 
         CommonActivity activity = (CommonActivity) getActivity();
         if (ConnectionUtils.isOnline(activity)) {
@@ -103,7 +103,7 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
      *
      * @return scenario adapter
      */
-    public ScenarioAdapter getAdapter() {
+    private ScenarioAdapter getAdapter() {
         if (adapter == null) {
             adapter = new ScenarioAdapter(getActivity(), R.layout.base_scenario_row, new ArrayList<Scenario>());
         }
@@ -155,12 +155,26 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
         outState.putInt("cursorMinePosition", cursorPosition);
     }
 
+    /**
+     * On click displays selected item details.
+     *
+     * @param listView event list view source (omitted here)
+     * @param view     event view source (omitted here)
+     * @param position position of selected item in list view
+     * @param id       list item identifier
+     */
     @Override
-    public void onListItemClick(ListView l, View v, int pos, long id) {
-        showDetails(pos);
-        this.setSelection(pos);
+    public void onListItemClick(ListView listView, View view, int position, long id) {
+        showDetails(position);
+        this.setSelection(position);
     }
 
+    /**
+     * Adds to options menu search possibility.
+     *
+     * @param menu     menu to extend
+     * @param inflater menu inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.scenario_mine_menu, menu);
@@ -171,6 +185,12 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
         search.setActionView(searchView);
     }
 
+    /**
+     * If query is not empty, on submit hides keyboard.
+     *
+     * @param query filter query
+     * @return event handled
+     */
     @Override
     public boolean onQueryTextSubmit(String query) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -178,6 +198,12 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
         return true;
     }
 
+    /**
+     * Adds filtering after any changes to filter string.
+     *
+     * @param newText updated filter string
+     * @return event handled
+     */
     @Override
     public boolean onQueryTextChange(String newText) {
         getAdapter().getFilter().filter(newText);

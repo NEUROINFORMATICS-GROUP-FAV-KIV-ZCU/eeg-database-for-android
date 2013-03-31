@@ -13,7 +13,7 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.TestCredentials;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.TestCredentials;
 
 /**
  * Activity for user's log in process.

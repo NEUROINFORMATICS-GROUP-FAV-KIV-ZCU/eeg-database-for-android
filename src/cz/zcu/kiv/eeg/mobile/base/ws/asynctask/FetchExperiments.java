@@ -9,6 +9,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ExperimentAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ExperimentList;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.RecordCount;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -59,12 +60,6 @@ public class FetchExperiments extends CommonService<Void, Void, List<Experiment>
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_EXPERIMENTS;
 
-        //TODO HACK temporary solution
-        if (Values.SERVICE_QUALIFIER_ALL.equals(qualifier)) {
-            url += "public/" + Integer.MAX_VALUE;
-        } else
-            url += qualifier;
-
         setState(RUNNING, R.string.working_ws_experiments);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
@@ -76,6 +71,16 @@ public class FetchExperiments extends CommonService<Void, Void, List<Experiment>
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
+
+
+        //obtain all public records if qualifier is all
+        if (Values.SERVICE_QUALIFIER_ALL.equals(qualifier)) {
+            String countUrl = url + "count";
+            ResponseEntity<RecordCount> count = restTemplate.exchange(countUrl, HttpMethod.GET, entity, RecordCount.class);
+
+            url += "public/" + count.getBody().getPublicRecords();
+        } else
+            url += qualifier;
 
         try {
             // Make the network request

@@ -35,6 +35,7 @@ import java.util.List;
  */
 public class ExperimentAddActivity extends SaveDiscardActivity implements View.OnClickListener {
 
+    //all the necessary fields
     private static ResearchGroupAdapter groupAdapter;
     private static ScenarioAdapter scenarioAdapter;
     private static PersonAdapter personAdapter;
@@ -63,6 +64,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         updateData();
     }
 
+    /**
+     * If not currently working and data container are not empty, fetches data from server.
+     */
     private void updateData() {
         //services are not loading data currently
         if (!isWorking()) {
@@ -81,6 +85,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         }
     }
 
+    /**
+     * Inits view with proper data, sets onClick listeners and assigns array adapters.
+     *
+     * @param savedInstanceState previous instance state
+     */
     private void initView(Bundle savedInstanceState) {
 
         if (savedInstanceState == null) {
@@ -91,14 +100,20 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             toTime = savedInstanceState.getParcelable("toTime");
         }
 
-        Button fromTime = (Button) findViewById(R.id.experiment_add_from_time);
-        Button fromDate = (Button) findViewById(R.id.experiment_add_from_date);
-        Button toTime = (Button) findViewById(R.id.experiment_add_to_time);
-        Button toDate = (Button) findViewById(R.id.experiment_add_to_date);
-        fromTime.setOnClickListener(this);
-        fromDate.setOnClickListener(this);
-        toTime.setOnClickListener(this);
-        toDate.setOnClickListener(this);
+        Button fromTimeButton = (Button) findViewById(R.id.experiment_add_from_time);
+        Button fromDateButton = (Button) findViewById(R.id.experiment_add_from_date);
+        Button toTimeButton = (Button) findViewById(R.id.experiment_add_to_time);
+        Button toDateButton = (Button) findViewById(R.id.experiment_add_to_date);
+        fromTimeButton.setOnClickListener(this);
+        fromDateButton.setOnClickListener(this);
+        toTimeButton.setOnClickListener(this);
+        toDateButton.setOnClickListener(this);
+
+        //set time and date to buttons so user sees defaults on start
+        fromTimeButton.setText(fromTime.toTimeString());
+        fromDateButton.setText(fromTime.toDateString());
+        toTimeButton.setText(toTime.toTimeString());
+        toDateButton.setText(toTime.toDateString());
 
 
         ImageButton createScenario = (ImageButton) findViewById(R.id.experiment_add_scenario_new);
@@ -141,6 +156,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         Button selectElectrodeLocations = (Button) findViewById(R.id.experiment_add_electrode_location_button);
         selectElectrodeLocations.setOnClickListener(this);
 
+        //fill multiselections from previously choosen data
         fillHardwareListRows();
         fillSoftwareListRows();
         fillDiseasesRows();
@@ -230,6 +246,13 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return true;
     }
 
+    /**
+     * Adds refresh selection handling.
+     * If refresh is selected, all array adapters are updated with data from server.
+     *
+     * @param item selected item
+     * @return event handled or not
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -247,6 +270,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Reads values from fields and if valid, proceeds with creation of experiment on server.
+     */
     @Override
     protected void save() {
         Experiment experiment;
@@ -258,11 +284,22 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void discard() {
         finish();
     }
 
+    /**
+     * Handles results from other activities.
+     * Used when creating new records in other activities - here are new records extracted and put into proper array adapter.
+     *
+     * @param requestCode flag from closed activity
+     * @param resultCode  code of activity result type (eg. Activity.RESULT_OK)
+     * @param data        source intent
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -310,6 +347,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         }
     }
 
+    /**
+     * Stores times on instance destroy.
+     *
+     * @param outState instance state to be saved
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -320,6 +362,12 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
     /* --------------------------------- Time choice dialogs ------------------ */
 
+    /**
+     * Displays time picking dialog.
+     *
+     * @param timeButton    event source time button
+     * @param timeContainer time container to save information into
+     */
     private void showTimeDialog(final Button timeButton, final TimeContainer timeContainer) {
         new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -331,6 +379,12 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         }, timeContainer.getHour(), timeContainer.getMinute(), true).show();
     }
 
+    /**
+     * Displays date picking dialog.
+     *
+     * @param dateButton    event source date button
+     * @param timeContainer time container to save information into
+     */
     private void showDateDialog(final Button dateButton, final TimeContainer timeContainer) {
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -347,6 +401,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
     /* --------------------------------- CommonService invoke-methods ------------------ */
 
+    /**
+     * Updates scenario array adapter.
+     */
     private void updateScenarios() {
         if (ConnectionUtils.isOnline(this)) {
             new FetchScenarios(this, getScenarioAdapter(), Values.SERVICE_QUALIFIER_MINE).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -354,6 +411,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates research group array adapter.
+     */
     private void updateGroups() {
         if (ConnectionUtils.isOnline(this)) {
             new FetchResearchGroups(this, getGroupAdapter(), Values.SERVICE_QUALIFIER_MINE).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -361,6 +421,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates subjects' array adapter.
+     */
     private void updateSubjects() {
         if (ConnectionUtils.isOnline(this)) {
             new FetchPeople(this, getPersonAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -368,6 +431,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates artifact array adapter.
+     */
     private void updateArtifacts() {
         if (ConnectionUtils.isOnline(this)) {
             new FetchArtifacts(this, getArtifactAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -375,6 +441,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates digitization array adapter.
+     */
     private void updateDigitizations() {
         if (ConnectionUtils.isOnline(this)) {
             new FetchDigitizations(this, getDigitizationAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -382,6 +451,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates hardware array adapter.
+     */
     private void updateHardwareList() {
         if (ConnectionUtils.isOnline(this))
             new FetchHardwareList(this, getHardwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -389,6 +461,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates software array adapter.
+     */
     private void updateSoftwareList() {
         if (ConnectionUtils.isOnline(this))
             new FetchSoftwareList(this, getSoftwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -396,6 +471,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates disease array adapter.
+     */
     private void updateDiseases() {
         if (ConnectionUtils.isOnline(this))
             new FetchDiseases(this, getDiseaseAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -403,6 +481,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates pharmaceuticals' array adapter.
+     */
     private void updatePharmaceuticals() {
         if (ConnectionUtils.isOnline(this))
             new FetchPharmaceuticals(this, getPharmaceuticalAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -410,6 +491,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates electrodes array adapter.
+     */
     private void updateElectrodeSystems() {
         if (ConnectionUtils.isOnline(this))
             new FetchElectrodeSystems(this, getElectrodeSystemAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -417,6 +501,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             showAlert(getString(R.string.error_offline));
     }
 
+    /**
+     * Updates electrode locations array adapter.
+     */
     private void updateElectrodeLocations() {
         if (ConnectionUtils.isOnline(this))
             new FetchElectrodeLocations(this, getElectrodeLocationsAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
@@ -426,6 +513,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
     /* --------------------------------- Data adapters ------------------ */
 
+    /**
+     * Getter of scenario adapter. If not created yet, new instance is made.
+     *
+     * @return scenario array adapter
+     */
     private ScenarioAdapter getScenarioAdapter() {
         if (scenarioAdapter == null) {
             scenarioAdapter = new ScenarioAdapter(this, R.layout.base_scenario_row, new ArrayList<Scenario>());
@@ -433,6 +525,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return scenarioAdapter;
     }
 
+    /**
+     * Getter of research group adapter. If not created yet, new instance is made.
+     *
+     * @return research group array adapter
+     */
     private ResearchGroupAdapter getGroupAdapter() {
         if (groupAdapter == null) {
             groupAdapter = new ResearchGroupAdapter(this, R.layout.base_row_simple, new ArrayList<ResearchGroup>());
@@ -441,6 +538,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return groupAdapter;
     }
 
+    /**
+     * Getter of person adapter. If not created yet, new instance is made.
+     *
+     * @return person array adapter
+     */
     private PersonAdapter getPersonAdapter() {
         if (personAdapter == null)
             personAdapter = new PersonAdapter(this, R.layout.base_person_row, new ArrayList<Person>());
@@ -448,6 +550,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return personAdapter;
     }
 
+    /**
+     * Getter of artifact adapter. If not created yet, new instance is made.
+     *
+     * @return artifact array adapter
+     */
     private ArtifactAdapter getArtifactAdapter() {
         if (artifactAdapter == null)
             artifactAdapter = new ArtifactAdapter(this, R.layout.base_artifact_row, new ArrayList<Artifact>());
@@ -455,6 +562,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return artifactAdapter;
     }
 
+    /**
+     * Getter of digitization adapter. If not created yet, new instance is made.
+     *
+     * @return digitization array adapter
+     */
     private DigitizationAdapter getDigitizationAdapter() {
         if (digitizationAdapter == null)
             digitizationAdapter = new DigitizationAdapter(this, R.layout.base_digitization_row, new ArrayList<Digitization>());
@@ -462,6 +574,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return digitizationAdapter;
     }
 
+    /**
+     * Getter of hardware adapter. If not created yet, new instance is made.
+     *
+     * @return hardware array adapter
+     */
     private HardwareAdapter getHardwareAdapter() {
         if (hardwareAdapter == null)
             hardwareAdapter = new HardwareAdapter(this, R.layout.base_hardware_row, new ArrayList<Hardware>());
@@ -469,30 +586,55 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         return hardwareAdapter;
     }
 
+    /**
+     * Getter of software adapter. If not created yet, new instance is made.
+     *
+     * @return software array adapter
+     */
     private SoftwareAdapter getSoftwareAdapter() {
         if (softwareAdapter == null)
             softwareAdapter = new SoftwareAdapter(this, R.layout.base_software_row, new ArrayList<Software>());
         return softwareAdapter;
     }
 
+    /**
+     * Getter of disease adapter. If not created yet, new instance is made.
+     *
+     * @return disease array adapter
+     */
     private DiseaseAdapter getDiseaseAdapter() {
         if (diseaseAdapter == null)
             diseaseAdapter = new DiseaseAdapter(this, R.layout.base_disease_row, new ArrayList<Disease>());
         return diseaseAdapter;
     }
 
+    /**
+     * Getter of pharmaceutical adapter. If not created yet, new instance is made.
+     *
+     * @return scenario array adapter
+     */
     private PharmaceuticalAdapter getPharmaceuticalAdapter() {
         if (pharmaceuticalAdapter == null)
             pharmaceuticalAdapter = new PharmaceuticalAdapter(this, R.layout.base_pharmaceutical_row, new ArrayList<Pharmaceutical>());
         return pharmaceuticalAdapter;
     }
 
+    /**
+     * Getter of electrode system adapter. If not created yet, new instance is made.
+     *
+     * @return electrode system array adapter
+     */
     private ElectrodeSystemAdapter getElectrodeSystemAdapter() {
         if (electrodeSystemAdapter == null)
             electrodeSystemAdapter = new ElectrodeSystemAdapter(this, R.layout.base_electrode_simple_row, new ArrayList<ElectrodeSystem>());
         return electrodeSystemAdapter;
     }
 
+    /**
+     * Getter of electrode location adapter. If not created yet, new instance is made.
+     *
+     * @return electrode location array adapter
+     */
     private ElectrodeLocationAdapter getElectrodeLocationsAdapter() {
         if (electrodeLocationAdapter == null)
             electrodeLocationAdapter = new ElectrodeLocationAdapter(this, R.layout.base_electrode_location_row, new ArrayList<ElectrodeLocation>());
@@ -501,6 +643,16 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
     /* --------------------------------- Multi-select spinners and handling their behaviour ------------------ */
 
+    /**
+     * Creates and displays dialog which supports multi selection.
+     * The selection is visible in its linear layout afterwards.
+     * <p/>
+     * Positive button adds selection into linear layout.
+     * Neutral button resets selection.
+     * Negative button cancels dialog without change.
+     * <p/>
+     * Implementation for hardware.
+     */
     private void selectHardwareDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = getLayoutInflater();
@@ -562,6 +714,16 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         dialog.show();
     }
 
+    /**
+     * Creates and displays dialog which supports multi selection.
+     * The selection is visible in its linear layout afterwards.
+     * <p/>
+     * Positive button adds selection into linear layout.
+     * Neutral button resets selection.
+     * Negative button cancels dialog without change.
+     * <p/>
+     * Implementation for software.
+     */
     private void selectSoftwareDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = getLayoutInflater();
@@ -624,6 +786,16 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         dialog.show();
     }
 
+    /**
+     * Creates and displays dialog which supports multi selection.
+     * The selection is visible in its linear layout afterwards.
+     * <p/>
+     * Positive button adds selection into linear layout.
+     * Neutral button resets selection.
+     * Negative button cancels dialog without change.
+     * <p/>
+     * Implementation for disease.
+     */
     private void selectDiseaseDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = getLayoutInflater();
@@ -685,6 +857,16 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         dialog.show();
     }
 
+    /**
+     * Creates and displays dialog which supports multi selection.
+     * The selection is visible in its linear layout afterwards.
+     * <p/>
+     * Positive button adds selection into linear layout.
+     * Neutral button resets selection.
+     * Negative button cancels dialog without change.
+     * <p/>
+     * Implementation for pharmaceuticals.
+     */
     private void selectPharmaceuticalDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = getLayoutInflater();
@@ -746,6 +928,16 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         dialog.show();
     }
 
+    /**
+     * Creates and displays dialog which supports multi selection.
+     * The selection is visible in its linear layout afterwards.
+     * <p/>
+     * Positive button adds selection into linear layout.
+     * Neutral button resets selection.
+     * Negative button cancels dialog without change.
+     * <p/>
+     * Implementation for electrode locations.
+     */
     private void selectElectrodeLocationsDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = getLayoutInflater();
@@ -808,6 +1000,10 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     }
 
     /* --------------------------------- Methods for filling linear layout with rows from multi-select spinners ------------------ */
+
+    /**
+     * Fills hardware list linear layout with hardware selection.
+     */
     private void fillHardwareListRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_hardware_list);
         //clear previous values
@@ -816,6 +1012,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ExperimentDetailLists.fillHardwareList(layout, selectedHardware);
     }
 
+    /**
+     * Fills software list linear layout with software selection.
+     */
     private void fillSoftwareListRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_software_list);
         //clear previous values
@@ -824,6 +1023,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ExperimentDetailLists.fillSoftwareList(layout, selectedSoftware);
     }
 
+    /**
+     * Fills disease list linear layout with disease selection.
+     */
     private void fillDiseasesRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_disease_list);
         //clear previous values
@@ -832,6 +1034,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ExperimentDetailLists.fillDiseaseList(layout, selectedDiseases);
     }
 
+    /**
+     * Fills pharmaceuticals list linear layout with pharmaceuticals selection.
+     */
     private void fillPharmaceuticalsRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_pharmaceutical_list);
         //clear previous values
@@ -840,6 +1045,9 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ExperimentDetailLists.fillPharmaceuticals(layout, selectedPharmaceuticals);
     }
 
+    /**
+     * Fills electrode location list linear layout with locations selection.
+     */
     private void fillElectrodeLocationsRows() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.experiment_add_electrode_location_list);
         //clear previous values
@@ -848,7 +1056,12 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ExperimentDetailLists.fillElectrodeLocations(layout, selectedElectrodeLocations);
     }
 
-    public Experiment getValidRecord() {
+    /**
+     * Reads data from fields. If valid, returns filled instance, null otherwise.
+     *
+     * @return valid record or null
+     */
+    private Experiment getValidRecord() {
 
         //misc
         EditText temperature = (EditText) findViewById(R.id.experiment_add_temperature);

@@ -67,7 +67,11 @@ public class ExperimentActivity extends CommonActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * On save stores selected tab index.
+     *
+     * @param outState bundle describing state of current instance
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

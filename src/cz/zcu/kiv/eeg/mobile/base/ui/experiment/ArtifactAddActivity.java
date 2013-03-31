@@ -40,6 +40,9 @@ public class ArtifactAddActivity extends SaveDiscardActivity {
         rejectCondition.addTextChangedListener(new LimitedTextWatcher(getResources().getInteger(R.integer.limit_artifact), rejectCount));
     }
 
+    /**
+     * Reads data from fields, if valid proceeds with creating new record on server.
+     */
     @Override
     protected void save() {
 
@@ -84,6 +87,9 @@ public class ArtifactAddActivity extends SaveDiscardActivity {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void discard() {
         finish();

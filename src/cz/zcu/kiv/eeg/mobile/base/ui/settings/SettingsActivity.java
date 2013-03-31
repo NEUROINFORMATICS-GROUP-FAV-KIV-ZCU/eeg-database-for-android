@@ -6,12 +6,11 @@ import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.TestCredentials;
+import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.TestCredentials;
 
 import java.util.Calendar;
 

@@ -37,6 +37,9 @@ public class DiseaseAddActivity extends SaveDiscardActivity {
         description.addTextChangedListener(new LimitedTextWatcher(getResources().getInteger(R.integer.limit_description_chars), descriptionCount));
     }
 
+    /**
+     * Reads data from fields, if valid proceeds with creating new record on server.
+     */
     @Override
     protected void save() {
 
@@ -79,6 +82,9 @@ public class DiseaseAddActivity extends SaveDiscardActivity {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void discard() {
         finish();

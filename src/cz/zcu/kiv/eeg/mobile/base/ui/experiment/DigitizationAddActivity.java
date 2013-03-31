@@ -38,6 +38,9 @@ public class DigitizationAddActivity extends SaveDiscardActivity {
         filter.addTextChangedListener(new LimitedTextWatcher(getResources().getInteger(R.integer.limit_artifact), filterCount));
     }
 
+    /**
+     * Reads data from fields, if valid proceeds with creating new record on server.
+     */
     @Override
     protected void save() {
 
@@ -86,6 +89,9 @@ public class DigitizationAddActivity extends SaveDiscardActivity {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void discard() {
         finish();

@@ -37,6 +37,9 @@ public class ElectrodeFixAddActivity extends SaveDiscardActivity {
         fixDescription.addTextChangedListener(new LimitedTextWatcher(getResources().getInteger(R.integer.limit_description_chars), fixDescriptionCount));
     }
 
+    /**
+     * Reads data from fields, if valid proceeds with creating new record on server.
+     */
     @Override
     protected void save() {
 
@@ -81,6 +84,9 @@ public class ElectrodeFixAddActivity extends SaveDiscardActivity {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void discard() {
         finish();
