@@ -92,7 +92,7 @@ public class CreateExperiment extends CommonService<Experiment, Void, Experiment
         if (experiment != null) {
             Intent resultIntent = new Intent();
             resultIntent.putExtra(Values.ADD_EXPERIMENT_KEY, experiment);
-            Toast.makeText(activity, R.string.creation_ok, Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, R.string.creation_experiment_ok, Toast.LENGTH_SHORT).show();
             activity.setResult(Activity.RESULT_OK, resultIntent);
             activity.finish();
         } else {

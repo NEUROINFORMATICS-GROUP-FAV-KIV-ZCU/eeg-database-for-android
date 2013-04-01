@@ -263,5 +263,7 @@
 
     <string name="creation_ok">Záznam byl úspěšně vytvořen.</string>
     <string name="creation_failed">Vytváření záznamu selhalo.</string>
+    <string name="creation_experiment_ok">Záznam byl úspěšně vytvořen; prosím aktualizujte data načtením ze serveru.
+    </string>
 
 </resources>
