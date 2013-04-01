@@ -11,17 +11,25 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/detail_padding">
 
-        <TextView
-                android:text="@string/dialog_title"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <EditText
-                android:id="@+id/disease_add_title"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:inputType="text"/>
+                android:weightSum="4">
 
+            <TextView
+                    android:text="@string/dialog_title"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            <EditText
+                    android:id="@+id/disease_add_title"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:inputType="text"/>
+
+        </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"

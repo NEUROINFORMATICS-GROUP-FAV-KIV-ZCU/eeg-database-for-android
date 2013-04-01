@@ -126,6 +126,6 @@ public class ExperimentDetailsFragment extends Fragment {
         electrodeSystemDescription.setText(electrodeSystem.getDescription());
         electrodeSystemName.setText(electrodeSystem.getTitle());
 
-        ExperimentDetailLists.fillElectrodeLocations(electrodeLocations, electrodeConf.getElectrodeLocations().isAvailable() ? electrodeConf.getElectrodeLocations().getElectrodeLocations() : null);
+        ExperimentDetailLists.fillElectrodeLocations(electrodeLocations, electrodeConf.getElectrodeLocations() != null && electrodeConf.getElectrodeLocations().isAvailable() ? electrodeConf.getElectrodeLocations().getElectrodeLocations() : null);
     }
 }

@@ -312,41 +312,41 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             case Values.ADD_SCENARIO_FLAG:
                 if (resultCode == Activity.RESULT_OK) {
                     Scenario record = (Scenario) data.getExtras().get(Values.ADD_SCENARIO_KEY);
-                    scenarioAdapter.add(record);
+                    getScenarioAdapter().add(record);
                 }
                 break;
             case Values.ADD_PERSON_FLAG:
                 if (resultCode == Activity.RESULT_OK) {
                     Person record = (Person) data.getExtras().get(Values.ADD_PERSON_KEY);
-                    personAdapter.add(record);
+                    getPersonAdapter().add(record);
                 }
                 break;
 
             case Values.ADD_ARTIFACT_FLAG:
                 if (resultCode == Activity.RESULT_OK) {
                     Artifact record = (Artifact) data.getExtras().get(Values.ADD_ARTIFACT_KEY);
-                    artifactAdapter.add(record);
+                    getArtifactAdapter().add(record);
                 }
                 break;
 
             case Values.ADD_DIGITIZATION_FLAG:
                 if (resultCode == Activity.RESULT_OK) {
                     Digitization record = (Digitization) data.getExtras().get(Values.ADD_DIGITIZATION_KEY);
-                    digitizationAdapter.add(record);
+                    getDigitizationAdapter().add(record);
                 }
                 break;
 
             case Values.ADD_DISEASE_FLAG:
                 if (resultCode == Activity.RESULT_OK) {
                     Disease record = (Disease) data.getExtras().get(Values.ADD_DISEASE_KEY);
-                    diseaseAdapter.add(record);
+                    getDiseaseAdapter().add(record);
                 }
                 break;
 
             case Values.ADD_ELECTRODE_LOCATION_FLAG:
                 if (resultCode == Activity.RESULT_OK) {
                     ElectrodeLocation record = (ElectrodeLocation) data.getExtras().get(Values.ADD_ELECTRODE_LOCATION_KEY);
-                    electrodeLocationAdapter.add(record);
+                    getElectrodeLocationsAdapter().add(record);
                 }
                 break;
         }

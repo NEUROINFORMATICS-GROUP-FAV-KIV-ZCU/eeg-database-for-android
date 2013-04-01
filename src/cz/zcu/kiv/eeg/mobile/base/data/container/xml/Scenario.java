@@ -57,6 +57,7 @@ public class Scenario implements Parcelable {
         ownerName = in.readString();
         description = in.readString();
         mimeType = in.readString();
+        filePath = in.readString();
         fileName = in.readString();
         fileLength = in.readString();
         isPrivate = in.readByte() == Values.TRUE;

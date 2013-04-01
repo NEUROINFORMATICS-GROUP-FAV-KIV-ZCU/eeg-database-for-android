@@ -18,31 +18,36 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:text="@string/time_from"
                 android:gravity="center_vertical"/>
 
-        <Button
-                android:id="@+id/experiment_add_from_date"
-                android:layout_width="0dp"
+        <LinearLayout
+                android:orientation="vertical"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:contentDescription="@string/time_choose_date"
-                android:text="@string/time_choose_date"
-                android:drawableLeft="@drawable/ic_action_date"
-                />
-
-        <Button
-                android:id="@+id/experiment_add_from_time"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:contentDescription="@string/time_choose_time"
-                android:text="@string/time_choose_time"
-                android:drawableLeft="@drawable/ic_action_time"
-                />
+                android:layout_weight="3">
 
+            <Button
+                    android:id="@+id/experiment_add_from_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/time_choose_date"
+                    android:text="@string/time_choose_date"
+                    android:drawableLeft="@drawable/ic_action_date"
+                    />
+
+            <Button
+                    android:id="@+id/experiment_add_from_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/time_choose_time"
+                    android:text="@string/time_choose_time"
+                    android:drawableLeft="@drawable/ic_action_time"
+                    />
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -53,30 +58,35 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:text="@string/time_to"
                 android:gravity="center_vertical"/>
 
-        <Button
-                android:id="@+id/experiment_add_to_date"
-                android:layout_width="0dp"
+        <LinearLayout
+                android:orientation="vertical"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:contentDescription="@string/time_choose_date"
-                android:text="@string/time_choose_date"
-                android:drawableLeft="@drawable/ic_action_date"
-                />
+                android:layout_width="0dp"
+                android:layout_weight="3">
 
-        <Button
-                android:id="@+id/experiment_add_to_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:contentDescription="@string/time_choose_time"
-                android:text="@string/time_choose_time"
-                android:drawableLeft="@drawable/ic_action_time"
-                />
+            <Button
+                    android:id="@+id/experiment_add_to_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/time_choose_date"
+                    android:text="@string/time_choose_date"
+                    android:drawableLeft="@drawable/ic_action_date"
+                    />
+
+            <Button
+                    android:id="@+id/experiment_add_to_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/time_choose_time"
+                    android:text="@string/time_choose_time"
+                    android:drawableLeft="@drawable/ic_action_time"
+                    />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>
