@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:shrinkColumns="1"
+             android:stretchColumns="1"
+             android:padding="5dp">
+
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/data_file_experiment"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="2"
+                />
+
+        <Spinner
+                android:id="@+id/experimentList"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="fill_horizontal"
+                android:layout_weight="3"/>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="2">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/data_file_description"
+
+                    />
+
+            <TextView
+                    android:id="@+id/datafile_description_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <EditText
+                android:id="@+id/datafile_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/limit_description_chars"
+                android:inputType="textMultiLine"
+                android:layout_weight="3"/>
+
+    </TableRow>
+
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5">
+
+        <TextView
+                android:id="@+id/fchooserPathView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/app_data_file"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="2"/>
+
+        <TextView
+                android:id="@+id/fchooserSelectedFile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="3"/>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/data_file_select"
+                android:id="@+id/data_file_choose_button"
+                android:drawableLeft="@drawable/ic_action_dir"
+                android:layout_weight="1"/>
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/data_file_upload"
+                android:id="@+id/data_file_upload_button"
+                android:drawableLeft="@drawable/ic_action_upload"
+                android:layout_weight="1"/>
+    </TableRow>
+
+
+</TableLayout>

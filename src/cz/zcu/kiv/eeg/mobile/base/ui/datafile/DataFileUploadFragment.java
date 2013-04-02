@@ -6,9 +6,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
@@ -38,6 +36,7 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -151,4 +150,29 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
             }
         }
     }
+
+
+    /**
+     * Adds to options menu search possibility.
+     *
+     * @param menu     menu to extend
+     * @param inflater menu inflater
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.data_add_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                initData((CommonActivity) getActivity());
+                Log.d(TAG, "Refresh data button pressed");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
