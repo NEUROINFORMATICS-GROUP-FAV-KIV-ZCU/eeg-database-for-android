@@ -7,10 +7,9 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
+import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
@@ -60,10 +59,11 @@ public class UploadDataFile extends CommonService<String, Void, URI> {
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
 
-
+        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
+        //so files wont buffer in memory
+        factory.setBufferRequestBody(false);
         // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
+        RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
 

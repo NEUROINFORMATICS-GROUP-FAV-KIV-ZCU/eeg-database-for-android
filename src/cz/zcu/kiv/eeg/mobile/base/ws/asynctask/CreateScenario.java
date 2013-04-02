@@ -10,10 +10,9 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
+import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
@@ -64,9 +63,11 @@ public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
 
 
+        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
+        //so files wont buffer in memory
+        factory.setBufferRequestBody(false);
         // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
+        RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());

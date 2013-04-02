@@ -9,9 +9,8 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeLocationAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeLocation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeLocationList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
+import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -63,9 +62,9 @@ public class FetchElectrodeLocations extends CommonService<Void, Void, List<Elec
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
+        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
         // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
+        RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {

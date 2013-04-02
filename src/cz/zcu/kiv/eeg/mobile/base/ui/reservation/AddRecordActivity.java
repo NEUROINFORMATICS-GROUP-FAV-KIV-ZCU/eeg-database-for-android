@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ResearchGroupAdapter;
@@ -148,6 +147,12 @@ public class AddRecordActivity extends SaveDiscardActivity {
             }
 
             ResearchGroup group = (ResearchGroup) ((Spinner) findViewById(R.id.groupList)).getSelectedItem();
+
+            if (group == null) {
+                Toast.makeText(this, R.string.error_no_group_selected, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Reservation record = new Reservation();
 
             record.setResearchGroupId(group.getGroupId());

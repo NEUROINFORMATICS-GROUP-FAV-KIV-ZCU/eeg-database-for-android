@@ -13,9 +13,8 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ReservationList;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationDetailsFragment;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
+import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -77,9 +76,9 @@ public class FetchReservationsToDate extends CommonService<TimeContainer, Void, 
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
 
+        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
         // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
+        RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {

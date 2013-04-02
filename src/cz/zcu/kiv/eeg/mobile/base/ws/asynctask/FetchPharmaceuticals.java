@@ -6,15 +6,11 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.adapter.DiseaseAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.PharmaceuticalAdapter;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Disease;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.DiseaseList;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Pharmaceutical;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.PharmaceuticalList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
+import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,7 +33,7 @@ public class FetchPharmaceuticals extends CommonService<Void, Void, List<Pharmac
     /**
      * Constructor.
      *
-     * @param activity       parent activity
+     * @param activity              parent activity
      * @param pharmaceuticalAdapter adapter for holding collection of pharmaceuticals
      */
     public FetchPharmaceuticals(CommonActivity activity, PharmaceuticalAdapter pharmaceuticalAdapter) {
@@ -66,9 +62,9 @@ public class FetchPharmaceuticals extends CommonService<Void, Void, List<Pharmac
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
+        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
         // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
+        RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {

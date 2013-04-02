@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
@@ -21,6 +22,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
  */
 public class CommonActivity extends Activity {
 
+    private static final String TAG = CommonActivity.class.getSimpleName();
     /**
      * Progress dialog informing of common service state.
      */
@@ -64,26 +66,31 @@ public class CommonActivity extends Activity {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                switch (state) {
-                    case RUNNING:
-                        ServiceReference current = ServiceReference.peek();
-                        current.message = message;
-                        progressDialog = ProgressDialog.show(CommonActivity.this,
-                                getString(R.string.working), message, true, false);
-                        break;
-                    case INACTIVE:
-                    case DONE:
-                        synchronized (CommonActivity.class) {
-                            ServiceReference.pop();
-                            if (progressDialog != null && progressDialog.isShowing()) {
-                                progressDialog.dismiss();
+
+                try {
+                    switch (state) {
+                        case RUNNING:
+                            ServiceReference current = ServiceReference.peek();
+                            current.message = message;
+                            progressDialog = ProgressDialog.show(CommonActivity.this,
+                                    getString(R.string.working), message, true, false);
+                            break;
+                        case INACTIVE:
+                        case DONE:
+                            synchronized (CommonActivity.class) {
+                                ServiceReference.pop();
+                                if (progressDialog != null && progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
                             }
-                        }
-                        break;
-                    case ERROR:
-                        showAlert(message);
-                    default:
-                        break;
+                            break;
+                        case ERROR:
+                            showAlert(message);
+                        default:
+                            break;
+                    }
+                } catch (Exception e) {
+                    Log.w(TAG, e.getMessage());
                 }
             }
         });
@@ -150,9 +157,10 @@ public class CommonActivity extends Activity {
 
     /**
      * Informs activity whether there are running CommonServices.
+     *
      * @return true if working CommonService
      */
-    protected boolean isWorking(){
+    protected boolean isWorking() {
         return !ServiceReference.isEmpty();
     }
 }

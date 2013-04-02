@@ -10,9 +10,8 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.UserInfo;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.HttpsClient;
+import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -55,7 +54,9 @@ public class TestCredentials extends CommonService<Void, Void, UserInfo> {
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
-        RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory(HttpsClient.getClient()));
+        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
+        // Create a new RestTemplate instance
+        RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
