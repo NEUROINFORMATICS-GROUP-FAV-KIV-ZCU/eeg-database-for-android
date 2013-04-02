@@ -198,7 +198,7 @@
     <string name="experiment_digitization_sampling_rate">Vzorkovací frekvence</string>
     <string name="experiment_diseases">Nemoci</string>
     <string name="experiment_disease_add">Vytvořit nový záznam o nemoci</string>
-    <string name="experiment_temperature">Teplota</string>
+    <string name="experiment_temperature">Teplota [°C]</string>
     <string name="experiment_pharmaceuticals">Farmaceutika</string>
     <string name="experiment_electrodes">Elektrody</string>
     <string name="experiment_electrode_system_title">Název systému</string>

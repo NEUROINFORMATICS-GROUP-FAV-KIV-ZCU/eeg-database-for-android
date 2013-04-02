@@ -192,12 +192,12 @@
     <string name="experiment_digitization_sampling_rate">Sampling rate</string>
     <string name="experiment_diseases">Diseases</string>
     <string name="experiment_disease_add">Create new disease record</string>
-    <string name="experiment_temperature">Temperature</string>
+    <string name="experiment_temperature">Temperature [°C]</string>
     <string name="experiment_hardware">Hardware</string>
     <string name="experiment_softwares">Software</string>
     <string name="experiment_pharmaceuticals">Pharmaceuticals</string>
     <string name="experiment_electrodes">Electrodes</string>
-    <string name="experiment_electrode_impedance">Impedance</string>
+    <string name="experiment_electrode_impedance">Impedance [Ω]</string>
     <string name="experiment_electrode_type">Electrode type</string>
     <string name="experiment_electrode_fix">Electrode fix</string>
     <string name="experiment_electrode_fix_new">New electrode fix</string>

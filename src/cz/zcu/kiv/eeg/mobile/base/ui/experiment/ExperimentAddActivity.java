@@ -264,6 +264,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                     updateArtifacts();
                     updateDigitizations();
                     updateElectrodeSystems();
+                    updateElectrodeLocations();
+                    updateDiseases();
+                    updateHardwareList();
+                    updateSoftwareList();
+                    updatePharmaceuticals();
                 }
                 return true;
         }
@@ -279,11 +284,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         if ((experiment = getValidRecord()) != null) {
             if (ConnectionUtils.isOnline(this)) {
                 new CreateExperiment(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, experiment);
-                selectedElectrodeLocations.clear();
-                selectedHardware.clear();
-                selectedSoftware.clear();
-                selectedPharmaceuticals.clear();
-                selectedDiseases.clear();
+                selectedElectrodeLocations = new ArrayList<ElectrodeLocation>();
+                selectedHardware = new ArrayList<Hardware>();
+                selectedSoftware = new ArrayList<Software>();
+                selectedPharmaceuticals = new ArrayList<Pharmaceutical>();
+                selectedDiseases = new ArrayList<Disease>();
             } else
                 showAlert(getString(R.string.error_offline));
         }
@@ -1111,7 +1116,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         if (fromTime.getTime().after(toTime.getTime()))
             error.append(getString(R.string.error_time_start_after_end)).append('\n');
         if (ValidationUtils.isEmpty(weatherTitle.getText().toString()))
-            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.experiment_weather) + ": " + getString(R.string.experiment_weather_title)).append(")").append('\n');
+            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.experiment_weather)).append(": ").append(getString(R.string.experiment_weather_title)).append(")").append('\n');
         if (ValidationUtils.isEmpty(impedance.getText().toString()))
             error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.experiment_electrode_impedance)).append(")").append('\n');
         if (system == null)
@@ -1137,11 +1142,13 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             experiment.setSubject(subj);
             experiment.setDigitization(digitization);
 
-            experiment.setTemperature(Integer.parseInt(temperature.getText().toString()));
+            String tmpTemp = temperature.getText().toString();
+            experiment.setTemperature(tmpTemp.trim().isEmpty() ? 0 : Integer.parseInt(tmpTemp));
             experiment.setEnvironmentNote(environmentNote.getText().toString());
 
             ElectrodeConf conf = new ElectrodeConf();
-            conf.setImpedance(Integer.parseInt(impedance.getText().toString()));
+            String tmpImpedance = impedance.getText().toString();
+            conf.setImpedance(tmpImpedance.trim().isEmpty() ? 0 : Integer.parseInt(tmpImpedance));
             conf.setElectrodeSystem(system);
             conf.setElectrodeLocations(new ElectrodeLocationList(selectedElectrodeLocations));
             experiment.setElectrodeConf(conf);
