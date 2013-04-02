@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.TabListener;
+import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 
 /**
  * Activity for displaying experiments.
@@ -59,9 +60,15 @@ public class ExperimentActivity extends CommonActivity {
                 finish();
                 break;
             case R.id.exp_add:
-                Intent addExperimentIntent = new Intent();
-                addExperimentIntent.setClass(this, ExperimentAddActivity.class);
-                startActivity(addExperimentIntent);
+
+                if (ConnectionUtils.isOnline(this)) {
+                    Intent addExperimentIntent = new Intent();
+                    addExperimentIntent.setClass(this, ExperimentAddActivity.class);
+                    startActivity(addExperimentIntent);
+                } else
+                    showAlert(getString(R.string.error_offline));
+
+
                 break;
         }
         return super.onOptionsItemSelected(item);

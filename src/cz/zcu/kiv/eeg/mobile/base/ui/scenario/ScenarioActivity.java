@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.TabListener;
+import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 
 /**
  * Scenario activity with tabs for choosing between user's or all public scenarios.
@@ -57,9 +58,15 @@ public class ScenarioActivity extends CommonActivity {
                 finish();
                 break;
             case R.id.scenario_add:
-                Intent intent = new Intent();
-                intent.setClass(this, ScenarioAddActivity.class);
-                startActivity(intent);
+
+                if (ConnectionUtils.isOnline(this)) {
+                    Intent intent = new Intent();
+                    intent.setClass(this, ScenarioAddActivity.class);
+                    startActivity(intent);
+                } else
+                    showAlert(getString(R.string.error_offline));
+
+
                 break;
         }
         return super.onOptionsItemSelected(item);
