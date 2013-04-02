@@ -124,6 +124,7 @@
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
+    <string name="reservation_empty_refresh">No fetched reservation. Create a new one or tap to refresh.</string>
     <string name="reser_create">Create reservation</string>
     <string name="reser_created">Reservation created.</string>
     <string name="reser_edited">Reservation edited.</string>
@@ -171,6 +172,7 @@
 
     <!-- experiments -->
     <string name="app_experiments">Experiments</string>
+    <string name="experiment_empty_refresh">No fetched experiments. Create new one or tap to refresh list.</string>
     <string name="experiment_add">Add experiment</string>
     <string name="experiment_list_all">All experiments</string>
     <string name="experiment_list_mine">My experiments</string>
@@ -218,6 +220,7 @@
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>
+    <string name="scenario_empty_refresh">No fetched scenarios. Create new one or tap to refresh.</string>
     <string name="scenario_add">Add scenario</string>
     <string name="scenario_name">Scenario name</string>
     <string name="scenario_list_mine">My scenarios</string>

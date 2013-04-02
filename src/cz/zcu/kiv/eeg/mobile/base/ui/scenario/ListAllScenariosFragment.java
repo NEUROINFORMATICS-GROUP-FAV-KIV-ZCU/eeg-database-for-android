@@ -27,7 +27,7 @@ import java.util.ArrayList;
  *
  * @author Petr Miko
  */
-public class ListAllScenariosFragment extends ListFragment implements SearchView.OnQueryTextListener {
+public class ListAllScenariosFragment extends ListFragment implements SearchView.OnQueryTextListener, View.OnClickListener {
 
     private final static String TAG = ListAllScenariosFragment.class.getSimpleName();
     private static ScenarioAdapter adapter;
@@ -48,6 +48,8 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
         View view = inflater.inflate(R.layout.base_scenario_list, container, false);
         View detailsFrame = view.findViewById(R.id.details);
         isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+        View emptyView = view.findViewById(android.R.id.empty);
+        emptyView.setOnClickListener(this);
         return view;
     }
 
@@ -83,6 +85,15 @@ public class ListAllScenariosFragment extends ListFragment implements SearchView
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case android.R.id.empty:
+                update();
+                break;
+        }
     }
 
     /**

@@ -143,6 +143,9 @@
     <string name="time_span">Časový rozsah</string>
 
     <string name="detail">Podrobnosti</string>
+    <string name="reservation_empty_refresh">Nenačteny žádné rezervace. Vytvořte novou, nebo dotknutím aktualizujte
+        seznam.
+    </string>
     <string name="reser_detail_group">Výzkumná skupina</string>
     <string name="reser_detail_from">Od</string>
     <string name="reser_detail_to">Do</string>
@@ -173,6 +176,9 @@
 
     <!-- experiments -->
     <string name="app_experiments">Experimenty</string>
+    <string name="experiment_empty_refresh">Nenačteny žádné experimenty. Vytvořte nový, nebo dotknutím aktualizujte
+        seznam.
+    </string>
     <string name="experiment_add">Přidat experiment</string>
     <string name="experiment_list_all">Všechny experimenty</string>
     <string name="experiment_list_mine">Mé experimenty</string>
@@ -218,6 +224,8 @@
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>
+    <string name="scenario_empty_refresh">Nenačteny žádné scénáře. Vytvořte nový, nebo dotknutím aktualizujte seznam.
+    </string>
     <string name="scenario_add">Přidat scénář</string>
     <string name="scenario_name">Jméno scénáře</string>
     <string name="scenario_list_mine">Mé scénáře</string>

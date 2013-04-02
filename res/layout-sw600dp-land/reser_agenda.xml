@@ -40,6 +40,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/dateLabel"/>
+
+        <TextView
+                android:padding="@dimen/detail_padding"
+                android:id="@android:id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_below="@id/dateLabel"
+                android:text="@string/reservation_empty_refresh"
+                android:background="@drawable/button_selector"/>
     </RelativeLayout>
 
     <FrameLayout

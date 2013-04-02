@@ -26,7 +26,7 @@ import java.util.ArrayList;
  *
  * @author Petr Miko
  */
-public class ListAllExperimentsFragment extends ListFragment implements SearchView.OnQueryTextListener {
+public class ListAllExperimentsFragment extends ListFragment implements SearchView.OnQueryTextListener, View.OnClickListener {
 
     private final static String TAG = ListAllExperimentsFragment.class.getSimpleName();
     private static ExperimentAdapter adapter;
@@ -47,6 +47,8 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         View view = inflater.inflate(R.layout.base_experiment_list, container, false);
         View detailsFrame = view.findViewById(R.id.details);
         isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+        View emptyView = view.findViewById(android.R.id.empty);
+        emptyView.setOnClickListener(this);
         return view;
     }
 
@@ -76,6 +78,15 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case android.R.id.empty:
+                update();
+                break;
+        }
     }
 
     /**

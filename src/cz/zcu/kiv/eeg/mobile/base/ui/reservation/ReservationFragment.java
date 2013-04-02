@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ReservationAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
@@ -127,6 +126,10 @@ public class ReservationFragment extends ListFragment implements OnClickListener
 
         //setting date
         dateLabel.setText(timeContainer.toDateString());
+
+        //setting refresh capability to empty list view
+        View emptyView = view.findViewById(android.R.id.empty);
+        emptyView.setOnClickListener(this);
     }
 
     @Override
@@ -221,6 +224,9 @@ public class ReservationFragment extends ListFragment implements OnClickListener
         switch (v.getId()) {
             case R.id.chooseDateButton:
                 chooseDateClick(v);
+                break;
+            case android.R.id.empty:
+                updateData();
                 break;
         }
     }
