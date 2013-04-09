@@ -78,6 +78,9 @@
                 android:name=".ui.experiment.ElectrodeFixAddActivity"
                 android:label="@string/experiment_electrode_fix_new"/>
         <activity
+                android:name=".ui.experiment.WeatherAddActivity"
+                android:label="@string/experiment_add_weather"/>
+        <activity
                 android:name=".ui.experiment.ExperimentDetailsActivity"
                 android:label="@string/detail"/>
         <activity

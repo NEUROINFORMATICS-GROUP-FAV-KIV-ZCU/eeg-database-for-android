@@ -80,6 +80,7 @@
     <string name="error_no_digitization_selected">No digitization selected!</string>
     <string name="error_no_electrode_system_selected">No electrode system selected!</string>
     <string name="error_no_electrode_location_selected">No electrode location selected!</string>
+    <string name="error_no_weather_selected">No weather selected!</string>
     <string name="error_time_start_after_end">Time of start cannot be after the end time!</string>
 
     <!-- Buttons -->
@@ -121,6 +122,9 @@
     <string name="working_ws_create_disease">Creating new disease record…</string>
     <string name="working_ws_create_electrode_location">Creating new electrode location…</string>
     <string name="working_ws_create_experiment">Creating new experiment…</string>
+    <string name="working_ws_weather">Fetching existing weather records…</string>
+    <string name="working_ws_create_weather">Creating new weather record…</string>
+    <string name="working_ws_create_electrode_fix">Creating new electrode fix…</string>
 
     <!-- Reservation -->
     <string name="app_reser">Reservations</string>
@@ -210,13 +214,15 @@
     <string name="experiment_add_disease">Select diseases</string>
     <string name="experiment_add_hardware">Select hardware</string>
     <string name="experiment_add_software">Select software</string>
+    <string name="experiment_add_weather">Select weather</string>
     <string name="experiment_add_pharmaceuticals">Select pharmaceuticals</string>
     <string name="experiment_add_electrode_location">Select electrodes\' locations</string>
     <string name="experiment_add_electrode_system">Electrode system</string>
     <string name="experiment_add_electrode_fix">Electrode fix</string>
-    <string name="working_ws_create_electrode_fix">Creating new electrode fix…</string>
     <string name="experiment_add_electrode_type">Electrode type</string>
     <string name="electrode_add">Add experiment</string>
+    <string name="experiment_add_file">For uploading experiment files use section \"Upload file\" after experiment
+        created.</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scenarios</string>

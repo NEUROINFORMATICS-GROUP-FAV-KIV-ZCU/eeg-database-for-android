@@ -19,6 +19,10 @@ import java.util.Calendar;
 @Root(name = "time")
 public class TimeContainer implements Parcelable {
 
+    public final static int SECONDS_PER_MINUTE = 60;
+    public final static int MINUTES_PER_HOUR = 60;
+    public final static int HOURS_PER_DAY = 24;
+
     public static final Parcelable.Creator<TimeContainer> CREATOR
             = new Parcelable.Creator<TimeContainer>() {
         public TimeContainer createFromParcel(Parcel in) {
@@ -67,6 +71,16 @@ public class TimeContainer implements Parcelable {
         month = in.readInt();
         year = in.readInt();
 
+    }
+
+    public TimeContainer(Time time){
+        second = time.second;
+        minute = time.minute;
+        hour = time.hour;
+        day = time.monthDay;
+        //due to java date lib
+        month = time.month + 1;
+        year = time.year;
     }
 
     public TimeContainer(TimeContainer originalDate) {

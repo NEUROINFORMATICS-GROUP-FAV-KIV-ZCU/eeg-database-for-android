@@ -38,6 +38,7 @@ public class Values {
     public static final String SERVICE_ELECTRODE_FIXLIST = "/experiments/electrodeFixList";
     public static final String SERVICE_ELECTRODE_TYPES = "/experiments/electrodeTypes";
     public static final String SERVICE_ELECTRODE_SYSTEMS = "/experiments/electrodeSystems";
+    public static final String SERVICE_WEATHER = "/experiments/weatherList";
 
     //REST service qualifiers
     public static final String SERVICE_QUALIFIER_MINE = "mine";
@@ -59,8 +60,9 @@ public class Values {
     public static final int ADD_DIGITIZATION_FLAG = 23;
     public static final int ADD_ARTIFACT_FLAG = 24;
     public static final int ADD_DISEASE_FLAG = 25;
-    public static final int ADD_ELECTRODE_FIX = 26;
-    public static final int ADD_EXPERIMENT = 27;
+    public static final int ADD_ELECTRODE_FIX_FLAG = 26;
+    public static final int ADD_EXPERIMENT_FLAG = 27;
+    public static final int ADD_WEATHER_FLAG = 28;
 
 
     public static final String ADD_RESERVATION_KEY = "addReservation";
@@ -72,4 +74,5 @@ public class Values {
     public static final String ADD_DISEASE_KEY = "addDisease";
     public static final String ADD_ELECTRODE_FIX_KEY = "addElectrodeFix";
     public static final String ADD_EXPERIMENT_KEY = "addExperiment";
+    public static final String ADD_WEATHER_KEY = "addWeather";
 }

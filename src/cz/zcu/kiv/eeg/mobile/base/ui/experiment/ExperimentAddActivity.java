@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,6 +43,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     private static ArtifactAdapter artifactAdapter;
     private static DigitizationAdapter digitizationAdapter;
     private static HardwareAdapter hardwareAdapter;
+    private static WeatherAdapter weatherAdapter;
     private static List<Hardware> selectedHardware = new ArrayList<Hardware>();
     private static SoftwareAdapter softwareAdapter;
     private static List<Software> selectedSoftware = new ArrayList<Software>();
@@ -94,7 +96,16 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
         if (savedInstanceState == null) {
             fromTime = new TimeContainer();
-            toTime = new TimeContainer();
+
+
+            Time tmpTime = fromTime.getTime();
+            tmpTime.minute += 30;
+            //removing correction of fromTime
+            tmpTime.month -= 1;
+            tmpTime.normalize(false);
+
+            toTime = new TimeContainer(tmpTime);
+
         } else {
             fromTime = savedInstanceState.getParcelable("fromTime");
             toTime = savedInstanceState.getParcelable("toTime");
@@ -122,6 +133,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         ImageButton createArtifact = (ImageButton) findViewById(R.id.experiment_add_artifact_new);
         ImageButton createDisesase = (ImageButton) findViewById(R.id.experiment_add_disease_new_button);
         ImageButton createDigitization = (ImageButton) findViewById(R.id.experiment_add_digitization_new);
+        ImageButton createWeather = (ImageButton) findViewById(R.id.experiment_add_weather_new);
 
         createScenario.setOnClickListener(this);
         createSubject.setOnClickListener(this);
@@ -129,6 +141,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         createArtifact.setOnClickListener(this);
         createDisesase.setOnClickListener(this);
         createDigitization.setOnClickListener(this);
+        createWeather.setOnClickListener(this);
 
         Spinner scenarios = (Spinner) findViewById(R.id.experiment_add_scenario);
         Spinner groups = (Spinner) findViewById(R.id.experiment_add_group);
@@ -136,6 +149,20 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         Spinner artifacts = (Spinner) findViewById(R.id.experiment_add_artifact);
         Spinner digitizations = (Spinner) findViewById(R.id.experiment_add_digitization);
         Spinner electrodeSystems = (Spinner) findViewById(R.id.experiment_add_electrode_system);
+        Spinner weathers = (Spinner) findViewById(R.id.experiment_add_weather);
+
+        groups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //refresh weather records
+                updateWeatherList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // do nothing
+            }
+        });
 
 
         scenarios.setAdapter(getScenarioAdapter());
@@ -144,6 +171,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         artifacts.setAdapter(getArtifactAdapter());
         digitizations.setAdapter(getDigitizationAdapter());
         electrodeSystems.setAdapter(getElectrodeSystemAdapter());
+        weathers.setAdapter(getWeatherAdapter());
 
         Button selectHw = (Button) findViewById(R.id.experiment_add_hardware_button);
         selectHw.setOnClickListener(this);
@@ -233,6 +261,19 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 intent = new Intent();
                 intent.setClass(this, ArtifactAddActivity.class);
                 startActivityForResult(intent, Values.ADD_ARTIFACT_FLAG);
+                break;
+            case R.id.experiment_add_weather_new:
+
+                Spinner groupSpinner = (Spinner) findViewById(R.id.experiment_add_group);
+                ResearchGroup group = (ResearchGroup) groupSpinner.getSelectedItem();
+
+                if (group != null) {
+
+                    intent = new Intent();
+                    intent.setClass(this, WeatherAddActivity.class);
+                    intent.putExtra("groupId", group.getGroupId());
+                    startActivityForResult(intent, Values.ADD_WEATHER_FLAG);
+                } else showAlert(getString(R.string.error_no_group_selected));
                 break;
         }
 
@@ -354,6 +395,12 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                     getElectrodeLocationsAdapter().add(record);
                 }
                 break;
+            case Values.ADD_WEATHER_FLAG:
+                if (resultCode == Activity.RESULT_OK) {
+                    Weather record = (Weather) data.getExtras().get(Values.ADD_WEATHER_KEY);
+                    getWeatherAdapter().add(record);
+                }
+                break;
         }
     }
 
@@ -416,7 +463,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateScenarios() {
         if (ConnectionUtils.isOnline(this)) {
-            new FetchScenarios(this, getScenarioAdapter(), Values.SERVICE_QUALIFIER_MINE).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchScenarios(this, getScenarioAdapter(), Values.SERVICE_QUALIFIER_ALL).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
         } else
             showAlert(getString(R.string.error_offline));
     }
@@ -518,6 +565,19 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         if (ConnectionUtils.isOnline(this))
             new FetchElectrodeLocations(this, getElectrodeLocationsAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
         else
+            showAlert(getString(R.string.error_offline));
+    }
+
+    private void updateWeatherList() {
+        if (ConnectionUtils.isOnline(this)) {
+            Spinner groups = (Spinner) findViewById(R.id.experiment_add_group);
+            ResearchGroup group = (ResearchGroup) groups.getSelectedItem();
+
+            if (group == null)
+                showAlert(getString(R.string.error_no_group_selected));
+            else
+                new FetchWeatherList(this, group.getGroupId(), getWeatherAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        } else
             showAlert(getString(R.string.error_offline));
     }
 
@@ -649,6 +709,18 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         if (electrodeLocationAdapter == null)
             electrodeLocationAdapter = new ElectrodeLocationAdapter(this, R.layout.base_electrode_location_row, new ArrayList<ElectrodeLocation>());
         return electrodeLocationAdapter;
+    }
+
+    /**
+     * Getter of weather adapter. If not created yet, new instance is made.
+     *
+     * @return weather array adapter
+     */
+    private WeatherAdapter getWeatherAdapter() {
+        if (weatherAdapter == null)
+            weatherAdapter = new WeatherAdapter(this, R.layout.base_weather_row, new ArrayList<Weather>());
+
+        return weatherAdapter;
     }
 
     /* --------------------------------- Multi-select spinners and handling their behaviour ------------------ */
@@ -1077,10 +1149,6 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         EditText temperature = (EditText) findViewById(R.id.experiment_add_temperature);
         EditText environmentNote = (EditText) findViewById(R.id.experiment_add_env_note);
 
-        //weather
-        EditText weatherTitle = (EditText) findViewById(R.id.experiment_add_weather_title);
-        EditText weatherDescription = (EditText) findViewById(R.id.experiment_add_weather_description);
-
         //single choice
         Spinner groupSpinner = (Spinner) findViewById(R.id.experiment_add_group);
         Spinner scenariosSpinner = (Spinner) findViewById(R.id.experiment_add_scenario);
@@ -1088,6 +1156,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         Spinner artifactsSpinner = (Spinner) findViewById(R.id.experiment_add_artifact);
         Spinner digitizationsSpinner = (Spinner) findViewById(R.id.experiment_add_digitization);
         Spinner electrodeSystemsSpinner = (Spinner) findViewById(R.id.experiment_add_electrode_system);
+        Spinner weatherList = (Spinner) findViewById(R.id.experiment_add_weather);
 
         ResearchGroup group = (ResearchGroup) groupSpinner.getSelectedItem();
         Scenario scenario = (Scenario) scenariosSpinner.getSelectedItem();
@@ -1095,6 +1164,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         Artifact artifact = (Artifact) artifactsSpinner.getSelectedItem();
         Digitization digitization = (Digitization) digitizationsSpinner.getSelectedItem();
         ElectrodeSystem system = (ElectrodeSystem) electrodeSystemsSpinner.getSelectedItem();
+        Weather weather = (Weather) weatherList.getSelectedItem();
 
         //electrode
         EditText impedance = (EditText) findViewById(R.id.experiment_add_electrode_impedance);
@@ -1113,10 +1183,10 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             error.append(getString(R.string.error_no_artifact_selected)).append('\n');
         if (digitization == null)
             error.append(getString(R.string.error_no_digitization_selected)).append('\n');
+        if (weather == null)
+            error.append(getString(R.string.error_no_weather_selected)).append('\n');
         if (fromTime.getTime().after(toTime.getTime()))
             error.append(getString(R.string.error_time_start_after_end)).append('\n');
-        if (ValidationUtils.isEmpty(weatherTitle.getText().toString()))
-            error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.experiment_weather)).append(": ").append(getString(R.string.experiment_weather_title)).append(")").append('\n');
         if (ValidationUtils.isEmpty(impedance.getText().toString()))
             error.append(getString(R.string.error_empty_field)).append(" (").append(getString(R.string.experiment_electrode_impedance)).append(")").append('\n');
         if (system == null)
@@ -1157,9 +1227,6 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             experiment.setHardwareList(new HardwareList(selectedHardware));
             experiment.setSoftwareList(new SoftwareList(selectedSoftware));
 
-            Weather weather = new Weather();
-            weather.setTitle(weatherTitle.getText().toString());
-            weather.setDescription(weatherDescription.getText().toString());
             experiment.setWeather(weather);
 
             experiment.setStartTime(fromTime);

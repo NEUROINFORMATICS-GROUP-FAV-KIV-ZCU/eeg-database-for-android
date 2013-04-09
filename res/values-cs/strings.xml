@@ -81,6 +81,7 @@
     <string name="error_no_digitization_selected">Nevybrána digitalizace!</string>
     <string name="error_no_electrode_system_selected">Nevybrán systém elektrod!</string>
     <string name="error_no_electrode_location_selected">Nevybráno žádné umístění elektrody!</string>
+    <string name="error_no_weather_selected">Nevybráno počasí!</string>
     <string name="error_time_start_after_end">Čas začátku nemůže být po času konce!</string>
 
 
@@ -111,11 +112,13 @@
     <string name="working_ws_electrode_type">Stahují se typy elektrod…</string>
     <string name="working_ws_electrode_fix">Stahuje se seznam upevnění elektrod…</string>
     <string name="working_ws_electrode_system">Stahuje se seznam systémů elektrod…</string>
+    <string name="working_ws_weather">Stahují se existující záznamy počasí…</string>
     <string name="working_ws_create_digitization">Vytváření nové digitalizace…</string>
     <string name="working_ws_create_artifact">Vytváření nového artefaktu…</string>
     <string name="working_ws_create_disease">Vytváření nového záznamu nemoci…</string>
     <string name="working_ws_create_electrode_location">Vytváření nového umístění elektrody…</string>
     <string name="working_ws_create_experiment">Vytváření nového experimentu…</string>
+    <string name="working_ws_create_weather">Vytváření nového záznamu počasí…</string>
 
     <!-- Vyplne -->
     <string name="dummy_date">DATUM</string>
@@ -215,12 +218,14 @@
     <string name="experiment_add_disease">Vyberte nemoci</string>
     <string name="experiment_add_hardware">Vyberte hardware</string>
     <string name="experiment_add_software">Vyberte software</string>
+    <string name="experiment_add_weather">Vyberte počasí</string>
     <string name="experiment_add_pharmaceuticals">Vyberte farmaceutika</string>
     <string name="experiment_add_electrode_location">Vyberte umístění elektrod</string>
     <string name="experiment_add_electrode_system">Systém elektrod</string>
     <string name="experiment_add_electrode_fix">Upevnění elektrod</string>
     <string name="working_ws_create_electrode_fix">Vytváření nového upevnění elektrody…</string>
     <string name="experiment_add_electrode_type">Typ elektrod</string>
+    <string name="experiment_add_file">Pro nahrání souboru využijte po vytvoření experimentu sekci \"Soubor k nahrání\".</string>
 
     <!-- scenarios -->
     <string name="app_scenarios">Scénáře</string>

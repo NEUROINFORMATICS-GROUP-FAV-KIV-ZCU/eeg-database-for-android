@@ -72,7 +72,7 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
             case R.id.electrode_add_fix_new:
                 Intent intent = new Intent();
                 intent.setClass(this, ElectrodeFixAddActivity.class);
-                startActivityForResult(intent, Values.ADD_ELECTRODE_FIX);
+                startActivityForResult(intent, Values.ADD_ELECTRODE_FIX_FLAG);
                 break;
             default:
                 super.onClick(v);
@@ -94,7 +94,7 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Values.ADD_ELECTRODE_FIX && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Values.ADD_ELECTRODE_FIX_FLAG && resultCode == Activity.RESULT_OK) {
             ElectrodeFix fix = (ElectrodeFix) data.getExtras().get(Values.ADD_ELECTRODE_FIX_KEY);
             electrodeFixAdapter.add(fix);
         }
