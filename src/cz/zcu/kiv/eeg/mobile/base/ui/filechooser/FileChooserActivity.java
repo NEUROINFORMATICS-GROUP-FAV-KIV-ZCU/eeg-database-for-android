@@ -28,6 +28,7 @@ public class FileChooserActivity extends ListActivity {
     private final String ROOT = "/";
     private List<FileInfo> files = new ArrayList<FileInfo>();
     private TextView currentUrlView;
+    private static String currentPath = "/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,11 @@ public class FileChooserActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fchooser_list);
         currentUrlView = (TextView) findViewById(R.id.url);
-        loadDir(ROOT);
+
+        if(savedInstanceState != null)
+            currentPath = savedInstanceState.getString("path");
+
+        loadDir(currentPath);
     }
 
     /**
@@ -44,6 +49,8 @@ public class FileChooserActivity extends ListActivity {
      * @param dirPath path to directory
      */
     private void loadDir(String dirPath) {
+
+        currentPath = dirPath;
 
         Log.d(TAG, "Loading path " + dirPath);
         File f = new File(dirPath);
@@ -86,5 +93,11 @@ public class FileChooserActivity extends ListActivity {
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("path", currentPath);
     }
 }
