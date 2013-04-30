@@ -71,17 +71,17 @@ public class FetchExperiments extends CommonService<Void, Void, List<Experiment>
         RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
-
-        //obtain all public records if qualifier is all
-        if (Values.SERVICE_QUALIFIER_ALL.equals(qualifier)) {
-            String countUrl = url + "count";
-            ResponseEntity<RecordCount> count = restTemplate.exchange(countUrl, HttpMethod.GET, entity, RecordCount.class);
-
-            url += "public/" + count.getBody().getPublicRecords();
-        } else
-            url += qualifier;
-
         try {
+
+            //obtain all public records if qualifier is all
+            if (Values.SERVICE_QUALIFIER_ALL.equals(qualifier)) {
+                String countUrl = url + "count";
+                ResponseEntity<RecordCount> count = restTemplate.exchange(countUrl, HttpMethod.GET, entity, RecordCount.class);
+
+                url += "public/" + count.getBody().getPublicRecords();
+            } else
+                url += qualifier;
+
             // Make the network request
             Log.d(TAG, url);
             ResponseEntity<ExperimentList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
