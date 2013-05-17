@@ -3,6 +3,7 @@ package cz.zcu.kiv.eeg.mobile.base.ui.startup;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,11 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.TestCredentials;
+import net.rehacktive.wasp.WaspDb;
+import net.rehacktive.wasp.WaspFactory;
+import net.rehacktive.wasp.WaspHash;
+
+import java.io.File;
 
 /**
  * Activity for user's log in process.
@@ -51,14 +57,39 @@ public class WelcomeActivity extends CommonActivity {
     /**
      * Handles login button click event. Grabs credentials and endpoint from fields and tests credentials.
      */
-    public void loginClick() {
+    public void loginClick()
+    {
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-        TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
-        TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
-        TextView urlField = (TextView) findViewById(R.id.settings_url_field);
+        String dbname = "myDatabase";
 
-        testCredentials(usernameField.getText().toString(), passwordField.getText().toString(), urlField.getText()
-                .toString());
+
+        String artifactsName = "Artifacts";
+        WaspDb db = null;
+        WaspHash artifacts;
+        try {
+            if (!WaspFactory.existsDatabase(path, dbname)) {
+                db = WaspFactory.createDatabase(path, dbname);
+                artifacts = db.createHash(artifactsName);
+                artifacts.put("test", "testData");
+            } else {
+                db = WaspFactory.loadDatabase(path, dbname);
+                artifacts = db.getHash(artifactsName);
+                showAlert((String)artifacts.get("test"));
+            }
+
+
+
+
+        } catch (Exception e) {
+            showAlert(this.toString() + " " + e.getMessage());
+        }
+//        TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
+//        TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
+//        TextView urlField = (TextView) findViewById(R.id.settings_url_field);
+//
+//        testCredentials(usernameField.getText().toString(), passwordField.getText().toString(), urlField.getText()
+//                .toString());
     }
 
     /**
