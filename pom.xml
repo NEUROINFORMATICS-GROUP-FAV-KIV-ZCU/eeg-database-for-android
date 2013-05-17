@@ -67,6 +67,11 @@
             <artifactId>jackson-mapper-asl</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+                <dependency>
+            <groupId>net.rehactive</groupId>
+            <artifactId>waspdb</artifactId>
+            <version>0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -104,6 +109,12 @@
         </plugins>
     </build>
     <repositories>
+            <!-- Local repository for in-house libs and jars not available in public repos -->
+        <repository>
+            <id>cz.zcu.kiv.eegdatabase.repo.local</id>
+            <url>file://${basedir}/repo</url>
+        </repository>
+        
         <repository>
             <id>springsource-repo</id>
             <name>SpringSource Repository</name>

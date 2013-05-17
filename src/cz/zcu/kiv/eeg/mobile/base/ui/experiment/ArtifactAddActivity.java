@@ -2,6 +2,7 @@ package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.EditText;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
@@ -11,6 +12,9 @@ import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateArtifact;
+import net.rehacktive.wasp.WaspDb;
+import net.rehacktive.wasp.WaspFactory;
+import net.rehacktive.wasp.WaspHash;
 
 /**
  * Activity for creating new artifact record.
@@ -48,8 +52,28 @@ public class ArtifactAddActivity extends SaveDiscardActivity {
 
         Artifact record;
         if ((record = getValidRecord()) != null) {
+            String path = Environment.getExternalStorageState();
+
+            String dbname = "db";
+            String artifactsName = "Artifacts";
+            WaspDb db = null;
+            WaspHash artifacts;
+            try {
+            if(!WaspFactory.existsDatabase(path, dbname)) {
+                db = WaspFactory.createDatabase(path, dbname);
+                artifacts = db.createHash(artifactsName);
+            }
+                else {
+                db = WaspFactory.loadDatabase(path, dbname);
+                artifacts = db.getHash(artifactsName);
+            }
+                artifacts.put(String.valueOf(System.currentTimeMillis()), record);
+
+            } catch (Exception e) {
+                showAlert(this.toString() + " " + e.getMessage());
+            }
             if (ConnectionUtils.isOnline(this)) {
-                new CreateArtifact(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
+          //      new CreateArtifact(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
             } else
                 showAlert(getString(R.string.error_offline));
         }

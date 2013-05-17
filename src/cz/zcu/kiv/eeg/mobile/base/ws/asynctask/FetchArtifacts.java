@@ -1,6 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.util.Log;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
@@ -10,6 +11,9 @@ import cz.zcu.kiv.eeg.mobile.base.data.adapter.ArtifactAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Artifact;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ArtifactList;
 import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
+import net.rehacktive.wasp.WaspDb;
+import net.rehacktive.wasp.WaspFactory;
+import net.rehacktive.wasp.WaspHash;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -50,32 +54,48 @@ public class FetchArtifacts extends CommonService<Void, Void, List<Artifact>> {
      */
     @Override
     protected List<Artifact> doInBackground(Void... params) {
-        SharedPreferences credentials = getCredentials();
-        String username = credentials.getString("username", null);
-        String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_ARTIFACTS;
+//        SharedPreferences credentials = getCredentials();
+//        String username = credentials.getString("username", null);
+//        String password = credentials.getString("password", null);
+//        String url = credentials.getString("url", null) + Values.SERVICE_ARTIFACTS;
 
         setState(RUNNING, R.string.working_ws_artifacts);
-        HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setAuthorization(authHeader);
-        requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
-        HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
-
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
-        restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
+//        HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
+//        HttpHeaders requestHeaders = new HttpHeaders();
+//        requestHeaders.setAuthorization(authHeader);
+//        requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
+//        HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
+//
+//        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
+//        // Create a new RestTemplate instance
+//        RestTemplate restTemplate = new RestTemplate(factory);
+//        restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
             // Make the network request
-            Log.d(TAG, url);
-            ResponseEntity<ArtifactList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
-                    ArtifactList.class);
-            ArtifactList body = response.getBody();
+//            Log.d(TAG, url);
+//            ResponseEntity<ArtifactList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
+//                    ArtifactList.class);
+//            ArtifactList body = response.getBody();
+//
+//            if (body != null) {
+//                return body.getArtifacts();
+//            }
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+            String dbname = "db";
+            String artifactsName = "Artifacts";
+            WaspDb db = null;
+            WaspHash artifacts;
+            try {
+                if(WaspFactory.existsDatabase(path, dbname)) {
+                    db = WaspFactory.loadDatabase(path, dbname);
+                    artifacts = db.getHash(artifactsName);
+                return (List) artifacts.getAllValues();
+                }
 
-            if (body != null) {
-                return body.getArtifacts();
+            } catch (Exception e) {
+                Log.e(TAG, e.getLocalizedMessage(), e);
+                setState(ERROR, e);
             }
 
         } catch (Exception e) {
