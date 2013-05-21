@@ -35,7 +35,7 @@ public class WaspDbSupport {
         return db;
     }
 
-    public WaspHash getHash(String hashName) throws WaspFatalException{
+    public WaspHash getOrCreateHash(String hashName) throws WaspFatalException{
         WaspHash hash = null;
         if(db.existsHash(hashName)) {
              hash = db.getHash(hashName);

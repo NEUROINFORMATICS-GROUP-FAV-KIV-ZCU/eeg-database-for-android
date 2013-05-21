@@ -10,7 +10,6 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Artifact;
 import cz.zcu.kiv.eeg.mobile.base.db.WaspDbSupport;
-import net.rehacktive.wasp.WaspDb;
 import net.rehacktive.wasp.WaspHash;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
@@ -47,8 +46,8 @@ public class CreateArtifact extends CommonService<Artifact, Void, Artifact> {
         Artifact artifact = artifacts[0];
 
         try {
-            WaspDb db = new WaspDbSupport().getDb();
-            WaspHash hash = db.getHash("Artifact");
+            WaspDbSupport support = new WaspDbSupport();
+            WaspHash hash = support.getOrCreateHash("Artifact");
             hash.put("hash" + artifact.hashCode(), artifact);
 
         } catch (Exception e) {
