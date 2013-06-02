@@ -16,7 +16,7 @@ public class ConnectionUtils {
      * @return true if network is available
      */
     public static boolean isOnline(Context context) {
-        //Does not need internet connections when an embedded database is used
+        //There is no need any internet connections when an embedded database is used
         return true;
     }
 
