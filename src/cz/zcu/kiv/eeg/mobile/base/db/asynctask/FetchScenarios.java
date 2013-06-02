@@ -6,6 +6,7 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ScenarioAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
+import cz.zcu.kiv.eeg.mobile.base.db.HashConstants;
 import cz.zcu.kiv.eeg.mobile.base.db.WaspDbSupport;
 import net.rehacktive.wasp.WaspHash;
 
@@ -56,7 +57,7 @@ public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
         try {
 
             WaspDbSupport dbSupport = new WaspDbSupport();
-            WaspHash res = dbSupport.getOrCreateHash("Scenario");
+            WaspHash res = dbSupport.getOrCreateHash(HashConstants.SCENARIOS.toString());
             List<?> scenarios = res.getAllValues();
 
 

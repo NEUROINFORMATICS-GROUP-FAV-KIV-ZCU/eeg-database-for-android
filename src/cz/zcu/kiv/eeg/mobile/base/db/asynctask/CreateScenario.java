@@ -13,6 +13,8 @@ import cz.zcu.kiv.eeg.mobile.base.db.HashConstants;
 import cz.zcu.kiv.eeg.mobile.base.db.WaspDbSupport;
 import net.rehacktive.wasp.WaspHash;
 
+import java.io.File;
+
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.DONE;
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.ERROR;
 
@@ -51,6 +53,8 @@ public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
             try {
                 WaspDbSupport support = new WaspDbSupport();
                 WaspHash hash = support.getOrCreateHash(HashConstants.SCENARIOS.toString());
+                long fileLength = new File(scenario.getFilePath()).length();
+                scenario.setFileLength(String.valueOf(fileLength));
                 hash.put("hash" + scenario.hashCode(), scenario);
 
             } catch (Exception e) {
