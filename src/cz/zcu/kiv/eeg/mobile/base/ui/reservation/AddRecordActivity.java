@@ -19,8 +19,8 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateReservation;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchResearchGroups;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.CreateReservation;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.FetchResearchGroups;
 
 import java.util.ArrayList;
 

@@ -10,7 +10,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Artifact;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateArtifact;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.CreateArtifact;
 
 /**
  * Activity for creating new artifact record.

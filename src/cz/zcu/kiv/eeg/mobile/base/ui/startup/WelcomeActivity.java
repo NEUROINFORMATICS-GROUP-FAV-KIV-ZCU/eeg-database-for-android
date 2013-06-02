@@ -8,18 +8,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.TestCredentials;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.TestCredentials;
 import net.rehacktive.wasp.WaspDb;
 import net.rehacktive.wasp.WaspFactory;
 import net.rehacktive.wasp.WaspHash;
-
-import java.io.File;
 
 /**
  * Activity for user's log in process.

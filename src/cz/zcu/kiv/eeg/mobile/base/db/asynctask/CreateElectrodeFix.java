@@ -2,7 +2,6 @@ package cz.zcu.kiv.eeg.mobile.base.db.asynctask;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
@@ -10,14 +9,12 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
-import org.springframework.http.*;
-import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import cz.zcu.kiv.eeg.mobile.base.db.HashConstants;
+import cz.zcu.kiv.eeg.mobile.base.db.WaspDbSupport;
+import net.rehacktive.wasp.WaspHash;
 
-import java.util.Collections;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
+import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.DONE;
+import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.ERROR;
 
 /**
  * Common service (Asynctask) for creating new Electrode Fix on eeg base.
@@ -46,39 +43,22 @@ public class CreateElectrodeFix extends CommonService<ElectrodeFix, Void, Electr
      */
     @Override
     protected ElectrodeFix doInBackground(ElectrodeFix... electrodeFixes) {
-        SharedPreferences credentials = getCredentials();
-        String username = credentials.getString("username", null);
-        String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_ELECTRODE_FIXLIST;
 
-        setState(RUNNING, R.string.working_ws_create_electrode_fix);
-        HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setAuthorization(authHeader);
-        requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
-        requestHeaders.setContentType(MediaType.APPLICATION_XML);
-
-
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
-        restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         ElectrodeFix fix = electrodeFixes[0];
 
         try {
-            Log.d(TAG, url);
+            WaspDbSupport support = new WaspDbSupport();
+            WaspHash hash = support.getOrCreateHash(HashConstants.ELECTRODES_FIX.toString());
+            hash.put("hash" + fix.hashCode(), fix);
 
-            HttpEntity<ElectrodeFix> entity = new HttpEntity<ElectrodeFix>(fix, requestHeaders);
-            // Make the network request
-            return restTemplate.postForObject(url, entity, ElectrodeFix.class);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
             setState(ERROR, e);
         } finally {
             setState(DONE);
         }
-        return null;
+        return fix;
     }
 
     /**

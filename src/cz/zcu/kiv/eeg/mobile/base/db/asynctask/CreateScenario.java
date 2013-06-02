@@ -2,7 +2,6 @@ package cz.zcu.kiv.eeg.mobile.base.db.asynctask;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
@@ -10,19 +9,12 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.*;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
+import cz.zcu.kiv.eeg.mobile.base.db.HashConstants;
+import cz.zcu.kiv.eeg.mobile.base.db.WaspDbSupport;
+import net.rehacktive.wasp.WaspHash;
 
-import java.util.Collections;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
+import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.DONE;
+import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.ERROR;
 
 /**
  * Common service (Asynctask) for creating new scenario on eeg base.
@@ -51,54 +43,23 @@ public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
      */
     @Override
     protected Scenario doInBackground(Scenario... scenarios) {
-        SharedPreferences credentials = getCredentials();
-        String username = credentials.getString("username", null);
-        String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_SCENARIOS;
-
-        setState(RUNNING, R.string.working_ws_create_scenario);
-        HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setAuthorization(authHeader);
-        requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
-
-
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        //so files wont buffer in memory
-        factory.setBufferRequestBody(false);
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-        restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
 
         Scenario scenario = scenarios[0];
 
-        try {
-            Log.d(TAG, url);
-            FileSystemResource toBeUploadedFile = new FileSystemResource(scenario.getFilePath());
 
-            //due to multipart file, MultiValueMap is the simplest approach for performing the post request
-            MultiValueMap<String, Object> form = new LinkedMultiValueMap<String, Object>();
-            form.add("scenarioName", scenario.getScenarioName());
-            form.add("researchGroupId", Integer.toString(scenario.getResearchGroupId()));
-            form.add("description", scenario.getDescription());
-            form.add("mimeType", scenario.getMimeType());
-            form.add("private", Boolean.toString(scenario.isPrivate()));
-            form.add("file", toBeUploadedFile);
+            try {
+                WaspDbSupport support = new WaspDbSupport();
+                WaspHash hash = support.getOrCreateHash(HashConstants.SCENARIOS.toString());
+                hash.put("hash" + scenario.hashCode(), scenario);
 
-            HttpEntity<Object> entity = new HttpEntity<Object>(form, requestHeaders);
-            // Make the network request
-            ResponseEntity<Scenario> response = restTemplate.postForEntity(url, entity, Scenario.class);
-            return response.getBody();
-        } catch (Exception e) {
-            Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
-        } finally {
-            setState(DONE);
-        }
-        return null;
+            } catch (Exception e) {
+                Log.e(TAG, e.getLocalizedMessage(), e);
+                setState(ERROR, e);
+            } finally {
+                setState(DONE);
+            }
+        return scenario;
     }
 
     /**

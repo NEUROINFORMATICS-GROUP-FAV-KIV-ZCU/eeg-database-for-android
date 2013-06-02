@@ -10,7 +10,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Digitization;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateDigitization;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.CreateDigitization;
 
 /**
  * Activity for creating new digitization record.

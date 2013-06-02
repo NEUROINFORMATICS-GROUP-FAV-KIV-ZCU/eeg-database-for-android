@@ -16,7 +16,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ScenarioAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchScenarios;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.FetchScenarios;
 
 import java.util.ArrayList;
 

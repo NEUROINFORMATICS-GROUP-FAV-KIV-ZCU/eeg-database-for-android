@@ -20,11 +20,11 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.*;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.*;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.*;
 import cz.zcu.kiv.eeg.mobile.base.ui.person.PersonAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.*;
 
 import java.util.ArrayList;
 import java.util.List;

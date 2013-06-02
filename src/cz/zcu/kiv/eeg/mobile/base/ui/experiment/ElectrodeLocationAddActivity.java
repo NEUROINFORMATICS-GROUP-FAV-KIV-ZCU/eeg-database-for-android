@@ -22,9 +22,9 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeType;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateElectrodeLocation;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchElectrodeFixes;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchElectrodeTypes;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.CreateElectrodeLocation;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.FetchElectrodeFixes;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.FetchElectrodeTypes;
 
 import java.util.ArrayList;
 

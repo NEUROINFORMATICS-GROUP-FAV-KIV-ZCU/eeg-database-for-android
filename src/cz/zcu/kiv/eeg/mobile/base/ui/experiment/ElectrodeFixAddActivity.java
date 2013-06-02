@@ -10,7 +10,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateElectrodeFix;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.CreateElectrodeFix;
 
 /**
  * Activity for creating new electrode fix record.

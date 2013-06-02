@@ -10,7 +10,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Disease;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateDisease;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.CreateDisease;
 
 /**
  * Activity for creating new disease record.

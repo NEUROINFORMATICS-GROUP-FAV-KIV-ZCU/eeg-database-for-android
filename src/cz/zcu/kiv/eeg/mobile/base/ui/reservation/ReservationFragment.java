@@ -22,7 +22,7 @@ import cz.zcu.kiv.eeg.mobile.base.data.adapter.ReservationAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchReservationsToDate;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.FetchReservationsToDate;
 
 import java.util.ArrayList;
 

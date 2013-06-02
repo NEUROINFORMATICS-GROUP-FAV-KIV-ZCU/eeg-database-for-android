@@ -16,8 +16,8 @@ import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.FileUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateScenario;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchResearchGroups;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.CreateScenario;
+import cz.zcu.kiv.eeg.mobile.base.db.asynctask.FetchResearchGroups;
 import org.springframework.core.io.FileSystemResource;
 
 import java.util.ArrayList;

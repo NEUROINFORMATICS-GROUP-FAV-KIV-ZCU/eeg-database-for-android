@@ -22,18 +22,11 @@ public class StartUpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences credentials = getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
-        CharSequence username = credentials.getString("username", null);
-        CharSequence password = credentials.getString("password", null);
 
-        if (username == null || password == null) {
-            Intent welcomeIntent = new Intent(this, WelcomeActivity.class);
-            startActivity(welcomeIntent);
-        } else {
-            Intent mainIntent = new Intent(this, NavigationActivity.class);
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(mainIntent);
-        }
+        Intent mainIntent = new Intent(this, NavigationActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mainIntent);
+
 
         finish();
     }

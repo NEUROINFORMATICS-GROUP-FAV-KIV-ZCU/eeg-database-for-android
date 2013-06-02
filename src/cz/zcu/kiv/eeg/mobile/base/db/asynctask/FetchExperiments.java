@@ -1,20 +1,16 @@
 package cz.zcu.kiv.eeg.mobile.base.db.asynctask;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
-import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ExperimentAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ExperimentList;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.RecordCount;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
-import org.springframework.http.*;
-import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import cz.zcu.kiv.eeg.mobile.base.db.HashConstants;
+import cz.zcu.kiv.eeg.mobile.base.db.WaspDbSupport;
+import net.rehacktive.wasp.WaspHash;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -54,43 +50,12 @@ public class FetchExperiments extends CommonService<Void, Void, List<Experiment>
      */
     @Override
     protected List<Experiment> doInBackground(Void... params) {
-        SharedPreferences credentials = getCredentials();
-        String username = credentials.getString("username", null);
-        String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_EXPERIMENTS;
-
         setState(RUNNING, R.string.working_ws_experiments);
-        HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setAuthorization(authHeader);
-        requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
-        HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
-
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
-        restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
-
+        List<?> results = new ArrayList<Object>();
         try {
-
-            //obtain all public records if qualifier is all
-            if (Values.SERVICE_QUALIFIER_ALL.equals(qualifier)) {
-                String countUrl = url + "count";
-                ResponseEntity<RecordCount> count = restTemplate.exchange(countUrl, HttpMethod.GET, entity, RecordCount.class);
-
-                url += "public/" + count.getBody().getPublicRecords();
-            } else
-                url += qualifier;
-
-            // Make the network request
-            Log.d(TAG, url);
-            ResponseEntity<ExperimentList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
-                    ExperimentList.class);
-            ExperimentList body = response.getBody();
-
-            if (body != null) {
-                return body.getExperiments();
-            }
+            WaspDbSupport dbSupport = new WaspDbSupport();
+            WaspHash hash = dbSupport.getOrCreateHash(HashConstants.EXPERIMENTS.toString());
+            results = hash.getAllValues();
 
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
@@ -98,7 +63,7 @@ public class FetchExperiments extends CommonService<Void, Void, List<Experiment>
         } finally {
             setState(DONE);
         }
-        return Collections.emptyList();
+        return (List<Experiment>) results;
     }
 
     /**

@@ -1,19 +1,16 @@
 package cz.zcu.kiv.eeg.mobile.base.db.asynctask;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
-import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.WeatherAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Weather;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.WeatherList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
-import org.springframework.http.*;
-import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import cz.zcu.kiv.eeg.mobile.base.db.HashConstants;
+import cz.zcu.kiv.eeg.mobile.base.db.WaspDbSupport;
+import net.rehacktive.wasp.WaspHash;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -52,42 +49,19 @@ public class FetchWeatherList extends CommonService<Void, Void, List<Weather>> {
      */
     @Override
     protected List<Weather> doInBackground(Void... params) {
-
-        SharedPreferences credentials = getCredentials();
-        String username = credentials.getString("username", null);
-        String password = credentials.getString("password", null);
-        String url = credentials.getString("url", null) + Values.SERVICE_WEATHER + "/" + researchGroupId;
-
         setState(RUNNING, R.string.working_ws_weather);
-        HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setAuthorization(authHeader);
-        requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
-        HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
-
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
-        restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
-
+        List<?> results = new ArrayList<Object>();
         try {
-            // Make the network request
-            Log.d(TAG, url);
-            ResponseEntity<WeatherList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
-                    WeatherList.class);
-            WeatherList body = response.getBody();
-
-            if (body != null) {
-                return body.getWeatherList();
-            }
-
+            WaspDbSupport dbSupport = new WaspDbSupport();
+            WaspHash hash = dbSupport.getOrCreateHash(HashConstants.WEATHERS.toString());
+            results = hash.getAllValues();
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
             setState(ERROR, e);
         } finally {
             setState(DONE);
         }
-        return Collections.emptyList();
+        return (List<Weather>) results;
     }
 
     /**

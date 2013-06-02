@@ -1,20 +1,17 @@
 package cz.zcu.kiv.eeg.mobile.base.db.asynctask;
 
 import android.app.FragmentManager;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
-import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
+import cz.zcu.kiv.eeg.mobile.base.db.HashConstants;
+import cz.zcu.kiv.eeg.mobile.base.db.WaspDbSupport;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
-import org.springframework.http.*;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import net.rehacktive.wasp.WaspHash;
 
 import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
@@ -60,23 +57,10 @@ public class RemoveReservation extends CommonService<Reservation, Void, Boolean>
 
             setState(RUNNING, R.string.working_ws_remove);
 
-            SharedPreferences credentials = getCredentials();
-            String username = credentials.getString("username", null);
-            String password = credentials.getString("password", null);
-            String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION + data.getReservationId();
+            WaspDbSupport dbSupport = new WaspDbSupport();
+            WaspHash hash = dbSupport.getOrCreateHash(HashConstants.RESERVATIONS.toString());
+            hash.put(data, null);
 
-            HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
-            HttpHeaders requestHeaders = new HttpHeaders();
-            requestHeaders.setAuthorization(authHeader);
-            HttpEntity<Reservation> entity = new HttpEntity<Reservation>(requestHeaders);
-
-            SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-            // Create a new RestTemplate instance
-            RestTemplate restTemplate = new RestTemplate(factory);
-            restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-
-            Log.d(TAG, url + "\n" + entity);
-            restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
             return true;
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
