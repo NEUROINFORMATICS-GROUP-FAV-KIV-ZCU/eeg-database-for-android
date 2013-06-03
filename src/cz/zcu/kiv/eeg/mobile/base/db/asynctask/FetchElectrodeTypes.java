@@ -53,6 +53,12 @@ public class FetchElectrodeTypes extends CommonService<Void, Void, List<Electrod
         try {
             WaspDbSupport dbSupport = new WaspDbSupport();
             WaspHash hash = dbSupport.getOrCreateHash(HashConstants.ELECTRODE_TYPES.toString());
+            if(hash.getAllKeys().size() == 0) {
+                ElectrodeType et = new ElectrodeType();
+                et.setTitle("testElectrodeType");
+                et.setDescription("dummy electrode type for testing purposes");
+                hash.put("hash"+et.hashCode(), et);
+            }
             results = hash.getAllValues();
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);

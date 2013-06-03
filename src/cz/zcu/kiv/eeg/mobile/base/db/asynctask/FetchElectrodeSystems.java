@@ -52,6 +52,12 @@ public class FetchElectrodeSystems extends CommonService<Void, Void, List<Electr
         try {
             WaspDbSupport dbSupport = new WaspDbSupport();
             WaspHash hash = dbSupport.getOrCreateHash(HashConstants.ELECTRODE_SYSTEMS.toString());
+            if(hash.getAllKeys().size() == 0) {
+                ElectrodeSystem system = new ElectrodeSystem();
+                system.setTitle("Test System");
+                system.setDescription("System for testing purposes");
+                hash.put("hash"+system.hashCode(), system);
+            }
             results = hash.getAllValues();
 
         } catch (Exception e) {

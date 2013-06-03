@@ -14,7 +14,7 @@ public enum HashConstants {
     DIGITISATION("Digitisation"),
     ARTIFACTS("Artifacts"),
     DISEASES("Diseases"),
-    ELECTRODES_FIX("ElectrodeFixs"),
+    ELECTRODES_FIX("ElectrodeFix"),
     ELECTRODES_LOC("ElectrodeLocations"),
     EXPERIMENTS("Experiments"),
     RESERVATIONS("Reservations"),
@@ -30,6 +30,10 @@ public enum HashConstants {
     private String value;
     private HashConstants(String value) {
         this.value = value;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override

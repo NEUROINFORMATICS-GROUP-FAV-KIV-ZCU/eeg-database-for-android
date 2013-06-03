@@ -56,37 +56,7 @@ public class WelcomeActivity extends CommonActivity {
      */
     public void loginClick()
     {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-        String dbname = "myDatabase";
-
-
-        String artifactsName = "Artifacts";
-        WaspDb db = null;
-        WaspHash artifacts;
-        try {
-            if (!WaspFactory.existsDatabase(path, dbname)) {
-                db = WaspFactory.createDatabase(path, dbname);
-                artifacts = db.createHash(artifactsName);
-                artifacts.put("test", "testData");
-            } else {
-                db = WaspFactory.loadDatabase(path, dbname);
-                artifacts = db.getHash(artifactsName);
-                showAlert((String)artifacts.get("test"));
-            }
-
-
-
-
-        } catch (Exception e) {
-            showAlert(this.toString() + " " + e.getMessage());
-        }
-//        TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
-//        TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
-//        TextView urlField = (TextView) findViewById(R.id.settings_url_field);
-//
-//        testCredentials(usernameField.getText().toString(), passwordField.getText().toString(), urlField.getText()
-//                .toString());
     }
 
     /**
