@@ -5,17 +5,12 @@
         <item>@string/app_dashboard</item>
         <item>@string/app_scenarios</item>
         <item>@string/app_experiments</item>
-        <item>@string/app_data_file</item>
-        <item>@string/app_reser</item>
-        <item>@string/app_settings</item>
+
     </string-array>
 
     <string-array name="sections_list_icons">
         <item>ic_action_person</item>
         <item>ic_action_scenario</item>
         <item>ic_action_description</item>
-        <item>ic_action_upload</item>
-        <item>ic_action_time</item>
-        <item>ic_action_settings</item>
     </string-array>
 </resources>
