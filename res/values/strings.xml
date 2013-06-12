@@ -20,15 +20,7 @@
         <b>Experiments</b>
         - Section for displaying basic information about experiments and for creating a new ones.\n
         *
-        <b>Upload file</b>
-        - If you need to upload a data file to your experiment, head over here.\n
-        *
-        <b>Reservations</b>
-        - Here you can use EEG Lab reservation system, for creating a reservation time for your research team!\n
-        *
-        <b>Settings</b>
-        - Gathers basic settings for this application to run properly.\n
-        \n
+
         Hopefully you will find this application useful!
     </string>
 

@@ -11,9 +11,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <android-platform>17</android-platform>
-        <android-maven-plugin-version>3.5.1</android-maven-plugin-version>
+        <android-maven-plugin-version>3.6.0</android-maven-plugin-version>
         <maven-compiler-plugin-version>2.5.1</maven-compiler-plugin-version>
-        <java-version>1.6</java-version>
+        <java-version>1.7</java-version>
         <maven-eclipse-plugin-version>2.9</maven-eclipse-plugin-version>
         <android-version>4.0.1.2</android-version>
         <spring-android-version>1.0.1.RELEASE</spring-android-version>
