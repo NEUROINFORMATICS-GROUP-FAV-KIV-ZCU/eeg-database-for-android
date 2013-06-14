@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">EEG Databáze</string>
+    <string name="app_name">EEG Databáze Offline Verze</string>
     <string name="app_refresh">Obnovit</string>
     <string name="app_search">Hledat</string>
     <string name="app_dashboard">Přehled</string>

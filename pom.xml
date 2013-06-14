@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>cz.zcu.kiv.eeg.mobile.base</groupId>
-    <artifactId>eeg.base</artifactId>
+    <artifactId>eeg.base.dbsupport</artifactId>
     <version>1.0.0</version>
     <packaging>apk</packaging>
     <name>EEG Datase for Android</name>
