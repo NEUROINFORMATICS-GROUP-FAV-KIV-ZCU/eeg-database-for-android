@@ -33,6 +33,9 @@
         Doufám, že shledáte aplikaci užitečnou!
     </string>
 
+    <string name="nav_open">Otevřít navigaci</string>
+    <string name="nav_close">Skrýt navigaci</string>
+
     <string name="login_mail_suffix">\ @students.zcu.cz</string>
     <string name="login_protocol">https://</string>
     <string name="menu_save">Uložit</string>

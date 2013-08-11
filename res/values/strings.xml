@@ -32,6 +32,9 @@
         Hopefully you will find this application useful!
     </string>
 
+    <string name="nav_open">Show navigation</string>
+    <string name="nav_close">Hide navigation</string>
+
     <string name="login_mail_suffix">\ @students.zcu.cz</string>
     <string name="login_protocol">https://</string>
     <string name="menu_save">Save</string>

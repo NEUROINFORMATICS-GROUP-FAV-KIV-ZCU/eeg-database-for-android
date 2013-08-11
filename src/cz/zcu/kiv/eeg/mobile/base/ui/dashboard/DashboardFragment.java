@@ -1,5 +1,6 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.dashboard;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,15 @@ public class DashboardFragment extends Fragment {
 
     public static final String TAG = DashboardFragment.class.getSimpleName();
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setTitle(R.string.app_dashboard);
+        actionBar.setIcon(R.drawable.ic_action_person);
+    }
 
     /**
      * In moment of creating view inflates dashboard layout.

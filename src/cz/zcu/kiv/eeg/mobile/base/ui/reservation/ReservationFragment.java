@@ -1,10 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
+import android.app.*;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -65,6 +62,10 @@ public class ReservationFragment extends ListFragment implements OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setTitle(R.string.app_reser);
+        actionBar.setIcon(R.drawable.ic_action_time);
 
         if (savedInstanceState != null) {
             cursorPosition = savedInstanceState.getInt("cursorPos", 0);

@@ -1,6 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.datafile;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -37,6 +38,10 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setTitle(R.string.app_data_file);
+        actionBar.setIcon(R.drawable.ic_action_upload);
     }
 
     @Override

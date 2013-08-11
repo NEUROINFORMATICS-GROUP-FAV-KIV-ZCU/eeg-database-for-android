@@ -11,14 +11,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <android-platform>16</android-platform>
-        <android-maven-plugin-version>3.5.1</android-maven-plugin-version>
-        <maven-compiler-plugin-version>2.5.1</maven-compiler-plugin-version>
+        <android-maven-plugin-version>3.6.1</android-maven-plugin-version>
+        <maven-compiler-plugin-version>3.1</maven-compiler-plugin-version>
         <java-version>1.6</java-version>
-        <maven-eclipse-plugin-version>2.9</maven-eclipse-plugin-version>
         <android-version>4.0.1.2</android-version>
         <spring-android-version>1.0.1.RELEASE</spring-android-version>
-        <simple-version>2.6.6</simple-version>
-        <jackson-version>1.9.8</jackson-version>
+        <simple-version>2.7.1</simple-version>
     </properties>
     <dependencies>
 
@@ -33,11 +31,13 @@
             <artifactId>spring-android-rest-template</artifactId>
             <version>${spring-android-version}</version>
         </dependency>
+
         <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>annotations</artifactId>
-            <version>4.1.1.4</version>
+            <groupId>com.android.support</groupId>
+            <artifactId>support-v4</artifactId>
+            <version>18.0.0</version>
         </dependency>
+
 
 
         <dependency>
@@ -62,10 +62,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <!-- Using Jackson for JSON marshaling -->
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson-version}</version>
+            <groupId>com.google.android</groupId>
+            <artifactId>annotations</artifactId>
+            <version>4.1.1.4</version>
         </dependency>
     </dependencies>
     <build>
@@ -92,15 +91,6 @@
                     <target>${java-version}</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>${maven-eclipse-plugin-version}</version>
-                <configuration>
-                    <downloadSources>true</downloadSources>
-                    <downloadJavadocs>true</downloadJavadocs>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
     <repositories>
@@ -108,6 +98,11 @@
             <id>springsource-repo</id>
             <name>SpringSource Repository</name>
             <url>http://repo.springsource.org/release</url>
+        </repository>
+        <repository>
+            <id>google-repo</id>
+            <name>Google local repository</name>
+            <url>file:${env.ANDROID_HOME}/extras/android/m2repository</url>
         </repository>
     </repositories>
 </project>
