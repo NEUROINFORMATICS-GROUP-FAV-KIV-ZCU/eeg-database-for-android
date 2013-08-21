@@ -2,7 +2,7 @@
 <resources>
 
     <style name="section_title">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/background_section</item>
         <item name="android:textColor">@android:color/primary_text_dark</item>
