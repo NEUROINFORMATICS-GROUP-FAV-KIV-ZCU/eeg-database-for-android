@@ -2,9 +2,6 @@ package cz.zcu.kiv.eeg.mobile.base.ui.person;
 
 import android.os.Bundle;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
@@ -12,6 +9,9 @@ import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreatePerson;
+import org.holoeverywhere.widget.EditText;
+import org.holoeverywhere.widget.Spinner;
+import org.holoeverywhere.widget.TextView;
 
 /**
  * Activity for creating new Person in eeg base.

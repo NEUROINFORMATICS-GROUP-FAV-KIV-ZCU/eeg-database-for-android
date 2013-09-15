@@ -1,8 +1,8 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
@@ -13,15 +13,12 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ReservationList;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationDetailsFragment;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Service (AsyncTask) for fetching reservations created to specified day.
@@ -31,6 +28,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class FetchReservationsToDate extends CommonService<TimeContainer, Void, List<Reservation>> {
 
     private static final String TAG = FetchReservationsToDate.class.getSimpleName();
+    private static final int MESSAGE = R.string.working_ws_msg;
     private ReservationAdapter reservationAdapter;
 
     /**
@@ -40,7 +38,7 @@ public class FetchReservationsToDate extends CommonService<TimeContainer, Void, 
      * @param reservationAdapter adapter into which should be stored fetched reservations
      */
     public FetchReservationsToDate(CommonActivity activity, ReservationAdapter reservationAdapter) {
-        super(activity);
+        super(activity, MESSAGE);
         this.reservationAdapter = reservationAdapter;
     }
 
@@ -53,7 +51,7 @@ public class FetchReservationsToDate extends CommonService<TimeContainer, Void, 
      */
     @Override
     protected List<Reservation> doInBackground(TimeContainer... params) {
-        SharedPreferences credentials = getCredentials();
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION;
@@ -63,11 +61,11 @@ public class FetchReservationsToDate extends CommonService<TimeContainer, Void, 
             url = url + time.getDay() + "-" + time.getMonth() + "-" + time.getYear();
         } else {
             Log.e(TAG, "Invalid params count! There must be one TimeContainer instance");
-            setState(ERROR, "Invalid params count! There must be one TimeContainer instance");
+            onServiceError(new Throwable("Invalid params count! There must be one TimeContainer instance"));
             return Collections.emptyList();
         }
 
-        setState(RUNNING, R.string.working_ws_msg);
+        onServiceStart();
 
         // Populate the HTTP Basic Authentication header with the username and
         // password
@@ -76,9 +74,7 @@ public class FetchReservationsToDate extends CommonService<TimeContainer, Void, 
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
@@ -94,9 +90,9 @@ public class FetchReservationsToDate extends CommonService<TimeContainer, Void, 
 
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return Collections.emptyList();
     }
@@ -115,13 +111,13 @@ public class FetchReservationsToDate extends CommonService<TimeContainer, Void, 
                 try {
                     reservationAdapter.add(reservation);
                 } catch (Exception e) {
-                    setState(ERROR, e);
+                    onServiceError(e);
                     Log.e(TAG, e.getLocalizedMessage(), e);
                 }
             }
         }
 
-        FragmentManager fm = activity.getFragmentManager();
+        FragmentManager fm = activity.getSupportFragmentManager();
 
         ReservationDetailsFragment details = new ReservationDetailsFragment();
         ReservationDetailsFragment frag = (ReservationDetailsFragment) fm.findFragmentByTag(ReservationDetailsFragment.TAG);

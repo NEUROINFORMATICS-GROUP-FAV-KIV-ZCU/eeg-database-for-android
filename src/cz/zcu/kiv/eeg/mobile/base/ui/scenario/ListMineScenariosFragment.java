@@ -1,15 +1,17 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.scenario;
 
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.*;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ListView;
-import android.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
@@ -17,6 +19,9 @@ import cz.zcu.kiv.eeg.mobile.base.data.adapter.ScenarioAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchScenarios;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.ListFragment;
+import org.holoeverywhere.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -34,6 +39,13 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
     private boolean isDualView;
     private int cursorPosition;
 
+
+    static ListMineScenariosFragment newInstance(){
+        return new ListMineScenariosFragment();
+    }
+
+    final static int NAME = R.string.scenario_list_mine;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +58,6 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.base_scenario_list, container, false);
-        View detailsFrame = view.findViewById(R.id.details);
-        isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
         View emptyView = view.findViewById(android.R.id.empty);
         emptyView.setOnClickListener(this);
         return view;
@@ -59,10 +69,6 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
         setListAdapter(getAdapter());
 
         ListView listView = (ListView) view.findViewById(android.R.id.list);
-        if (isDualView) {
-            listView.setSelector(R.drawable.list_selector);
-            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        }
         listView.setTextFilterEnabled(true);
         super.onViewCreated(view, savedInstanceState);
     }
@@ -70,6 +76,10 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        View detailsFrame = getActivity().findViewById(R.id.details);
+        isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
         if (isDualView) {
             showDetails(cursorPosition);
             setSelection(cursorPosition);

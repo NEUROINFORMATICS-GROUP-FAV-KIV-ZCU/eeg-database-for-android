@@ -9,7 +9,6 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeTypeAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeType;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeTypeList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -17,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for fetching electrodeTypes from eeg base.
@@ -28,6 +25,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class FetchElectrodeTypes extends CommonService<Void, Void, List<ElectrodeType>> {
 
     private static final String TAG = FetchElectrodeTypes.class.getSimpleName();
+    private final static int MESSAGE = R.string.working_ws_electrode_type;
     private final ElectrodeTypeAdapter electrodeTypeAdapter;
 
     /**
@@ -37,7 +35,7 @@ public class FetchElectrodeTypes extends CommonService<Void, Void, List<Electrod
      * @param electrodeTypeAdapter adapter for holding collection of electrodeTypes
      */
     public FetchElectrodeTypes(CommonActivity activity, ElectrodeTypeAdapter electrodeTypeAdapter) {
-        super(activity);
+        super(activity, MESSAGE);
         this.electrodeTypeAdapter = electrodeTypeAdapter;
     }
 
@@ -50,21 +48,20 @@ public class FetchElectrodeTypes extends CommonService<Void, Void, List<Electrod
      */
     @Override
     protected List<ElectrodeType> doInBackground(Void... params) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_ELECTRODE_TYPES;
 
-        setState(RUNNING, R.string.working_ws_electrode_type);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
@@ -80,9 +77,9 @@ public class FetchElectrodeTypes extends CommonService<Void, Void, List<Electrod
 
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return Collections.emptyList();
     }

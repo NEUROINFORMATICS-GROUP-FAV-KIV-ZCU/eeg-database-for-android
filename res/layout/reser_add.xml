@@ -3,97 +3,74 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    <GridLayout
-            android:id="@+id/GridLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="4"
-            android:padding="5dp">
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical"
+                 android:stretchColumns="1"
+                 android:padding="5dp">
 
-        <Button
-                android:id="@+id/fromTimeButton"
-                android:layout_column="3"
-                android:layout_gravity="center_vertical|right"
-                android:layout_row="0"
-                android:drawableLeft="@drawable/ic_action_time"
-                android:onClick="fromTimeClick"
-                android:text="@string/time_choose_time"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+        <TableRow>
 
-        <TextView
-                android:id="@+id/fromLabel"
-                android:layout_column="0"
-                android:layout_columnSpan="2"
-                android:layout_gravity="center_vertical"
-                android:layout_row="0"
-                android:text="@string/time_from"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+            <Button
+                    android:id="@+id/fromTimeButton"
+                    android:drawableLeft="@drawable/ic_action_time"
+                    android:onClick="fromTimeClick"
+                    android:text="@string/time_choose_time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
 
-        <TextView
-                android:id="@+id/fromField"
-                android:layout_column="2"
-                android:layout_gravity="center_vertical"
-                android:layout_row="0"
-                android:paddingLeft="15sp"
-                android:text="@string/dummy_from"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+            <TextView
+                    android:id="@+id/fromLabel"
+                    android:text="@string/time_from"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
 
-        <TextView
-                android:id="@+id/toLabel"
-                android:layout_column="0"
-                android:layout_columnSpan="2"
-                android:layout_gravity="center_vertical"
-                android:layout_row="1"
-                android:text="@string/time_to"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+            <TextView
+                    android:id="@+id/fromField"
+                    android:text="@string/dummy_from"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+        </TableRow>
 
+        <TableRow>
 
-        <Button
-                android:id="@+id/toTimeButton"
-                android:layout_column="3"
-                android:layout_gravity="center_vertical|right"
-                android:layout_row="1"
-                android:drawableLeft="@drawable/ic_action_time"
-                android:onClick="toTimeClick"
-                android:text="@string/time_choose_time"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+            <Button
+                    android:id="@+id/toTimeButton"
+                    android:drawableLeft="@drawable/ic_action_time"
+                    android:onClick="toTimeClick"
+                    android:text="@string/time_choose_time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
 
-        <TextView
-                android:id="@+id/toField"
-                android:layout_column="2"
-                android:layout_gravity="center_vertical"
-                android:layout_row="1"
-                android:paddingLeft="15sp"
-                android:text="@string/dummy_to"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+            <TextView
+                    android:id="@+id/toLabel"
+                    android:text="@string/time_to"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
 
-        <TextView
-                android:id="@+id/groupLabel"
-                android:layout_column="0"
-                android:layout_columnSpan="2"
-                android:layout_gravity="center_vertical"
-                android:maxEms="5"
-                android:layout_row="2"
-                android:text="@string/reser_add_group_label"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+            <TextView
+                    android:id="@+id/toField"
+                    android:text="@string/dummy_to"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                    android:id="@+id/groupLabel"
+                    android:text="@string/reser_add_group_label"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
 
 
-        <Spinner
-                android:id="@+id/groupList"
-                android:layout_column="2"
-                android:layout_columnSpan="2"
-                android:layout_gravity="center_vertical|fill_horizontal"
-                android:layout_row="2"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content">
-
-        </Spinner>
-    </GridLayout>
+            <Spinner
+                    android:id="@+id/groupList"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    >
+            </Spinner>
+        </TableRow>
+    </TableLayout>
 </ScrollView>

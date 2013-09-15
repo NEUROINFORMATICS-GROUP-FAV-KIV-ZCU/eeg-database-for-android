@@ -6,24 +6,18 @@
               android:layout_height="match_parent"
               android:weightSum="3">
 
-    <ListView
-            android:id="@android:id/list"
-            android:layout_width="fill_parent"
+    <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"/>
-
-    <TextView
-            android:padding="@dimen/detail_padding"
-            android:id="@android:id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/scenario_empty_refresh"
-            android:background="@drawable/button_selector"/>
 
     <FrameLayout
             android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@drawable/dialog_full_holo_dark"/>
+    
 </LinearLayout>

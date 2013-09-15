@@ -9,7 +9,6 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeFixAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFixList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -17,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for fetching electrodeFixs from eeg base.
@@ -28,6 +25,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class FetchElectrodeFixes extends CommonService<Void, Void, List<ElectrodeFix>> {
 
     private static final String TAG = FetchElectrodeFixes.class.getSimpleName();
+    private static final int MESSAGE = R.string.working_ws_electrode_fix;
     private final ElectrodeFixAdapter electrodeFixAdapter;
 
     /**
@@ -37,7 +35,7 @@ public class FetchElectrodeFixes extends CommonService<Void, Void, List<Electrod
      * @param electrodeFixAdapter adapter for holding collection of electrodeFixes
      */
     public FetchElectrodeFixes(CommonActivity activity, ElectrodeFixAdapter electrodeFixAdapter) {
-        super(activity);
+        super(activity, MESSAGE);
         this.electrodeFixAdapter = electrodeFixAdapter;
     }
 
@@ -50,21 +48,20 @@ public class FetchElectrodeFixes extends CommonService<Void, Void, List<Electrod
      */
     @Override
     protected List<ElectrodeFix> doInBackground(Void... params) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_ELECTRODE_FIXLIST;
 
-        setState(RUNNING, R.string.working_ws_electrode_fix);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
@@ -80,9 +77,9 @@ public class FetchElectrodeFixes extends CommonService<Void, Void, List<Electrod
 
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return Collections.emptyList();
     }

@@ -9,7 +9,6 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.DigitizationAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Digitization;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.DigitizationList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -17,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for fetching digitizations from eeg base.
@@ -28,6 +25,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class FetchDigitizations extends CommonService<Void, Void, List<Digitization>> {
 
     private static final String TAG = FetchDigitizations.class.getSimpleName();
+    private static final int MESSAGE = R.string.working_ws_digitization;
     private final DigitizationAdapter digitizationAdapter;
 
     /**
@@ -37,7 +35,7 @@ public class FetchDigitizations extends CommonService<Void, Void, List<Digitizat
      * @param digitizationAdapter adapter for holding collection of digitizations
      */
     public FetchDigitizations(CommonActivity activity, DigitizationAdapter digitizationAdapter) {
-        super(activity);
+        super(activity, MESSAGE);
         this.digitizationAdapter = digitizationAdapter;
     }
 
@@ -50,21 +48,20 @@ public class FetchDigitizations extends CommonService<Void, Void, List<Digitizat
      */
     @Override
     protected List<Digitization> doInBackground(Void... params) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_DIGITIZATIONS;
 
-        setState(RUNNING, R.string.working_ws_digitization);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
@@ -80,9 +77,9 @@ public class FetchDigitizations extends CommonService<Void, Void, List<Digitizat
 
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return Collections.emptyList();
     }

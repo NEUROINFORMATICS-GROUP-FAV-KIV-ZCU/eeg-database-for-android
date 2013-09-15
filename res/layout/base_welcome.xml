@@ -8,7 +8,7 @@
 
     <ImageView
             android:id="@+id/logo"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/logo"
             android:src="@drawable/ic_launcher"/>
@@ -28,7 +28,6 @@
             android:layout_height="wrap_content"
             android:text="@string/settings_username"/>
 
-    <requestFocus/>
 
     <EditText
             android:id="@+id/settings_username_field"
@@ -64,6 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textUri"
+            android:imeOptions="actionGo"
             android:text="@string/login_protocol"/>
 
 </LinearLayout>

@@ -10,14 +10,11 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Digitization;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for creating new Digitization on eeg base.
@@ -27,6 +24,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class CreateDigitization extends CommonService<Digitization, Void, Digitization> {
 
     private final static String TAG = CreateDigitization.class.getSimpleName();
+    private final static int MESSAGE = R.string.working_ws_create_digitization;
 
     /**
      * Constructor, which sets reference to parent activity.
@@ -34,7 +32,7 @@ public class CreateDigitization extends CommonService<Digitization, Void, Digiti
      * @param context parent activity
      */
     public CreateDigitization(CommonActivity context) {
-        super(context);
+        super(context, MESSAGE);
     }
 
     /**
@@ -46,12 +44,13 @@ public class CreateDigitization extends CommonService<Digitization, Void, Digiti
      */
     @Override
     protected Digitization doInBackground(Digitization... digitizations) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_DIGITIZATIONS;
 
-        setState(RUNNING, R.string.working_ws_create_digitization);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -59,9 +58,7 @@ public class CreateDigitization extends CommonService<Digitization, Void, Digiti
         requestHeaders.setContentType(MediaType.APPLICATION_XML);
 
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         Digitization digitization = digitizations[0];
@@ -74,9 +71,9 @@ public class CreateDigitization extends CommonService<Digitization, Void, Digiti
             return restTemplate.postForObject(url, entity, Digitization.class);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return null;
     }

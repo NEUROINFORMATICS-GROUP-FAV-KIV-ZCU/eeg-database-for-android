@@ -10,14 +10,11 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeLocation;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for creating new Electrode Location on eeg base.
@@ -28,13 +25,15 @@ public class CreateElectrodeLocation extends CommonService<ElectrodeLocation, Vo
 
     private final static String TAG = CreateElectrodeLocation.class.getSimpleName();
 
+    public final static int MESSAGE = R.string.working_ws_create_electrode_location;
+
     /**
      * Constructor, which sets reference to parent activity.
      *
      * @param context parent activity
      */
     public CreateElectrodeLocation(CommonActivity context) {
-        super(context);
+        super(context, MESSAGE);
     }
 
     /**
@@ -46,12 +45,13 @@ public class CreateElectrodeLocation extends CommonService<ElectrodeLocation, Vo
      */
     @Override
     protected ElectrodeLocation doInBackground(ElectrodeLocation... electrodeLocations) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_ELECTRODE_LOCATIONS;
 
-        setState(RUNNING, R.string.working_ws_create_electrode_location);
+
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -59,9 +59,7 @@ public class CreateElectrodeLocation extends CommonService<ElectrodeLocation, Vo
         requestHeaders.setContentType(MediaType.APPLICATION_XML);
 
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         ElectrodeLocation location = electrodeLocations[0];
@@ -74,9 +72,9 @@ public class CreateElectrodeLocation extends CommonService<ElectrodeLocation, Vo
             return restTemplate.postForObject(url, entity, ElectrodeLocation.class);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return null;
     }

@@ -1,13 +1,13 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.*;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.widget.TextView;
 
 import java.util.Collection;
 

@@ -1,16 +1,10 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 
 import android.annotation.SuppressLint;
-import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
@@ -21,6 +15,11 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateReservation;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchResearchGroups;
+import org.holoeverywhere.app.TimePickerDialog;
+import org.holoeverywhere.widget.Spinner;
+import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.TimePicker;
+import org.holoeverywhere.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 public class AddRecordActivity extends SaveDiscardActivity {
 
     private static final String TAG = AddRecordActivity.class.getSimpleName();
-    private final OnTimeSetListener fromListener = new OnTimeSetListener() {
+    private final TimePickerDialog.OnTimeSetListener fromListener = new TimePickerDialog.OnTimeSetListener() {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -45,7 +44,7 @@ public class AddRecordActivity extends SaveDiscardActivity {
 
         }
     };
-    private final OnTimeSetListener toListener = new OnTimeSetListener() {
+    private final TimePickerDialog.OnTimeSetListener toListener = new TimePickerDialog.OnTimeSetListener() {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

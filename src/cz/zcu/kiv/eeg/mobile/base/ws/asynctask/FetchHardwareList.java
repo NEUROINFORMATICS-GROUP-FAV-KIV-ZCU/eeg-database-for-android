@@ -9,7 +9,6 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.HardwareAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Hardware;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.HardwareList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -17,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for fetching hardwareList from eeg base.
@@ -28,6 +25,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class FetchHardwareList extends CommonService<Void, Void, List<Hardware>> {
 
     private static final String TAG = FetchHardwareList.class.getSimpleName();
+    private final static int MESSAGE = R.string.working_ws_hardware;
     private final HardwareAdapter hardwareAdapter;
 
     /**
@@ -37,7 +35,7 @@ public class FetchHardwareList extends CommonService<Void, Void, List<Hardware>>
      * @param hardwareAdapter adapter for holding collection of hardware
      */
     public FetchHardwareList(CommonActivity activity, HardwareAdapter hardwareAdapter) {
-        super(activity);
+        super(activity, MESSAGE);
         this.hardwareAdapter = hardwareAdapter;
     }
 
@@ -50,21 +48,20 @@ public class FetchHardwareList extends CommonService<Void, Void, List<Hardware>>
      */
     @Override
     protected List<Hardware> doInBackground(Void... params) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_HARDWARE;
 
-        setState(RUNNING, R.string.working_ws_hardware);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
@@ -80,9 +77,9 @@ public class FetchHardwareList extends CommonService<Void, Void, List<Hardware>>
 
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return Collections.emptyList();
     }

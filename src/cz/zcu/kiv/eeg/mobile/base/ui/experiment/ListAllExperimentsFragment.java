@@ -1,15 +1,17 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.*;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ListView;
-import android.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
@@ -17,6 +19,9 @@ import cz.zcu.kiv.eeg.mobile.base.data.adapter.ExperimentAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchExperiments;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.ListFragment;
+import org.holoeverywhere.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -32,6 +37,12 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
     private static ExperimentAdapter adapter;
     private boolean isDualView;
     private int cursorPosition;
+
+    static ListAllExperimentsFragment newInstance(){
+        return new ListAllExperimentsFragment();
+    }
+
+    final static int NAME = R.string.experiment_list_all;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,15 +69,22 @@ public class ListAllExperimentsFragment extends ListFragment implements SearchVi
         setListAdapter(getAdapter());
 
         ListView listView = (ListView) view.findViewById(android.R.id.list);
+        listView.setTextFilterEnabled(true);
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+        View detailsFrame = getActivity().findViewById(R.id.details);
+        isDualView = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
         if (isDualView) {
-            listView.setSelector(R.drawable.list_selector);
-            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             showDetails(cursorPosition);
             setSelection(cursorPosition);
         }
-
-        listView.setTextFilterEnabled(true);
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

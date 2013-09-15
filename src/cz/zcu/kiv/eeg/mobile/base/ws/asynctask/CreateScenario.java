@@ -10,7 +10,6 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -22,8 +21,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
-
 /**
  * Common service (Asynctask) for creating new scenario on eeg base.
  *
@@ -32,6 +29,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
 
     private final static String TAG = CreateScenario.class.getSimpleName();
+    private final static int MESSAGE = R.string.working_ws_create_scenario;
 
     /**
      * Constructor, which sets reference to parent activity.
@@ -39,7 +37,7 @@ public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
      * @param context parent activity
      */
     public CreateScenario(CommonActivity context) {
-        super(context);
+        super(context, MESSAGE);
     }
 
     /**
@@ -51,23 +49,19 @@ public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
      */
     @Override
     protected Scenario doInBackground(Scenario... scenarios) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_SCENARIOS;
 
-        setState(RUNNING, R.string.working_ws_create_scenario);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
 
-
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        //so files wont buffer in memory
-        factory.setBufferRequestBody(false);
         // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
@@ -94,9 +88,9 @@ public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
             return response.getBody();
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return null;
     }

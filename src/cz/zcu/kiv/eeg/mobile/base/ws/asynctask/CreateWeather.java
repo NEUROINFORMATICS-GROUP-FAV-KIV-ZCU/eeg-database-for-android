@@ -9,18 +9,12 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Disease;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Weather;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for creating new Weather on eeg base.
@@ -30,6 +24,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class CreateWeather extends CommonService<Weather, Void, Weather> {
 
     private final static String TAG = CreateWeather.class.getSimpleName();
+    private final static int MESSAGE = R.string.working_ws_create_weather;
     private int researchGroupId;
 
     /**
@@ -38,7 +33,7 @@ public class CreateWeather extends CommonService<Weather, Void, Weather> {
      * @param context parent activity
      */
     public CreateWeather(CommonActivity context, int researchGroupId) {
-        super(context);
+        super(context, MESSAGE);
         this.researchGroupId = researchGroupId;
     }
 
@@ -51,12 +46,13 @@ public class CreateWeather extends CommonService<Weather, Void, Weather> {
      */
     @Override
     protected Weather doInBackground(Weather... weathers) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_WEATHER + "/" + researchGroupId;
 
-        setState(RUNNING, R.string.working_ws_create_weather);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -64,9 +60,7 @@ public class CreateWeather extends CommonService<Weather, Void, Weather> {
         requestHeaders.setContentType(MediaType.APPLICATION_XML);
 
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         Weather weather = weathers[0];
@@ -79,9 +73,9 @@ public class CreateWeather extends CommonService<Weather, Void, Weather> {
             return restTemplate.postForObject(url, entity, Weather.class);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return null;
     }

@@ -9,7 +9,6 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ScenarioAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ScenarioList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -17,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for fetching scenarios from eeg base.
@@ -28,6 +25,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
 
     private static final String TAG = FetchScenarios.class.getSimpleName();
+    private static final int MESSAGE = R.string.working_ws_scenarios;
     private final ScenarioAdapter scenarioAdapter;
     private final String qualifier;
 
@@ -39,7 +37,7 @@ public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
      * @param qualifier       qualifier to distinguish whether to fetch private or public data
      */
     public FetchScenarios(CommonActivity activity, ScenarioAdapter scenarioAdapter, String qualifier) {
-        super(activity);
+        super(activity, MESSAGE);
         this.scenarioAdapter = scenarioAdapter;
         this.qualifier = qualifier;
     }
@@ -53,21 +51,20 @@ public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
      */
     @Override
     protected List<Scenario> doInBackground(Void... params) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_SCENARIOS + qualifier;
 
-        setState(RUNNING, R.string.working_ws_scenarios);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
@@ -83,9 +80,9 @@ public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
 
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return Collections.emptyList();
     }

@@ -49,7 +49,7 @@
                     android:layout_gravity="left|center_vertical"/>
 
             <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:id="@+id/person_surname_value"/>
@@ -62,7 +62,7 @@
                     android:layout_gravity="left|center_vertical"/>
 
             <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
                     android:id="@+id/person_mail_value"/>
@@ -75,7 +75,7 @@
                     android:layout_gravity="left|center_vertical"/>
 
             <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="date"
                     android:id="@+id/person_birthday_value"/>
@@ -118,7 +118,7 @@
                     android:layout_gravity="left|center_vertical"/>
 
             <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:id="@+id/person_phone_value"/>
@@ -150,7 +150,7 @@
             </LinearLayout>
 
             <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:maxLength="@integer/limit_description_chars"

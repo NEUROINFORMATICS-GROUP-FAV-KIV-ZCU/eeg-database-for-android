@@ -1,11 +1,10 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.startup;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import cz.zcu.kiv.eeg.mobile.base.data.Values;
+import android.preference.PreferenceManager;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 
 /**
@@ -22,7 +21,7 @@ public class StartUpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences credentials = getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+        SharedPreferences credentials = PreferenceManager.getDefaultSharedPreferences(this);
         CharSequence username = credentials.getString("username", null);
         CharSequence password = credentials.getString("password", null);
 

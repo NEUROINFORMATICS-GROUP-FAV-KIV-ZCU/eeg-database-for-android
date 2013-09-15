@@ -1,19 +1,16 @@
 package cz.zcu.kiv.eeg.mobile.base.ui;
 
-import android.app.ActionBar;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.MenuAdapter;
@@ -23,6 +20,8 @@ import cz.zcu.kiv.eeg.mobile.base.ui.experiment.ExperimentActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
+import org.holoeverywhere.widget.DrawerLayout;
+import org.holoeverywhere.widget.ListView;
 
 /**
  * Main application activity.
@@ -44,7 +43,7 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.base);
-        final ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -87,7 +86,7 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
         Intent intent;
 
         if (itemPosition != previousFragment) {
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             switch (itemPosition) {
@@ -117,8 +116,9 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
 
                 // datafile upload
                 case 3:
-                    DataFileUploadFragment dataFileFrag;
-                    dataFileFrag = new DataFileUploadFragment();
+                    DataFileUploadFragment dataFileFrag = (DataFileUploadFragment) fragmentManager.findFragmentByTag(DataFileUploadFragment.TAG);
+                    if(dataFileFrag == null)
+                        dataFileFrag = new DataFileUploadFragment();
 
                     fragmentTransaction.replace(R.id.content, dataFileFrag, DataFileUploadFragment.TAG);
                     fragmentTransaction.commit();
@@ -127,8 +127,9 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
 
                 // reservations
                 case 4:
-                    ReservationFragment agendaFrag;
-                    agendaFrag = new ReservationFragment();
+                    ReservationFragment agendaFrag = (ReservationFragment) fragmentManager.findFragmentByTag(ReservationFragment.TAG);
+                    if(agendaFrag == null)
+                        agendaFrag = new ReservationFragment();
 
                     fragmentTransaction.replace(R.id.content, agendaFrag, ReservationFragment.TAG);
                     fragmentTransaction.commit();
@@ -178,12 +179,6 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        openSection(position);
-    }
-
-
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
@@ -193,5 +188,10 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onItemClick(android.widget.AdapterView<?> adapterView, View view, int position, long id) {
+        openSection(position);
     }
 }

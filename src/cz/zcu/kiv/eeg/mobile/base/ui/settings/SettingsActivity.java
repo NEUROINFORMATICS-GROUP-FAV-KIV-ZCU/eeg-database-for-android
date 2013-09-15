@@ -4,13 +4,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.TestCredentials;
+import org.holoeverywhere.widget.EditText;
 
 import java.util.Calendar;
 
@@ -30,19 +30,19 @@ public class SettingsActivity extends SaveDiscardActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
-        SharedPreferences credentials = getCredentials();
+        SharedPreferences credentials = getPreferences();
         CharSequence username = credentials.getString("username", null);
         CharSequence password = credentials.getString("password", null);
         CharSequence url = credentials.getString("url", "https://");
-        TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
-        TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
-        TextView urlField = (TextView) findViewById(R.id.settings_url_field);
+        EditText usernameField = (EditText) findViewById(R.id.settings_username_field);
+        EditText passwordField = (EditText) findViewById(R.id.settings_password_field);
+        EditText urlField = (EditText) findViewById(R.id.settings_url_field);
         usernameField.setText(username);
         passwordField.setText(password);
         urlField.setText(url);
 
         CompoundButton checkBox = (CompoundButton) findViewById(R.id.settings_monday_first_day);
-        checkBox.setChecked(getVarious().getBoolean("monday", false));
+        checkBox.setChecked(getPreferences().getBoolean("monday", false));
     }
 
     /**
@@ -50,15 +50,15 @@ public class SettingsActivity extends SaveDiscardActivity {
      */
     public void save() {
 
-        TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
-        TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
-        TextView urlField = (TextView) findViewById(R.id.settings_url_field);
+        EditText usernameField = (EditText) findViewById(R.id.settings_username_field);
+        EditText passwordField = (EditText) findViewById(R.id.settings_password_field);
+        EditText urlField = (EditText) findViewById(R.id.settings_url_field);
 
         testCredentials(usernameField.getText().toString(), passwordField.getText().toString(), urlField.getText().toString());
 
         CompoundButton checkBox = (CompoundButton) findViewById(R.id.settings_monday_first_day);
 
-        SharedPreferences.Editor editor = getVarious().edit();
+        SharedPreferences.Editor editor = getPreferences().edit();
         editor.putBoolean("monday", checkBox.isChecked());
         Values.firstDayOfWeek = checkBox.isChecked() ? Calendar.MONDAY : Calendar.SUNDAY;
         editor.commit();
@@ -86,7 +86,7 @@ public class SettingsActivity extends SaveDiscardActivity {
             return;
         }
 
-        SharedPreferences credentials = getCredentials();
+        SharedPreferences credentials = getPreferences();
         SharedPreferences.Editor editor = credentials.edit();
 
         StringBuilder error = new StringBuilder();

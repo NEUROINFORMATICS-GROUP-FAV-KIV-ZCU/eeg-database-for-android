@@ -39,7 +39,8 @@
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dateLabel"/>
+                android:layout_below="@id/dateLabel"
+                android:choiceMode="singleChoice"/>
 
         <TextView
                 android:padding="@dimen/detail_padding"
@@ -56,6 +57,7 @@
             android:id="@+id/details"
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@drawable/dialog_full_holo_dark"/>
 
 </LinearLayout>

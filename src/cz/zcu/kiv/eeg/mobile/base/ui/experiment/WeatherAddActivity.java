@@ -2,17 +2,15 @@ package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Artifact;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Weather;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
-import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateArtifact;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateWeather;
+import org.holoeverywhere.widget.EditText;
+import org.holoeverywhere.widget.TextView;
 
 /**
  * Activity for creating new weather record.

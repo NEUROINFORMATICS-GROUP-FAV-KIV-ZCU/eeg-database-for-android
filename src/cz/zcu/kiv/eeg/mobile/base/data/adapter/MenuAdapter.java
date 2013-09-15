@@ -1,6 +1,5 @@
 package cz.zcu.kiv.eeg.mobile.base.data.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 
 /**
  * Adapter for actionbar menu.
@@ -73,7 +73,7 @@ public class MenuAdapter extends ArrayAdapter<String> {
     public View getMenuView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
-            LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+            LayoutInflater inflater = ((CommonActivity) getContext()).getLayoutInflater();
             row = inflater.inflate(resourceId, parent, false);
         }
 

@@ -1,12 +1,12 @@
 package cz.zcu.kiv.eeg.mobile.base.data.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class ResearchGroupAdapter extends ArrayAdapter<ResearchGroup> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            LayoutInflater inflater =  LayoutInflater.from(context);
             row = inflater.inflate(resourceId, parent, false);
         }
         ResearchGroup record = getItem(position);

@@ -1,17 +1,17 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.filechooser;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.FileAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.FileInfo;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.ListActivity;
+import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;

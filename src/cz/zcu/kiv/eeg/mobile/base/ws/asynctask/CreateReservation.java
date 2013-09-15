@@ -10,14 +10,11 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (AsyncTask) for creating reservation on eeg base.
@@ -27,6 +24,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class CreateReservation extends CommonService<Reservation, Void, Reservation> {
 
     private static final String TAG = CreateReservation.class.getSimpleName();
+    private static final int MESSAGE = R.string.working_ws_create;
 
     /**
      * Constructor.
@@ -34,7 +32,7 @@ public class CreateReservation extends CommonService<Reservation, Void, Reservat
      * @param context parent activity
      */
     public CreateReservation(CommonActivity context) {
-        super(context);
+        super(context, MESSAGE);
     }
 
     /**
@@ -46,13 +44,12 @@ public class CreateReservation extends CommonService<Reservation, Void, Reservat
      */
     @Override
     protected Reservation doInBackground(Reservation... params) {
+        onServiceStart();
 
         Reservation data = params[0];
         try {
 
-            setState(RUNNING, R.string.working_ws_create);
-
-            SharedPreferences credentials = getCredentials();
+            SharedPreferences credentials = getPreferences();
             String username = credentials.getString("username", null);
             String password = credentials.getString("password", null);
             String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION;
@@ -65,9 +62,7 @@ public class CreateReservation extends CommonService<Reservation, Void, Reservat
             requestHeaders.setContentType(MediaType.APPLICATION_XML);
             HttpEntity<Reservation> entity = new HttpEntity<Reservation>(data, requestHeaders);
 
-            SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-            // Create a new RestTemplate instance
-            RestTemplate restTemplate = new RestTemplate(factory);
+            RestTemplate restTemplate = createRestClientInstance();
             restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
             Log.d(TAG, url);
@@ -75,9 +70,9 @@ public class CreateReservation extends CommonService<Reservation, Void, Reservat
             return dataEntity.getBody();
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return null;
     }

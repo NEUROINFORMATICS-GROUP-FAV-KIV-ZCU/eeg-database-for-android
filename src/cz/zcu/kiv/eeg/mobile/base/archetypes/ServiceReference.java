@@ -1,6 +1,10 @@
 package cz.zcu.kiv.eeg.mobile.base.archetypes;
 
-import java.util.Collections;
+import android.os.Handler;
+import android.os.Looper;
+import cz.zcu.kiv.eeg.mobile.base.R;
+import org.holoeverywhere.app.ProgressDialog;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,15 +15,14 @@ import java.util.List;
  */
 final class ServiceReference {
 
-    /**
-     * Assigned common service (AsyncTask actually) and its description.
-     * Handled as a FIFO of references, only first is used for creating progress dialog and removing after it is done.
-     */
-    private static List<ServiceReference> references = Collections.synchronizedList(new LinkedList<ServiceReference>());
+    private static List<ServiceReference> ready = new LinkedList<ServiceReference>();
+    private static List<ServiceReference> running = new LinkedList<ServiceReference>();
+
+
     /**
      * Service's message to be displayed.
      */
-    String message;
+     int message;
     /**
      * Reference onto working Common service
      */
@@ -36,39 +39,37 @@ final class ServiceReference {
         service.setActivity(activity);
     }
 
-    /**
-     * Adds new reference between activity and service.
-     *
-     * @param activity activity on screen
-     * @param service  common service
-     */
-    public static void push(CommonActivity activity, CommonService service) {
+    public static synchronized void add(CommonActivity activity, CommonService service, int message) {
         ServiceReference ref = new ServiceReference(activity, service);
-        references.add(ref);
+        ref.message = message;
+        ready.add(ref);
     }
 
-    /**
-     * Returns currently active (first) reference.
-     *
-     * @return reference to service
-     */
-    public static ServiceReference peek() {
-        if (references.isEmpty())
-            return null;
-        else
-            return references.get(0);
+    public synchronized static boolean start(int message) {
+
+        ServiceReference start = findReference(ready, message);
+
+        if(start != null){
+            running.add(start);
+            ready.remove(start);
+
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Removes and returns active (first) reference.
-     *
-     * @return reference to service
-     */
-    public static ServiceReference pop() {
-        if (references.isEmpty())
-            return null;
-        else
-            return references.remove(0);
+
+    public synchronized static void done(int message){
+        ServiceReference done = findReference(running, message);
+        if(done != null){
+            running.remove(done);
+        }
+    }
+
+    public synchronized static ServiceReference peek(){
+        if(!running.isEmpty()){
+            return running.get(0);
+        } else return null;
     }
 
     /**
@@ -77,27 +78,32 @@ final class ServiceReference {
      *
      * @param activity on screen activity
      */
-    public static void refreshReferences(CommonActivity activity) {
-        for (ServiceReference ref : references) {
+    public synchronized static void refreshReferences(CommonActivity activity) {
+        for (ServiceReference ref : ready) {
+            ref.service.setActivity(activity);
+        }
+
+        for (ServiceReference ref : running ){
             ref.service.setActivity(activity);
         }
     }
 
-    /**
-     * Count of registered (currently working) references.
-     *
-     * @return registered references
-     */
-    public static int size() {
-        return references.size();
+
+    private static ServiceReference findReference(List<ServiceReference> list, int messageId){
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            int indexToRemove = 0;
+
+            for(ServiceReference reference : list){
+                if(reference.message == messageId){
+                    break;
+                }
+                indexToRemove++;
+            }
+
+            return list.get(indexToRemove);
+        }
     }
 
-    /**
-     * Checks, if there are any references.
-     *
-     * @return true if no reference found
-     */
-    public static boolean isEmpty() {
-        return references.isEmpty();
-    }
 }

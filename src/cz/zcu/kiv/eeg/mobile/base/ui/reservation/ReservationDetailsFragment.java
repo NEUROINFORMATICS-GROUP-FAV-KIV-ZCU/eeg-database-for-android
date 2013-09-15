@@ -1,11 +1,16 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 
-import android.app.Fragment;
+
 import android.os.Bundle;
-import android.view.*;
-import android.widget.TextView;
+import android.view.View;
+import android.view.ViewGroup;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.TextView;
 
 /**
  * Fragment for displaying reservation details.

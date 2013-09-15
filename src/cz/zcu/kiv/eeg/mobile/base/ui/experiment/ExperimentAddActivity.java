@@ -1,20 +1,15 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.ImageButton;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
@@ -25,6 +20,12 @@ import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.*;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.DatePickerDialog;
+import org.holoeverywhere.app.TimePickerDialog;
+import org.holoeverywhere.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -283,7 +284,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.exp_add_menu, menu);
+        getSupportMenuInflater().inflate(R.menu.exp_add_menu, menu);
         return true;
     }
 
@@ -324,7 +325,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
         Experiment experiment;
         if ((experiment = getValidRecord()) != null) {
             if (ConnectionUtils.isOnline(this)) {
-                new CreateExperiment(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, experiment);
+                new CreateExperiment(this).executeCommonService(experiment);
                 selectedElectrodeLocations = new ArrayList<ElectrodeLocation>();
                 selectedHardware = new ArrayList<Hardware>();
                 selectedSoftware = new ArrayList<Software>();
@@ -463,7 +464,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateScenarios() {
         if (ConnectionUtils.isOnline(this)) {
-            new FetchScenarios(this, getScenarioAdapter(), Values.SERVICE_QUALIFIER_ALL).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchScenarios(this, getScenarioAdapter(), Values.SERVICE_QUALIFIER_ALL).executeCommonService();
         } else
             showAlert(getString(R.string.error_offline));
     }
@@ -473,7 +474,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateGroups() {
         if (ConnectionUtils.isOnline(this)) {
-            new FetchResearchGroups(this, getGroupAdapter(), Values.SERVICE_QUALIFIER_MINE).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchResearchGroups(this, getGroupAdapter(), Values.SERVICE_QUALIFIER_MINE).executeCommonService();
         } else
             showAlert(getString(R.string.error_offline));
     }
@@ -483,7 +484,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateSubjects() {
         if (ConnectionUtils.isOnline(this)) {
-            new FetchPeople(this, getPersonAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchPeople(this, getPersonAdapter()).executeCommonService();
         } else
             showAlert(getString(R.string.error_offline));
     }
@@ -493,7 +494,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateArtifacts() {
         if (ConnectionUtils.isOnline(this)) {
-            new FetchArtifacts(this, getArtifactAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchArtifacts(this, getArtifactAdapter()).executeCommonService();
         } else
             showAlert(getString(R.string.error_offline));
     }
@@ -503,7 +504,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateDigitizations() {
         if (ConnectionUtils.isOnline(this)) {
-            new FetchDigitizations(this, getDigitizationAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchDigitizations(this, getDigitizationAdapter()).executeCommonService();
         } else
             showAlert(getString(R.string.error_offline));
     }
@@ -513,7 +514,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateHardwareList() {
         if (ConnectionUtils.isOnline(this))
-            new FetchHardwareList(this, getHardwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchHardwareList(this, getHardwareAdapter()).executeCommonService();
         else
             showAlert(getString(R.string.error_offline));
     }
@@ -523,7 +524,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateSoftwareList() {
         if (ConnectionUtils.isOnline(this))
-            new FetchSoftwareList(this, getSoftwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchSoftwareList(this, getSoftwareAdapter()).executeCommonService();
         else
             showAlert(getString(R.string.error_offline));
     }
@@ -533,7 +534,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateDiseases() {
         if (ConnectionUtils.isOnline(this))
-            new FetchDiseases(this, getDiseaseAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchDiseases(this, getDiseaseAdapter()).executeCommonService();
         else
             showAlert(getString(R.string.error_offline));
     }
@@ -543,7 +544,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updatePharmaceuticals() {
         if (ConnectionUtils.isOnline(this))
-            new FetchPharmaceuticals(this, getPharmaceuticalAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchPharmaceuticals(this, getPharmaceuticalAdapter()).executeCommonService();
         else
             showAlert(getString(R.string.error_offline));
     }
@@ -553,7 +554,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateElectrodeSystems() {
         if (ConnectionUtils.isOnline(this))
-            new FetchElectrodeSystems(this, getElectrodeSystemAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchElectrodeSystems(this, getElectrodeSystemAdapter()).executeCommonService();
         else
             showAlert(getString(R.string.error_offline));
     }
@@ -563,7 +564,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     private void updateElectrodeLocations() {
         if (ConnectionUtils.isOnline(this))
-            new FetchElectrodeLocations(this, getElectrodeLocationsAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            new FetchElectrodeLocations(this, getElectrodeLocationsAdapter()).executeCommonService();
         else
             showAlert(getString(R.string.error_offline));
     }
@@ -576,7 +577,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
             if (group == null)
                 showAlert(getString(R.string.error_no_group_selected));
             else
-                new FetchWeatherList(this, group.getGroupId(), getWeatherAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+                new FetchWeatherList(this, group.getGroupId(), getWeatherAdapter()).executeCommonService();
         } else
             showAlert(getString(R.string.error_offline));
     }

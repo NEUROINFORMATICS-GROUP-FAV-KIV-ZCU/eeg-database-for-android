@@ -1,7 +1,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ws.asynctask;
 
-import android.app.FragmentManager;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
 import cz.zcu.kiv.eeg.mobile.base.R;
@@ -11,12 +11,9 @@ import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Service (AsyncTask) for removing existing reservation from eeg base.
@@ -27,6 +24,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class RemoveReservation extends CommonService<Reservation, Void, Boolean> {
 
     private static final String TAG = RemoveReservation.class.getSimpleName();
+    private static final int MESSAGE = R.string.working_ws_remove;
     private int fragmentId;
 
     /**
@@ -36,7 +34,7 @@ public class RemoveReservation extends CommonService<Reservation, Void, Boolean>
      * @param fragmentId identifier of reservation fragment (vital for refreshing)
      */
     public RemoveReservation(CommonActivity context, int fragmentId) {
-        super(context);
+        super(context, MESSAGE);
         this.fragmentId = fragmentId;
     }
 
@@ -56,11 +54,10 @@ public class RemoveReservation extends CommonService<Reservation, Void, Boolean>
         if (data == null)
             return false;
 
+        onServiceStart();
         try {
 
-            setState(RUNNING, R.string.working_ws_remove);
-
-            SharedPreferences credentials = getCredentials();
+            SharedPreferences credentials = getPreferences();
             String username = credentials.getString("username", null);
             String password = credentials.getString("password", null);
             String url = credentials.getString("url", null) + Values.SERVICE_RESERVATION + data.getReservationId();
@@ -70,9 +67,7 @@ public class RemoveReservation extends CommonService<Reservation, Void, Boolean>
             requestHeaders.setAuthorization(authHeader);
             HttpEntity<Reservation> entity = new HttpEntity<Reservation>(requestHeaders);
 
-            SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-            // Create a new RestTemplate instance
-            RestTemplate restTemplate = new RestTemplate(factory);
+            RestTemplate restTemplate = createRestClientInstance();
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
             Log.d(TAG, url + "\n" + entity);
@@ -80,9 +75,9 @@ public class RemoveReservation extends CommonService<Reservation, Void, Boolean>
             return true;
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return false;
     }
@@ -97,7 +92,7 @@ public class RemoveReservation extends CommonService<Reservation, Void, Boolean>
         if (success) {
             if (activity instanceof NavigationActivity) {
 
-                FragmentManager fm = activity.getFragmentManager();
+                FragmentManager fm = activity.getSupportFragmentManager();
 
                 ReservationFragment fragment = (ReservationFragment) fm.findFragmentByTag(ReservationFragment.TAG);
                 if (fragment == null)

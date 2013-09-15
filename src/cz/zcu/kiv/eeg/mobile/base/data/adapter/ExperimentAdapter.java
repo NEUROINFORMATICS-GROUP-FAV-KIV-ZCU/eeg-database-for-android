@@ -1,6 +1,5 @@
 package cz.zcu.kiv.eeg.mobile.base.data.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
 
 import java.text.SimpleDateFormat;
@@ -139,7 +139,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
     private View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            LayoutInflater inflater =  LayoutInflater.from(context);
             row = inflater.inflate(resourceId, parent, false);
         }
         Experiment record = getItem(position);

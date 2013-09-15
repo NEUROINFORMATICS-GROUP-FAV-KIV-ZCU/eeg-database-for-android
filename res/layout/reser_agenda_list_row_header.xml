@@ -2,18 +2,18 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
      <TextView android:id="@+id/txtHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:textStyle="bold"
         android:textSize="22sp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/header_text"
         android:padding="10dp"
         android:text="@string/reser_agenda_list_header"
-        android:background="#707070" />
+        android:background="@color/background_section" />
 
 </LinearLayout>

@@ -1,14 +1,15 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.v4.view.ViewPager;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
-import cz.zcu.kiv.eeg.mobile.base.ui.TabListener;
+import cz.zcu.kiv.eeg.mobile.base.ui.SwipeTabsAdapter;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 
 /**
@@ -17,38 +18,32 @@ import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
  *
  * @author Petr Miko
  */
-public class ExperimentActivity extends CommonActivity {
+public class ExperimentActivity extends CommonActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionBar = getActionBar();
+
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.drawable.ic_action_description);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        //setting tabs
-        ActionBar.Tab tab = actionBar.newTab()
-                .setText(R.string.experiment_list_mine)
-                .setTabListener(new TabListener<ListMineExperimentsFragment>(
-                        this, ListMineExperimentsFragment.class.getSimpleName(), ListMineExperimentsFragment.class));
-        actionBar.addTab(tab);
+        setContentView(R.layout.base_experiment);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 
-        tab = actionBar.newTab()
-                .setText(R.string.experiment_list_all)
-                .setTabListener(new TabListener<ListAllExperimentsFragment>(
-                        this, ListAllExperimentsFragment.class.getSimpleName(), ListAllExperimentsFragment.class));
-        actionBar.addTab(tab);
+        SwipeTabsAdapter swipeTabsAdapter = new SwipeTabsAdapter(this, actionBar, viewPager);
+        swipeTabsAdapter.addTab(ListMineExperimentsFragment.NAME, ListMineExperimentsFragment.class, null);
+        swipeTabsAdapter.addTab(ListAllExperimentsFragment.NAME, ListAllExperimentsFragment.class, null);
 
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("tabIndex", 1));
         }
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.exp_menu, menu);
         return true;
     }
@@ -65,6 +60,7 @@ public class ExperimentActivity extends CommonActivity {
                     Intent addExperimentIntent = new Intent();
                     addExperimentIntent.setClass(this, ExperimentAddActivity.class);
                     startActivity(addExperimentIntent);
+                    return true;
                 } else
                     showAlert(getString(R.string.error_offline));
 
@@ -82,6 +78,6 @@ public class ExperimentActivity extends CommonActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("tabIndex", getActionBar().getSelectedNavigationIndex());
+        outState.putInt("tabIndex", getSupportActionBar().getSelectedNavigationIndex());
     }
 }

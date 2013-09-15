@@ -7,10 +7,8 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.WeatherAdapter;
-import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ResearchGroup;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Weather;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.WeatherList;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -18,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for fetching weatherList from eeg base.
@@ -29,6 +25,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class FetchWeatherList extends CommonService<Void, Void, List<Weather>> {
 
     private static final String TAG = FetchWeatherList.class.getSimpleName();
+    private static final int MESSAGE = R.string.working_ws_weather;
     private final WeatherAdapter weatherAdapter;
     private int researchGroupId;
 
@@ -39,7 +36,7 @@ public class FetchWeatherList extends CommonService<Void, Void, List<Weather>> {
      * @param weatherAdapter adapter for holding collection of weather
      */
     public FetchWeatherList(CommonActivity activity, int researchGroupId, WeatherAdapter weatherAdapter) {
-        super(activity);
+        super(activity, MESSAGE);
         this.weatherAdapter = weatherAdapter;
         this.researchGroupId = researchGroupId;
     }
@@ -53,22 +50,20 @@ public class FetchWeatherList extends CommonService<Void, Void, List<Weather>> {
      */
     @Override
     protected List<Weather> doInBackground(Void... params) {
+        onServiceStart();
 
-        SharedPreferences credentials = getCredentials();
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_WEATHER + "/" + researchGroupId;
 
-        setState(RUNNING, R.string.working_ws_weather);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
         HttpEntity<Object> entity = new HttpEntity<Object>(requestHeaders);
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         try {
@@ -84,9 +79,9 @@ public class FetchWeatherList extends CommonService<Void, Void, List<Weather>> {
 
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return Collections.emptyList();
     }

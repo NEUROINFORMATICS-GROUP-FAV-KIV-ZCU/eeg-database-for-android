@@ -1,10 +1,10 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
-import android.app.ActionBar;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 
@@ -21,11 +21,13 @@ public class ExperimentDetailsActivity extends CommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getActionBar();
+        setContentView(R.layout.fragment_frame);
+
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setIcon(R.drawable.ic_action_info);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction;
         ExperimentDetailsFragment details;
 
@@ -34,7 +36,7 @@ public class ExperimentDetailsActivity extends CommonActivity {
             details.setArguments(getIntent().getExtras());
             fragmentManager.beginTransaction();
             transaction = fragmentManager.beginTransaction();
-            transaction.replace(android.R.id.content, details);
+            transaction.replace(R.id.content, details);
             transaction.commit();
         }
     }
@@ -44,7 +46,7 @@ public class ExperimentDetailsActivity extends CommonActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

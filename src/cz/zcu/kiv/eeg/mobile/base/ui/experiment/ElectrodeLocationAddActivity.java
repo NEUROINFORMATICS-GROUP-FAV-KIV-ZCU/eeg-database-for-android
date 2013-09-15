@@ -1,16 +1,12 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
@@ -25,6 +21,10 @@ import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateElectrodeLocation;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchElectrodeFixes;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchElectrodeTypes;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.EditText;
+import org.holoeverywhere.widget.Spinner;
+import org.holoeverywhere.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -58,7 +58,7 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
         fixes.setAdapter(getElectrodeFixAdapter());
         types.setAdapter(getElectrodeTypeAdapter());
 
-        TextView description = (TextView) findViewById(R.id.electrode_add_description);
+        EditText description = (EditText) findViewById(R.id.electrode_add_description);
         TextView descriptionCount = (TextView) findViewById(R.id.electrode_add_description_count);
         description.addTextChangedListener(new LimitedTextWatcher(getResources().getInteger(R.integer.limit_description_chars), descriptionCount));
 
@@ -183,7 +183,7 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.exp_add_menu, menu);
+        getSupportMenuInflater().inflate(R.menu.exp_add_menu, menu);
         return true;
     }
 

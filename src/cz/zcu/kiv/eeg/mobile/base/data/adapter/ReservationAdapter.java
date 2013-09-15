@@ -2,6 +2,7 @@ package cz.zcu.kiv.eeg.mobile.base.data.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,19 +29,19 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
 
     private final static String TAG = ReservationAdapter.class.getSimpleName();
     private final int resourceId, fragmentId;
-    private CommonActivity parentActivity;
+    private CommonActivity context;
 
     /**
      * Reservation adapter constructor.
      *
-     * @param parentActivity parent CommonActivity
+     * @param context parent CommonActivity
      * @param fragmentId     fragment parent fragment identifier
      * @param resourceId     row layout identifier
      * @param items          reservation data collection
      */
-    public ReservationAdapter(CommonActivity parentActivity, int fragmentId, int resourceId, List<Reservation> items) {
-        super(parentActivity, resourceId, items);
-        this.parentActivity = parentActivity;
+    public ReservationAdapter(CommonActivity context, int fragmentId, int resourceId, List<Reservation> items) {
+        super(context, resourceId, items);
+        this.context = context;
         this.resourceId = resourceId;
         this.fragmentId = fragmentId;
     }
@@ -57,7 +58,7 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
-            LayoutInflater inflater = parentActivity.getLayoutInflater();
+            LayoutInflater inflater = LayoutInflater.from(context);
             row = inflater.inflate(resourceId, parent, false);
         }
         Reservation record = getItem(position);
@@ -99,17 +100,17 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
 
             Log.d(TAG, "Clicked on remove record: " + reservation.getFromTime() + " | " + reservation.getToTime());
 
-            new AlertDialog.Builder(parentActivity).setIcon(android.R.drawable.ic_dialog_alert).setTitle(parentActivity.getString(R.string.reser_dialog_remove_header))
-                    .setMessage(parentActivity.getString(R.string.reser_dialog_remove_body))
-                    .setPositiveButton(parentActivity.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(context).setIcon(android.R.drawable.ic_dialog_alert).setTitle(context.getString(R.string.reser_dialog_remove_header))
+                    .setMessage(context.getString(R.string.reser_dialog_remove_body))
+                    .setPositiveButton(context.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Reservation data = new Reservation(reservation.getReservationId(), reservation.getResearchGroupId(), reservation.getResearchGroup().toString(),
                                     reservation.getFromTime(), reservation.getToTime(), reservation.isCanRemove());
-                            new RemoveReservation(parentActivity, fragmentId).execute(data);
+                            new RemoveReservation(context, fragmentId).execute(data);
                         }
 
-                    }).setNegativeButton(parentActivity.getString(android.R.string.cancel), null).show();
+                    }).setNegativeButton(context.getString(android.R.string.cancel), null).show();
         }
 
     }
@@ -117,9 +118,9 @@ public class ReservationAdapter extends ArrayAdapter<Reservation> implements OnC
     /**
      * Parent activity setter.
      *
-     * @param parentActivity parent CommonActivity
+     * @param context parent CommonActivity
      */
-    public void setContext(CommonActivity parentActivity) {
-        this.parentActivity = parentActivity;
+    public void setContext(CommonActivity context) {
+        this.context = context;
     }
 }

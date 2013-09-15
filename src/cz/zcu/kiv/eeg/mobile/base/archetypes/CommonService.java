@@ -1,16 +1,11 @@
 package cz.zcu.kiv.eeg.mobile.base.archetypes;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import cz.zcu.kiv.eeg.mobile.base.data.ServiceState;
-import cz.zcu.kiv.eeg.mobile.base.data.Values;
+import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.*;
 
 /**
  * Parent for async tasks used in this application.
@@ -27,54 +22,55 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
      */
     protected CommonActivity activity;
 
+    private final int message;
+
     /**
      * Constructor, which pairs CommonService and CommonActivity.
      *
      * @param context parent activity
+     * @param message to be displayed when service is active
      */
-    public CommonService(CommonActivity context) {
-        //explicit reference between activity and service must be set for new onCreate activity refreshes
-        ServiceReference.push(context, this);
+    public CommonService(CommonActivity context, int message) {
+        this.activity = context;
+        this.message = message;
+        ServiceReference.add(activity, CommonService.this, message);
     }
 
-    /**
-     * Hands over progress state change towards the activity.
-     *
-     * @param state new service state
-     */
-    protected void setState(ServiceState state) {
-        activity.changeProgress(state);
-    }
 
     /**
-     * Hands over progress state change towards the activity.
+     * Set parent activity.
+     * Usually used when activity got recreated but we need to keep service paired with displayed instance.
      *
-     * @param state       new service state
-     * @param messageCode android string identifier
+     * @param activity new parent CommonActivity
      */
-    protected void setState(ServiceState state, int messageCode) {
-        activity.changeProgress(state, activity.getString(messageCode));
+    public void setActivity(CommonActivity activity) {
+        this.activity = activity;
     }
 
-    /**
-     * Hands over progress state change towards the activity.
-     *
-     * @param state   new service state
-     * @param message message
-     */
-    protected void setState(ServiceState state, String message) {
-        activity.changeProgress(state, message);
+
+    protected SharedPreferences getPreferences() {
+        return activity.getPreferences();
     }
+
+    public void executeCommonService(T... params) {
+        this.execute(params);
+
+    }
+
+    protected final void onServiceStart() {
+        activity.onServiceStart(message);
+        Thread.currentThread().setName(this.getClass().getSimpleName());
+    }
+
 
     /**
      * Hands over progress state change towards the activity.
      * Method tries to recognize throwable type for displaying custom message.
      * If throwable is not recognized, basic exception message is displayed.
      *
-     * @param state new service state
      * @param error error occurred during computation
      */
-    protected void setState(ServiceState state, Throwable error) {
+    protected final void onServiceError(final Throwable error) {
 
         String message = error.getMessage() == null ? activity.getString(R.string.error_connection) : error.getMessage();
         if (error instanceof RestClientException) {
@@ -119,8 +115,8 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
             } else if (error instanceof ResourceAccessException) {
                 message = activity.getString(R.string.error_ssl);
             } else {
-                error = ((RestClientException) error).getRootCause();
-                message = error == null ? activity.getString(R.string.error_connection) : error.getMessage();
+                Throwable exc = ((RestClientException) error).getRootCause();
+                message = exc == null ? activity.getString(R.string.error_connection) : exc.getMessage();
 
                 // attempt to recognize low-level connection errors
                 if (message.contains("EHOSTUNREACH"))
@@ -132,26 +128,19 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
             }
 
         }
-        //display the error message
-        activity.changeProgress(state, message);
+        activity.onServiceError(this.message, message);
     }
 
-    /**
-     * Set parent activity.
-     * Usually used when activity got recreated but we need to keep service paired with displayed instance.
-     *
-     * @param activity new parent CommonActivity
-     */
-    public void setActivity(CommonActivity activity) {
-        this.activity = activity;
+    protected final void onServiceDone() {
+        activity.onServiceDone(message);
     }
 
-    /**
-     * Credentials information bundle getter.
-     *
-     * @return credentials information bundle
-     */
-    protected SharedPreferences getCredentials() {
-        return activity.getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+    protected final RestTemplate createRestClientInstance(){
+        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(5000);
+        factory.setReadTimeout(60000);
+        factory.setBufferRequestBody(false);
+        // Create a new RestTemplate instance
+        return new RestTemplate(factory);
     }
 }

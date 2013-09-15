@@ -1,19 +1,22 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.startup;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.TestCredentials;
+import org.holoeverywhere.widget.EditText;
 
 /**
  * Activity for user's log in process.
@@ -29,11 +32,24 @@ public class WelcomeActivity extends CommonActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "Welcome activity displayed");
         setContentView(R.layout.base_welcome);
+
+        EditText urlField = (EditText) findViewById(R.id.settings_url_field);
+
+        urlField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    loginClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.login_menu, menu);
         return true;
     }
@@ -44,6 +60,7 @@ public class WelcomeActivity extends CommonActivity {
         switch (item.getItemId()) {
             case R.id.menuLogin:
                 loginClick();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -53,42 +70,34 @@ public class WelcomeActivity extends CommonActivity {
      */
     public void loginClick() {
 
-        TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
-        TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
-        TextView urlField = (TextView) findViewById(R.id.settings_url_field);
-
-        testCredentials(usernameField.getText().toString(), passwordField.getText().toString(), urlField.getText()
-                .toString());
-    }
-
-    /**
-     * Method for testing credentials.
-     * If online, credentials validated and if no error found, TestCredentials service is invoked.
-     *
-     * @param username credentials username
-     * @param password credentials password
-     * @param url      eeg base rest endpoint
-     */
-    private void testCredentials(String username, String password, String url) {
-
         if (!ConnectionUtils.isOnline(this)) {
             showAlert(getString(R.string.error_offline));
             return;
         }
 
-        SharedPreferences credentials = getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+        EditText usernameField = (EditText) findViewById(R.id.settings_username_field);
+        EditText passwordField = (EditText) findViewById(R.id.settings_password_field);
+        EditText urlField = (EditText) findViewById(R.id.settings_url_field);
+
+        String username = usernameField.getText().toString();
+        String password = passwordField.getText().toString();
+        String url = urlField.getText().toString();
+
+
+        SharedPreferences credentials = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = credentials.edit();
 
-        StringBuilder error = new StringBuilder();
+        boolean error;
 
-        if (ValidationUtils.isUsernameFormatInvalid(username))
-            error.append(getString(R.string.error_invalid_username)).append('\n');
-        if (ValidationUtils.isPasswordFormatInvalid(password))
-            error.append(getString(R.string.error_invalid_password)).append('\n');
-        if (ValidationUtils.isUrlFormatInvalid(url))
-            error.append(getString(R.string.error_invalid_url)).append('\n');
+        if (error = ValidationUtils.isUsernameFormatInvalid(username))
+            usernameField.setError(getString(R.string.error_invalid_username));
+        if (error |= ValidationUtils.isPasswordFormatInvalid(password))
+            passwordField.setError(getString(R.string.error_invalid_password));
+        if (error |= ValidationUtils.isUrlFormatInvalid(url))
+            urlField.setError(getString(R.string.error_invalid_url));
 
-        if (error.toString().isEmpty()) {
+
+        if (!error) {
 
             editor.putString("tmp_username", username);
             editor.putString("tmp_password", password);
@@ -97,8 +106,6 @@ public class WelcomeActivity extends CommonActivity {
             editor.commit();
 
             new TestCredentials(this, true).execute();
-        } else {
-            showAlert(error.toString());
         }
     }
 }

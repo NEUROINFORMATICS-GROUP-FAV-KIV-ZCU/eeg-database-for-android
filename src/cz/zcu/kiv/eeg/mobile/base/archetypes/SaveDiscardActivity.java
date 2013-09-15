@@ -1,12 +1,12 @@
 package cz.zcu.kiv.eeg.mobile.base.archetypes;
 
+import com.actionbarsherlock.app.ActionBar;
 import cz.zcu.kiv.eeg.mobile.base.R;
-import android.app.ActionBar;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import org.holoeverywhere.LayoutInflater;
 
 /**
  * Archetype for activities with only two ways out of it - accepting displayed data, or rejecting them.
@@ -27,7 +27,7 @@ public abstract class SaveDiscardActivity extends CommonActivity implements OnCl
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
+		LayoutInflater inflater = (LayoutInflater) getSupportActionBar().getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
                 R.layout.actionbar_save_cancel, null);
@@ -37,7 +37,7 @@ public abstract class SaveDiscardActivity extends CommonActivity implements OnCl
         customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(this);
 
         //change actionbar behaviour
-        final ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM,
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME

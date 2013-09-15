@@ -10,14 +10,11 @@ import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Experiment;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.xml.SimpleXmlHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
-
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 
 /**
  * Common service (Asynctask) for creating new Experiment on eeg base.
@@ -27,6 +24,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class CreateExperiment extends CommonService<Experiment, Void, Experiment> {
 
     private final static String TAG = CreateExperiment.class.getSimpleName();
+    private final static int MESSAGE = R.string.working_ws_create_experiment;
 
     /**
      * Constructor, which sets reference to parent activity.
@@ -34,7 +32,7 @@ public class CreateExperiment extends CommonService<Experiment, Void, Experiment
      * @param context parent activity
      */
     public CreateExperiment(CommonActivity context) {
-        super(context);
+        super(context, MESSAGE);
     }
 
     /**
@@ -46,12 +44,13 @@ public class CreateExperiment extends CommonService<Experiment, Void, Experiment
      */
     @Override
     protected Experiment doInBackground(Experiment... experiments) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_EXPERIMENTS + "create";
 
-        setState(RUNNING, R.string.working_ws_create_experiment);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
@@ -59,9 +58,7 @@ public class CreateExperiment extends CommonService<Experiment, Void, Experiment
         requestHeaders.setContentType(MediaType.APPLICATION_XML);
 
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new SimpleXmlHttpMessageConverter());
 
         Experiment experiment = experiments[0];
@@ -74,9 +71,9 @@ public class CreateExperiment extends CommonService<Experiment, Void, Experiment
             return restTemplate.postForObject(url, entity, Experiment.class);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return null;
     }

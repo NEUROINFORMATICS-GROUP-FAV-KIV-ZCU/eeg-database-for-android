@@ -3,15 +3,14 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="?android:attr/detailsElementBackground">
+              android:background="@drawable/list_selector">
 
     <TextView
-            android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/dummy_no_record"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
 
 </LinearLayout>

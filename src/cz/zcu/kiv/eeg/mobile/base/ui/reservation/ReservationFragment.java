@@ -1,17 +1,18 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.reservation;
 
-import android.app.*;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.*;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
@@ -20,6 +21,14 @@ import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Reservation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.TimeContainer;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchReservationsToDate;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.DatePickerDialog;
+import org.holoeverywhere.app.ListFragment;
+import org.holoeverywhere.widget.Button;
+import org.holoeverywhere.widget.DatePicker;
+import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -34,7 +43,7 @@ public class ReservationFragment extends ListFragment implements OnClickListener
     private final static int HEADER_ROW = 1;
     private static TimeContainer timeContainer;
     private static ReservationAdapter dataAdapter = null;
-    private final OnDateSetListener dateSetListener = new OnDateSetListener() {
+    private final DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -62,10 +71,6 @@ public class ReservationFragment extends ListFragment implements OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setTitle(R.string.app_reser);
-        actionBar.setIcon(R.drawable.ic_action_time);
 
         if (savedInstanceState != null) {
             cursorPosition = savedInstanceState.getInt("cursorPos", 0);
@@ -95,14 +100,16 @@ public class ReservationFragment extends ListFragment implements OnClickListener
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.app_reser);
+        actionBar.setIcon(R.drawable.ic_action_time);
+
         setListAdapter(null);
         setListAdapter(getAdapter());
 
         ListView listView = (ListView) view.findViewById(android.R.id.list);
         listView.addHeaderView(header);
         if (isDualView) {
-            listView.setSelector(R.drawable.list_selector);
-            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             showDetails(cursorPosition);
             setSelection(cursorPosition);
         }
@@ -179,10 +186,11 @@ public class ReservationFragment extends ListFragment implements OnClickListener
                 b.putParcelable("time", timeContainer);
                 intent.putExtras(b);
                 startActivityForResult(intent, Values.ADD_RESERVATION_FLAG);
-                break;
+                return true;
             case R.id.refresh:
                 updateData();
                 Log.d(TAG, "Refresh data button pressed");
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -197,7 +205,11 @@ public class ReservationFragment extends ListFragment implements OnClickListener
 
         // -1 is due to our previous "fix" of Date format bug
         DatePickerDialog datePicker = new DatePickerDialog(getActivity(), dateSetListener, timeContainer.getYear(), timeContainer.getMonth() - 1, timeContainer.getDay());
-        datePicker.getDatePicker().getCalendarView().setFirstDayOfWeek(Values.firstDayOfWeek);
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB){
+            datePicker.getDatePicker().getCalendarView().setFirstDayOfWeek(Values.firstDayOfWeek);
+        }
+
         datePicker.show();
     }
 
@@ -261,7 +273,7 @@ public class ReservationFragment extends ListFragment implements OnClickListener
             ft.replace(R.id.details, details, ReservationDetailsFragment.TAG);
             ft.commit();
 
-        } else if (!empty) {
+        } else if (!empty && (index >= HEADER_ROW) && (index <= dataAdapter.getCount())) {
             Intent intent = new Intent();
             intent.setClass(getActivity(), ReservationDetailsActivity.class);
             intent.putExtra("index", index);

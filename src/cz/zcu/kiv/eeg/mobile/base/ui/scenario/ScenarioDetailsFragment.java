@@ -1,12 +1,17 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.scenario;
 
-import android.app.Fragment;
+
 import android.os.Bundle;
-import android.view.*;
-import android.widget.TextView;
+import android.view.View;
+import android.view.ViewGroup;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
 import cz.zcu.kiv.eeg.mobile.base.utils.FileUtils;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.TextView;
 
 /**
  * Fragment for displaying scenario details.
@@ -45,7 +50,7 @@ public class ScenarioDetailsFragment extends Fragment {
         TextView fileSize = (TextView) view.findViewById(R.id.scenarioFileLength);
         TextView description = (TextView) view.findViewById(R.id.scenarioDescription);
 
-        Scenario scenario = (Scenario) getArguments().getParcelable("data");
+        Scenario scenario = getArguments().getParcelable("data");
         if (scenario != null) {
             scenarioId.setText(Integer.toString(scenario.getScenarioId()));
             scenarioName.setText(scenario.getScenarioName());

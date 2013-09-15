@@ -1,14 +1,16 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.datafile;
 
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.View;
+import android.view.ViewGroup;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
@@ -19,6 +21,9 @@ import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchExperiments;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.UploadDataFile;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
+import org.holoeverywhere.widget.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,10 +43,6 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setTitle(R.string.app_data_file);
-        actionBar.setIcon(R.drawable.ic_action_upload);
     }
 
     @Override
@@ -49,6 +50,15 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
         View view = inflater.inflate(R.layout.base_data_file_upload, container, false);
         initView(view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ActionBar actionBar = ((CommonActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(R.string.app_data_file);
+        actionBar.setIcon(R.drawable.ic_action_upload);
     }
 
     @Override

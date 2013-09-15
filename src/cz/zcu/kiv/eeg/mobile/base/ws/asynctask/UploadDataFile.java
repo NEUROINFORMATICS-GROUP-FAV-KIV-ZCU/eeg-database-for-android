@@ -7,7 +7,6 @@ import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonService;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
-import cz.zcu.kiv.eeg.mobile.base.ws.ssl.SSLSimpleClientHttpRequestFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -19,8 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.Collections;
 
-import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
-
 /**
  * Common service (Asynctask) for uploading data file to specified experiment on eeg base.
  *
@@ -29,6 +26,7 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class UploadDataFile extends CommonService<String, Void, URI> {
 
     private final static String TAG = UploadDataFile.class.getSimpleName();
+    private final static int MESSAGE = R.string.working_ws_upload_data_file;
 
     /**
      * Constructor, which sets reference to parent activity.
@@ -36,7 +34,7 @@ public class UploadDataFile extends CommonService<String, Void, URI> {
      * @param context parent activity
      */
     public UploadDataFile(CommonActivity context) {
-        super(context);
+        super(context, MESSAGE);
     }
 
     /**
@@ -48,22 +46,19 @@ public class UploadDataFile extends CommonService<String, Void, URI> {
      */
     @Override
     protected URI doInBackground(String... dataFileContents) {
-        SharedPreferences credentials = getCredentials();
+        onServiceStart();
+
+        SharedPreferences credentials = getPreferences();
         String username = credentials.getString("username", null);
         String password = credentials.getString("password", null);
         String url = credentials.getString("url", null) + Values.SERVICE_DATAFILE;
 
-        setState(RUNNING, R.string.working_ws_upload_data_file);
         HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
 
-        SSLSimpleClientHttpRequestFactory factory = new SSLSimpleClientHttpRequestFactory();
-        //so files wont buffer in memory
-        factory.setBufferRequestBody(false);
-        // Create a new RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate(factory);
+        RestTemplate restTemplate = createRestClientInstance();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
 
@@ -81,9 +76,9 @@ public class UploadDataFile extends CommonService<String, Void, URI> {
             return restTemplate.postForLocation(url, entity);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
-            setState(ERROR, e);
+            onServiceError(e);
         } finally {
-            setState(DONE);
+            onServiceDone();
         }
         return null;
     }
