@@ -83,9 +83,9 @@ public final class ExperimentDetailLists {
             for (final Pharmaceutical record : pharmaceuticals) {
                 View row = inflater.inflate(R.layout.base_pharmaceutical_row, viewGroup, false);
 
-                TextView pharmId = (TextView) row.findViewById(R.id.row_software_id);
-                TextView pharmTitle = (TextView) row.findViewById(R.id.row_software_title);
-                TextView pharmDescription = (TextView) row.findViewById(R.id.row_software_description);
+                TextView pharmId = (TextView) row.findViewById(R.id.row_pharmaceutical_id);
+                TextView pharmTitle = (TextView) row.findViewById(R.id.row_pharmaceutical_title);
+                TextView pharmDescription = (TextView) row.findViewById(R.id.row_pharmaceutical_description);
 
                 if (pharmId != null) {
                     pharmId.setText(Integer.toString(record.getId()));
