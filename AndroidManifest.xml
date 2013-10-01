@@ -1,99 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cz.zcu.kiv.eeg.mobile.base"
-          android:versionCode="1"
-          android:versionName="1.0.0">
+    package="cz.zcu.kiv.eeg.mobile.base"
+    android:versionCode="1"
+    android:versionName="1.0.0" >
 
     <uses-sdk
-            android:minSdkVersion="15"
-            android:targetSdkVersion="16"/>
+        android:minSdkVersion="15"
+        android:targetSdkVersion="16" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-            android:debuggable="true"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Holo">
+        android:debuggable="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Holo" >
         <activity
-                android:name=".ui.startup.WelcomeActivity"
-                android:excludeFromRecents="true"
-                android:noHistory="true"
-                android:label="@string/app_name">
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.startup.WelcomeActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:noHistory="true" >
         </activity>
         <activity
-                android:name=".ui.startup.StartUpActivity"
-                android:label="@string/app_name"
-                android:theme="@android:style/Theme.NoDisplay">
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.startup.StartUpActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoDisplay" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-                android:name=".ui.NavigationActivity"
-                android:label="@string/app_name"
-                android:uiOptions="splitActionBarWhenNarrow">
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity"
+            android:label="@string/app_name"
+            android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity
-                android:name=".ui.settings.SettingsActivity"
-                android:label="@string/app_settings">
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity"
+            android:label="@string/app_settings" >
         </activity>
         <activity
-                android:name=".ui.reservation.ReservationDetailsActivity"
-                android:label="@string/detail">
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationDetailsActivity"
+            android:label="@string/detail" >
         </activity>
         <activity
-                android:name=".ui.reservation.AddRecordActivity"
-                android:label="@string/reser_create"
-                android:uiOptions="splitActionBarWhenNarrow"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.reservation.AddRecordActivity"
+            android:label="@string/reser_create"
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity
-                android:name=".ui.person.PersonAddActivity"
-                android:label="@string/person_add"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.person.PersonAddActivity"
+            android:label="@string/person_add" />
         <activity
-                android:name=".ui.filechooser.FileChooserActivity"
-                android:label="@string/fchooser"
-                android:theme="@android:style/Theme.Holo.NoActionBar"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.filechooser.FileChooserActivity"
+            android:label="@string/fchooser"
+            android:theme="@android:style/Theme.Holo.NoActionBar" />
         <activity
-                android:name=".ui.experiment.ExperimentActivity"
-                android:label="@string/app_experiments"
-                android:uiOptions="splitActionBarWhenNarrow"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.ExperimentActivity"
+            android:label="@string/app_experiments"
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity
-                android:name=".ui.experiment.ExperimentAddActivity"
-                android:label="@string/experiment_add"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.ExperimentAddActivity"
+            android:label="@string/experiment_add" />
         <activity
-                android:name=".ui.experiment.ElectrodeLocationAddActivity"
-                android:label="@string/electrode_add"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.ElectrodeLocationAddActivity"
+            android:label="@string/electrode_add" />
         <activity
-                android:name=".ui.experiment.DigitizationAddActivity"
-                android:label="@string/experiment_digitization_add"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.DigitizationAddActivity"
+            android:label="@string/experiment_digitization_add" />
         <activity
-                android:name=".ui.experiment.DiseaseAddActivity"
-                android:label="@string/experiment_disease_add"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.DiseaseAddActivity"
+            android:label="@string/experiment_disease_add" />
         <activity
-                android:name=".ui.experiment.ArtifactAddActivity"
-                android:label="@string/experiment_artifact_add"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.ArtifactAddActivity"
+            android:label="@string/experiment_artifact_add" />
         <activity
-                android:name=".ui.experiment.ElectrodeFixAddActivity"
-                android:label="@string/experiment_electrode_fix_new"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.ElectrodeFixAddActivity"
+            android:label="@string/experiment_electrode_fix_new" />
         <activity
-                android:name=".ui.experiment.WeatherAddActivity"
-                android:label="@string/experiment_add_weather"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.WeatherAddActivity"
+            android:label="@string/experiment_add_weather" />
         <activity
-                android:name=".ui.experiment.ExperimentDetailsActivity"
-                android:label="@string/detail"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.experiment.ExperimentDetailsActivity"
+            android:label="@string/detail" />
         <activity
-                android:name=".ui.scenario.ScenarioActivity"
-                android:label="@string/app_scenarios"
-                android:uiOptions="splitActionBarWhenNarrow"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioActivity"
+            android:label="@string/app_scenarios"
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity
-                android:name=".ui.scenario.ScenarioDetailsActivity"
-                android:label="@string/detail"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioDetailsActivity"
+            android:label="@string/detail" />
         <activity
-                android:name=".ui.scenario.ScenarioAddActivity"
-                android:label="@string/scenario_add"/>
+            android:name="cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioAddActivity"
+            android:label="@string/scenario_add" />
+        <activity
+            android:name="cz.zcu.kiv.eeg.mobile.base.data.ui.dbsynchonization.DbLogin"
+            android:label="@string/title_activity_db_login" >
+        </activity>
     </application>
 
 </manifest>

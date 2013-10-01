@@ -79,7 +79,8 @@
 
     <!-- Tlacitka -->
     <string name="button_remove">Odstranit</string>
-
+	<string name="button_synchronize">Synchronizovat</string>
+	
     <!-- Pracuji... -->
     <string name="working">Pracuji</string>
     <string name="working_ws_credentials">Ověřuji přihlašovací informace…</string>

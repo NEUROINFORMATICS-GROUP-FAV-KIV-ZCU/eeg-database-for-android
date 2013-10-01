@@ -10,12 +10,14 @@ import android.widget.SpinnerAdapter;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.MenuAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.ui.dbsynchonization.DbLogin;
 import cz.zcu.kiv.eeg.mobile.base.ui.dashboard.DashboardFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.datafile.DataFileUploadFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.experiment.ExperimentActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
+import cz.zcu.kiv.eeg.mobile.base.ui.startup.WelcomeActivity;
 
 /**
  * Main application activity.
@@ -86,7 +88,27 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
                 return true;
 
-            // datafile upload
+            // data synchronization (Allows user to synchronize data from online database with local database and upload new items in global database)
+            
+            case 3:
+            	intent = new Intent();
+                intent.setClass(this, DbLogin.class);
+                startActivity(intent);
+                getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
+                return true;
+                
+            case 4:
+            	intent = new Intent();
+                intent.setClass(this, WelcomeActivity.class);
+                startActivity(intent);
+                getActionBar().setSelectedNavigationItem(NavigationActivity.this.previousFragment);
+                return true;
+            
+                
+                
+                
+            /**
+            // file upload
             case 3:
                 DataFileUploadFragment dataFileFrag;
                 if (previousFragment == null || !(previousFragment instanceof DataFileUploadFragment)) {
@@ -97,7 +119,11 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 }
                 NavigationActivity.this.previousFragment = itemPosition;
                 break;
-
+			*/
+                
+            
+                
+            /*    
             // reservations
             case 4:
                 ReservationFragment agendaFrag;
@@ -120,8 +146,8 @@ public class NavigationActivity extends CommonActivity implements ActionBar.OnNa
                 return true;
             default:
                 return false;
+             */
         }
-
         return true;
     }
 
