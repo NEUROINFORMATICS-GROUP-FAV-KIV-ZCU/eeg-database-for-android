@@ -56,6 +56,21 @@ public class WelcomeActivity extends CommonActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences credentials = getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+        String username;
+        if(!(username = credentials.getString("tmp_username", "")).equals("")) {
+            TextView usernameField = (TextView) findViewById(R.id.settings_username_field);
+            TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
+            TextView urlField = (TextView) findViewById(R.id.settings_url_field);
+            usernameField.setText(username);
+            passwordField.setText(credentials.getString("tmp_password", ""));
+            urlField.setText(credentials.getString("tmp_url", "https://"));
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.login_menu, menu);
