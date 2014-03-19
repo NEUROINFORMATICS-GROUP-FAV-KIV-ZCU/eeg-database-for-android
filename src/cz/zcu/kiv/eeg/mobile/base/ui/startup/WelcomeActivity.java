@@ -116,7 +116,7 @@ public class WelcomeActivity extends CommonActivity {
 
             editor.putString("tmp_username", username);
             editor.putString("tmp_password", password);
-            editor.putString("tmp_url", url + Values.ENDPOINT);
+            editor.putString("tmp_url", url.replaceAll("(/)$", "") + Values.ENDPOINT);
 
             editor.commit();
 
