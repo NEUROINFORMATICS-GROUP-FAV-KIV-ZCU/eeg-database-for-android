@@ -66,7 +66,7 @@ public class WelcomeActivity extends CommonActivity {
             TextView urlField = (TextView) findViewById(R.id.settings_url_field);
             usernameField.setText(username);
             passwordField.setText(credentials.getString("tmp_password", ""));
-            urlField.setText(credentials.getString("tmp_url", "https://"));
+            urlField.setText(credentials.getString("tmp_url", "https://").replaceAll("(rest)$", ""));
         }
     }
 
