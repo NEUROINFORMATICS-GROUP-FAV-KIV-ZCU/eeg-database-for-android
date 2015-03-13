@@ -2,4 +2,4 @@ EEG Portal for Android is native Android application for ICS or higher. Its goal
 
 It servers as a client to EEGBase system 
 
-h3 "http://eegdatabase.kiv.zcu.cz":http://eegdatabase.kiv.zcu.cz
+h3. "http://eegdatabase.kiv.zcu.cz":http://eegdatabase.kiv.zcu.cz
