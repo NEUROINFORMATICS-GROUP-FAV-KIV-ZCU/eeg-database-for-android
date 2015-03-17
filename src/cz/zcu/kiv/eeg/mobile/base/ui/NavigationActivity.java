@@ -25,6 +25,10 @@
 package cz.zcu.kiv.eeg.mobile.base.ui;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.view.Window;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -217,5 +221,31 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+    
+     @Override
+    public void onBackPressed() {
+    	
+      String message="Do you really want to exit?";
+                
+      AlertDialog.Builder alert = new AlertDialog.Builder(NavigationActivity.this);      
+      alert.setMessage(message);
+      alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+              // Canceled.
+          }
+      });
+      alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+              // Canceled.
+        	  finish();
+          }
+      });
+      
+    	
+    	if(!NavigationActivity.this.isFinishing()){
+            alert.show();
+        }
+
     }
 }
