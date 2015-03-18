@@ -41,10 +41,7 @@ import java.util.List;
  *
  * @author Petr Miko - miko.petr (at) gmail.com
  */
-public class WeatherAdapter extends ArrayAdapter<Weather> {
-
-    private final Context context;
-    private final int resourceId;
+public class WeatherAdapter extends AbstractAdapter<Weather> {
 
     /**
      * Adapter constructor.
@@ -55,8 +52,6 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
      */
     public WeatherAdapter(Context context, int resourceId, List<Weather> items) {
         super(context, resourceId, items);
-        this.context = context;
-        this.resourceId = resourceId;
     }
 
     /**
@@ -67,33 +62,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
      * @param parent      parent view
      * @return row view
      */
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return initView(position, convertView, parent);
-    }
-
-    /**
-     * Getter of row view in drop down element (spinner like).
-     *
-     * @param position    position in adapter
-     * @param convertView view in which row should be displayed
-     * @param parent      parent view
-     * @return row view
-     */
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return initView(position, convertView, parent);
-    }
-
-    /**
-     * Getter of row view.
-     *
-     * @param position    position in adapter
-     * @param convertView view in which row should be displayed
-     * @param parent      parent view
-     * @return row view
-     */
-    private View initView(int position, View convertView, ViewGroup parent) {
+    protected View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();

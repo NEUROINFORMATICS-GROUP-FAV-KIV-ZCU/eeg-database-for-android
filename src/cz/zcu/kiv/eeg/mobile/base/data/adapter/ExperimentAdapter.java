@@ -46,10 +46,8 @@ import java.util.List;
  *
  * @author Petr Miko
  */
-public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filterable {
+public class ExperimentAdapter extends AbstractAdapter<Experiment> implements Filterable {
 
-    private final Context context;
-    private final int resourceId;
     private List<Experiment> original;
     private List<Experiment> filtered;
     private ExperimentListFilter experimentListFilter = new ExperimentListFilter();
@@ -62,9 +60,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
      * @param items      row data collection
      */
     public ExperimentAdapter(Context context, int resourceId, List<Experiment> items) {
-        super(context, resourceId);
-        this.context = context;
-        this.resourceId = resourceId;
+        super(context, resourceId, items);
         original = new ArrayList<Experiment>(items.size());
         filtered = new ArrayList<Experiment>(items.size());
         for (Experiment exp : items) {
@@ -127,32 +123,6 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
     }
 
     /**
-     * Row view getter.
-     *
-     * @param position    position in adapter
-     * @param convertView view where row should be displayed in
-     * @param parent      view parent
-     * @return row view
-     */
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return initView(position, convertView, parent);
-    }
-
-    /**
-     * Row view getter for drop down view elements (spinner like)
-     *
-     * @param position    position in adapter
-     * @param convertView view where row should be displayed in
-     * @param parent      view parent
-     * @return row view
-     */
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return initView(position, convertView, parent);
-    }
-
-    /**
      * Row view creator method.
      *
      * @param position    position in adapter
@@ -160,7 +130,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
      * @param parent      view parent
      * @return row view
      */
-    private View initView(int position, View convertView, ViewGroup parent) {
+    protected View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
