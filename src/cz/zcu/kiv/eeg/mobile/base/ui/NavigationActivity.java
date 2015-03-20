@@ -226,23 +226,20 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
      @Override
     public void onBackPressed() {
     	
-      String message="Do you really want to exit?";
-                
       AlertDialog.Builder alert = new AlertDialog.Builder(NavigationActivity.this);      
-      alert.setMessage(message);
-      alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+      alert.setMessage(NavigationActivity.this.getString(R.string.message_on_exit));
+      alert.setNegativeButton(NavigationActivity.this.getString(R.string.no), new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
               // Canceled.
           }
       });
-      alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+      alert.setPositiveButton(NavigationActivity.this.getString(R.string.yes), new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
               // Canceled.
         	  finish();
           }
       });
       
-    	
     	if(!NavigationActivity.this.isFinishing()){
             alert.show();
         }
