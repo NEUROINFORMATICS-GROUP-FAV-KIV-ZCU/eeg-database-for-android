@@ -174,3 +174,7 @@ gen
 .idea
 *.project
 *.iml
+
+# Github Pages
+_site/
+Gemfile.lock

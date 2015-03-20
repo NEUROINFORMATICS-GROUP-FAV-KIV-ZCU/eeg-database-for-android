@@ -41,10 +41,7 @@ import java.util.List;
  *
  * @author Petr Miko - miko.petr (at) gmail.com
  */
-public class ResearchGroupAdapter extends ArrayAdapter<ResearchGroup> {
-
-    private final Context context;
-    private final int resourceId;
+public class ResearchGroupAdapter extends AbstractAdapter<ResearchGroup> {
 
     /**
      * Research group adapter constructor.
@@ -55,20 +52,18 @@ public class ResearchGroupAdapter extends ArrayAdapter<ResearchGroup> {
      */
     public ResearchGroupAdapter(Context context, int resourceId, List<ResearchGroup> items) {
         super(context, resourceId, items);
-        this.context = context;
-        this.resourceId = resourceId;
     }
 
     /**
-     * Getter of row view.
+     * Creates row view using proper layout and data.
      *
-     * @param position    position in adapter
-     * @param convertView view in which row should be displayed
-     * @param parent      parent view
+     * @param position    row position, ie. position inside data collection
+     * @param convertView view, where row should be displayed in
+     * @param parent      view, where row should be displayed in
      * @return row view
      */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    protected View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -82,19 +77,6 @@ public class ResearchGroupAdapter extends ArrayAdapter<ResearchGroup> {
             }
         }
         return row;
-    }
-
-    /**
-     * Getter of row view in drop down element (spinner like).
-     *
-     * @param position    position in adapter
-     * @param convertView view in which row should be displayed
-     * @param parent      parent view
-     * @return row view
-     */
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return getView(position, convertView, parent);
     }
 
 }

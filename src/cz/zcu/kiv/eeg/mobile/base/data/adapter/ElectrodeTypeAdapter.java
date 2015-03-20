@@ -41,10 +41,7 @@ import java.util.List;
  *
  * @author Petr Miko
  */
-public class ElectrodeTypeAdapter extends ArrayAdapter<ElectrodeType> {
-
-    private final Context context;
-    private final int resourceId;
+public class ElectrodeTypeAdapter extends AbstractAdapter<ElectrodeType> {
 
     /**
      * Constructor of disease array adapter.
@@ -55,34 +52,6 @@ public class ElectrodeTypeAdapter extends ArrayAdapter<ElectrodeType> {
      */
     public ElectrodeTypeAdapter(Context context, int resourceId, List<ElectrodeType> items) {
         super(context, resourceId, items);
-        this.context = context;
-        this.resourceId = resourceId;
-    }
-
-    /**
-     * Getter of row view.
-     *
-     * @param position    row position
-     * @param convertView view, where row should be displayed in
-     * @param parent      view parent
-     * @return row view
-     */
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return initView(position, convertView, parent);
-    }
-
-    /**
-     * Getter of row view in drop down element (spinner like).
-     *
-     * @param position    row position, ie. position inside data collection
-     * @param convertView view, where row should be displayed in
-     * @param parent      view, where row should be displayed in
-     * @return row view
-     */
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return initView(position, convertView, parent);
     }
 
     /**
@@ -93,7 +62,7 @@ public class ElectrodeTypeAdapter extends ArrayAdapter<ElectrodeType> {
      * @param parent      view, where row should be displayed in
      * @return row view
      */
-    private View initView(int position, View convertView, ViewGroup parent) {
+    protected View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();

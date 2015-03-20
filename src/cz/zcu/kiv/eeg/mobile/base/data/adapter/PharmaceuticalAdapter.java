@@ -41,11 +41,7 @@ import java.util.List;
  *
  * @author Petr Miko
  */
-public class PharmaceuticalAdapter extends ArrayAdapter<Pharmaceutical> {
-
-    private final Context context;
-    private final int resourceId;
-
+public class PharmaceuticalAdapter extends AbstractAdapter<Pharmaceutical> {
     /**
      * Constructor of pharmaceutical array adapter.
      *
@@ -55,34 +51,6 @@ public class PharmaceuticalAdapter extends ArrayAdapter<Pharmaceutical> {
      */
     public PharmaceuticalAdapter(Context context, int resourceId, List<Pharmaceutical> items) {
         super(context, resourceId, items);
-        this.context = context;
-        this.resourceId = resourceId;
-    }
-
-    /**
-     * Getter of row view.
-     *
-     * @param position    row position
-     * @param convertView view, where row should be displayed in
-     * @param parent      view parent
-     * @return row view
-     */
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return initView(position, convertView, parent);
-    }
-
-    /**
-     * Getter of row view in drop down element (spinner like).
-     *
-     * @param position    row position, ie. position inside data collection
-     * @param convertView view, where row should be displayed in
-     * @param parent      view, where row should be displayed in
-     * @return row view
-     */
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return initView(position, convertView, parent);
     }
 
     /**
@@ -93,7 +61,7 @@ public class PharmaceuticalAdapter extends ArrayAdapter<Pharmaceutical> {
      * @param parent      view, where row should be displayed in
      * @return row view
      */
-    private View initView(int position, View convertView, ViewGroup parent) {
+    protected View initView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
