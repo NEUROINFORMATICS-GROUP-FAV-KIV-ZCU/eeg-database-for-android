@@ -280,5 +280,5 @@
     <string name="creation_experiment_ok">Experiment created successfully, please refresh in order to reload records
         from server.
     </string>
-
+    <string name="message_on_exit">Do you really want to exit?</string>
 </resources>
