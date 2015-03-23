@@ -71,8 +71,12 @@ public class FileUtils {
      * @return MIME type if is extension recognized. Nothing otherwise.
      */
     public static String getMimeType(String url) {
-        String extension = MimeTypeMap.getFileExtensionFromUrl(
-                url.substring(url.lastIndexOf(".")));
-        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        if(url.contains(".")){
+             String extension = MimeTypeMap.getFileExtensionFromUrl(
+                     url.substring(url.lastIndexOf(".")));
+             return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+         }else{
+             return "";
+         }
     }
 }
