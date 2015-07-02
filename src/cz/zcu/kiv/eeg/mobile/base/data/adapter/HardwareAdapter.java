@@ -106,7 +106,7 @@ public class HardwareAdapter extends ArrayAdapter<Hardware> {
             TextView hwType = (TextView) row.findViewById(R.id.row_hardware_type);
 
             if (hwId != null) {
-                hwId.setText(Integer.toString(record.getHardwareId()));
+                hwId.setText(record.getHardwareId());
             }
             if (hwTitle != null) {
                 hwTitle.setText(record.getTitle());

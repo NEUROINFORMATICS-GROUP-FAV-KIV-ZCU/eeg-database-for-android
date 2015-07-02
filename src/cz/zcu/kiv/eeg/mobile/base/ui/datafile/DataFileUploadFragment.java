@@ -159,7 +159,7 @@ public class DataFileUploadFragment extends Fragment implements View.OnClickList
         } else if (exp == null) {
             activity.showAlert(getString(R.string.error_no_experiment_selected));
         } else {
-            new UploadDataFile((CommonActivity) getActivity()).execute(Integer.toString(exp.getExperimentId()), fileDescription.getEditableText().toString(), selectedFile);
+            new UploadDataFile((CommonActivity) getActivity()).execute(exp.getExperimentId(), fileDescription.getEditableText().toString(), selectedFile);
         }
     }
 

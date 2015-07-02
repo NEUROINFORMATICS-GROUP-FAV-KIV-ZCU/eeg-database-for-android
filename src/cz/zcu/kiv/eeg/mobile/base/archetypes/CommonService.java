@@ -61,6 +61,8 @@ public abstract class CommonService<T, U, V> extends AsyncTask<T, U, V> {
         ServiceReference.push(context, this);
     }
 
+
+
     /**
      * Hands over progress state change towards the activity.
      *

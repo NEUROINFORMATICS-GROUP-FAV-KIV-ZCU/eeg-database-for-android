@@ -35,7 +35,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeFixAdapter;
@@ -43,7 +46,9 @@ import cz.zcu.kiv.eeg.mobile.base.data.adapter.ElectrodeTypeAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeLocation;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeType;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateElectrodeLocation;
@@ -51,6 +56,8 @@ import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchElectrodeFixes;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchElectrodeTypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Activity for creating new electrode location record.
@@ -61,12 +68,14 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
 
     private static ElectrodeFixAdapter electrodeFixAdapter;
     private static ElectrodeTypeAdapter electrodeTypeAdapter;
+    private CBDatabase db;
+    private String default_researchGroupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_electrode_add);
-
+        default_researchGroupId = getIntent().getStringExtra("groupId");
         initView();
         updateData();
     }
@@ -96,6 +105,7 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
             case R.id.electrode_add_fix_new:
                 Intent intent = new Intent();
                 intent.setClass(this, ElectrodeFixAddActivity.class);
+                intent.putExtra("groupId", default_researchGroupId);
                 startActivityForResult(intent, Values.ADD_ELECTRODE_FIX_FLAG);
                 break;
             default:
@@ -145,10 +155,43 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
     protected void save() {
         ElectrodeLocation record;
         if ((record = getValidRecord()) != null) {
-            if (ConnectionUtils.isOnline(this)) {
-                new CreateElectrodeLocation(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
-            } else
-                showAlert(getString(R.string.error_offline));
+//===================================================================Database Code==================================================//
+            db = new CBDatabase(Keys.DB_NAME, ElectrodeLocationAddActivity.this);
+            // create an object that contains data for a document
+            Map<String, Object> docContent = new HashMap<String, Object>();
+
+            docContent.put("type", "ElectrodeLocation");
+            docContent.put("title",record.getTitle());
+            docContent.put("abbr",record.getAbbr());
+            docContent.put("description", record.getDescription());
+            docContent.put("default_number", record.getDefaultNumber());
+            docContent.put("electrode_fix_id", record.getElectrodeFix().getId());
+            docContent.put("electrode_type_id", record.getElectrodeType().getId());
+            docContent.put("def_group_id", default_researchGroupId);
+
+            String electrodeLocationID = null;
+            try {
+                // Create a new document
+                electrodeLocationID = db.create(docContent);
+                assert(electrodeLocationID != null);
+                Intent resultIntent = new Intent();
+                record.setId(electrodeLocationID);
+                resultIntent.putExtra(Values.ADD_ELECTRODE_LOCATION_KEY, record);
+                Toast.makeText(ElectrodeLocationAddActivity.this, R.string.creation_ok, Toast.LENGTH_SHORT).show();
+                ElectrodeLocationAddActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                ElectrodeLocationAddActivity.this.finish();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(ElectrodeLocationAddActivity.this, R.string.creation_failed, Toast.LENGTH_SHORT).show();
+            }
+// ================================================================================================================================//
+
+
+//            if (ConnectionUtils.isOnline(this)) {
+//                new CreateElectrodeLocation(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
+//            } else
+//                showAlert(getString(R.string.error_offline));
         }
     }
 
@@ -165,10 +208,14 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
      * If not online, shows error dialog.
      */
     private void updateElectrodeFixes() {
-        if (ConnectionUtils.isOnline(this))
-            new FetchElectrodeFixes(this, getElectrodeFixAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        else
-            showAlert(getString(R.string.error_offline));
+//        if (ConnectionUtils.isOnline(this))
+//            new FetchElectrodeFixes(this, getElectrodeFixAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        else
+//            showAlert(getString(R.string.error_offline));
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createElectrodeFixesView("fetchAllElectrodeFixRecordsView", "ElectrodeFix", getElectrodeFixAdapter());
+
     }
 
     /**
@@ -176,10 +223,13 @@ public class ElectrodeLocationAddActivity extends SaveDiscardActivity {
      * If not online, shows error dialog.
      */
     private void updateElectrodeTypes() {
-        if (ConnectionUtils.isOnline(this))
-            new FetchElectrodeTypes(this, getElectrodeTypeAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        else
-            showAlert(getString(R.string.error_offline));
+//        if (ConnectionUtils.isOnline(this))
+//            new FetchElectrodeTypes(this, getElectrodeTypeAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        else
+//            showAlert(getString(R.string.error_offline));
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createElectrodeTypesView("fetchAllElectrodeTypeRecordsView", "ElectrodeType", getElectrodeTypeAdapter());
     }
 
     /**

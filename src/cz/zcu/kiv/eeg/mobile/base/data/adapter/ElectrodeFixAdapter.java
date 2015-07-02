@@ -106,7 +106,7 @@ public class ElectrodeFixAdapter extends ArrayAdapter<ElectrodeFix> {
             TextView description = (TextView) row.findViewById(R.id.row_electrode_description);
 
             if (id != null) {
-                id.setText(Integer.toString(record.getId()));
+                id.setText(record.getId());
             }
 
             if (title != null) {

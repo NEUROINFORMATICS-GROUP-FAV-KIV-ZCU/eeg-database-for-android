@@ -98,9 +98,7 @@ public class FileChooserActivity extends ListActivity {
         if (!dirPath.equals(ROOT)) {
             this.files.add(0, new FileInfo(f.getParentFile(), ".."));
             this.files.add(0, new FileInfo(new File(ROOT), ROOT));
-
         }
-
         setListAdapter(fileList);
     }
 
@@ -114,6 +112,7 @@ public class FileChooserActivity extends ListActivity {
         else {
             Intent resultIntent = new Intent();
             resultIntent.putExtra(Values.FILE_PATH, file.getAbsolutePath());
+            resultIntent.putExtra(Values.FILE_LENGTH, file.length());
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }

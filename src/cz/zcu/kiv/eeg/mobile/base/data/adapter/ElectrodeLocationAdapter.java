@@ -107,7 +107,7 @@ public class ElectrodeLocationAdapter extends ArrayAdapter<ElectrodeLocation> {
             TextView description = (TextView) row.findViewById(R.id.row_electrode_location_description);
 
             if (id != null) {
-                id.setText(Integer.toString(record.getId()));
+                id.setText(record.getId());
             }
 
             if (abbr != null) {

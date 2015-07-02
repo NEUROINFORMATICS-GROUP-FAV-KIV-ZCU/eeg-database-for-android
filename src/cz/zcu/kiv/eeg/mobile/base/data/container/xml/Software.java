@@ -49,7 +49,7 @@ public class Software implements Parcelable {
         }
     };
     @Element
-    private int id;
+    private String id;
     @Element
     private String title;
     @Element(required = false)
@@ -62,17 +62,17 @@ public class Software implements Parcelable {
     }
 
     public Software(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         title = in.readString();
         description = in.readString();
         defaultNumber = in.readInt();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -107,7 +107,7 @@ public class Software implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeInt(defaultNumber);

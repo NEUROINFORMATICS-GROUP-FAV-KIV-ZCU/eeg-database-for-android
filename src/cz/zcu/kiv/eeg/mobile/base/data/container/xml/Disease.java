@@ -49,7 +49,7 @@ public class Disease implements Parcelable {
         }
     };
     @Element
-    private int diseaseId;
+    private String diseaseId;
     @Element
     private String name;
     @Element(required = false)
@@ -59,16 +59,16 @@ public class Disease implements Parcelable {
     }
 
     public Disease(Parcel in) {
-        diseaseId = in.readInt();
+        diseaseId = in.readString();
         name = in.readString();
         description = in.readString();
     }
 
-    public int getDiseaseId() {
+    public String getDiseaseId() {
         return diseaseId;
     }
 
-    public void setDiseaseId(int diseaseId) {
+    public void setDiseaseId(String diseaseId) {
         this.diseaseId = diseaseId;
     }
 
@@ -95,7 +95,7 @@ public class Disease implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(diseaseId);
+        dest.writeString(diseaseId);
         dest.writeString(name);
         dest.writeString(description);
     }

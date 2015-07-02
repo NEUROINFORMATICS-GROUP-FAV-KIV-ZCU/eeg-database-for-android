@@ -85,12 +85,12 @@ public class ExperimentActivity extends CommonActivity {
                 break;
             case R.id.exp_add:
 
-                if (ConnectionUtils.isOnline(this)) {
-                    Intent addExperimentIntent = new Intent();
-                    addExperimentIntent.setClass(this, ExperimentAddActivity.class);
-                    startActivity(addExperimentIntent);
-                } else
-                    showAlert(getString(R.string.error_offline));
+//                if (ConnectionUtils.isOnline(this)) {
+                Intent addExperimentIntent = new Intent();
+                addExperimentIntent.setClass(this, ExperimentAddActivity.class);
+                startActivity(addExperimentIntent);
+//                } else
+//                    showAlert(getString(R.string.error_offline));
 
 
                 break;

@@ -172,7 +172,7 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
             TextView scenarioMime = (TextView) row.findViewById(R.id.rowScenarioMime);
 
             if (scenarioId != null) {
-                scenarioId.setText(Integer.toString(record.getScenarioId()));
+                scenarioId.setText(record.getScenarioId().toString());
             }
             if (scenarioName != null) {
                 scenarioName.setText(record.getScenarioName());
@@ -225,7 +225,7 @@ public class ScenarioAdapter extends ArrayAdapter<Scenario> implements Filterabl
             if (original != null) {
                 boolean noConstraint = constraint == null || constraint.toString().trim().isEmpty();
                 for (Scenario s : original) {
-                    if (noConstraint || Integer.toString(s.getScenarioId()).contains(constraint) || s.getScenarioName().toLowerCase().contains(constraint)) {
+                    if (noConstraint || s.getScenarioId().contains(constraint) || s.getScenarioName().toLowerCase().contains(constraint)) {
                         results.add(s);
                     }
                 }

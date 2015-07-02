@@ -106,7 +106,7 @@ public class SoftwareAdapter extends ArrayAdapter<Software> {
             TextView swDescription = (TextView) row.findViewById(R.id.row_software_description);
 
             if (swId != null) {
-                swId.setText(Integer.toString(record.getId()));
+                swId.setText(record.getId());
             }
             if (swTitle != null) {
                 swTitle.setText(record.getTitle());

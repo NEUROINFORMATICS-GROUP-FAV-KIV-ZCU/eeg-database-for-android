@@ -53,34 +53,34 @@ public class Experiment implements Parcelable {
         }
     };
     @Element
-    private int experimentId;
+    private String experimentId;   //Done
     @Element
-    private ScenarioSimple scenario;
+    private ScenarioSimple scenario;  //Done
     @Element
-    private ResearchGroup researchGroup;
+    private ResearchGroup researchGroup; //Done
     @Element(required = false)
-    private Artifact artifact;
+    private Artifact artifact;       //Done
     @Element
-    private Digitization digitization;
-    private TimeContainer startTime, endTime;
+    private Digitization digitization;   //Done
+    private TimeContainer startTime, endTime; //Done
     @Element
-    private DiseaseList diseases;
+    private DiseaseList diseases;    //Done
     @Element
-    private HardwareList hardwareList;
+    private HardwareList hardwareList; //Done
     @Element(required = false)
-    private String environmentNote;
+    private String environmentNote;  //Done
     @Element
-    private Weather weather;
+    private Weather weather;        //Done
     @Element(required = false)
-    private Owner owner;
+    private Owner owner;            //Done
     @Element
-    private Subject subject;
+    private Subject subject;        //Done
     @Element(required = false)
-    private Integer temperature;
+    private Integer temperature;   //Done
     @Element
-    private SoftwareList softwareList;
+    private SoftwareList softwareList;  //Done
     @Element
-    private PharmaceuticalList pharmaceuticals;
+    private PharmaceuticalList pharmaceuticals;  //Done
     @Element
     private ElectrodeConf electrodeConf;
 
@@ -88,7 +88,7 @@ public class Experiment implements Parcelable {
     }
 
     public Experiment(Parcel in) {
-        experimentId = in.readInt();
+        experimentId = in.readString();
         startTime = in.readParcelable(TimeContainer.class.getClassLoader());
         endTime = in.readParcelable(TimeContainer.class.getClassLoader());
         environmentNote = in.readString();
@@ -107,11 +107,11 @@ public class Experiment implements Parcelable {
         electrodeConf = in.readParcelable(ElectrodeConf.class.getClassLoader());
     }
 
-    public int getExperimentId() {
+    public String getExperimentId() {
         return experimentId;
     }
 
-    public void setExperimentId(int experimentId) {
+    public void setExperimentId(String experimentId) {
         this.experimentId = experimentId;
     }
 
@@ -280,7 +280,7 @@ public class Experiment implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(experimentId);
+        dest.writeString(experimentId);
         dest.writeParcelable(startTime, flags);
         dest.writeParcelable(endTime, flags);
         dest.writeString(environmentNote);

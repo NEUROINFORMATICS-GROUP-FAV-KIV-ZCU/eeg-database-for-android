@@ -54,15 +54,15 @@ public class FetchWeatherList extends CommonService<Void, Void, List<Weather>> {
 
     private static final String TAG = FetchWeatherList.class.getSimpleName();
     private final WeatherAdapter weatherAdapter;
-    private int researchGroupId;
+    private String researchGroupId;
 
     /**
      * Constructor.
-     *
-     * @param activity       parent activity
+     *  @param activity       parent activity
+     * @param researchGroupId
      * @param weatherAdapter adapter for holding collection of weather
      */
-    public FetchWeatherList(CommonActivity activity, int researchGroupId, WeatherAdapter weatherAdapter) {
+    public FetchWeatherList(CommonActivity activity, String researchGroupId, WeatherAdapter weatherAdapter) {
         super(activity);
         this.weatherAdapter = weatherAdapter;
         this.researchGroupId = researchGroupId;
@@ -123,22 +123,22 @@ public class FetchWeatherList extends CommonService<Void, Void, List<Weather>> {
     @Override
     protected void onPostExecute(List<Weather> resultList) {
         weatherAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Weather>() {
-                @Override
-                public int compare(Weather lhs, Weather rhs) {
-                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
-
-                    if (sub > 0) return 1;
-                    else if (sub < 0) return -1;
-                    else return lhs.getWeatherId() - rhs.getWeatherId();
-                }
-            });
-
-            for (Weather artifact : resultList) {
-                weatherAdapter.add(artifact);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<Weather>() {
+//                @Override
+//                public int compare(Weather lhs, Weather rhs) {
+//                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
+//
+//                    if (sub > 0) return 1;
+//                    else if (sub < 0) return -1;
+//                    else return lhs.getWeatherId() - rhs.getWeatherId();
+//                }
+//            });
+//
+//            for (Weather artifact : resultList) {
+//                weatherAdapter.add(artifact);
+//            }
+//        }
     }
 
 }

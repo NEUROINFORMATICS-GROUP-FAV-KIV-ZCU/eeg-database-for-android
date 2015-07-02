@@ -49,7 +49,7 @@ public class Artifact implements Parcelable {
     };
 
     @Element
-    private int artifactId;
+    private String artifactId;
     @Element
     private String compensation;
     @Element
@@ -58,16 +58,16 @@ public class Artifact implements Parcelable {
     public Artifact(){}
 
     public Artifact(Parcel in) {
-        artifactId = in.readInt();
+        artifactId = in.readString();
         compensation = in.readString();
         rejectCondition = in.readString();
     }
 
-    public int getArtifactId() {
+    public String getArtifactId() {
         return artifactId;
     }
 
-    public void setArtifactId(int artifactId) {
+    public void setArtifactId(String artifactId) {
         this.artifactId = artifactId;
     }
 
@@ -94,7 +94,7 @@ public class Artifact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(artifactId);
+        dest.writeString(artifactId);
         dest.writeString(compensation);
         dest.writeString(rejectCondition);
     }

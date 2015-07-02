@@ -24,14 +24,24 @@
  **********************************************************************************************************************/
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Artifact;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateArtifact;
@@ -43,11 +53,14 @@ import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateArtifact;
  */
 public class ArtifactAddActivity extends SaveDiscardActivity {
 
+    private CBDatabase db;
+    private String default_researchGroupId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_artifact_add);
-
+        default_researchGroupId = getIntent().getStringExtra("groupId");
         initView();
     }
 
@@ -65,17 +78,44 @@ public class ArtifactAddActivity extends SaveDiscardActivity {
     }
 
     /**
-     * Reads data from fields, if valid proceeds with creating new record on server.
+     * Reads data from fields, if valid proceeds with creating new record on local db
      */
     @Override
     protected void save() {
 
         Artifact record;
         if ((record = getValidRecord()) != null) {
-            if (ConnectionUtils.isOnline(this)) {
-                new CreateArtifact(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
-            } else
-                showAlert(getString(R.string.error_offline));
+//===================================================================Database Code==================================================//
+            db = new CBDatabase(Keys.DB_NAME, ArtifactAddActivity.this);
+            // create an object that contains data for a document
+            Map<String, Object> docContent = new HashMap<String, Object>();
+            docContent.put("type", "Artifact");
+            docContent.put("compensation",record.getCompensation());
+            docContent.put("reject_condition", record.getRejectCondition());
+            docContent.put("def_group_id", default_researchGroupId); //create an attribute to make a relationship (Belongs to) with "ResearchGroup" entity
+
+            String artifactID = null;
+            try {
+                // Create a new document
+                artifactID = db.create(docContent);
+                assert(artifactID != null);
+                Intent resultIntent = new Intent();
+                record.setArtifactId(artifactID);
+                resultIntent.putExtra(Values.ADD_ARTIFACT_KEY, record);
+                Toast.makeText(ArtifactAddActivity.this, R.string.creation_ok, Toast.LENGTH_SHORT).show();
+                ArtifactAddActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                ArtifactAddActivity.this.finish();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(ArtifactAddActivity.this, R.string.creation_failed, Toast.LENGTH_SHORT).show();
+            }
+// ================================================================================================================================//
+
+//            if (ConnectionUtils.isOnline(this)) {
+//                new CreateArtifact(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
+//            } else
+//                showAlert(getString(R.string.error_offline));
         }
     }
 
@@ -102,7 +142,6 @@ public class ArtifactAddActivity extends SaveDiscardActivity {
             Artifact record = new Artifact();
             record.setCompensation(compensation.getText().toString());
             record.setRejectCondition(rejectCondition.getText().toString());
-
             return record;
         } else {
             showAlert(error.toString());

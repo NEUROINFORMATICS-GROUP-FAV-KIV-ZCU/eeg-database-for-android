@@ -119,22 +119,22 @@ public class FetchElectrodeLocations extends CommonService<Void, Void, List<Elec
     @Override
     protected void onPostExecute(List<ElectrodeLocation> resultList) {
         electrodeLocationAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<ElectrodeLocation>() {
-                @Override
-                public int compare(ElectrodeLocation lhs, ElectrodeLocation rhs) {
-                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
-
-                    if (sub > 0) return 1;
-                    else if (sub < 0) return -1;
-                    else return lhs.getId() - rhs.getId();
-                }
-            });
-
-            for (ElectrodeLocation electrodeLocation : resultList) {
-                electrodeLocationAdapter.add(electrodeLocation);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<ElectrodeLocation>() {
+//                @Override
+//                public int compare(ElectrodeLocation lhs, ElectrodeLocation rhs) {
+//                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
+//
+//                    if (sub > 0) return 1;
+//                    else if (sub < 0) return -1;
+//                    else return lhs.getId() - rhs.getId();
+//                }
+//            });
+//
+//            for (ElectrodeLocation electrodeLocation : resultList) {
+//                electrodeLocationAdapter.add(electrodeLocation);
+//            }
+//        }
     }
 
 }

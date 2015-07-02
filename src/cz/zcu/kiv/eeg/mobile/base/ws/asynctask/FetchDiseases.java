@@ -119,22 +119,22 @@ public class FetchDiseases extends CommonService<Void, Void, List<Disease>> {
     @Override
     protected void onPostExecute(List<Disease> resultList) {
         diseaseAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Disease>() {
-                @Override
-                public int compare(Disease lhs, Disease rhs) {
-                    int sub = lhs.getName().toLowerCase().compareTo(rhs.getName().toLowerCase());
-
-                    if (sub > 0) return 1;
-                    else if (sub < 0) return -1;
-                    else return lhs.getDiseaseId() - rhs.getDiseaseId();
-                }
-            });
-
-            for (Disease disease : resultList) {
-                diseaseAdapter.add(disease);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<Disease>() {
+//                @Override
+//                public int compare(Disease lhs, Disease rhs) {
+//                    int sub = lhs.getName().toLowerCase().compareTo(rhs.getName().toLowerCase());
+//
+//                    if (sub > 0) return 1;
+//                    else if (sub < 0) return -1;
+//                    else return lhs.getDiseaseId() - rhs.getDiseaseId();
+//                }
+//            });
+//
+//            for (Disease disease : resultList) {
+//                diseaseAdapter.add(disease);
+//            }
+//        }
     }
 
 }

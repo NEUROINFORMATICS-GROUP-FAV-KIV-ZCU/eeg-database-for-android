@@ -25,9 +25,13 @@
 package cz.zcu.kiv.eeg.mobile.base.ui;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -38,15 +42,32 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.couchbase.lite.Database;
+import com.couchbase.lite.Document;
+import com.couchbase.lite.auth.Authenticator;
+import com.couchbase.lite.auth.AuthenticatorFactory;
+import com.couchbase.lite.replicator.Replication;
+import com.couchbase.lite.util.Log;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.MenuAdapter;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.UserProfile;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.ui.dashboard.DashboardFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.datafile.DataFileUploadFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.experiment.ExperimentActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.reservation.ReservationFragment;
 import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 
 /**
  * Main application activity.
@@ -55,7 +76,9 @@ import cz.zcu.kiv.eeg.mobile.base.ui.settings.SettingsActivity;
  *
  * @author Petr Miko
  */
-public class NavigationActivity extends CommonActivity implements ListView.OnItemClickListener {
+public class NavigationActivity extends CommonActivity implements ListView.OnItemClickListener, Replication.ChangeListener {
+    public String SYNC_URL;
+    private CBDatabase db;
     private final static String TAG = NavigationActivity.class.getSimpleName();
     private int previousFragment = -1;
 
@@ -63,11 +86,54 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
     private DrawerLayout drawerLayout;
     private ListView drawerList;
 
+    CharSequence username;
+    CharSequence password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.base);
+
+        SharedPreferences credentials = getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
+        username = credentials.getString("username", null);
+        password = credentials.getString("password", null);
+        SYNC_URL = credentials.getString("url", null);
+
+        db = new CBDatabase(Keys.DB_NAME, NavigationActivity.this);
+        startSync();
+
+        db = new CBDatabase(Keys.DB_NAME, NavigationActivity.this);
+        UserProfile logged_up =  db.fetchUserProfileData();
+        String loggedUserId = logged_up.getUserId();
+        String loggedUserName = logged_up.getUserName();
+
+//      String getDefaultResgrpId = db.fetchDefaultResearchGroup(getLoggedUserId);
+
+
+        SharedPreferences tempData = getSharedPreferences(Values.PREFS_TEMP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = tempData.edit();
+
+        if(loggedUserId==null){
+            Toast.makeText(NavigationActivity.this,"Error in pulling user profile data",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(NavigationActivity.this,"user id= "+loggedUserId+" userName="+loggedUserName,Toast.LENGTH_LONG).show();
+            editor.putString("loggedUserDocID", loggedUserId);
+            editor.putString("loggedUserName", loggedUserName);
+            editor.commit();
+        }
+
+//        if(getDefaultResgrpId==null){
+//            Toast.makeText(NavigationActivity.this,"Error in pulling def res grp",Toast.LENGTH_LONG).show();
+//        }else{
+//            Toast.makeText(NavigationActivity.this,"def res grp id= "+getDefaultResgrpId,Toast.LENGTH_LONG).show();
+//            editor.putString("loggedUserDefGrpID", getDefaultResgrpId);
+//            editor.commit();
+//        }
+
+        Database database = db.getDatabase();
+        Toast.makeText(NavigationActivity.this,"doc count= "+database.getDocumentCount(),Toast.LENGTH_LONG).show();
+
         final ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -119,7 +185,6 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
                 case 0:
                     DashboardFragment dashboardFrag;
                     dashboardFrag = new DashboardFragment();
-
                     fragmentTransaction.replace(R.id.content, dashboardFrag, DashboardFragment.TAG);
                     fragmentTransaction.commit();
                     previousFragment = itemPosition;
@@ -217,5 +282,96 @@ public class NavigationActivity extends CommonActivity implements ListView.OnIte
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(NavigationActivity.this);
+        alert.setMessage(NavigationActivity.this.getString(R.string.message_on_exit));
+        alert.setNegativeButton(NavigationActivity.this.getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+        alert.setPositiveButton(NavigationActivity.this.getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+                finish();
+            }
+        });
+
+        if(!NavigationActivity.this.isFinishing()){
+            alert.show();
+        }
+
+    }
+
+
+    //Sync Code
+
+    private void startSync() {
+
+        Database database = db.getDatabase();
+
+        URL syncUrl;
+        try {
+            syncUrl = new URL(SYNC_URL);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Replication pullReplication = database.createPullReplication(syncUrl);
+        pullReplication.setContinuous(true);
+
+        Replication pushReplication = database.createPushReplication(syncUrl);
+        pushReplication.setContinuous(true);
+
+        Authenticator auth = AuthenticatorFactory.createBasicAuthenticator(username.toString(), password.toString());
+        pushReplication.setAuthenticator(auth);
+        pullReplication.setAuthenticator(auth);
+
+        pullReplication.start();
+        pushReplication.start();
+
+        pullReplication.addChangeListener(this);
+        pushReplication.addChangeListener(this);
+
+    }
+
+
+    @Override
+    public void changed(Replication.ChangeEvent event) {
+
+        Replication replication = event.getSource();
+        Log.d(TAG, "Replication : " + replication + " changed.");
+        if (!replication.isRunning()) {
+            String msg = String.format("Replicator %s not running", replication);
+            Log.d(TAG, msg);
+        }
+        else {
+            int processed = replication.getCompletedChangesCount();
+            int total = replication.getChangesCount();
+            String msg = String.format("Replicator processed %d / %d", processed, total);
+            Log.d(TAG, msg);
+        }
+
+        if (event.getError() != null) {
+            showError("Sync error", event.getError());
+        }
+
+    }
+
+    public void showError(final String errorMessage, final Throwable throwable) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String msg = String.format("%s: %s", errorMessage, throwable);
+                Log.e(TAG, msg, throwable);
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }

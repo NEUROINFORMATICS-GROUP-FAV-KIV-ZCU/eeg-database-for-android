@@ -97,8 +97,7 @@ public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
         try {
             // Make the network request
             Log.d(TAG, url);
-            ResponseEntity<ScenarioList> response = restTemplate.exchange(url, HttpMethod.GET, entity,
-                    ScenarioList.class);
+            ResponseEntity<ScenarioList> response = restTemplate.exchange(url, HttpMethod.GET, entity,ScenarioList.class);
             ScenarioList body = response.getBody();
 
             if (body != null) {
@@ -122,18 +121,18 @@ public class FetchScenarios extends CommonService<Void, Void, List<Scenario>> {
     @Override
     protected void onPostExecute(List<Scenario> resultList) {
         scenarioAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Scenario>() {
-                @Override
-                public int compare(Scenario lhs, Scenario rhs) {
-                    return lhs.getScenarioId() - rhs.getScenarioId();
-                }
-            });
-
-            for (Scenario scenario : resultList) {
-                scenarioAdapter.add(scenario);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<Scenario>() {
+//                @Override
+//                public int compare(Scenario lhs, Scenario rhs) {
+//                    return lhs.getScenarioId() - rhs.getScenarioId();
+//                }
+//            });
+//
+//            for (Scenario scenario : resultList) {
+//                scenarioAdapter.add(scenario);
+//            }
+//        }
     }
 
 }

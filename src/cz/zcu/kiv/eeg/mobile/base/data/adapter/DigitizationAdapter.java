@@ -110,10 +110,10 @@ public class DigitizationAdapter extends ArrayAdapter<Digitization> {
             }
 
             if (samplingRate != null) {
-                samplingRate.setText(Float.toString(record.getSamplingRate()));
+                samplingRate.setText(record.getSamplingRate());
             }
             if (gain != null) {
-                gain.setText(Float.toString(record.getGain()));
+                gain.setText(record.getGain());
             }
         }
         return row;

@@ -119,22 +119,22 @@ public class FetchElectrodeSystems extends CommonService<Void, Void, List<Electr
     @Override
     protected void onPostExecute(List<ElectrodeSystem> resultList) {
         electrodeSystemAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<ElectrodeSystem>() {
-                @Override
-                public int compare(ElectrodeSystem lhs, ElectrodeSystem rhs) {
-                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
-
-                    if (sub > 0) return 1;
-                    else if (sub < 0) return -1;
-                    else return lhs.getId() - rhs.getId();
-                }
-            });
-
-            for (ElectrodeSystem electrodeSystem : resultList) {
-                electrodeSystemAdapter.add(electrodeSystem);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<ElectrodeSystem>() {
+//                @Override
+//                public int compare(ElectrodeSystem lhs, ElectrodeSystem rhs) {
+//                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
+//
+//                    if (sub > 0) return 1;
+//                    else if (sub < 0) return -1;
+//                    else return lhs.getId() - rhs.getId();
+//                }
+//            });
+//
+//            for (ElectrodeSystem electrodeSystem : resultList) {
+//                electrodeSystemAdapter.add(electrodeSystem);
+//            }
+//        }
     }
 
 }

@@ -49,7 +49,7 @@ public class Scenario implements Parcelable {
         }
     };
     @Element
-    private int scenarioId;
+    private String scenarioId;
     @Element
     private String scenarioName;
     @Element
@@ -67,16 +67,18 @@ public class Scenario implements Parcelable {
     @Element(required = false)
     private String fileLength;
     @Element
-    private Integer researchGroupId;
+    private String researchGroupId;
     private String filePath;
+    private String ownerId;
+    private String ownerUserName;
 
     public Scenario() {
     }
 
     public Scenario(Parcel in) {
-        scenarioId = in.readInt();
+        scenarioId = in.readString();
         scenarioName = in.readString();
-        researchGroupId = in.readInt();
+        researchGroupId = in.readString();
         researchGroupName = in.readString();
         ownerName = in.readString();
         description = in.readString();
@@ -87,11 +89,11 @@ public class Scenario implements Parcelable {
         isPrivate = in.readByte() == Values.TRUE;
     }
 
-    public int getScenarioId() {
+    public String getScenarioId() {
         return scenarioId;
     }
 
-    public void setScenarioId(int scenarioId) {
+    public void setScenarioId(String scenarioId) {
         this.scenarioId = scenarioId;
     }
 
@@ -109,6 +111,14 @@ public class Scenario implements Parcelable {
 
     public void setResearchGroupName(String researchGroupName) {
         this.researchGroupName = researchGroupName;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getScenarioName() {
@@ -159,11 +169,11 @@ public class Scenario implements Parcelable {
         this.fileLength = fileLength;
     }
 
-    public Integer getResearchGroupId() {
+    public String getResearchGroupId() {
         return researchGroupId;
     }
 
-    public void setResearchGroupId(Integer researchGroupId) {
+    public void setResearchGroupId(String researchGroupId) {
         this.researchGroupId = researchGroupId;
     }
 
@@ -175,6 +185,14 @@ public class Scenario implements Parcelable {
         this.filePath = filePath;
     }
 
+    public String getOwnerUserName() {
+        return ownerUserName;
+    }
+
+    public void setOwnerUserName(String ownerUserName) {
+        this.ownerUserName = ownerUserName;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -182,9 +200,9 @@ public class Scenario implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(scenarioId);
+        dest.writeString(scenarioId);
         dest.writeString(scenarioName);
-        dest.writeInt(researchGroupId);
+        dest.writeString(researchGroupId);
         dest.writeString(researchGroupName);
         dest.writeString(ownerName);
         dest.writeString(description);

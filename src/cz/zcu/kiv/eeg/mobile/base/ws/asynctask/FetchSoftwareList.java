@@ -119,22 +119,22 @@ public class FetchSoftwareList extends CommonService<Void, Void, List<Software>>
     @Override
     protected void onPostExecute(List<Software> resultList) {
         softwareAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Software>() {
-                @Override
-                public int compare(Software lhs, Software rhs) {
-                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
-
-                    if (sub > 0) return 1;
-                    else if (sub < 0) return -1;
-                    else return lhs.getId() - rhs.getId();
-                }
-            });
-
-            for (Software artifact : resultList) {
-                softwareAdapter.add(artifact);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<Software>() {
+//                @Override
+//                public int compare(Software lhs, Software rhs) {
+//                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
+//
+//                    if (sub > 0) return 1;
+//                    else if (sub < 0) return -1;
+//                    else return lhs.getId() - rhs.getId();
+//                }
+//            });
+//
+//            for (Software artifact : resultList) {
+//                softwareAdapter.add(artifact);
+//            }
+//        }
     }
 
 }

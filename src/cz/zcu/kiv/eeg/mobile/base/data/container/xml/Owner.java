@@ -48,7 +48,7 @@ public class Owner implements Parcelable {
         }
     };
     @Element
-    private int id;
+    private String id;
     @Element
     private String name;
     @Element
@@ -60,18 +60,18 @@ public class Owner implements Parcelable {
     }
 
     public Owner(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         name = in.readString();
         surname = in.readString();
         mailUsername = in.readString();
         mailDomain = in.readString();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -114,7 +114,7 @@ public class Owner implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(name);
         dest.writeString(surname);
         dest.writeString(mailUsername);

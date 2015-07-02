@@ -28,11 +28,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,18 +43,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import cz.zcu.kiv.eeg.mobile.base.R;
+import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.*;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.*;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.ui.person.PersonAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.ui.scenario.ScenarioAddActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Activity for creating new experiment on eeg base.
@@ -80,6 +88,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     private static ElectrodeSystemAdapter electrodeSystemAdapter;
     private TimeContainer fromTime;
     private TimeContainer toTime;
+    private CBDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +97,11 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
         initView(savedInstanceState);
         updateData();
+
     }
 
     /**
+     *
      * If not currently working and data container are not empty, fetches data from server.
      */
     private void updateData() {
@@ -219,30 +230,38 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     @Override
     public void onClick(View v) {
         Intent intent;
+        Spinner groupSpinner = (Spinner) findViewById(R.id.experiment_add_group);
+        ResearchGroup group = (ResearchGroup) groupSpinner.getSelectedItem();
         switch (v.getId()) {
             case R.id.experiment_add_from_date:
                 showDateDialog((Button) findViewById(R.id.experiment_add_from_date), fromTime);
                 break;
+
             case R.id.experiment_add_from_time:
                 showTimeDialog((Button) findViewById(R.id.experiment_add_from_time), fromTime);
                 break;
+
             case R.id.experiment_add_to_date:
                 showDateDialog((Button) findViewById(R.id.experiment_add_to_date), toTime);
                 break;
+
             case R.id.experiment_add_to_time:
                 showTimeDialog((Button) findViewById(R.id.experiment_add_to_time), toTime);
                 break;
 
-            case R.id.experiment_add_scenario_new:
+            case R.id.experiment_add_scenario_new:                                          //Done
                 intent = new Intent();
                 intent.setClass(this, ScenarioAddActivity.class);
                 startActivityForResult(intent, Values.ADD_SCENARIO_FLAG);
                 break;
 
-            case R.id.experiment_add_subject_new:
-                intent = new Intent();
-                intent.setClass(this, PersonAddActivity.class);
-                startActivityForResult(intent, Values.ADD_PERSON_FLAG);
+            case R.id.experiment_add_subject_new:                                           //Done
+                if (group != null) {
+                    intent = new Intent();
+                    intent.setClass(this, PersonAddActivity.class);
+                    intent.putExtra("groupId", group.getGroupId());
+                    startActivityForResult(intent, Values.ADD_PERSON_FLAG);
+                } else showAlert(getString(R.string.error_no_group_selected));
                 break;
 
             case R.id.experiment_add_hardware_button:
@@ -265,34 +284,44 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 selectElectrodeLocationsDialog();
                 break;
 
-            case R.id.experiment_add_electrode_new_location_button:
-                intent = new Intent();
-                intent.setClass(this, ElectrodeLocationAddActivity.class);
-                startActivityForResult(intent, Values.ADD_ELECTRODE_LOCATION_FLAG);
-                break;
-
-            case R.id.experiment_add_digitization_new:
-                intent = new Intent();
-                intent.setClass(this, DigitizationAddActivity.class);
-                startActivityForResult(intent, Values.ADD_DIGITIZATION_FLAG);
-                break;
-            case R.id.experiment_add_disease_new_button:
-                intent = new Intent();
-                intent.setClass(this, DiseaseAddActivity.class);
-                startActivityForResult(intent, Values.ADD_DISEASE_FLAG);
-                break;
-            case R.id.experiment_add_artifact_new:
-                intent = new Intent();
-                intent.setClass(this, ArtifactAddActivity.class);
-                startActivityForResult(intent, Values.ADD_ARTIFACT_FLAG);
-                break;
-            case R.id.experiment_add_weather_new:
-
-                Spinner groupSpinner = (Spinner) findViewById(R.id.experiment_add_group);
-                ResearchGroup group = (ResearchGroup) groupSpinner.getSelectedItem();
-
+            case R.id.experiment_add_electrode_new_location_button:                         //Done
                 if (group != null) {
+                    intent = new Intent();
+                    intent.setClass(this, ElectrodeLocationAddActivity.class);
+                    intent.putExtra("groupId", group.getGroupId());
+                    startActivityForResult(intent, Values.ADD_ELECTRODE_LOCATION_FLAG);
+                }else showAlert(getString(R.string.error_no_group_selected));
+                break;
 
+                case R.id.experiment_add_digitization_new:                                  //Done
+                if (group != null) {
+                    intent = new Intent();
+                    intent.setClass(this, DigitizationAddActivity.class);
+                    intent.putExtra("groupId", group.getGroupId());
+                    startActivityForResult(intent, Values.ADD_DIGITIZATION_FLAG);
+                }else showAlert(getString(R.string.error_no_group_selected));
+                break;
+
+            case R.id.experiment_add_disease_new_button:                                    //Done
+                if (group != null) {
+                    intent = new Intent();
+                    intent.setClass(this, DiseaseAddActivity.class);
+                    intent.putExtra("groupId", group.getGroupId());
+                    startActivityForResult(intent, Values.ADD_DISEASE_FLAG);
+                }else showAlert(getString(R.string.error_no_group_selected));
+                break;
+
+            case R.id.experiment_add_artifact_new:                                          //Done
+                if (group != null) {
+                    intent = new Intent();
+                    intent.setClass(this, ArtifactAddActivity.class);
+                    intent.putExtra("groupId", group.getGroupId());
+                    startActivityForResult(intent, Values.ADD_ARTIFACT_FLAG);
+                } else showAlert(getString(R.string.error_no_group_selected));
+                break;
+
+            case R.id.experiment_add_weather_new:                                           //Done
+                if (group != null) {
                     intent = new Intent();
                     intent.setClass(this, WeatherAddActivity.class);
                     intent.putExtra("groupId", group.getGroupId());
@@ -300,7 +329,6 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
                 } else showAlert(getString(R.string.error_no_group_selected));
                 break;
         }
-
         super.onClick(v);
     }
 
@@ -345,17 +373,118 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
      */
     @Override
     protected void save() {
+
+        SharedPreferences getOwner = getSharedPreferences(Values.PREFS_TEMP, Context.MODE_PRIVATE);
+        String loggeduserDocID    = getOwner.getString("loggedUserDocID", null);
+
         Experiment experiment;
         if ((experiment = getValidRecord()) != null) {
-            if (ConnectionUtils.isOnline(this)) {
-                new CreateExperiment(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, experiment);
+//            if (ConnectionUtils.isOnline(this)) {
+//                new CreateExperiment(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, experiment);
+
+//===================================================================Database Code==================================================//
+                db = new CBDatabase(Keys.DB_NAME, ExperimentAddActivity.this);
+                // create an object that contains data for a document
+                Map<String, Object> docContent = new HashMap<String, Object>();
+                docContent.put("type", "Experiment");
+                docContent.put("research_group_id", experiment.getResearchGroup().getGroupId());        //Done
+                docContent.put("scenario_id", experiment.getScenario().getScenarioId());                //Done
+                docContent.put("owner_id", loggeduserDocID);                                            //Done
+                docContent.put("start_time", experiment.getStartTime().toString());                     //Done
+                docContent.put("end_time", experiment.getEndTime().toString());                         //Done
+                docContent.put("subject_id", experiment.getSubject().getPersonId());                    //Done
+                docContent.put("weather_id", experiment.getWeather().getWeatherId());                   //Done
+                docContent.put("temperature", experiment.getTemperature());                             //Done
+                docContent.put("artifact_id", experiment.getArtifact().getArtifactId());                //Done
+                docContent.put("digitization_id", experiment.getDigitization().getDigitizationId());    //Done
+                docContent.put("environment_note", experiment.getEnvironmentNote());                    //Done
+
+                List<String> hardware_ids = new ArrayList<String>();
+                if (experiment.getHardwareList().getHardwareList() != null && !experiment.getHardwareList().getHardwareList().isEmpty()){
+                    for (int i = 0; i <experiment.getHardwareList().getHardwareList().size() ; i++) {
+                        hardware_ids.add(experiment.getHardwareList().getHardwareList().get(i).getHardwareId());
+                    }
+                }
+                docContent.put("hardware_list", hardware_ids);                                          //Done
+
+                List<String> software_ids = new ArrayList<String>();
+                if (experiment.getSoftwareList().getSoftwareList() != null && !experiment.getSoftwareList().getSoftwareList().isEmpty()){
+                    for (int i = 0; i <experiment.getSoftwareList().getSoftwareList().size() ; i++) {
+                        software_ids.add(experiment.getSoftwareList().getSoftwareList().get(i).getId());
+                    }
+                }
+                docContent.put("software_list", software_ids);                                          //Done
+
+                List<String> disease_ids = new ArrayList<String>();
+                if (experiment.getDiseases().getDiseases() != null && !experiment.getDiseases().getDiseases().isEmpty()){
+                    for (int i = 0; i <experiment.getDiseases().getDiseases().size(); i++) {
+                        disease_ids.add(experiment.getDiseases().getDiseases().get(i).getDiseaseId());
+                    }
+                }
+                docContent.put("disease_list", disease_ids);                                            //Done
+
+                List<String> pharmaceutical_ids = new ArrayList<String>();
+                if (experiment.getPharmaceuticals().getPharmaceuticals() != null && !experiment.getPharmaceuticals().getPharmaceuticals().isEmpty()){
+                    for (int i = 0; i <experiment.getPharmaceuticals().getPharmaceuticals().size(); i++) {
+                        pharmaceutical_ids.add(experiment.getPharmaceuticals().getPharmaceuticals().get(i).getId());
+                    }
+                }
+                docContent.put("pharmaceutical_list", pharmaceutical_ids);                              //Done
+
+                //Creating the Electrode_conf document and get its id
+                Map<String, Object> electrodeConfDocContent = new HashMap<String, Object>();
+                electrodeConfDocContent.put("type","ElectrodeConf");
+                electrodeConfDocContent.put("impedance", experiment.getElectrodeConf().getImpedance());
+                electrodeConfDocContent.put("electrode_system_id", experiment.getElectrodeConf().getElectrodeSystem().getId());
+
+                List<String> electrode_location_ids = new ArrayList<String>();
+                if (experiment.getElectrodeConf().getElectrodeLocations().getElectrodeLocations() != null && !experiment.getElectrodeConf().getElectrodeLocations().getElectrodeLocations().isEmpty()){
+                    for (int i = 0; i <experiment.getElectrodeConf().getElectrodeLocations().getElectrodeLocations().size(); i++) {
+                        electrode_location_ids.add(experiment.getElectrodeConf().getElectrodeLocations().getElectrodeLocations().get(i).getId());
+                    }
+                }
+                electrodeConfDocContent.put("electrode_locations_list", electrode_location_ids);
+
+                String electrode_conf_id = null;
+                try{
+                    electrode_conf_id = db.create(electrodeConfDocContent);
+                    assert(electrode_conf_id != null);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                docContent.put("electrode_conf_id", electrode_conf_id);
+
+
+                String experimentID = null;
+                try {
+                    // Create a new document
+                    experimentID = db.create(docContent);
+//                    Log.i("eeg_experiment_id",experimentID+"");
+//                    Map<String, Object> testMe = db.retrieve(experimentID);
+//                    Log.i("eeg_exp_doc_content",testMe.toString()+"");
+
+                    assert(experimentID != null);
+                    Intent resultIntent = new Intent();
+                    experiment.setExperimentId(experimentID);
+                    resultIntent.putExtra(Values.ADD_EXPERIMENT_KEY, experiment);
+                    Toast.makeText(ExperimentAddActivity.this, R.string.creation_experiment_ok, Toast.LENGTH_SHORT).show();
+                    ExperimentAddActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                    ExperimentAddActivity.this.finish();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(ExperimentAddActivity.this, R.string.creation_failed, Toast.LENGTH_SHORT).show();
+                }
+// ================================================================================================================================//
+
                 selectedElectrodeLocations = new ArrayList<ElectrodeLocation>();
                 selectedHardware = new ArrayList<Hardware>();
                 selectedSoftware = new ArrayList<Software>();
                 selectedPharmaceuticals = new ArrayList<Pharmaceutical>();
                 selectedDiseases = new ArrayList<Disease>();
-            } else
-                showAlert(getString(R.string.error_offline));
+//            } else
+//                showAlert(getString(R.string.error_offline));
         }
     }
 
@@ -483,126 +612,166 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
     /* --------------------------------- CommonService invoke-methods ------------------ */
 
     /**
-     * Updates scenario array adapter.
+     * Updates scenario array adapter. fetch all scenarios (all ? what is the criteria)
      */
     private void updateScenarios() {
-        if (ConnectionUtils.isOnline(this)) {
-            new FetchScenarios(this, getScenarioAdapter(), Values.SERVICE_QUALIFIER_ALL).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        } else
-            showAlert(getString(R.string.error_offline));
+        //Fetch from local db
+        db = new CBDatabase(Keys.DB_NAME, ExperimentAddActivity.this);
+        db.createScenarioView("fetchAllScenariosView", "Scenario",getScenarioAdapter());
+//        if (ConnectionUtils.isOnline(this)) {
+//            new FetchScenarios(this, getScenarioAdapter(), Values.SERVICE_QUALIFIER_ALL).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        } else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates research group array adapter.
      */
     private void updateGroups() {
-        if (ConnectionUtils.isOnline(this)) {
-            new FetchResearchGroups(this, getGroupAdapter(), Values.SERVICE_QUALIFIER_MINE).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        } else
-            showAlert(getString(R.string.error_offline));
+        //Fetch from local db
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createResearchGroupView("fetchResearchGroupsView", "Group", getGroupAdapter());
+//        if (ConnectionUtils.isOnline(this)) {
+//            new FetchResearchGroups(this, getGroupAdapter(), Values.SERVICE_QUALIFIER_MINE).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        } else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates subjects' array adapter.
      */
     private void updateSubjects() {
-        if (ConnectionUtils.isOnline(this)) {
-            new FetchPeople(this, getPersonAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        } else
-            showAlert(getString(R.string.error_offline));
+        //Fetch from local db
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createPersonView("fetchPersonView", "Person", getPersonAdapter());
+//        if (ConnectionUtils.isOnline(this)) {
+//            new FetchPeople(this, getPersonAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        } else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates artifact array adapter.
      */
     private void updateArtifacts() {
-        if (ConnectionUtils.isOnline(this)) {
-            new FetchArtifacts(this, getArtifactAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        } else
-            showAlert(getString(R.string.error_offline));
+        //Fetch from local db
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createArtifactView("fetchAllArtifactView", "Artifact", getArtifactAdapter());
+
+//        if (ConnectionUtils.isOnline(this)) {
+//            new FetchArtifacts(this, getArtifactAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        } else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates digitization array adapter.
      */
     private void updateDigitizations() {
-        if (ConnectionUtils.isOnline(this)) {
-            new FetchDigitizations(this, getDigitizationAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        } else
-            showAlert(getString(R.string.error_offline));
+        //Fetch from local db
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createDigitizationView("fetchAllDigitizationView", "Digitization", getDigitizationAdapter());
+
+//        if (ConnectionUtils.isOnline(this)) {
+//            new FetchDigitizations(this, getDigitizationAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        } else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates hardware array adapter.
      */
     private void updateHardwareList() {
-        if (ConnectionUtils.isOnline(this))
-            new FetchHardwareList(this, getHardwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        else
-            showAlert(getString(R.string.error_offline));
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createHardwareView("fetchAllHardwareView", "Hardware", getHardwareAdapter());
+//        if (ConnectionUtils.isOnline(this))
+//            new FetchHardwareList(this, getHardwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates software array adapter.
      */
     private void updateSoftwareList() {
-        if (ConnectionUtils.isOnline(this))
-            new FetchSoftwareList(this, getSoftwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        else
-            showAlert(getString(R.string.error_offline));
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createSoftwareView("fetchAllSoftwareView", "Software", getSoftwareAdapter());
+//        if (ConnectionUtils.isOnline(this))
+//            new FetchSoftwareList(this, getSoftwareAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates disease array adapter.
      */
     private void updateDiseases() {
-        if (ConnectionUtils.isOnline(this))
-            new FetchDiseases(this, getDiseaseAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        else
-            showAlert(getString(R.string.error_offline));
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createDiseasesView("fetchAllDiseasesView", "Disease", getDiseaseAdapter());
+//        if (ConnectionUtils.isOnline(this))
+//            new FetchDiseases(this, getDiseaseAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates pharmaceuticals' array adapter.
      */
     private void updatePharmaceuticals() {
-        if (ConnectionUtils.isOnline(this))
-            new FetchPharmaceuticals(this, getPharmaceuticalAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        else
-            showAlert(getString(R.string.error_offline));
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createPharmaceuticalsView("fetchAllPharmaceuticalsView", "Pharmaceutical", getPharmaceuticalAdapter());
+        //        if (ConnectionUtils.isOnline(this))
+//            new FetchPharmaceuticals(this, getPharmaceuticalAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates electrodes array adapter.
      */
     private void updateElectrodeSystems() {
-        if (ConnectionUtils.isOnline(this))
-            new FetchElectrodeSystems(this, getElectrodeSystemAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        else
-            showAlert(getString(R.string.error_offline));
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createElectrodeSystemView("fetchAllElectrodeSystemRecordsView", "ElectrodeSystem", getElectrodeSystemAdapter());
+//        if (ConnectionUtils.isOnline(this))
+//            new FetchElectrodeSystems(this, getElectrodeSystemAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        else
+//            showAlert(getString(R.string.error_offline));
     }
 
     /**
      * Updates electrode locations array adapter.
      */
     private void updateElectrodeLocations() {
-        if (ConnectionUtils.isOnline(this))
-            new FetchElectrodeLocations(this, getElectrodeLocationsAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        else
-            showAlert(getString(R.string.error_offline));
+        CommonActivity activity = (CommonActivity) this;
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createElectrodeLocationView("fetchAllElectrodeLocationRecordsView", "ElectrodeLocation", getElectrodeLocationsAdapter());
+//        if (ConnectionUtils.isOnline(this))
+//            new FetchElectrodeLocations(this, getElectrodeLocationsAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+//        else
+//            showAlert(getString(R.string.error_offline));
     }
 
     private void updateWeatherList() {
-        if (ConnectionUtils.isOnline(this)) {
-            Spinner groups = (Spinner) findViewById(R.id.experiment_add_group);
-            ResearchGroup group = (ResearchGroup) groups.getSelectedItem();
-
-            if (group == null)
-                showAlert(getString(R.string.error_no_group_selected));
-            else
-                new FetchWeatherList(this, group.getGroupId(), getWeatherAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-        } else
-            showAlert(getString(R.string.error_offline));
+        Spinner groups = (Spinner) findViewById(R.id.experiment_add_group);
+        ResearchGroup group = (ResearchGroup) groups.getSelectedItem();
+        if (group == null){
+            showAlert(getString(R.string.error_no_group_selected));
+        }else{
+            //Fetch from local db
+            CommonActivity activity = (CommonActivity) this;
+            db = new CBDatabase(Keys.DB_NAME, activity);
+            db.createWeatherView("fetchWeatherRecordsView", "Weather", getWeatherAdapter(), group.getGroupId());
+        }
+//            new FetchWeatherList(this, group.getGroupId(), getWeatherAdapter()).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
     }
 
     /* --------------------------------- Data adapters ------------------ */
@@ -1161,6 +1330,7 @@ public class ExperimentAddActivity extends SaveDiscardActivity implements View.O
 
         ExperimentDetailLists.fillElectrodeLocations(layout, selectedElectrodeLocations);
     }
+
 
     /**
      * Reads data from fields. If valid, returns filled instance, null otherwise.

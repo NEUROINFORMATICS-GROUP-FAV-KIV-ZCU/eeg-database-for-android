@@ -29,8 +29,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeFix;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.ElectrodeType;
+import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 
 /**
  * Activity started on application startup.
@@ -42,6 +54,8 @@ import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
  */
 public class StartUpActivity extends Activity {
 
+    private CBDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +63,7 @@ public class StartUpActivity extends Activity {
         SharedPreferences credentials = getSharedPreferences(Values.PREFS_CREDENTIALS, Context.MODE_PRIVATE);
         CharSequence username = credentials.getString("username", null);
         CharSequence password = credentials.getString("password", null);
+
 
         if (username == null || password == null) {
             Intent welcomeIntent = new Intent(this, WelcomeActivity.class);

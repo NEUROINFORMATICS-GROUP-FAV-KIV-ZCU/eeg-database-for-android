@@ -31,15 +31,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
+
+import com.couchbase.lite.*;
+
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.adapter.ScenarioAdapter;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Scenario;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.FetchScenarios;
 
 import java.util.ArrayList;
@@ -57,6 +63,7 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
     private static ScenarioAdapter adapter;
     private boolean isDualView;
     private int cursorPosition;
+    private CBDatabase db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,15 +128,18 @@ public class ListMineScenariosFragment extends ListFragment implements SearchVie
     }
 
     /**
-     * If online, fetches available user's scenarios.
+     * fetches available user's scenarios.
      */
     private void update() {
 
         CommonActivity activity = (CommonActivity) getActivity();
-        if (ConnectionUtils.isOnline(activity)) {
-            new FetchScenarios(activity, getAdapter(), Values.SERVICE_QUALIFIER_MINE).execute();
-        } else
-            activity.showAlert(activity.getString(R.string.error_offline));
+        //Fetch from local db
+        db = new CBDatabase(Keys.DB_NAME, activity);
+        db.createScenarioView(getActivity().getResources().getString(R.string.view_fetch_my_scenarios), getActivity().getResources().getString(R.string.doc_type_scenario),getAdapter());
+//        if (ConnectionUtils.isOnline(activity)) {
+//            new FetchScenarios(activity, getAdapter(), Values.SERVICE_QUALIFIER_MINE).execute();
+//        } else
+//            activity.showAlert(activity.getString(R.string.error_offline));
     }
 
     /**

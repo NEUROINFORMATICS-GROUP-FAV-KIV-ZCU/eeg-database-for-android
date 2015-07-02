@@ -63,7 +63,7 @@ public final class ExperimentDetailLists {
                 TextView electrodeDescription = (TextView) row.findViewById(R.id.row_electrode_location_description);
 
                 if (electrodeId != null) {
-                    electrodeId.setText(Integer.toString(record.getId()));
+                    electrodeId.setText(record.getId());
                 }
 
                 if (electrodeAbbr != null) {
@@ -107,12 +107,12 @@ public final class ExperimentDetailLists {
             for (final Pharmaceutical record : pharmaceuticals) {
                 View row = inflater.inflate(R.layout.base_pharmaceutical_row, viewGroup, false);
 
-                TextView pharmId = (TextView) row.findViewById(R.id.row_software_id);
-                TextView pharmTitle = (TextView) row.findViewById(R.id.row_software_title);
-                TextView pharmDescription = (TextView) row.findViewById(R.id.row_software_description);
+                TextView pharmId = (TextView) row.findViewById(R.id.row_pharmaceutical_id);
+                TextView pharmTitle = (TextView) row.findViewById(R.id.row_pharmaceutical_title);
+                TextView pharmDescription = (TextView) row.findViewById(R.id.row_pharmaceutical_description);
 
                 if (pharmId != null) {
-                    pharmId.setText(Integer.toString(record.getId()));
+                    pharmId.setText(record.getId());
                 }
                 if (pharmTitle != null) {
                     pharmTitle.setText(record.getTitle());
@@ -156,7 +156,7 @@ public final class ExperimentDetailLists {
                 TextView swDescription = (TextView) row.findViewById(R.id.row_software_description);
 
                 if (swId != null) {
-                    swId.setText(Integer.toString(record.getId()));
+                    swId.setText(record.getId());
                 }
                 if (swTitle != null) {
                     swTitle.setText(record.getTitle());
@@ -201,7 +201,7 @@ public final class ExperimentDetailLists {
                 TextView hwType = (TextView) row.findViewById(R.id.row_hardware_type);
 
                 if (hwId != null) {
-                    hwId.setText(Integer.toString(record.getHardwareId()));
+                    hwId.setText(record.getHardwareId());
                 }
                 if (hwTitle != null) {
                     hwTitle.setText(record.getTitle());
@@ -291,7 +291,7 @@ public final class ExperimentDetailLists {
         TextView fixTitle = (TextView) view.findViewById(R.id.dialog_fix_title);
         TextView fixDescription = (TextView) view.findViewById(R.id.dialog_fix_description);
 
-        id.setText(Integer.toString(record.getId()));
+        id.setText(record.getId());
         title.setText(record.getTitle());
         abbr.setText(record.getAbbr());
         description.setText(record.getDescription());
@@ -321,7 +321,7 @@ public final class ExperimentDetailLists {
         TextView title = (TextView) view.findViewById(R.id.dialog_title);
         TextView description = (TextView) view.findViewById(R.id.dialog_description);
 
-        id.setText(Integer.toString(record.getId()));
+        id.setText(record.getId());
         title.setText(record.getTitle());
         description.setText(record.getDescription());
 
@@ -346,7 +346,7 @@ public final class ExperimentDetailLists {
         TextView title = (TextView) view.findViewById(R.id.dialog_title);
         TextView description = (TextView) view.findViewById(R.id.dialog_description);
 
-        id.setText(Integer.toString(record.getId()));
+        id.setText(record.getId());
         title.setText(record.getTitle());
         description.setText(record.getDescription());
 
@@ -371,7 +371,7 @@ public final class ExperimentDetailLists {
         TextView description = (TextView) view.findViewById(R.id.dialog_description);
         TextView type = (TextView) view.findViewById(R.id.dialog_type);
 
-        id.setText(Integer.toString(record.getHardwareId()));
+        id.setText(record.getHardwareId());
         title.setText(record.getTitle());
         description.setText(record.getDescription());
         type.setText(record.getType());
@@ -396,7 +396,7 @@ public final class ExperimentDetailLists {
         TextView title = (TextView) view.findViewById(R.id.dialog_title);
         TextView description = (TextView) view.findViewById(R.id.dialog_description);
 
-        id.setText(Integer.toString(record.getDiseaseId()));
+        id.setText(record.getDiseaseId());
         title.setText(record.getName());
         description.setText(record.getDescription());
 

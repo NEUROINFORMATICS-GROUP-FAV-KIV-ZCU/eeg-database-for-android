@@ -49,7 +49,7 @@ public class Hardware implements Parcelable {
         }
     };
     @Element
-    private int hardwareId;
+    private String hardwareId;
     @Element
     private String title;
     @Element
@@ -63,18 +63,18 @@ public class Hardware implements Parcelable {
     }
 
     public Hardware(Parcel in) {
-        hardwareId = in.readInt();
+        hardwareId = in.readString();
         title = in.readString();
         type = in.readString();
         description = in.readString();
         defaultNumber = in.readInt();
     }
 
-    public int getHardwareId() {
+    public String getHardwareId() {
         return hardwareId;
     }
 
-    public void setHardwareId(int hardwareId) {
+    public void setHardwareId(String hardwareId) {
         this.hardwareId = hardwareId;
     }
 
@@ -117,7 +117,7 @@ public class Hardware implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(hardwareId);
+        dest.writeString(hardwareId);
         dest.writeString(title);
         dest.writeString(type);
         dest.writeString(description);

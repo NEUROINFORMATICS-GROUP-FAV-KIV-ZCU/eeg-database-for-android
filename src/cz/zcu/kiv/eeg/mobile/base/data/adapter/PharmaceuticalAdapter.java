@@ -106,7 +106,7 @@ public class PharmaceuticalAdapter extends ArrayAdapter<Pharmaceutical> {
             TextView description = (TextView) row.findViewById(R.id.row_pharmaceutical_description);
 
             if (id != null) {
-                id.setText(Integer.toString(record.getId()));
+                id.setText(record.getId());
             }
             if (description != null) {
                 description.setText(record.getDescription());

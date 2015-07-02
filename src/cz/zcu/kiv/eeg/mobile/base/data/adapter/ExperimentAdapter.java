@@ -174,7 +174,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
             TextView experimentTime = (TextView) row.findViewById(R.id.row_experiment_time);
 
             if (experimentId != null)
-                experimentId.setText(Integer.toString(record.getExperimentId()));
+                experimentId.setText(record.getExperimentId());
             if (experimentName != null)
                 experimentName.setText(record.getScenario().getScenarioName());
             if (experimentTime != null)
@@ -219,7 +219,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> implements Filte
             if (original != null) {
                 boolean noConstraint = constraint == null || constraint.toString().isEmpty();
                 for (Experiment exp : original) {
-                    if (noConstraint || Integer.toString(exp.getExperimentId()).contains(constraint) || exp.getScenario().getScenarioName().toLowerCase().contains(constraint)) {
+                    if (noConstraint || exp.getExperimentId().contains(constraint) || exp.getScenario().getScenarioName().toLowerCase().contains(constraint)) {
                         results.add(exp);
                     }
                 }

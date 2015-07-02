@@ -39,10 +39,12 @@ public class Values {
     public static final int SELECT_FILE_FLAG = 2;
 
     public static final String FILE_PATH = "filePath";
+    public static final String FILE_LENGTH = "fileLength";
 
     //shared preferences keys
     public static final String PREFS_CREDENTIALS = "AccountCredentials";
     public static final String PREFS_VARIOUS = "VariousValues";
+    public static final String PREFS_TEMP = "temporyData";
 
     //REST service suffixes
     public static final String ENDPOINT = "/rest";

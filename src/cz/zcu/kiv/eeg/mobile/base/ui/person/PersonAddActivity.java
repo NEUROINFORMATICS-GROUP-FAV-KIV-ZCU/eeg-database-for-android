@@ -24,15 +24,26 @@
  **********************************************************************************************************************/
 package cz.zcu.kiv.eeg.mobile.base.ui.person;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Person;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreatePerson;
@@ -46,11 +57,14 @@ import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreatePerson;
 public class PersonAddActivity extends SaveDiscardActivity {
 
     private final static String DATE_PATTERN = "dd/MM/yyyy";
+    private CBDatabase db;
+    private String default_researchGroupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_person_add);
+        default_researchGroupId = getIntent().getStringExtra("groupId");
         initView();
     }
 
@@ -105,11 +119,10 @@ public class PersonAddActivity extends SaveDiscardActivity {
      */
     private void validateAndRun(Person person) {
 
-        if (!ConnectionUtils.isOnline(this)) {
-            showAlert(getString(R.string.error_offline));
-            return;
-        }
-
+//        if (!ConnectionUtils.isOnline(this)) {
+//            showAlert(getString(R.string.error_offline));
+//            return;
+//        }
         StringBuilder error = new StringBuilder();
 
         //validations
@@ -124,7 +137,47 @@ public class PersonAddActivity extends SaveDiscardActivity {
 
         //if no error, run service
         if (error.toString().isEmpty()) {
-            new CreatePerson(this).execute(person);
+//            new CreatePerson(this).execute(person);
+//===================================================================Database Code==================================================//
+            db = new CBDatabase(Keys.DB_NAME, PersonAddActivity.this);
+            // create an object that contains data for a document
+            Map<String, Object> docContent = new HashMap<String, Object>();
+            docContent.put("type", "Person");
+            docContent.put("name", person.getName());
+            docContent.put("surname", person.getSurname());
+            docContent.put("birthday", person.getBirthday());
+            docContent.put("gender", person.getGender());
+            docContent.put("email", person.getEmail());
+            docContent.put("lefthanded", person.getLeftHanded());
+            docContent.put("notes", person.getNotes());
+            docContent.put("phone", person.getPhone());
+            docContent.put("group_id", null);            //no default research group when creating a subject
+
+            String subjectID = null;
+            try {
+                // Create a new document
+                subjectID = db.create(docContent);
+
+                //create (member - research group) membership entity
+                Map<String, Object> membershipDocContent = new HashMap<String, Object>();
+                membershipDocContent.put("type", "Membership");
+                membershipDocContent.put("member_id",subjectID);
+                membershipDocContent.put("group_id", default_researchGroupId);
+                String rgmembershipDocId = db.create(membershipDocContent);
+
+                assert(subjectID != null);
+                Intent resultIntent = new Intent();
+                person.setId(subjectID);
+                resultIntent.putExtra(Values.ADD_PERSON_KEY, person);
+                Toast.makeText(PersonAddActivity.this, R.string.creation_ok, Toast.LENGTH_SHORT).show();
+                PersonAddActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                PersonAddActivity.this.finish();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(PersonAddActivity.this, R.string.creation_failed, Toast.LENGTH_SHORT).show();
+            }
+// ================================================================================================================================//
         } else {
             showAlert(error.toString());
         }

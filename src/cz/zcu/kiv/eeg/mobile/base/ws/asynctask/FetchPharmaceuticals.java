@@ -119,22 +119,22 @@ public class FetchPharmaceuticals extends CommonService<Void, Void, List<Pharmac
     @Override
     protected void onPostExecute(List<Pharmaceutical> resultList) {
         pharmaceuticalAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Pharmaceutical>() {
-                @Override
-                public int compare(Pharmaceutical lhs, Pharmaceutical rhs) {
-                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
-
-                    if (sub > 0) return 1;
-                    else if (sub < 0) return -1;
-                    else return lhs.getId() - rhs.getId();
-                }
-            });
-
-            for (Pharmaceutical pharmaceutical : resultList) {
-                pharmaceuticalAdapter.add(pharmaceutical);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<Pharmaceutical>() {
+//                @Override
+//                public int compare(Pharmaceutical lhs, Pharmaceutical rhs) {
+//                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
+//
+//                    if (sub > 0) return 1;
+//                    else if (sub < 0) return -1;
+//                    else return lhs.getId() - rhs.getId();
+//                }
+//            });
+//
+//            for (Pharmaceutical pharmaceutical : resultList) {
+//                pharmaceuticalAdapter.add(pharmaceutical);
+//            }
+//        }
     }
 
 }

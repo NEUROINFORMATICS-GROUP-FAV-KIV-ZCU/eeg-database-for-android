@@ -49,7 +49,7 @@ public class ScenarioSimple implements Parcelable {
         }
     };
     @Element
-    private int scenarioId;
+    private String scenarioId;
     @Element
     private String scenarioName;
 
@@ -57,15 +57,15 @@ public class ScenarioSimple implements Parcelable {
     }
 
     public ScenarioSimple(Parcel in) {
-        scenarioId = in.readInt();
+        scenarioId = in.readString();
         scenarioName = in.readString();
     }
 
-    public int getScenarioId() {
+    public String getScenarioId() {
         return scenarioId;
     }
 
-    public void setScenarioId(int scenarioId) {
+    public void setScenarioId(String scenarioId) {
         this.scenarioId = scenarioId;
     }
 
@@ -84,7 +84,7 @@ public class ScenarioSimple implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(scenarioId);
+        dest.writeString(scenarioId);
         dest.writeString(scenarioName);
     }
 }

@@ -24,14 +24,24 @@
  **********************************************************************************************************************/
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Weather;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateWeather;
@@ -43,27 +53,28 @@ import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateWeather;
  */
 public class WeatherAddActivity extends SaveDiscardActivity {
 
-    private int researchGroupId;
+//    private int researchGroupId;
+    private String researchGroupId;
+    private CBDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_experiment_add_weather);
+//        researchGroupId = getIntent().getIntExtra("groupId", -1);
+        researchGroupId = getIntent().getStringExtra("groupId");
 
-
-        researchGroupId = getIntent().getIntExtra("groupId", -1);
-
-        if(researchGroupId < 0)
+        if(researchGroupId == null || researchGroupId == ""){
             showAlert(getString(R.string.error_no_group_selected), true);
-        else
+        }else{
             initView();
+        }
     }
 
     /**
      * Initializes view elements.
      */
     private void initView() {
-
         final EditText title = (EditText) findViewById(R.id.experiment_add_weather_title);
         final EditText description = (EditText) findViewById(R.id.experiment_add_weather_description);
         TextView titleCount = (TextView) findViewById(R.id.experiment_add_weather_title_count);
@@ -80,10 +91,39 @@ public class WeatherAddActivity extends SaveDiscardActivity {
 
         Weather record;
         if ((record = getValidRecord()) != null) {
-            if (ConnectionUtils.isOnline(this)) {
-                new CreateWeather(this, researchGroupId).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
-            } else
-                showAlert(getString(R.string.error_offline));
+//===================================================================Database Code==================================================//
+            db = new CBDatabase(Keys.DB_NAME, WeatherAddActivity.this);
+            // create an object that contains data for a document
+            Map<String, Object> docContent = new HashMap<String, Object>();
+            docContent.put("type", "Weather");
+            docContent.put("title",record.getTitle());
+            docContent.put("description", record.getDescription());
+            docContent.put("def_group_id", researchGroupId); //create an attribute to make a relationship (Belongs to) with "ResearchGroup" entity
+
+            String weatherID = null;
+            try {
+                // Create a new document
+                weatherID = db.create(docContent);
+                assert(weatherID != null);
+                Intent resultIntent = new Intent();
+                record.setWeatherId(weatherID);
+                resultIntent.putExtra(Values.ADD_WEATHER_KEY, record);
+                Toast.makeText(WeatherAddActivity.this, R.string.creation_ok, Toast.LENGTH_SHORT).show();
+                WeatherAddActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                WeatherAddActivity.this.finish();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(WeatherAddActivity.this, R.string.creation_failed, Toast.LENGTH_SHORT).show();
+            }
+// ================================================================================================================================//
+
+
+
+//            if (ConnectionUtils.isOnline(this)) {
+//                new CreateWeather(this, researchGroupId).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
+//            } else
+//                showAlert(getString(R.string.error_offline));
         }
     }
 

@@ -25,6 +25,7 @@
 package cz.zcu.kiv.eeg.mobile.base.ui.startup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ import android.widget.TextView;
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.CommonActivity;
 import cz.zcu.kiv.eeg.mobile.base.data.Values;
+import cz.zcu.kiv.eeg.mobile.base.ui.NavigationActivity;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.TestCredentials;
@@ -96,8 +98,20 @@ public class WelcomeActivity extends CommonActivity {
         TextView passwordField = (TextView) findViewById(R.id.settings_password_field);
         TextView urlField = (TextView) findViewById(R.id.settings_url_field);
 
-        testCredentials(usernameField.getText().toString(), passwordField.getText().toString(), urlField.getText()
-                .toString());
+        //Not going for the web service for now
+//        testCredentials(usernameField.getText().toString(), passwordField.getText().toString(), urlField.getText().toString());
+
+        //Instead, just open the NavigationActivity and save the credentials
+        SharedPreferences credentials = getCredentials();
+        SharedPreferences.Editor editor = credentials.edit();
+        editor.putString("username", usernameField.getText().toString());
+        editor.putString("password", passwordField.getText().toString());
+        editor.putString("url", urlField.getText().toString());
+        editor.commit();
+
+        Intent navIntent = new Intent(this, NavigationActivity.class);
+        startActivity(navIntent);
+
     }
 
     /**

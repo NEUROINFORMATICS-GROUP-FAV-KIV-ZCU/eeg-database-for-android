@@ -133,18 +133,18 @@ public class FetchExperiments extends CommonService<Void, Void, List<Experiment>
     @Override
     protected void onPostExecute(List<Experiment> resultList) {
         experimentAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Experiment>() {
-                @Override
-                public int compare(Experiment lhs, Experiment rhs) {
-                    return lhs.getExperimentId() - rhs.getExperimentId();
-                }
-            });
-
-            for (Experiment res : resultList) {
-                experimentAdapter.add(res);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<Experiment>() {
+//                @Override
+//                public int compare(Experiment lhs, Experiment rhs) {
+//                    return lhs.getExperimentId() - rhs.getExperimentId();
+//                }
+//            });
+//
+//            for (Experiment res : resultList) {
+//                experimentAdapter.add(res);
+//            }
+//        }
     }
 
 }

@@ -48,27 +48,28 @@ public class Digitization implements Parcelable {
         }
     };
     @Element(required = false)
-    private int digitizationId;
+    private String digitizationId;
     @Element
     private String filter;
     @Element
-    private float gain, samplingRate;
+    private String gain;
+    private String samplingRate;
 
     public Digitization() {
     }
 
     public Digitization(Parcel in) {
-        digitizationId = in.readInt();
+        digitizationId = in.readString();
         filter = in.readString();
-        gain = in.readFloat();
-        samplingRate = in.readFloat();
+        gain = in.readString();
+        samplingRate = in.readString();
     }
 
-    public int getDigitizationId() {
+    public String getDigitizationId() {
         return digitizationId;
     }
 
-    public void setDigitizationId(int digitizationId) {
+    public void setDigitizationId(String digitizationId) {
         this.digitizationId = digitizationId;
     }
 
@@ -80,19 +81,19 @@ public class Digitization implements Parcelable {
         this.filter = filter;
     }
 
-    public float getGain() {
+    public String getGain() {
         return gain;
     }
 
-    public void setGain(float gain) {
+    public void setGain(String gain) {
         this.gain = gain;
     }
 
-    public float getSamplingRate() {
+    public String getSamplingRate() {
         return samplingRate;
     }
 
-    public void setSamplingRate(float samplingRate) {
+    public void setSamplingRate(String samplingRate) {
         this.samplingRate = samplingRate;
     }
 
@@ -103,9 +104,9 @@ public class Digitization implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(digitizationId);
+        dest.writeString(digitizationId);
         dest.writeString(filter);
-        dest.writeFloat(gain);
-        dest.writeFloat(samplingRate);
+        dest.writeString(gain);
+        dest.writeString(samplingRate);
     }
 }

@@ -54,14 +54,14 @@ import static cz.zcu.kiv.eeg.mobile.base.data.ServiceState.*;
 public class CreateWeather extends CommonService<Weather, Void, Weather> {
 
     private final static String TAG = CreateWeather.class.getSimpleName();
-    private int researchGroupId;
+    private String researchGroupId;
 
     /**
      * Constructor, which sets reference to parent activity.
      *
      * @param context parent activity
      */
-    public CreateWeather(CommonActivity context, int researchGroupId) {
+    public CreateWeather(CommonActivity context, String researchGroupId) {
         super(context);
         this.researchGroupId = researchGroupId;
     }

@@ -83,13 +83,12 @@ public class ScenarioActivity extends CommonActivity {
                 break;
             case R.id.scenario_add:
 
-                if (ConnectionUtils.isOnline(this)) {
-                    Intent intent = new Intent();
-                    intent.setClass(this, ScenarioAddActivity.class);
-                    startActivity(intent);
-                } else
-                    showAlert(getString(R.string.error_offline));
-
+//           if (ConnectionUtils.isOnline(this)) {
+            Intent intent = new Intent();
+            intent.setClass(this, ScenarioAddActivity.class);
+            startActivity(intent);
+//                } else
+//                    showAlert(getString(R.string.error_offline));
 
                 break;
         }

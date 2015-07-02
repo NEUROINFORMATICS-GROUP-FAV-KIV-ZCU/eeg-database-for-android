@@ -38,7 +38,7 @@ import org.simpleframework.xml.Root;
 public class ElectrodeLocation implements Parcelable {
 
     @Element
-    private int id;
+    private String id;
     @Element
     private String title;
     @Element(required = false)
@@ -55,7 +55,7 @@ public class ElectrodeLocation implements Parcelable {
     public ElectrodeLocation(){}
 
     public ElectrodeLocation(Parcel in){
-        id = in.readInt();
+        id = in.readString();
         title = in.readString();
         abbr = in.readString();
         description = in.readString();
@@ -64,11 +64,11 @@ public class ElectrodeLocation implements Parcelable {
         electrodeType = in.readParcelable(ElectrodeType.class.getClassLoader());
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -127,7 +127,7 @@ public class ElectrodeLocation implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(abbr);
         dest.writeString(description);

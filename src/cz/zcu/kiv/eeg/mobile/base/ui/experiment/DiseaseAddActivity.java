@@ -24,14 +24,24 @@
  **********************************************************************************************************************/
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Disease;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateDisease;
@@ -42,12 +52,14 @@ import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateDisease;
  * @author Petr Miko
  */
 public class DiseaseAddActivity extends SaveDiscardActivity {
+    private CBDatabase db;
+    private int default_researchGroupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_disease_add);
-
+        default_researchGroupId = getIntent().getIntExtra("groupId", -1);
         initView();
     }
 
@@ -69,10 +81,36 @@ public class DiseaseAddActivity extends SaveDiscardActivity {
 
         Disease record;
         if ((record = getValidRecord()) != null) {
-            if (ConnectionUtils.isOnline(this)) {
-                new CreateDisease(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
-            } else
-                showAlert(getString(R.string.error_offline));
+//===================================================================Database Code==================================================//
+            db = new CBDatabase(Keys.DB_NAME, DiseaseAddActivity.this);
+            // create an object that contains data for a document
+            Map<String, Object> docContent = new HashMap<String, Object>();
+            docContent.put("type", "Disease");
+            docContent.put("title",record.getName());
+            docContent.put("description", record.getDescription());
+            docContent.put("def_group_id", default_researchGroupId); //create an attribute to make a relationship (Belongs to) with "ResearchGroup" entity
+
+            String diseaseID = null;
+            try {
+                // Create a new document
+                diseaseID = db.create(docContent);
+                assert(diseaseID != null);
+                Intent resultIntent = new Intent();
+                record.setDiseaseId(diseaseID);
+                resultIntent.putExtra(Values.ADD_DISEASE_KEY, record);
+                Toast.makeText(DiseaseAddActivity.this, R.string.creation_ok, Toast.LENGTH_SHORT).show();
+                DiseaseAddActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                DiseaseAddActivity.this.finish();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(DiseaseAddActivity.this, R.string.creation_failed, Toast.LENGTH_SHORT).show();
+            }
+// ================================================================================================================================//
+//       if (ConnectionUtils.isOnline(this)) {
+//                new CreateDisease(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
+//            } else
+//                showAlert(getString(R.string.error_offline));
         }
     }
 

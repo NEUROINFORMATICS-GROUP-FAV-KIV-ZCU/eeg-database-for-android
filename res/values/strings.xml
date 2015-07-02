@@ -280,5 +280,53 @@
     <string name="creation_experiment_ok">Experiment created successfully, please refresh in order to reload records
         from server.
     </string>
+    <string name="message_on_exit">Do you really want to exit?</string>
+    <string name="err_no_db_set">Database not set ! Please create database first.</string>
+    <string name="err_create_manager">Cannot create manager object</string>
+    <string name="err_db_name">Bad database name</string>
+    <string name="err_no_db">Cannot get database</string>
+    <string name="err_db_write">Cannot write document to database</string>
+    <string name="err_db_update">Cannot update document</string>
+    <string name="err_db_delete">Cannot delete document</string>
+    <string name="db_success">Success</string>
+
+    <!--views-->
+    <string name="view_fetch_user_data">fetchUserData</string>
+    <string name="view_fetch_my_scenarios">fetchMyScenariosView</string>
+    <string name="view_fetch_all_scenarios">fetchAllScenariosView</string>
+    <string name="view_fetch_res_groups">fetchResearchGroupsView</string>
+    <string name="view_fetch_persons">fetchPersonView</string>
+    <string name="view_fetch_artifacts">fetchAllArtifactView</string>
+    <string name="view_fetch_digitizations">fetchAllDigitizationView</string>
+    <string name="view_fetch_all_hardware">fetchAllHardwareView</string>
+    <string name="view_fetch_all_software">fetchAllSoftwareView</string>
+    <string name="view_fetch_all_diseases">fetchAllDiseasesView</string>
+    <string name="view_fetch_all_pharmaceuticals">fetchAllPharmaceuticalsView</string>
+    <string name="view_fetch_weather">fetchWeatherRecordsView</string>
+    <string name="view_fetch_electrode_systems">fetchAllElectrodeSystemRecordsView</string>
+    <string name="view_fetch_electrode_locations">fetchAllElectrodeLocationRecordsView</string>
+    <string name="view_fetch_electrode_fix">fetchAllElectrodeFixRecordsView</string>
+    <string name="view_fetch_electrode_type">fetchAllElectrodeTypeRecordsView</string>
+    <string name="view_fetch_my_experiments">fetchMyExperimentsView</string>
+
+    <!--document types-->
+    <string name="doc_type_profile">Profile</string>
+    <string name="doc_type_research_group">Group</string>
+    <string name="doc_type_scenario">Scenario</string>
+
+    <string name="attribute_type">type</string>
+
+    <!--Scenario document-->
+    <string name="attribute_scenario_name">scenarioName</string>
+    <string name="attribute_res_grp_id">researchGroupId</string>
+    <string name="attribute_description">description</string>
+    <string name="attribute_mime">mimeType</string>
+    <string name="attribute_file_name">fileName</string>
+    <string name="attribute_isprivate">isPrivate</string>
+    <string name="attribute_file_path">filePath</string>
+    <string name="attribute_file_length">fileLength</string>
+    <string name="attribute_owner_id">ownerId</string>
+    <string name="attribute_owner_user_name">ownerUserName</string>
+
 
 </resources>

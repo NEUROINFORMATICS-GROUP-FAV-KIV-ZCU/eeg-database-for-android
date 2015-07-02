@@ -119,21 +119,21 @@ public class FetchDigitizations extends CommonService<Void, Void, List<Digitizat
     @Override
     protected void onPostExecute(List<Digitization> resultList) {
         digitizationAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Digitization>() {
-                @Override
-                public int compare(Digitization lhs, Digitization rhs) {
-                    float sub = lhs.getSamplingRate() - rhs.getSamplingRate();
-
-                    if (sub > 0) return 1;
-                    else return sub < 0 ? -1 : 0;
-                }
-            });
-
-            for (Digitization artifact : resultList) {
-                digitizationAdapter.add(artifact);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<Digitization>() {
+//                @Override
+//                public int compare(Digitization lhs, Digitization rhs) {
+//                    float sub = lhs.getSamplingRate() - rhs.getSamplingRate();
+//
+//                    if (sub > 0) return 1;
+//                    else return sub < 0 ? -1 : 0;
+//                }
+//            });
+//
+//            for (Digitization artifact : resultList) {
+//                digitizationAdapter.add(artifact);
+//            }
+//        }
     }
 
 }

@@ -96,7 +96,7 @@ public class ExperimentDetailsFragment extends Fragment {
 
         //setting data
         if (experiment != null) {
-            experimentIdView.setText(Integer.toString(experiment.getExperimentId()));
+            experimentIdView.setText(experiment.getExperimentId());
             fromTime.setText(experiment.getStartTime().toString());
             toTime.setText(experiment.getEndTime().toString());
             scenarioNameView.setText(experiment.getScenario().getScenarioName());
@@ -118,8 +118,8 @@ public class ExperimentDetailsFragment extends Fragment {
 
             Digitization digitization = experiment.getDigitization();
             digitizationFilter.setText(digitization.getFilter());
-            digitizationGain.setText(Float.toString(digitization.getGain()));
-            digitizationRate.setText(Float.toString(digitization.getSamplingRate()));
+            digitizationGain.setText(digitization.getGain());
+            digitizationRate.setText(digitization.getSamplingRate());
 
             if (experiment.getTemperature() != null) {
                 temperature.setText(experiment.getTemperature().toString());

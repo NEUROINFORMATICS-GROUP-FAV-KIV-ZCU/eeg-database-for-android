@@ -57,7 +57,7 @@ public class Reservation implements Parcelable {
     @Element
     private String researchGroup;
     @Element
-    private int researchGroupId;
+    private String researchGroupId;
     @Element
     private int reservationId;
     @Transient
@@ -78,7 +78,7 @@ public class Reservation implements Parcelable {
 
     public Reservation(Parcel in) {
         reservationId = in.readInt();
-        researchGroupId = in.readInt();
+        researchGroupId = in.readString();
         researchGroup = in.readString();
         fromTime = in.readParcelable(TimeContainer.class.getClassLoader());
         toTime = in.readParcelable(TimeContainer.class.getClassLoader());
@@ -88,7 +88,7 @@ public class Reservation implements Parcelable {
         canRemove = in.readByte() == Values.TRUE;
     }
 
-    public Reservation(int reservationId, int groupId, String groupName, TimeContainer fromTime, TimeContainer toTime, boolean canRemove) {
+    public Reservation(int reservationId, String groupId, String groupName, TimeContainer fromTime, TimeContainer toTime, boolean canRemove) {
         this.reservationId = reservationId;
         this.researchGroupId = groupId;
         this.researchGroup = groupName;
@@ -105,11 +105,11 @@ public class Reservation implements Parcelable {
         this.researchGroup = researchGroup;
     }
 
-    public int getResearchGroupId() {
+    public String getResearchGroupId() {
         return researchGroupId;
     }
 
-    public void setResearchGroupId(int researchGroupId) {
+    public void setResearchGroupId(String researchGroupId) {
         this.researchGroupId = researchGroupId;
     }
 

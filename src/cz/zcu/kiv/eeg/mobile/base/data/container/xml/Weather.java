@@ -39,7 +39,7 @@ import org.simpleframework.xml.Root;
 public class Weather implements Parcelable {
 
     @Element
-    private int weatherId;
+    private String weatherId;
     @Element
     private String title;
     @Element(required = false)
@@ -49,16 +49,16 @@ public class Weather implements Parcelable {
     }
 
     public Weather(Parcel in) {
-        weatherId = in.readInt();
+        weatherId = in.readString();
         title = in.readString();
         description = in.readString();
     }
 
-    public int getWeatherId() {
+    public String getWeatherId() {
         return weatherId;
     }
 
-    public void setWeatherId(int weatherId) {
+    public void setWeatherId(String weatherId) {
         this.weatherId = weatherId;
     }
 
@@ -85,7 +85,7 @@ public class Weather implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(weatherId);
+        dest.writeString(weatherId);
         dest.writeString(title);
         dest.writeString(description);
     }

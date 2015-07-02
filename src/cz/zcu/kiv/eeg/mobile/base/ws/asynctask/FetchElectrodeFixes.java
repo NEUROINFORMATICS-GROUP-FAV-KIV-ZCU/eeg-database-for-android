@@ -119,22 +119,22 @@ public class FetchElectrodeFixes extends CommonService<Void, Void, List<Electrod
     @Override
     protected void onPostExecute(List<ElectrodeFix> resultList) {
         electrodeFixAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<ElectrodeFix>() {
-                @Override
-                public int compare(ElectrodeFix lhs, ElectrodeFix rhs) {
-                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
-
-                    if (sub > 0) return 1;
-                    else if (sub < 0) return -1;
-                    else return lhs.getId() - rhs.getId();
-                }
-            });
-
-            for (ElectrodeFix electrodeFix : resultList) {
-                electrodeFixAdapter.add(electrodeFix);
-            }
-        }
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<ElectrodeFix>() {
+//                @Override
+//                public int compare(ElectrodeFix lhs, ElectrodeFix rhs) {
+//                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
+//
+//                    if (sub > 0) return 1;
+//                    else if (sub < 0) return -1;
+//                    else return lhs.getId() - rhs.getId();
+//                }
+//            });
+//
+//            for (ElectrodeFix electrodeFix : resultList) {
+//                electrodeFixAdapter.add(electrodeFix);
+//            }
+//        }
     }
 
 }

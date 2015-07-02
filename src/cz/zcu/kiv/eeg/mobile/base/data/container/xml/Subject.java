@@ -50,7 +50,7 @@ public class Subject implements Parcelable {
         }
     };
     @Element
-    private int personId;
+    private String personId;
     @Element
     private String name, surname;
     @Element
@@ -66,7 +66,7 @@ public class Subject implements Parcelable {
     }
 
     public Subject(Parcel in) {
-        personId = in.readInt();
+        personId = in.readString();
         name = in.readString();
         surname = in.readString();
         gender = in.readString();
@@ -76,11 +76,11 @@ public class Subject implements Parcelable {
         mailDomain = in.readString();
     }
 
-    public int getPersonId() {
+    public String  getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 
@@ -151,7 +151,7 @@ public class Subject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(personId);
+        dest.writeString(personId);
         dest.writeString(name);
         dest.writeString(surname);
         dest.writeString(gender);

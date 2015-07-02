@@ -49,6 +49,7 @@ public class FileInfo extends File {
         }
     };
     private String name;
+    private long length;
 
     /**
      * FileInfo constructor.
@@ -56,11 +57,16 @@ public class FileInfo extends File {
      * @param file file
      * @param name file name
      */
+    public FileInfo(File file, String name, long length) {
+        super(file.getAbsolutePath());
+        this.name = name;
+        this.length=length;
+    }
+
     public FileInfo(File file, String name) {
         super(file.getAbsolutePath());
         this.name = name;
     }
-
     /**
      * Getter of file name.
      *

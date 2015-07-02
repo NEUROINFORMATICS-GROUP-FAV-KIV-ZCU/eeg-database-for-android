@@ -106,7 +106,7 @@ public class CreateScenario extends CommonService<Scenario, Void, Scenario> {
             //due to multipart file, MultiValueMap is the simplest approach for performing the post request
             MultiValueMap<String, Object> form = new LinkedMultiValueMap<String, Object>();
             form.add("scenarioName", scenario.getScenarioName());
-            form.add("researchGroupId", Integer.toString(scenario.getResearchGroupId()));
+            form.add("researchGroupId", scenario.getResearchGroupId());
             form.add("description", scenario.getDescription());
             form.add("mimeType", scenario.getMimeType());
             form.add("private", Boolean.toString(scenario.isPrivate()));

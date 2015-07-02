@@ -48,23 +48,26 @@ public class ResearchGroup implements Parcelable {
         }
     };
     @Element
-    private int groupId;
+    private String groupId;
     @Element
     private String groupName;
+
+    private String description;
+    private String ownerId;
 
     public ResearchGroup() {
     }
 
     public ResearchGroup(Parcel in) {
-        groupId = in.readInt();
+        groupId = in.readString();
         groupName = in.readString();
     }
 
-    public int getGroupId() {
+    public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 
@@ -76,6 +79,22 @@ public class ResearchGroup implements Parcelable {
         this.groupName = groupName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -83,7 +102,7 @@ public class ResearchGroup implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(groupId);
+        dest.writeString(groupId);
         dest.writeString(groupName);
     }
 }

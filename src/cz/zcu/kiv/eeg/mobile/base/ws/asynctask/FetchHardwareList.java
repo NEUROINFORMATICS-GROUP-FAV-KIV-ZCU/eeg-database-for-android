@@ -118,23 +118,23 @@ public class FetchHardwareList extends CommonService<Void, Void, List<Hardware>>
      */
     @Override
     protected void onPostExecute(List<Hardware> resultList) {
-        hardwareAdapter.clear();
-        if (resultList != null && !resultList.isEmpty()) {
-            Collections.sort(resultList, new Comparator<Hardware>() {
-                @Override
-                public int compare(Hardware lhs, Hardware rhs) {
-                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
-
-                    if (sub > 0) return 1;
-                    else if (sub < 0) return -1;
-                    else return lhs.getHardwareId() - rhs.getHardwareId();
-                }
-            });
-
-            for (Hardware artifact : resultList) {
-                hardwareAdapter.add(artifact);
-            }
-        }
+//        hardwareAdapter.clear();
+//        if (resultList != null && !resultList.isEmpty()) {
+//            Collections.sort(resultList, new Comparator<Hardware>() {
+//                @Override
+//                public int compare(Hardware lhs, Hardware rhs) {
+//                    int sub = lhs.getTitle().toLowerCase().compareTo(rhs.getTitle().toLowerCase());
+//
+//                    if (sub > 0) return 1;
+//                    else if (sub < 0) return -1;
+//                    else return lhs.getHardwareId() - rhs.getHardwareId();
+//                }
+//            });
+//
+//            for (Hardware artifact : resultList) {
+//                hardwareAdapter.add(artifact);
+//            }
+//        }
     }
 
 }

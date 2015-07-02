@@ -24,14 +24,24 @@
  **********************************************************************************************************************/
 package cz.zcu.kiv.eeg.mobile.base.ui.experiment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cz.zcu.kiv.eeg.mobile.base.R;
 import cz.zcu.kiv.eeg.mobile.base.archetypes.SaveDiscardActivity;
+import cz.zcu.kiv.eeg.mobile.base.data.Values;
 import cz.zcu.kiv.eeg.mobile.base.data.container.xml.Digitization;
+import cz.zcu.kiv.eeg.mobile.base.localdb.CBDatabase;
 import cz.zcu.kiv.eeg.mobile.base.utils.ConnectionUtils;
+import cz.zcu.kiv.eeg.mobile.base.utils.Keys;
 import cz.zcu.kiv.eeg.mobile.base.utils.LimitedTextWatcher;
 import cz.zcu.kiv.eeg.mobile.base.utils.ValidationUtils;
 import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateDigitization;
@@ -43,11 +53,14 @@ import cz.zcu.kiv.eeg.mobile.base.ws.asynctask.CreateDigitization;
  */
 public class DigitizationAddActivity extends SaveDiscardActivity {
 
+    private CBDatabase db;
+    private String default_researchGroupId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_digitization_add);
-
+        default_researchGroupId = getIntent().getStringExtra("groupId");
         initView();
     }
 
@@ -70,10 +83,40 @@ public class DigitizationAddActivity extends SaveDiscardActivity {
 
         Digitization record;
         if ((record = getValidRecord()) != null) {
-            if (ConnectionUtils.isOnline(this)) {
-                new CreateDigitization(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
-            } else
-                showAlert(getString(R.string.error_offline));
+//===================================================================Database Code==================================================//
+            db = new CBDatabase(Keys.DB_NAME, DigitizationAddActivity.this);
+            // create an object that contains data for a document
+            Map<String, Object> docContent = new HashMap<String, Object>();
+            docContent.put("type", "Digitization");
+            docContent.put("filter",record.getFilter());
+            docContent.put("gain", record.getGain());
+            docContent.put("sampling_rate", record.getSamplingRate());
+            docContent.put("def_group_id", default_researchGroupId); //create an attribute to make a relationship (Belongs to) with "ResearchGroup" entity
+
+            String digitizationID = null;
+            try {
+                // Create a new document
+                digitizationID = db.create(docContent);
+
+                assert(digitizationID != null);
+                Intent resultIntent = new Intent();
+                record.setDigitizationId(digitizationID);
+                resultIntent.putExtra(Values.ADD_DIGITIZATION_KEY, record);
+                Toast.makeText(DigitizationAddActivity.this, R.string.creation_ok, Toast.LENGTH_SHORT).show();
+                DigitizationAddActivity.this.setResult(Activity.RESULT_OK, resultIntent);
+                DigitizationAddActivity.this.finish();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(DigitizationAddActivity.this, R.string.creation_failed, Toast.LENGTH_SHORT).show();
+            }
+// ================================================================================================================================//
+
+
+//            if (ConnectionUtils.isOnline(this)) {
+//                new CreateDigitization(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, record);
+//            } else
+//                showAlert(getString(R.string.error_offline));
         }
     }
 
@@ -102,8 +145,8 @@ public class DigitizationAddActivity extends SaveDiscardActivity {
         if (error.toString().isEmpty()) {
             Digitization record = new Digitization();
             record.setFilter(filter.getText().toString());
-            record.setGain(Float.parseFloat(gain.getText().toString()));
-            record.setSamplingRate(Float.parseFloat(samplingRate.getText().toString()));
+            record.setGain(gain.getText().toString());
+            record.setSamplingRate(samplingRate.getText().toString());
 
             return record;
         } else {
